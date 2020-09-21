@@ -5,14 +5,14 @@
     using System.IO;
     using System.Threading.Tasks;
 
-    using AspNetCoreTemplate.Data;
-    using AspNetCoreTemplate.Data.Common;
-    using AspNetCoreTemplate.Data.Common.Repositories;
-    using AspNetCoreTemplate.Data.Models;
-    using AspNetCoreTemplate.Data.Repositories;
-    using AspNetCoreTemplate.Data.Seeding;
-    using AspNetCoreTemplate.Services.Data;
-    using AspNetCoreTemplate.Services.Messaging;
+    using BCKFreightTMS.Data;
+    using BCKFreightTMS.Data.Common;
+    using BCKFreightTMS.Data.Common.Repositories;
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Data.Repositories;
+    using BCKFreightTMS.Data.Seeding;
+    using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Services.Messaging;
 
     using CommandLine;
 

@@ -11,10 +11,10 @@
             Console.WriteLine(new string('=', 40));
             Console.WriteLine("Template Renamer");
             Console.WriteLine(new string('-', 40));
-            Console.WriteLine("Working in: " + Environment.CurrentDirectory);
+            //Console.WriteLine("Working in: " + Environment.CurrentDirectory);
             Console.WriteLine(new string('=', 40));
             Console.WriteLine();
-
+            Console.WriteLine(Environment.CurrentDirectory);
 
             var oldName = "AspNetCoreTemplate";
             while (string.IsNullOrWhiteSpace(oldName))
@@ -24,22 +24,25 @@
             }
 
             var newName = string.Empty;
+            var dir = string.Empty; 
             while (string.IsNullOrWhiteSpace(newName))
             {
                 Console.Write("What is your project's name ([A-Z][a-z]): ");
                 newName = Console.ReadLine();
+                Console.WriteLine("Directory: ");
+                dir = Console.ReadLine();
             }
 
             Console.WriteLine("Renaming directories...");
-            RenameDirectories(Environment.CurrentDirectory, oldName, newName);
+            RenameDirectories(dir, oldName, newName);
             Console.WriteLine("Directories renamed.");
 
             Console.WriteLine("Renaming files...");
-            RenameFiles(Environment.CurrentDirectory, oldName, newName);
+            RenameFiles(dir, oldName, newName);
             Console.WriteLine("Files renamed.");
 
             Console.WriteLine("Renaming file contents...");
-            RenameFileContents(Environment.CurrentDirectory, oldName, newName);
+            RenameFileContents(dir, oldName, newName);
             Console.WriteLine("File contents renamed.");
 
             Console.WriteLine("Done!");

@@ -1,9 +1,9 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Settings
 {
+    using AutoMapper;
+
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

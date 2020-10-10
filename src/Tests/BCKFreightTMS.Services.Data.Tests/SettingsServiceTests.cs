@@ -1,6 +1,4 @@
-﻿using PdfSharp.Drawing;
-
-namespace BCKFreightTMS.Services.Data.Tests
+﻿namespace BCKFreightTMS.Services.Data.Tests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -36,8 +34,8 @@ namespace BCKFreightTMS.Services.Data.Tests
         [Fact]
         public async Task GetCountShouldReturnCorrectNumberUsingDbContext()
         {
-            //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            //    .UseInMemoryDatabase(databaseName: "SettingsTestDb").Options;
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "SettingsTestDb").Options;
             using var dbContext = new ApplicationDbContext(options);
             dbContext.Settings.Add(new Setting());
             dbContext.Settings.Add(new Setting());

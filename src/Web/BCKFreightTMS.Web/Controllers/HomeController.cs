@@ -1,14 +1,25 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Linq;
+    using System.Threading.Tasks;
+    using BCKFreightTMS.Data;
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext dbContext;
+
+        public HomeController(ApplicationDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public async Task<IActionResult> Index()
         {
             return this.View();
         }

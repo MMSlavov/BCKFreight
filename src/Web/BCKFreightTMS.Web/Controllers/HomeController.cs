@@ -1,13 +1,12 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
+
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
@@ -20,6 +19,7 @@
             this.dbContext = dbContext;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return this.View();

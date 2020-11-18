@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    this.Layout = null;
 }
 
 <!DOCTYPE html>
@@ -24,8 +25,8 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition login-page" style="
-        background-image: url('/img/e13edc61-c4f9-468a-8e51-b21884df39d3.jpg');
+<body class="hold-transition login-page" style="        background-image: url('/img/');
+        background-image: url('/img/fd0a54d3-cbac-480f-ab52-7b16c46f2cb4.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
@@ -37,8 +38,18 @@
         </div>
         <div class="card">
             <div class="card-body login-card-body">
-                <form method="post">
-                    <div class="input-group mb-3">
+                @if (this.Model.ErrorMessage != null)
+                {
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <strong>@this.Model.ErrorMessage</strong>
+                </div>
+                }
+                <span></span>
+                <form method="post" novalidate ="novalidate">
+                    <div class="input-group mb-1">
                         @*<label asp-for="Input.Email"></label>*@
                         <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email" />
                         <div class="input-group-append">
@@ -46,47 +57,47 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
+                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                     @*<div class="input-group mb-3">
-                          <input type="email" class="form-control" placeholder="Email">
-                          <div class="input-group-append">
+              <input type="email" class="form-control" placeholder="Email">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>*@
+                    <div class="input-group mb-1 mt-2">
+                        @*<label asp-for="Input.Password"></label>*@
+                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password" />
+                        <div class="input-group-append">
                             <div class="input-group-text">
-                              <span class="fas fa-envelope"></span>
+                                <span class="fas fa-lock"></span>
                             </div>
-                          </div>
-                        </div>*@
-                <div class="input-group mb-3">
-                    @*<label asp-for="Input.Password"></label>*@
-                    <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password" />
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
                         </div>
                     </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
+                    <span asp-validation-for="Input.Password" class="text-danger m-0"></span>
                     @*<div class="input-group mb-3">
-                            <input type="password" class="form-control" placeholder="Password">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                        </div>*@
+                <input type="password" class="form-control" placeholder="Password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>*@
                     @*<div class="form-group">
-                            <div class="checkbox">
-                                <label asp-for="Input.RememberMe">
-                                    <input asp-for="Input.RememberMe" />
-                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                </label>
-                            </div>
-                        </div>*@
-                    <div class="row">
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe">
+                        <input asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+            </div>*@
+                    <div class="input-group row mt-2">
                         <div class="col-8">
-                            <div class="icheck-primary">
-                                <input asp-for="Input.RememberMe" type ="checkbox" id="remember">
-                                <label asp-for="Input.RememberMe">
+                            <div class="custom-checkbox">
+                                <input asp-for="Input.RememberMe" type="checkbox" id="remember">
+                                <label>
                                     @Html.DisplayNameFor(m => m.Input.RememberMe)
                                 </label>
                             </div>
@@ -97,7 +108,7 @@
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center mb-3">
+                @*<div class="social-auth-links text-center mb-3">
                     <p>- OR -</p>
                     <a href="#" class="btn btn-block btn-primary">
                         <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
@@ -105,7 +116,7 @@
                     <a href="#" class="btn btn-block btn-danger">
                         <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
                     </a>
-                </div>
+                </div>*@
 
                 <p class="mb-1">
                     <a id="forgot-password" asp-page="./ForgotPassword">I forgot my password</a>

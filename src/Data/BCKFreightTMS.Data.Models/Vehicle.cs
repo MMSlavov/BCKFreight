@@ -16,27 +16,27 @@
         }
 
         [Required]
-        [ForeignKey("Type")]
+        [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
         public VehicleType Type { get; set; }
 
-        [ForeignKey("LoadingBody")]
+        [ForeignKey(nameof(LoadingBody))]
         public int LoadingBodyId { get; set; }
 
         public VehicleLoadingBody LoadingBody { get; set; }
 
-        [ForeignKey("Driver")]
+        [ForeignKey(nameof(Driver))]
         public string DriverId { get; set; }
 
         public Person Driver { get; set; }
 
-        [ForeignKey("Company")]
+        [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
         public Company Company { get; set; }
 
-        [ForeignKey("Trailer")]
+        [ForeignKey(nameof(Trailer))]
         public string TrailerId { get; set; }
 
         public Vehicle Trailer { get; set; }

@@ -1,6 +1,6 @@
 ﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a class="brand-link d-flex justify-content-center" >
-        <img src="~/img/logo_full.svg" class="img-fluid"
+    <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
+        <img src="~/img/logo_full2.svg" class="img-fluid"
         style="max-width: 75%">
         @*<span class="brand-text font-weight-light">BCK Freight</span>*@
     </a>
@@ -9,11 +9,11 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             @if (User.Identity.IsAuthenticated)
             {
-                @*<div class="image">
-                    <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                </div>*@
+                <div class="image">
+                    <img src="~/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+                </div>
                 <div class="info">
-                    <a href="#" class="d-block">Hi User!</a>
+                        <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index">@(this.User.Identity.Name)</a>
                 </div>
             }
             else 
@@ -27,7 +27,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
                         <i class="nav-icon fas fa-home"></i>
                         <p>Home</p>
                     </a>
@@ -35,12 +35,18 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">
                             <i class="nav-icon fas fa-lock"></i>
                             <p>Privacy</p>
                         </a>
                     </li>
-                }
+                 }
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Orders" asp-action="List" class="nav-link @Url.MakeActiveClass("orders","list")">
+                        <i class="nav-icon fab fa-buffer"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

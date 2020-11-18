@@ -26,6 +26,50 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<ActionType> ActionTypes { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<BankDetails> BankDetails { get; set; }
+
+        public DbSet<Cargo> Cargos { get; set; }
+
+        public DbSet<CargoType> CargoTypes { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
+
+        public DbSet<CompanyAddress> CompanyAddresses { get; set; }
+
+        public DbSet<CompanyContact> CompanyContacts { get; set; }
+
+        public DbSet<Comunicators> Comunicators { get; set; }
+
+        public DbSet<DriverOrder> DriverOrders { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderAction> OrderActions { get; set; }
+
+        public DbSet<OrderFrom> OrderFroms { get; set; }
+
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+
+        public DbSet<OrderTo> OrderTos { get; set; }
+
+        public DbSet<OrderType> OrderTypes { get; set; }
+
+        public DbSet<Person> People { get; set; }
+
+        public DbSet<PersonRole> PersonRoles { get; set; }
+
+        public DbSet<TaxCountry> TaxCountries { get; set; }
+
+        public DbSet<Vehicle> Vehicles { get; set; }
+
+        public DbSet<VehicleLoadingBody> VehicleLoadingBodies { get; set; }
+
+        public DbSet<VehicleType> VehicleTypes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

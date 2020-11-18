@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using BCKFreightTMS.Common;
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -16,7 +16,9 @@
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-            await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
+            await SeedRoleAsync(roleManager, RoleNames.Admin.ToString());
+            await SeedRoleAsync(roleManager, RoleNames.SuperUser.ToString());
+            await SeedRoleAsync(roleManager, RoleNames.User.ToString());
         }
 
         private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)

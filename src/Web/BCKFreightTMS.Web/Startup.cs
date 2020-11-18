@@ -67,7 +67,7 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender, SendGridEmailSender>();
             services.AddTransient<ISettingsService, SettingsService>();
         }
 
@@ -80,7 +80,7 @@
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                // dbContext.Database.EnsureDeleted();
+                //dbContext.Database.EnsureDeleted();
                 dbContext.Database.Migrate();
                 new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }

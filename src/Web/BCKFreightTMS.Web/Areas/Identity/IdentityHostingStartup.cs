@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: HostingStartup(typeof(BCKFreightTMS.Web.Areas.Identity.IdentityHostingStartup))]
+
 namespace BCKFreightTMS.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup

@@ -19,7 +19,6 @@
             this.dbContext = dbContext;
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return this.View();

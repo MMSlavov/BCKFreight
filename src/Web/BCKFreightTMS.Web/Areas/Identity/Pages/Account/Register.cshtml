@@ -2,6 +2,7 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    this.Layout = null;
 }
 
 <!DOCTYPE html>
@@ -10,7 +11,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>BCKFreight | Registration Page</title>
-    <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Font Awesome -->
@@ -37,9 +37,20 @@
 
         <div class="card">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Register a new membership</p>
+                @*<p class="login-box-msg">Register a new membership</p>*@
 
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div class="row row-cols-2">
+                        <div class="mb-3 col col-6">
+                            <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="First name">
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3 col col-6">
+                            <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Last name">
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
                     <div class="input-group mb-3">
                         <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">
@@ -47,7 +58,9 @@
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        <div>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="input-group mb-3">
                         <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
@@ -56,7 +69,7 @@
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="input-group mb-3">
                         <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm password">
@@ -69,20 +82,20 @@
                     </div>
                     <div class="row">
                         @*<div class="col-8">
-                                <div class="icheck-primary">
-                                    <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                                    <label for="agreeTerms">
-                                        I agree to the <a href="#">terms</a>
-                                    </label>
-                                </div>
-                            </div>*@
+                <div class="icheck-primary">
+                    <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                    <label for="agreeTerms">
+                        I agree to the <a href="#">terms</a>
+                    </label>
+                </div>
+            </div>*@
                         <div class="col-12">
                             <button type="submit" class="btn btn-block btn-primary">Register</button>
                         </div>
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center">
+                @*<div class="social-auth-links text-center">
                     <p>- OR -</p>
                     <a href="#" class="btn btn-block btn-primary">
                         <i class="fab fa-facebook mr-2"></i>
@@ -92,7 +105,7 @@
                         <i class="fab fa-google-plus mr-2"></i>
                         Sign up using Google+
                     </a>
-                </div>
+                </div>*@
 
                 <a asp-area="Identity" asp-page="/Account/Login" class="text-center">I already have a membership</a>
             </div>

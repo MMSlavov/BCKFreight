@@ -22,7 +22,7 @@
         [MaxLength(200)]
         public string Name { get; set; }
 
-        [ForeignKey("TaxCountry")]
+        [ForeignKey(nameof(TaxCountry))]
         public int TaxCountryId { get; set; }
 
         public TaxCountry TaxCountry { get; set; }
@@ -30,12 +30,10 @@
         [Column(TypeName = "varchar(20)")]
         public string TaxNumber { get; set; }
 
-        [ForeignKey("Address")]
         public int CompanyAddressId { get; set; }
 
         public CompanyAddress Address { get; set; }
 
-        [ForeignKey("Comunicators")]
         public int ComunicatorsId { get; set; }
 
         public Comunicators Comunicators { get; set; }

@@ -9,19 +9,19 @@
     public class OrderAction : BaseDeletableModel<int>
     {
         [Required]
-        [ForeignKey("Order")]
+        [ForeignKey(nameof(Order))]
         public string OrderId { get; set; }
 
         public Order Order { get; set; }
 
         [Required]
-        [ForeignKey("Address")]
+        [ForeignKey(nameof(Address))]
         public int AddressId { get; set; }
 
         public Address Address { get; set; }
 
         [Required]
-        [ForeignKey("Type")]
+        [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
         public ActionType Type { get; set; }

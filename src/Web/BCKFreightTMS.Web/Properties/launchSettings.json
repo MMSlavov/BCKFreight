@@ -12,16 +12,17 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "SENDGRID_KEY": "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",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "BCKFreightTMS.Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }

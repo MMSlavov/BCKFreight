@@ -4,7 +4,8 @@ using System.Text;
 
 namespace BCKFreightTMS.Web.ViewModels.Contacts
 {
-    class CreateContactViewModel
+    public class PersonInputModel
     {
+
     }
 }

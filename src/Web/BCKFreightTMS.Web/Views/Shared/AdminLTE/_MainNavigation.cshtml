@@ -23,13 +23,24 @@
                 </div>
             }
         </div>
-
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Home</p>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Contacts" asp-action="All" class="nav-link @Url.MakeActiveClass("contacts","all")">
+                        <i class="nav-icon fas fa-address-book"></i>
+                        <p>Contacts</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Orders" asp-action="List" class="nav-link @Url.MakeActiveClass("orders","list")">
+                        <i class="nav-icon fab fa-buffer"></i>
+                        <p>Orders</p>
                     </a>
                 </li>
                 @if (User.Identity.IsAuthenticated)
@@ -39,14 +50,8 @@
                             <i class="nav-icon fas fa-lock"></i>
                             <p>Privacy</p>
                         </a>
-                    </li>
-                 }
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Orders" asp-action="List" class="nav-link @Url.MakeActiveClass("orders","list")">
-                        <i class="nav-icon fab fa-buffer"></i>
-                        <p>Orders</p>
-                    </a>
-                </li>
+                    </li>            
+                }
             </ul>
         </nav>
     </div>

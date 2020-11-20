@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width" />
     <title>All</title>
 </head>
-<body>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
+<body class="container-fluid">
+    <div class="p-2">
+        <a class="btn btn-primary" asp-action="CreateCompany">Create Company</a>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
                 <th>
@@ -27,7 +27,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
-                <th></th>
+                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
@@ -35,21 +35,21 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @item.Name
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Type)
+                        @item.Type
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Contacts)
+                        @item.Contacts
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Address)
+                        @item.Address
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <td class="text-center" style="width:15%">
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" title="Detais"><i class="p-1 fas fa-info-circle"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

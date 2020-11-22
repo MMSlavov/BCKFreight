@@ -1,20 +1,26 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Data.Common.Repositories;
+    using System.Linq;
 
     public class ContactsController : Controller
     {
         private readonly IContactsService contactsService;
+        private readonly IDeletableEntityRepository<Company> companies;
 
-        public ContactsController(IContactsService contactsService)
+        public ContactsController(IContactsService contactsService, IDeletableEntityRepository<Company> compRepo)
         {
             this.contactsService = contactsService;
+            this.companies = compRepo;
         }
 
-        public IActionResult All()
+        public IActionResult Index()
         {
             var contacts = this.contactsService.GetAll();
             return this.View(contacts);
@@ -23,6 +29,17 @@
         public IActionResult CreateCompany()
         {
             return this.View();
+        }
+
+        public IActionResult AddPerson()
+        {
+            return this.View();
+        }
+
+        public IActionResult CompanyDetails(string? id)
+        {
+            var company = this.companies.All().FirstOrDefault(c => c.Id == id);
+            return this.View(company);
         }
 
         [HttpPost]

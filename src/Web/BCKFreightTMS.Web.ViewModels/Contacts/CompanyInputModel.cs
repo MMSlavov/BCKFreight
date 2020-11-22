@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BCKFreightTMS.Web.ViewModels.Contacts
+﻿namespace BCKFreightTMS.Web.ViewModels.Contacts
 {
-    public class CompanyInputModel
+    using System.ComponentModel.DataAnnotations;
+
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
+
+    public class CompanyInputModel : IMapFrom<Company>
     {
         [Required]
         [MaxLength(200)]

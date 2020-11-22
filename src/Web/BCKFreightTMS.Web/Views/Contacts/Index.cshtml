@@ -1,0 +1,91 @@
+﻿@using BCKFreightTMS.Web.ViewModels.Contacts
+@model IEnumerable<AllContactsViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>All</title>
+</head>
+<body class="container-fluid">
+    <div class="row">
+        <div class="p-2">
+            <a class="btn btn-primary" asp-action="CreateCompany">Add Company</a>
+        </div>
+        <div class="p-2">
+            <a class="btn btn-primary" asp-action="AddPerson">Add Person</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover" id="contacts_data">
+        <thead style="margin-bottom: 0px;">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contacts)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th style="visibility: hidden;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        @item.Contacts
+                    </td>
+                    <td>
+                        @item.Address
+                    </td>
+                    <td class="text-center" style="width:15%">
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
+                        <a onclick="showInPopup('Contacts/CompanyDetails/@item.Id', 'Details')" title="Detais">
+                            <span style="color: dodgerblue">
+                                <i class="p-1 fas fa-info-circle"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+@section Scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#contacts_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+            });
+        });
+    </script>
+}

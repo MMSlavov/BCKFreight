@@ -1,8 +1,9 @@
 ﻿namespace BCKFreightTMS.Data.Models
 {
-    using BCKFreightTMS.Data.Common.Models;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
+    using BCKFreightTMS.Data.Common.Models;
 
     public class OrderFrom : BaseDeletableModel<int>
     {

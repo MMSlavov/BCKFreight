@@ -1,0 +1,79 @@
+﻿@model BCKFreightTMS.Data.Models.Company
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CompanyDetails</title>
+</head>
+<body>
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @nameof(Model.Name)
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.Name
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.TaxCountry)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.TaxCountry.Name)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.TaxNumber)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.TaxNumber)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.Address)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Address.Id)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.Comunicators)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Comunicators.Mobile1)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.DeletedOn)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.DeletedOn)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.CreatedOn)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt class = "col-sm-3">
+            @nameof(Model.ModifiedOn)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.ModifiedOn)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-primary" asp-action="">Back to List</a>
+</div>
+</body>
+</html>

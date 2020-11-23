@@ -8,7 +8,7 @@ namespace BCKFreightTMS.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity, ICompanyEntity
     {
         public ApplicationUser()
         {
@@ -35,6 +35,9 @@ namespace BCKFreightTMS.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        // Company entity
+        public string AdminId { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

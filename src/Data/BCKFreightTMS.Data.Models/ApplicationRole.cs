@@ -7,7 +7,7 @@ namespace BCKFreightTMS.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
+    public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity, ICompanyEntity
     {
         public ApplicationRole()
             : this(null)
@@ -27,5 +27,7 @@ namespace BCKFreightTMS.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public string AdminId { get; set; }
     }
 }

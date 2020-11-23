@@ -4,8 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Data.Common.Models;
+
     public interface IRepository<TEntity> : IDisposable
-        where TEntity : class
+        where TEntity : class, ICompanyEntity
     {
         IQueryable<TEntity> All();
 

@@ -1,12 +1,12 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
-    using BCKFreightTMS.Web.ViewModels.Contacts;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
-    using System.Linq;
+    using BCKFreightTMS.Web.ViewModels.Contacts;
 
     public class ContactsService : IContactsService
     {
@@ -46,7 +46,7 @@
                             State = input.State,
                         },
                     },
-                Comunicators = new Comunicators 
+                Comunicators = new Comunicators
                     {
                         Mobile1 = input.Mobile1,
                         Mobile2 = input.Mobile2,

@@ -6,7 +6,7 @@
     using BCKFreightTMS.Data.Common.Models;
 
     public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletableEntity, ICompanyEntity
     {
         IQueryable<TEntity> AllWithDeleted();
 

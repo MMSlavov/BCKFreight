@@ -1,13 +1,13 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Data.Common.Repositories;
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Mvc;
-    using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Data.Common.Repositories;
-    using System.Linq;
 
     public class ContactsController : Controller
     {
@@ -52,7 +52,7 @@
 
             await this.contactsService.AddCompanyAsync(model);
 
-            return this.Redirect("/Contacts/All");
+            return this.Redirect("/Contacts");
         }
     }
 }

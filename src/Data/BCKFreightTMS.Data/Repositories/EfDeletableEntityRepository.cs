@@ -6,14 +6,19 @@
 
     using BCKFreightTMS.Data.Common.Models;
     using BCKFreightTMS.Data.Common.Repositories;
-
+    using BCKFreightTMS.Data.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletableEntity, ICompanyEntity
     {
-        public EfDeletableEntityRepository(ApplicationDbContext context)
-            : base(context)
+        public EfDeletableEntityRepository(
+            ApplicationDbContext context,
+            IHttpContextAccessor httpContextAccessor,
+            UserManager<ApplicationUser> userManager)
+            : base(context, httpContextAccessor, userManager)
         {
         }
 

@@ -1,4 +1,6 @@
-﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
+﻿
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
         <img src="~/img/logo_full2.svg" class="img-fluid"
         style="max-width: 75%">
@@ -16,7 +18,7 @@
                         <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index">@(this.User.Identity.Name)</a>
                 </div>
             }
-            else 
+            else
             {
                 <div class="info">
                     <a class="d-block">Hi Guest!</a>
@@ -25,32 +27,41 @@
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link @Url.MakeActiveClass("contacts","all")">
-                        <i class="nav-icon fas fa-address-book"></i>
-                        <p>Contacts</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="Orders" asp-action="List" class="nav-link @Url.MakeActiveClass("orders","list")">
-                        <i class="nav-icon fab fa-buffer"></i>
-                        <p>Orders</p>
-                    </a>
-                </li>
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && this.User.IsInRole("User"))
                 {
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link @Url.MakeActiveClass("contacts","all")">
+                            <i class="nav-icon fas fa-address-book"></i>
+                            <p>Contacts</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders","list")">
+                            <i class="nav-icon fab fa-buffer"></i>
+                            <p>Orders</p>
+                        </a>
+                    </li>
+                    @if (this.User.IsInRole("SuperUser"))
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users","index")">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">
                             <i class="nav-icon fas fa-lock"></i>
                             <p>Privacy</p>
                         </a>
-                    </li>            
+                    </li>
                 }
             </ul>
         </nav>

@@ -12,18 +12,21 @@
     {
         private readonly IDeletableEntityRepository<Company> companiesRepository;
         private readonly IDeletableEntityRepository<Person> peopleRepository;
+        private readonly IDeletableEntityRepository<TaxCountry> taxCtrRepo;
 
         public ContactsService(
             IDeletableEntityRepository<Company> compRepo,
-            IDeletableEntityRepository<Person> peopRepo)
+            IDeletableEntityRepository<Person> peopRepo,
+            IDeletableEntityRepository<TaxCountry> taxCtrRepo)
         {
             this.companiesRepository = compRepo;
             this.peopleRepository = peopRepo;
+            this.taxCtrRepo = taxCtrRepo;
         }
 
         public async Task<string> AddCompanyAsync(CompanyInputModel input)
         {
-            if (this.companiesRepository.AllWithDeleted().Any(c => c.Name == input.Name))
+            if (this.companiesRepository.All().Any(c => c.Name == input.Name))
             {
                 return null;
             }
@@ -31,7 +34,6 @@
             var company = new Company
             {
                 Name = input.Name,
-                TaxCountry = new TaxCountry { Name = input.TaxCountry, },
                 TaxNumber = input.TaxNumber,
                 Address = new CompanyAddress
                     {
@@ -58,6 +60,16 @@
                     },
             };
 
+            var taxCoutry = this.taxCtrRepo.All().FirstOrDefault(c => c.Name == input.TaxCountry);
+            if (taxCoutry == null)
+            {
+                taxCoutry = new TaxCountry { Name = input.TaxCountry };
+                await this.taxCtrRepo.AddAsync(taxCoutry);
+                await this.taxCtrRepo.SaveChangesAsync();
+            }
+
+            company.TaxCountry = taxCoutry;
+
             await this.companiesRepository.AddAsync(company);
             await this.companiesRepository.SaveChangesAsync();
             return company.Id;
@@ -65,7 +77,27 @@
 
         public async Task<string> AddPersonAsync(PersonInputModel input)
         {
-            throw new System.NotImplementedException();
+            if (this.peopleRepository.All().Any(p => p.FirstName == input.FirstName && p.LastName == input.LastName))
+            {
+                return null;
+            }
+
+            var person = new Person
+            {
+                CompanyId = input.CompanyId,
+                RoleId = input.RoleId,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                BirthDate = input.BirthDate.ToUniversalTime(),
+                Comunicators = new Comunicators
+                {
+                    Mobile1 = input.Comunicators.Mobile1,
+                },
+            };
+
+            await this.peopleRepository.AddAsync(person);
+            await this.peopleRepository.SaveChangesAsync();
+            return person.Id;
         }
 
         public IEnumerable<AllContactsViewModel> GetAll()
@@ -76,7 +108,7 @@
                 Id = p.Id,
                 Name = p.FirstName + " " + p.LastName,
                 Type = nameof(Person),
-                Contacts = p.Comunicators.Email1,
+                Contacts = p.Comunicators.Email1 ?? p.Comunicators.Mobile1,
                 Address = p.Company.Address.Address.StreetLine,
             }));
 

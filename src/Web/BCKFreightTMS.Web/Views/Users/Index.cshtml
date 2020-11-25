@@ -1,0 +1,32 @@
+﻿@using BCKFreightTMS.Web.ViewModels.Users
+@model List<UserRolesViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>User Roles</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td>@(user.Roles.Any()?string.Join(" | ", user.Roles.ToList()):"No roles")</td>
+                <td>
+                    <a class="btn btn-primary text-white" onclick="showInPopup('/Users/Manage?userId=@user.UserId', 'Details')">Manage Roles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

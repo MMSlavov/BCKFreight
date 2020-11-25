@@ -7,17 +7,26 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Contacts;
+    using BCKFreightTMS.Services.Mapping;
     using Microsoft.AspNetCore.Mvc;
 
     public class ContactsController : Controller
     {
         private readonly IContactsService contactsService;
         private readonly IDeletableEntityRepository<Company> companies;
+        private readonly IDeletableEntityRepository<Person> people;
+        private readonly IDeletableEntityRepository<PersonRole> roles;
 
-        public ContactsController(IContactsService contactsService, IDeletableEntityRepository<Company> compRepo)
+        public ContactsController(
+            IContactsService contactsService,
+            IDeletableEntityRepository<Company> compRepo,
+            IDeletableEntityRepository<Person> peopRepo,
+            IDeletableEntityRepository<PersonRole> rolesRepo)
         {
             this.contactsService = contactsService;
             this.companies = compRepo;
+            this.people = peopRepo;
+            this.roles = rolesRepo;
         }
 
         public IActionResult Index()
@@ -26,31 +35,79 @@
             return this.View(contacts);
         }
 
-        public IActionResult CreateCompany()
+        public IActionResult AddCompany()
         {
             return this.View();
         }
 
         public IActionResult AddPerson()
         {
-            return this.View();
-        }
-
-        public IActionResult CompanyDetails(string? id)
-        {
-            var company = this.companies.All().FirstOrDefault(c => c.Id == id);
-            return this.View(company);
+            var viewModel = new PersonInputModel();
+            viewModel.CompanyItems = this.companies.AllAsNoTracking()
+                                                   .Select(c => new System.Collections.Generic.KeyValuePair<string, string>(c.Id, c.Name))
+                                                   .ToList();
+            viewModel.RoleItems = this.roles.AllAsNoTracking()
+                                       .Select(r => new System.Collections.Generic.KeyValuePair<string, string>(r.Id.ToString(), r.Name))
+                                       .ToList();
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCompany(CompanyInputModel model)
+        public async Task<IActionResult> AddPerson(PersonInputModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            await this.contactsService.AddCompanyAsync(model);
+            var res = await this.contactsService.AddPersonAsync(model);
+            if (res == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Person allready exists.");
+                return this.View(model);
+            }
+
+            return this.Redirect("/Contacts");
+        }
+
+        public async Task<IActionResult> Delete(string contactType, string id)
+        {
+            if (contactType == nameof(Company))
+            {
+                var company = this.companies.All().FirstOrDefault(c => c.Id == id);
+                this.companies.Delete(company);
+                await this.companies.SaveChangesAsync();
+            }
+            else if (contactType == nameof(Person))
+            {
+                var person = this.people.All().FirstOrDefault(p => p.Id == id);
+                this.people.Delete(person);
+                await this.people.SaveChangesAsync();
+            }
+
+            return this.Redirect("/Contacts");
+        }
+
+        public IActionResult CompanyDetails(string? id)
+        {
+            var company = this.companies.All().Where(c => c.Id == id).To<CompanyViewModel>().FirstOrDefault();
+            return this.View(company);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCompany(CompanyInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var res = await this.contactsService.AddCompanyAsync(model);
+            if (res == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Company allready exists.");
+                return this.View(model);
+            }
 
             return this.Redirect("/Contacts");
         }

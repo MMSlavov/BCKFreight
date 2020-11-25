@@ -38,6 +38,7 @@
         {
             var user = this.User().Result;
             entity.AdminId = user.AdminId;
+
             return this.DbSet.AddAsync(entity).AsTask();
         }
 

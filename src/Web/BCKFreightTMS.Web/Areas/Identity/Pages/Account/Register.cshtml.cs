@@ -99,6 +99,8 @@
                     this._logger.LogInformation("User created a new account with password.");
 
                     await this._userManager.AddToRoleAsync(user, RoleNames.SuperUser.ToString());
+                    await this._userManager.AddToRoleAsync(user, RoleNames.User.ToString());
+
                     var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = this.Url.Page(

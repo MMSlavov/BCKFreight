@@ -11,7 +11,7 @@
 <body class="container-fluid">
     <div class="row">
         <div class="p-2">
-            <a class="btn btn-primary" asp-action="CreateCompany">Add Company</a>
+            <a class="btn btn-primary" asp-action="AddCompany">Add Company</a>
         </div>
         <div class="p-2">
             <a class="btn btn-primary" asp-action="AddPerson">Add Person</a>
@@ -58,7 +58,14 @@
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
                         </a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
+                        @{
+                            var parms = new Dictionary<string, string>
+                            {
+                                { "contactType", item.Type},
+                                { "id", item.Id}
+                            };
+                        }
+                        <a asp-action="Delete" asp-all-route-data="parms" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

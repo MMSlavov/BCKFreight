@@ -5,7 +5,7 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
 
-    public class CompanyInputModel : IMapFrom<Company>
+    public class CompanyInputModel
     {
         [Required]
         [MaxLength(200)]

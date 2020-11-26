@@ -1,0 +1,216 @@
+﻿@model IEnumerable<BCKFreightTMS.Web.ViewModels.Cargos.CargoListViewModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body class="container-fluid">
+    <div class="row">
+        <div class="p-2">
+            <a class="btn btn-primary" asp-action="AddCargo">Add Cargo</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover" id="cargos_data">
+        <thead style="margin-bottom: 0px;">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lenght)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Width)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Height)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WeightGross)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WeightNet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cubature)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th style="visibility: hidden;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lenght)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Width)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Height)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeightGross)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeightNet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cubature)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td class="text-center" style="width:15%">
+                    <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
+                    <a onclick="showInPopup('Carsgos/CargoDetails/@item.Id', 'Details')" title="Detais">
+                        <span href="#" @*style="color: dodgerblue"*@>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                    @*@{
+                        var parms = new Dictionary<string, string>
+                                                {
+                                { "contactType", item.Type},
+                                { "id", item.Id}
+                            };
+                    }*@
+                    <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+@section Scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#cargos_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+            });
+        });
+    </script>
+}
+
+
+
+@*<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lenght)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Width)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Height)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WeightGross)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WeightNet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cubature)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Details)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lenght)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Width)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Height)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WeightGross)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WeightNet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cubature)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Details)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>*@

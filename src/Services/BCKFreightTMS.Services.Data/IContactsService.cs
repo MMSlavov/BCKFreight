@@ -12,5 +12,7 @@
         Task<string> AddPersonAsync(PersonInputModel input);
 
         Task<string> AddCompanyAsync(CompanyInputModel input);
+
+        PersonInputModel GetPersonInputModel();
     }
 }

@@ -29,10 +29,10 @@
 
         protected ApplicationDbContext Context { get; set; }
 
-        public virtual IQueryable<TEntity> All() => this.DbSet.Where(e => e.AdminId == this.User().Result.AdminId);
+        public virtual IQueryable<TEntity> All() => this.DbSet.Where(e => e.AdminId == this.User().Result.AdminId || e.AdminId == null);
 
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking()
-                                                                          .Where(e => e.AdminId == this.User().Result.AdminId);
+                                                                          .Where(e => e.AdminId == this.User().Result.AdminId || e.AdminId == null);
 
         public virtual Task AddAsync(TEntity entity)
         {

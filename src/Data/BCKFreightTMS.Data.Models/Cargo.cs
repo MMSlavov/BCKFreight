@@ -44,7 +44,7 @@
         public int Quantity { get; set; }
 
         [Column(TypeName = "text")]
-        public string MyProperty { get; set; }
+        public string Details { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

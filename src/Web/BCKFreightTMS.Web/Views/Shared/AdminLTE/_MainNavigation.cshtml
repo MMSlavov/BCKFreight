@@ -30,34 +30,51 @@
                 @if (User.Identity.IsAuthenticated && this.User.IsInRole("User"))
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass(new[] { "home" },new[] { "index" },"active")">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link @Url.MakeActiveClass("contacts","all")">
+                        <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link @Url.MakeActiveClass(new[] { "contacts" },new[] { "index" },"active")">
                             <i class="nav-icon fas fa-address-book"></i>
                             <p>Contacts</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders","list")">
+                        <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass(new[] { "orders" },new[] { "index" },"active")">
                             <i class="nav-icon fab fa-buffer"></i>
                             <p>Orders</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Cargos" asp-action="Index" class="nav-link @Url.MakeActiveClass(new[] { "cargos" },new[] { "index" },"active")">
+                            <i class="nav-icon fas fa-truck-loading"></i>
+                            <p>Cargos</p>
+                        </a>
+                    </li>
                     @if (this.User.IsInRole("SuperUser"))
                     {
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users","index")">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Users</p>
+                        <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "users", },new[] { "index" },"menu-open")">
+                            <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "users", },new[] { "index" },"active")">
+                              <i class="nav-icon fas fa-cog"></i>
+                              <p>
+                                Setings
+                                <i class="fas fa-angle-left right"></i>
+                              </p>
                             </a>
-                        </li>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass(new[] { "users" },new[] { "index" },"active")">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>Users</p>
+                                    </a>
+                                </li>
+                            </ul>
+                          </li>
                     }
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass("home","privacy")">
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link @Url.MakeActiveClass(new[] { "home" },new[] { "privacy" },"active")">
                             <i class="nav-icon fas fa-lock"></i>
                             <p>Privacy</p>
                         </a>

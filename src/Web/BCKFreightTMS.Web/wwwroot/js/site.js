@@ -44,7 +44,12 @@ jQueryAjaxPost = form => {
             contentType: false,
             processData: false,
             success: function (res) {
-                window.location = res.redirectToUrl;
+                if (res.isValid) {
+                    window.location = res.redirectToUrl;
+                }
+                else {
+                    $('#form-modal .modal-body').html(res.html);
+                }
             },
             error: function (err) {
                 console.log(err)

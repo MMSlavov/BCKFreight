@@ -1,14 +1,13 @@
 ﻿using System;
-
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 public static class NavigationIndicatorHelper
 {
-    public static string MakeActiveClass(this IUrlHelper urlHelper, string controller, string action)
+    public static string MakeActiveClass(this IUrlHelper urlHelper, string[] controllers, string[] actions, string result)
     {
         try
         {
-            string result = "active";
             string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
             string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
             if (string.IsNullOrEmpty(controllerName))
@@ -16,8 +15,8 @@ public static class NavigationIndicatorHelper
                 return null;
             }
 
-            if (controllerName.Equals(controller, StringComparison.OrdinalIgnoreCase) &&
-                methodName.Equals(action, StringComparison.OrdinalIgnoreCase))
+            if (controllers.Any(c => c.Equals(controllerName, StringComparison.OrdinalIgnoreCase)) &&
+                actions.Any(a => a.Equals(methodName, StringComparison.OrdinalIgnoreCase)))
             {
                 return result;
             }

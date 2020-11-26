@@ -83,7 +83,7 @@
             var user = await this.userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return this.View();
+                return this.Json(new { isValid = false, html = this.View() });
             }
 
             var roles = await this.userManager.GetRolesAsync(user);
@@ -91,17 +91,17 @@
             if (!result.Succeeded)
             {
                 this.ModelState.AddModelError(string.Empty, "Cannot remove user existing roles");
-                return this.View(model);
+                return this.Json(new { isValid = false, html = this.View(model) });
             }
 
             result = await this.userManager.AddToRolesAsync(user, model.RoleModels.Where(x => x.Selected).Select(y => y.RoleName));
             if (!result.Succeeded)
             {
                 this.ModelState.AddModelError(string.Empty, "Cannot add selected roles to user");
-                return this.View(model);
+                return this.Json(new { isValid = false, html = this.View(model) });
             }
 
-            return this.Json(new { redirectToUrl = this.Url.Action("Index", "Users") });
+            return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("Index", "Users") });
         }
 
         private async Task<List<string>> GetUserRoles(ApplicationUser user)

@@ -13,15 +13,18 @@
         private readonly IDeletableEntityRepository<Company> companiesRepository;
         private readonly IDeletableEntityRepository<Person> peopleRepository;
         private readonly IDeletableEntityRepository<TaxCountry> taxCtrRepo;
+        private readonly IDeletableEntityRepository<PersonRole> rolesRepo;
 
         public ContactsService(
             IDeletableEntityRepository<Company> compRepo,
             IDeletableEntityRepository<Person> peopRepo,
-            IDeletableEntityRepository<TaxCountry> taxCtrRepo)
+            IDeletableEntityRepository<TaxCountry> taxCtrRepo,
+            IDeletableEntityRepository<PersonRole> rolesRepo)
         {
             this.companiesRepository = compRepo;
             this.peopleRepository = peopRepo;
             this.taxCtrRepo = taxCtrRepo;
+            this.rolesRepo = rolesRepo;
         }
 
         public async Task<string> AddCompanyAsync(CompanyInputModel input)
@@ -73,6 +76,18 @@
             await this.companiesRepository.AddAsync(company);
             await this.companiesRepository.SaveChangesAsync();
             return company.Id;
+        }
+
+        public PersonInputModel GetPersonInputModel()
+        {
+            var viewModel = new PersonInputModel();
+            viewModel.CompanyItems = this.companiesRepository.AllAsNoTracking()
+                                                   .Select(c => new System.Collections.Generic.KeyValuePair<string, string>(c.Id, c.Name))
+                                                   .ToList();
+            viewModel.RoleItems = this.rolesRepo.AllAsNoTracking()
+                                       .Select(r => new System.Collections.Generic.KeyValuePair<string, string>(r.Id.ToString(), r.Name))
+                                       .ToList();
+            return viewModel;
         }
 
         public async Task<string> AddPersonAsync(PersonInputModel input)

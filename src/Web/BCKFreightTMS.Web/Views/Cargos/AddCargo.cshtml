@@ -1,0 +1,81 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Cargos.CargoInputModel
+
+@{
+    var typeItems = this.Model.TypeItems.Select(ti => new SelectListItem(ti.Value, ti.Key.ToString()));
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <form method="post" class="col-md-6 p-2 border rounded">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Type</label>
+            <select asp-for="TypeId" class="form-control" asp-items="typeItems"></select>
+        </div>
+        <div class="form-group p-2 border rounded">
+            <label class="text-muted">Dimentions</label>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label asp-for="Lenght" class="control-label"></label>
+                    <input asp-for="Lenght" class="form-control" />
+                    <span asp-validation-for="Lenght" class="text-danger"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label asp-for="Width" class="control-label"></label>
+                    <input asp-for="Width" class="form-control" />
+                    <span asp-validation-for="Width" class="text-danger"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label asp-for="Height" class="control-label"></label>
+                    <input asp-for="Height" class="form-control" />
+                    <span asp-validation-for="Height" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group p-2 border rounded">
+            <label class="text-muted">Specifications</label>
+            <div class="form-row">
+                <div class="form-group col-3">
+                    <label asp-for="WeightGross" class="control-label"></label>
+                    <input asp-for="WeightGross" class="form-control" />
+                    <span asp-validation-for="WeightGross" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3">
+                    <label asp-for="WeightNet" class="control-label"></label>
+                    <input asp-for="WeightNet" class="form-control" />
+                    <span asp-validation-for="WeightNet" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3">
+                    <label asp-for="Cubature" class="control-label"></label>
+                    <input asp-for="Cubature" class="form-control" />
+                    <span asp-validation-for="Cubature" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+            <div class="form-group">
+                <label asp-for="Details" class="control-label"></label>
+                <textarea asp-for="Details" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Details" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+            </div>
+</form>
+</body>
+</html>

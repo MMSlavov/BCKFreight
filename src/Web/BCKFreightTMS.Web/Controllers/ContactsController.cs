@@ -6,10 +6,12 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Web.ViewModels.Contacts;
     using BCKFreightTMS.Services.Mapping;
+    using BCKFreightTMS.Web.ViewModels.Contacts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize(Roles = "User")]
     public class ContactsController : Controller
     {
         private readonly IContactsService contactsService;
@@ -42,29 +44,23 @@
 
         public IActionResult AddPerson()
         {
-            var viewModel = new PersonInputModel();
-            viewModel.CompanyItems = this.companies.AllAsNoTracking()
-                                                   .Select(c => new System.Collections.Generic.KeyValuePair<string, string>(c.Id, c.Name))
-                                                   .ToList();
-            viewModel.RoleItems = this.roles.AllAsNoTracking()
-                                       .Select(r => new System.Collections.Generic.KeyValuePair<string, string>(r.Id.ToString(), r.Name))
-                                       .ToList();
+            var viewModel = this.contactsService.GetPersonInputModel();
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPerson(PersonInputModel model)
+        public async Task<IActionResult> AddPerson(PersonInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model);
+                return this.View(input);
             }
 
-            var res = await this.contactsService.AddPersonAsync(model);
+            var res = await this.contactsService.AddPersonAsync(input);
             if (res == null)
             {
                 this.ModelState.AddModelError(string.Empty, "Person allready exists.");
-                return this.View(model);
+                return this.View(input);
             }
 
             return this.Redirect("/Contacts");

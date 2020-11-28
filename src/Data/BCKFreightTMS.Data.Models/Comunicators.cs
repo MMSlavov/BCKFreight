@@ -26,7 +26,7 @@
         [Column(TypeName = "varchar(50)")]
         public string Email2 { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "nvarchar(MAX)")]
         public string Details { get; set; }
 
         public Company Company { get; set; }

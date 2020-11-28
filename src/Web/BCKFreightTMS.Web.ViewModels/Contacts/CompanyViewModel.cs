@@ -16,5 +16,7 @@
         public string AddressAddressStreetLine { get; set; }
 
         public string ComunicatorsMobile1 { get; set; }
+
+        public string ComunicatorsDetails { get; set; }
     }
 }

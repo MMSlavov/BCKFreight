@@ -28,7 +28,7 @@
 
         public DateTime Until { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "nvarchar(MAX)")]
         public string Details { get; set; }
     }
 }

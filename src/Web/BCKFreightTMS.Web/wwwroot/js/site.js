@@ -11,6 +11,7 @@ showInPopup = (url, title) => {
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
+
             // to make popup draggable
             $(".modal").modal("show");
 
@@ -50,6 +51,32 @@ jQueryAjaxPost = form => {
                 else {
                     $('#form-modal .modal-body').html(res.html);
                 }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
+}
+
+jQueryAjaxBtnGet = (url) => {
+    try {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $('#content-wrapper').html(res.html);
+                }
+                //else {
+                //    $('#form-modal .modal-body').html(res.html);
+                //}
             },
             error: function (err) {
                 console.log(err)

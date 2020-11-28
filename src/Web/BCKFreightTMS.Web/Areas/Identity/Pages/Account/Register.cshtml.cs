@@ -93,6 +93,7 @@
                     UserName = this.Input.FirstName,
                     Email = this.Input.Email,
                 };
+                user.AdminId = user.Id;
                 var result = await this._userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {

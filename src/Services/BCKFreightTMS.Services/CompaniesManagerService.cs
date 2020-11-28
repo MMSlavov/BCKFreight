@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Text.Json;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using AngleSharp;
@@ -66,9 +67,10 @@
             var urlSearch = string.Format(BaseUrlSearch, uic);
 
             var document = await this.context.OpenAsync(urlSearch);
-            if (document.StatusCode == System.Net.HttpStatusCode.NotFound)
+            if (document.StatusCode == System.Net.HttpStatusCode.NotFound ||
+                document.DocumentElement.OuterHtml.Contains("Няма намерени резултати"))
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Not found");
             }
 
             var company = new CompanyInputModel();
@@ -86,15 +88,18 @@
                 elements.Add(key, value);
             }
 
-            var mol = elements["Управители/Съдружници"].Split("\r\n", StringSplitOptions.RemoveEmptyEntries)[0]
-                                                       .Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var mol = elements["Управители/Съдружници"].Trim();
+            var address = elements["Седалище адрес"].Split("  ", StringSplitOptions.RemoveEmptyEntries)[0]
+                                                    .Split(", ")
+                                                    .ToArray();
             company.Name = elements["Наименование"];
-            company.StreetLine = elements["Седалище адрес"].Split("  ", StringSplitOptions.RemoveEmptyEntries)[0];
+            company.TaxCountry = address[0];
+            company.StreetLine = string.Join(", ", address.Skip(1));
             company.TaxNumber = elements["ЕИК/ПИК"];
             company.Details = elements["Предмет на дейност"].Split("\n", StringSplitOptions.RemoveEmptyEntries)[2]
                                                             .TrimStart();
-            company.MOLFirstName = mol[1];
-            company.MOLLastName = mol[3];
+            company.MOLFirstName = Regex.Match(mol, @"(?<=: )([А-Яа-я]+)").Value;
+            company.MOLLastName = Regex.Match(mol, @"([А-Яа-я]+)(?= \()").Value;
 
             return company;
         }

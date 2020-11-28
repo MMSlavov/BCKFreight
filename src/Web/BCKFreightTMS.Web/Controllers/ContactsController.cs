@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -41,10 +42,18 @@
             return this.View(contacts);
         }
 
-        public IActionResult AddCompany()
+        public async Task<IActionResult> AddCompany(string uic = null)
         {
-            var model = this.companiesManager.GetCompanyAsync(175269923).GetAwaiter().GetResult();
-            return this.View(model);
+            try
+            {
+                var model = uic != null ? await this.companiesManager.GetCompanyAsync(int.Parse(uic)) : null;
+                return this.View(model);
+            }
+            catch (InvalidOperationException ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View();
+            }
         }
 
         public IActionResult AddPerson()

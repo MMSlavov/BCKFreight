@@ -30,6 +30,7 @@
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
+                    defaultUser.AdminId = defaultUser.Id;
                     await userManager.CreateAsync(defaultUser, "22XfMYvQunLU8sWD");
                     await userManager.AddToRoleAsync(defaultUser, RoleNames.User.ToString());
                     await userManager.AddToRoleAsync(defaultUser, RoleNames.SuperUser.ToString());

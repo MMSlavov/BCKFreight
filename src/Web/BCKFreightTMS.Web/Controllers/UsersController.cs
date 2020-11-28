@@ -4,30 +4,42 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common.Enums;
+    using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [Authorize(Roles = "SuperUser")]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IDeletableEntityRepository<ApplicationUser> users;
 
-        public UsersController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public UsersController(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            IDeletableEntityRepository<ApplicationUser> users)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.users = users;
         }
 
         public async Task<IActionResult> Index()
         {
-            var users = await this.userManager.Users.ToListAsync();
+            var users = this.users.All().ToList();
+            if (this.User.IsInRole(RoleNames.Admin.ToString()))
+            {
+                users = this.userManager.Users.ToList();
+            }
+
             var userRolesViewModel = new List<UserRolesViewModel>();
-            foreach (ApplicationUser user in users)
+
+            foreach (var user in users)
             {
                 var thisViewModel = new UserRolesViewModel();
                 thisViewModel.UserId = user.Id;
@@ -55,7 +67,13 @@
 
             model.UserName = user.UserName;
             model.RoleModels = new List<UserRoleInputModel>();
-            foreach (var role in this.roleManager.Roles)
+            var roles = this.roleManager.Roles.ToList();
+            if (!this.User.IsInRole(RoleNames.Admin.ToString()))
+            {
+                roles.Remove(roles.First(r => r.Name == RoleNames.Admin.ToString()));
+            }
+
+            foreach (var role in roles)
             {
                 var userRolesViewModel = new UserRoleInputModel
                 {

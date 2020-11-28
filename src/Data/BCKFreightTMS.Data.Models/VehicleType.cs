@@ -17,7 +17,7 @@
         [MaxLength(80)]
         public string Name { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "nvarchar(MAX)")]
         public string MyProperty { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }

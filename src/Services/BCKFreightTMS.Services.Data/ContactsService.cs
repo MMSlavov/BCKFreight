@@ -74,6 +74,9 @@
             company.TaxCountry = taxCoutry;
 
             await this.companiesRepository.AddAsync(company);
+            company.Address.AdminId = company.AdminId;
+            company.Address.Address.AdminId = company.AdminId;
+            company.Comunicators.AdminId = company.AdminId;
             await this.companiesRepository.SaveChangesAsync();
             return company.Id;
         }
@@ -111,6 +114,7 @@
             };
 
             await this.peopleRepository.AddAsync(person);
+            person.Comunicators.AdminId = person.AdminId;
             await this.peopleRepository.SaveChangesAsync();
             return person.Id;
         }
@@ -125,7 +129,7 @@
                 Type = nameof(Person),
                 Contacts = p.Comunicators.Email1 ?? p.Comunicators.Mobile1,
                 Address = p.Company.Address.Address.StreetLine,
-            }));
+            }).ToArray());
 
             contacts.AddRange(this.companiesRepository.All().Select(c => new AllContactsViewModel
             {
@@ -134,7 +138,7 @@
                 Type = nameof(Company),
                 Contacts = c.Comunicators.Email1 ?? c.Comunicators.Mobile1,
                 Address = c.Address.Address.StreetLine,
-            }));
+            }).ToArray());
 
             return contacts;
         }

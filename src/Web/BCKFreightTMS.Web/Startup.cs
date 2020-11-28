@@ -8,6 +8,7 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Data.Repositories;
     using BCKFreightTMS.Data.Seeding;
+    using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Services.Messaging;
@@ -65,6 +66,8 @@
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+
+            services.AddScoped<ICompaniesManagerService, CompaniesManagerService>();
 
             // Application services
             services.AddTransient<IEmailSender, SendGridEmailSender>();

@@ -5,6 +5,7 @@
 
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Contacts;
@@ -18,17 +19,20 @@
         private readonly IDeletableEntityRepository<Company> companies;
         private readonly IDeletableEntityRepository<Person> people;
         private readonly IDeletableEntityRepository<PersonRole> roles;
+        private readonly ICompaniesManagerService companiesManager;
 
         public ContactsController(
             IContactsService contactsService,
             IDeletableEntityRepository<Company> compRepo,
             IDeletableEntityRepository<Person> peopRepo,
-            IDeletableEntityRepository<PersonRole> rolesRepo)
+            IDeletableEntityRepository<PersonRole> rolesRepo,
+            ICompaniesManagerService companiesManager)
         {
             this.contactsService = contactsService;
             this.companies = compRepo;
             this.people = peopRepo;
             this.roles = rolesRepo;
+            this.companiesManager = companiesManager;
         }
 
         public IActionResult Index()
@@ -39,7 +43,8 @@
 
         public IActionResult AddCompany()
         {
-            return this.View();
+            var model = this.companiesManager.GetCompanyAsync(175269923).GetAwaiter().GetResult();
+            return this.View(model);
         }
 
         public IActionResult AddPerson()

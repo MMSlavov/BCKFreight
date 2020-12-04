@@ -42,11 +42,11 @@
             return this.View(contacts);
         }
 
-        public async Task<IActionResult> AddCompany(string uic = null)
+        public async Task<IActionResult> AddCompany(string searchStr = null)
         {
             try
             {
-                var model = uic != null ? await this.companiesManager.GetCompanyAsync(int.Parse(uic)) : null;
+                var model = searchStr != null ? await this.companiesManager.GetCompanyAsync(searchStr) : null;
                 return this.View(model);
             }
             catch (InvalidOperationException ex)

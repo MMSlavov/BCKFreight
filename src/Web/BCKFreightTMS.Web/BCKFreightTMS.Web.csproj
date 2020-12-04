@@ -9,6 +9,10 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\data\20200930.json" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -41,5 +45,9 @@
     <ProjectReference Include="..\..\Services\BCKFreightTMS.Services\BCKFreightTMS.Services.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Web.Infrastructure\BCKFreightTMS.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Web.ViewModels\BCKFreightTMS.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\data\20200930.json" />
   </ItemGroup>
 </Project>

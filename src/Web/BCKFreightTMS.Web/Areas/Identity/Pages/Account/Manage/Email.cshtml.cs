@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Linq;
-using System.Threading.Tasks;
-using BCKFreightTMS.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-
-namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
+    using BCKFreightTMS.Common;
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Messaging;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+
     public partial class EmailModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IEmailSender emailSender;
 
         public EmailModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._emailSender = emailSender;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.emailSender = emailSender;
         }
 
         public string Username { get; set; }
@@ -52,23 +51,20 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var email = await this._userManager.GetEmailAsync(user);
+            var email = await this.userManager.GetEmailAsync(user);
             this.Email = email;
 
-            this.Input = new InputModel
-            {
-                NewEmail = email,
-            };
+            this.Input = new InputModel();
 
-            this.IsEmailConfirmed = await this._userManager.IsEmailConfirmedAsync(user);
+            this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await this._userManager.GetUserAsync(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             await this.LoadAsync(user);
@@ -77,10 +73,10 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
-            var user = await this._userManager.GetUserAsync(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             if (!this.ModelState.IsValid)
@@ -89,17 +85,19 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
                 return this.Page();
             }
 
-            var email = await this._userManager.GetEmailAsync(user);
+            var email = await this.userManager.GetEmailAsync(user);
             if (this.Input.NewEmail != email)
             {
-                var userId = await this._userManager.GetUserIdAsync(user);
-                var code = await this._userManager.GenerateChangeEmailTokenAsync(user, this.Input.NewEmail);
+                var userId = await this.userManager.GetUserIdAsync(user);
+                var code = await this.userManager.GenerateChangeEmailTokenAsync(user, this.Input.NewEmail);
                 var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
                     values: new { userId = userId, email = this.Input.NewEmail, code = code },
                     protocol: this.Request.Scheme);
-                await this._emailSender.SendEmailAsync(
+                await this.emailSender.SendEmailAsync(
+                    GlobalConstants.SystemEmail,
+                    GlobalConstants.SystemName,
                     this.Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -114,10 +112,10 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {
-            var user = await this._userManager.GetUserAsync(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             if (!this.ModelState.IsValid)
@@ -126,16 +124,18 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
                 return this.Page();
             }
 
-            var userId = await this._userManager.GetUserIdAsync(user);
-            var email = await this._userManager.GetEmailAsync(user);
-            var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
+            var userId = await this.userManager.GetUserIdAsync(user);
+            var email = await this.userManager.GetEmailAsync(user);
+            var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             var callbackUrl = this.Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: this.Request.Scheme);
-            await this._emailSender.SendEmailAsync(
+            await this.emailSender.SendEmailAsync(
+                GlobalConstants.SystemEmail,
+                GlobalConstants.SystemName,
                 email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

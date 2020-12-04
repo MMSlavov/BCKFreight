@@ -18,7 +18,7 @@
         public string Name { get; set; }
 
         [Column(TypeName = "nvarchar(MAX)")]
-        public string MyProperty { get; set; }
+        public string Details { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }
     }

@@ -1,0 +1,53 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Users.AddUserInputModel
+
+@{
+    Layout = null;
+}
+
+<form asp-action="AddUser" onsubmit="return jQueryAjaxPost(this);">
+    <div class="row row-cols-2">
+        <div class="mb-3 col col-6">
+            <input asp-for="FirstName" type="text" class="form-control" placeholder="First name">
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col col-6">
+            <input asp-for="LastName" type="text" class="form-control" placeholder="Last name">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="input-group mb-3 col-10 p-0">
+        <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+            </div>
+        </div>
+        <div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="input-group mb-3 col-7 p-0">
+        <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-row">
+        @*<div class="col-8">
+                <div class="icheck-primary">
+                    <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                    <label for="agreeTerms">
+                        I agree to the <a href="#">terms</a>
+                    </label>
+                </div>
+            </div>*@
+        <div class="col-3">
+            <button type="submit" class="btn btn-block btn-primary">Save</button>
+        </div>
+        <a asp-action="Index" class="btn btn-primary ml-2" style="width:auto">Cancel</a>
+    </div>
+</form>

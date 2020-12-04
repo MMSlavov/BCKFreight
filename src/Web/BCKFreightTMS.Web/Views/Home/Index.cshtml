@@ -42,8 +42,8 @@
                 </div>
             </div>
         </div>
-    <div class="col-6"></div>
-        <div class="row flex-row-reverse">
+        <div class="col-6"></div>
+        <div class="row flex-row">
             <div class="m-2 card col-3">
                 <div class="card-body p-2">
                     <h3>Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
@@ -58,21 +58,78 @@
             </div>
         </div>
     </div>
+    <hr />
+    <cache expires-after="TimeSpan.FromMinutes(60)">
+        <table class="table table-bordered table-striped table-hover" id="contacts_data">
+            <thead style="margin-bottom: 0px;">
+                <tr>
+                    <th>
+                        Legal Form
+                    </th>
+                    <th>
+                        Company Name
+                    </th>
+                    <th>
+                        UIC
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var company in companies)
+                {
+                    <tr>
+                        <td>
+                            @Html.Raw(company.LegalForm)
+                        </td>
+                        <td>
+                            @Html.Raw(company.CompanyName)
+                        </td>
+                        <td>
+                            @company.UIC
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </cache>
 </section>
-<div class="container-fluid">
-    @companies.Count
-    @foreach (var company in companies)
-    {
-        <p>@company.LegalForm @company.CompanyName (@company.UIC)</p>
-        <hr />
-    }
-</div>
+
+@*<div class="container-fluid">
+        @companies.Count
+        @foreach (var company in companies)
+        {
+            <p>@company.LegalForm @company.CompanyName (@company.UIC)</p>
+            <hr />
+        }
+    </div>*@
 
 @section Scripts{
     <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#contacts_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+            });
+        });
+    </script>
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
+    <script src="luxon.js"></script>
     <!--<script src="~/plugins/chart.js/Chart.min.js"></script>
     <script src="~/plugins/sparklines/sparkline.js"></script>
     <script src="~/plugins/jqvmap/jquery.vmap.min.js"></script>

@@ -67,8 +67,6 @@
             if (taxCoutry == null)
             {
                 taxCoutry = new TaxCountry { Name = input.TaxCountry };
-                await this.taxCtrRepo.AddAsync(taxCoutry);
-                await this.taxCtrRepo.SaveChangesAsync();
             }
 
             company.TaxCountry = taxCoutry;
@@ -77,6 +75,7 @@
             company.Address.AdminId = company.AdminId;
             company.Address.Address.AdminId = company.AdminId;
             company.Comunicators.AdminId = company.AdminId;
+            company.TaxCountry.AdminId = company.AdminId;
             await this.companiesRepository.SaveChangesAsync();
             return company.Id;
         }

@@ -11,6 +11,6 @@
 
         public Task GetJsonCompaniesAsync(string pathJson);
 
-        public Task<CompanyInputModel> GetCompanyAsync(int uic);
+        public Task<CompanyInputModel> GetCompanyAsync(string searchStr);
     }
 }

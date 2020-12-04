@@ -48,7 +48,7 @@
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Column(TypeName = "text")]
+        [Column(TypeName = "nvarchar(MAX)")]
         public string Details { get; set; }
 
         public virtual ICollection<OrderTo> Orders { get; set; }

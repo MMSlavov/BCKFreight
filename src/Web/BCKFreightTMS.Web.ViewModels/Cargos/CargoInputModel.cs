@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using BCKFreightTMS.Data.Models;
-
     public class CargoInputModel
     {
         [Required]

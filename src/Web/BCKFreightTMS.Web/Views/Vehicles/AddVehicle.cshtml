@@ -1,0 +1,85 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Vehicles.VehicleInputModel
+@{ 
+    var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var loadingBodyItems = this.Model.LoadingBodyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var typeItems = this.Model.TypeItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+}
+
+<div>
+    <form method="post" class="col-md-6 p-2 border rounded">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="TypeId" class="control-label">Type</label>
+            <select asp-for="TypeId" class="form-control" asp-items="typeItems"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="LoadingBodyId" class="control-label">Loading body</label>
+            <select asp-for="LoadingBodyId" class="form-control" asp-items="loadingBodyItems"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="CompanyId" class="control-label">Company</label>
+            <select asp-for="CompanyId" class="form-control" asp-items="companyItems"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="DriverId" class="control-label">Driver</label>
+            <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="TrailerId" class="control-label">Trailer</label>
+            <select asp-for="TrailerId" id="trailer" class="form-control" asp-items="@(new SelectList(string.Empty, "TrailerId", "TrailerName"))"></select>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-5">
+                <label asp-for="RegNumber" class="control-label">Registration number <span class="text-danger">*</span></label>
+                <input asp-for="RegNumber" class="form-control col-8" placeholder="(AA1234BB)"/>
+                <span asp-validation-for="RegNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="Vehicle name"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Details" class="control-label"></label>
+            <textarea asp-for="Details" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Details" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#CompanyId").change(function () {
+                $.getJSON("/Vehicles/GetDrivers", { companyId: $("#CompanyId").val() }, function (d) {
+                    var row = "";
+                    $("#driver").empty();
+                    $.each(d, function (i, v) {
+                        row += "<option value=" + v.value + ">"+v.text+"</option>";
+                    });
+                    $("#driver").html(row);
+                    var item = new Option("Select", "0", true);
+                    $(item).html("Select");
+                    $("#driver").append(item);
+                })
+                $.getJSON("/Vehicles/GetTrailers", { companyId: $("#CompanyId").val() }, function (d) {
+                    var row = "";
+                    $("#trailer").empty();
+                    $.each(d, function (i, v) {
+                        row += "<option value=" + v.value + ">" + v.text + "</option>";
+                    });
+                    $("#trailer").html(row);
+                    var item = new Option("Select", "0", true);
+                    $(item).html("Select");
+                    $("#trailer").append(item);
+                })
+            })
+        })
+    </script>
+}

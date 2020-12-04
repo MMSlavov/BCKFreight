@@ -33,7 +33,7 @@
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
             var comMan = new CompaniesManagerService();
-            var data = comMan.GetCompanyAsync(200842897).GetAwaiter().GetResult();
+            var data = comMan.GetCompanyAsync("200842897").GetAwaiter().GetResult();
             Console.WriteLine(data);
 
             // Seed data on application startup
@@ -62,10 +62,6 @@
             //Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
 
             //Console.WriteLine(sw.Elapsed);
-
-            var comMan = new CompaniesManagerService();
-            var data = string.Join(Environment.NewLine, await comMan.GetCompanyAsync(200842897));
-            Console.WriteLine(data);
 
             return await Task.FromResult(0);
         }

@@ -4,7 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Users</h2>
+<div class="row">
+    <div class="p-2">
+        <a class="btn btn-primary text-white" onclick="showInPopup('/Users/AddUser', 'Add User')">Add User</a>
+    </div>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -12,7 +16,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Roles</th>
-            <th>Action</th>
+            <th>Manage</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +28,7 @@
                 <td>@user.Email</td>
                 <td>@(user.Roles.Any()?string.Join(" | ", user.Roles.ToList()):"No roles")</td>
                 <td>
-                    <a class="btn btn-primary text-white" onclick="showInPopup('/Users/Manage?userId=@user.UserId', 'Details')">Manage Roles</a>
+                    <a class="btn btn-primary text-white" onclick="showInPopup('/Users/Manage?userId=@user.UserId', 'Manage Roles')">Roles</a>
                 </td>
             </tr>
         }

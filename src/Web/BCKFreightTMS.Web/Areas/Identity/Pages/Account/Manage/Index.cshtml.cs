@@ -74,7 +74,6 @@
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            this.UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
             await this.LoadAsync(user);
             return this.Page();
         }
@@ -144,6 +143,7 @@
             }
 
             await this.signInManager.RefreshSignInAsync(user);
+            this.UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
             this.StatusMessage = "Your profile has been updated";
             return this.RedirectToPage();
         }

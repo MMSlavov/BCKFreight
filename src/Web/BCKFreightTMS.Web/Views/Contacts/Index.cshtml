@@ -16,7 +16,8 @@
             <a class="btn btn-primary" asp-action="AddPerson">Add Person</a>
         </div>
     </div>
-    <table class="table table-bordered table-striped table-hover" id="contacts_data">
+    <hr class="mt-1" />
+    <table class="table table-striped table-hover" id="contacts_data">
         <thead style="margin-bottom: 0px;">
             <tr>
                 <th>
@@ -50,21 +51,21 @@
                     <td>
                         @item.Address
                     </td>
-                    <td class="text-center" style="width:15%">
-                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
-                        <a onclick="showInPopup('Contacts/CompanyDetails/@item.Id', 'Details')" title="Detais">
-                            <span style="color: dodgerblue">
+                    <td class="px-2 text-center justify-content-center" style="width:12%">
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>
+                        <a href="javascript:void(0);" onclick="showInPopup('Contacts/CompanyDetails/@item.Id', 'Details')" title="Detais">
+                            <span>
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
                         </a>
                         @{
                             var parms = new Dictionary<string, string>
-                            {
+                                                    {
                                 { "contactType", item.Type},
                                 { "id", item.Id}
                             };
                         }
-                        <a asp-action="Delete" asp-all-route-data="parms" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
+                        <a asp-action="Delete" asp-all-route-data="parms" title="Delete"><i class="pl-2 fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Models;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -29,10 +30,9 @@
 
         protected ApplicationDbContext Context { get; set; }
 
-        public virtual IQueryable<TEntity> All() => this.DbSet.Where(e => e.AdminId == this.User().Result.AdminId || e.AdminId == null);
+        public virtual IQueryable<TEntity> All() => this.GetSet(this.DbSet);
 
-        public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking()
-                                                                          .Where(e => e.AdminId == this.User().Result.AdminId || e.AdminId == null);
+        public virtual IQueryable<TEntity> AllAsNoTracking() => this.GetSet(this.DbSet.AsNoTracking());
 
         public virtual Task AddAsync(TEntity entity)
         {
@@ -69,6 +69,18 @@
             {
                 this.Context?.Dispose();
             }
+        }
+
+        private IQueryable<TEntity> GetSet(IQueryable<TEntity> dbSet)
+        {
+            return this.IsUserAdmin() ?
+                    dbSet :
+                    dbSet.Where(e => e.AdminId == this.User().Result.AdminId || e.AdminId == null);
+        }
+
+        private bool IsUserAdmin()
+        {
+            return this.httpContextAccessor.HttpContext.User.IsInRole(RoleNames.Admin.ToString());
         }
 
         private async Task<ApplicationUser> User()

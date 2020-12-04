@@ -44,6 +44,9 @@
         {
             if (!this.ModelState.IsValid)
             {
+                input.TypeItems = this.types.AllAsNoTracking()
+                           .Select(ct => new System.Collections.Generic.KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
+                           .ToList();
                 return this.View(input);
             }
 

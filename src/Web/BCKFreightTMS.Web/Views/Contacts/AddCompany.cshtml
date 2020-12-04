@@ -10,7 +10,7 @@
 <body>
     <form method="get" class="form-inline p-2">
         <div class="form-row">
-            <input class="form-control" type="search" name="uic" placeholder="Search by UIC" aria-label="Search">
+            <input class="form-control" type="search" name="searchStr" placeholder="Search by Name or UIC" aria-label="Search">
             <div class="form-inline pl-2">
                 <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
@@ -60,6 +60,7 @@
             <textarea asp-for="Details" type="text" class="form-control" placeholder="Enter Details" rows="5"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-primary">Cancel</a>
     </form>
 </body>
 </html>

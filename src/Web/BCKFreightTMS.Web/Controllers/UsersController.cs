@@ -31,11 +31,10 @@
 
         public async Task<IActionResult> Index()
         {
-            var users = this.users.All().ToList();
-            if (this.User.IsInRole(RoleNames.Admin.ToString()))
-            {
-                users = this.userManager.Users.ToList();
-            }
+            var users = this.users.All()
+                                  .OrderByDescending(u => u.Roles.Count)
+                                  .ThenBy(u => u.FirstName)
+                                  .ToList();
 
             var userRolesViewModel = new List<UserRolesViewModel>();
 
@@ -118,6 +117,54 @@
                 this.ModelState.AddModelError(string.Empty, "Cannot add selected roles to user");
                 return this.Json(new { isValid = false, html = this.View(model) });
             }
+
+            return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("Index", "Users") });
+        }
+
+        public IActionResult AddUser()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(AddUserInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { isValid = false, html = this.View(input) });
+            }
+
+            var user = new ApplicationUser
+            {
+                FirstName = input.FirstName,
+                LastName = input.LastName,
+                UserName = input.FirstName,
+                Email = input.Email,
+            };
+            user.AdminId = this.userManager.GetUserId(this.User);
+            var result = await this.userManager.CreateAsync(user, input.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return this.Json(new { isValid = false, html = this.View(input) });
+            }
+
+            //var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            //var callbackUrl = this.Url.Page(
+            //    "/Account/ConfirmEmail",
+            //    pageHandler: null,
+            //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+            //    protocol: this.Request.Scheme);
+
+            //await this.emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            await this.userManager.AddToRoleAsync(user, RoleNames.User.ToString());
 
             return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("Index", "Users") });
         }

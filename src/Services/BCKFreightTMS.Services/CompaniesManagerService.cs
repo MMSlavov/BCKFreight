@@ -62,9 +62,9 @@
             }
         }
 
-        public async Task<CompanyInputModel> GetCompanyAsync(int uic)
+        public async Task<CompanyInputModel> GetCompanyAsync(string searchStr)
         {
-            var urlSearch = string.Format(BaseUrlSearch, uic);
+            var urlSearch = string.Format(BaseUrlSearch, searchStr);
 
             var document = await this.context.OpenAsync(urlSearch);
             if (document.StatusCode == System.Net.HttpStatusCode.NotFound ||

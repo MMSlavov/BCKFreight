@@ -70,7 +70,7 @@
             services.AddScoped<ICompaniesManagerService, CompaniesManagerService>();
 
             // Application services
-            services.AddTransient<IEmailSender, SendGridEmailSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IContactsService, ContactsService>();
         }

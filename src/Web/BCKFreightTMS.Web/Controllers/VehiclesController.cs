@@ -2,6 +2,8 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -20,7 +22,8 @@
         private readonly IDeletableEntityRepository<VehicleLoadingBody> loadingBodies;
         private readonly IDeletableEntityRepository<Person> people;
 
-        public VehiclesController(IDeletableEntityRepository<Vehicle> vehicles,
+        public VehiclesController(
+            IDeletableEntityRepository<Vehicle> vehicles,
             IDeletableEntityRepository<Company> companies,
             IDeletableEntityRepository<VehicleType> types,
             IDeletableEntityRepository<VehicleLoadingBody> loadingBodies,
@@ -57,7 +60,7 @@
         public JsonResult GetDrivers(string companyId)
         {
             var drivers = this.people.AllAsNoTracking()
-                                     .Where(p => p.CompanyId == companyId)
+                                     .Where(p => p.CompanyId == companyId && p.Role.Name == PersonRoleNames.Driver.ToString())
                                      .Select(p => new SelectListItem { Text = p.FirstName + " " + p.LastName, Value = p.Id })
                                      .ToList();
             return this.Json(drivers);
@@ -66,7 +69,7 @@
         public JsonResult GetTrailers(string companyId)
         {
             var trailers = this.vehicles.AllAsNoTracking()
-                                     .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypes.Trailer.ToString())
+                                     .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypeNames.Trailer.ToString())
                                      .Select(t => new SelectListItem { Text = t.RegNumber, Value = t.Id })
                                      .ToList();
             return this.Json(trailers);
@@ -95,7 +98,7 @@
                 LoadingBodyId = input.LoadingBodyId,
                 CompanyId = input.CompanyId,
                 DriverId = input.DriverId,
-                TrailerId = input.TrailerId,
+                TrailerId = input.TrailerId == "null" ? null : input.TrailerId,
                 RegNumber = input.RegNumber,
                 Name = input.Name,
                 Details = input.Details,
@@ -104,7 +107,7 @@
             await this.vehicles.AddAsync(vehicle);
             await this.vehicles.SaveChangesAsync();
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(GlobalConstants.Index);
         }
     }
 }

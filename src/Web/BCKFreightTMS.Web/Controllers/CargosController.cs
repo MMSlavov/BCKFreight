@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
@@ -67,7 +68,7 @@
             await this.cargos.AddAsync(cargo);
             await this.cargos.SaveChangesAsync();
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(GlobalConstants.Index);
         }
     }
 }

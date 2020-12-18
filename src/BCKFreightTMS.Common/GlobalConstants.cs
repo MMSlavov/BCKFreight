@@ -11,5 +11,7 @@
         public const string RegistryAgencyUrl = "https://papagal.bg{0}";
 
         public const string SystemEmail = "mmslavov00@gmail.com";
+
+        public const string Index = "Index";
     }
 }

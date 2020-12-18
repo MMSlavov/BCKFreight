@@ -35,7 +35,6 @@
 
         public OrderType Type { get; set; }
 
-        //[ForeignKey(nameof(Contact))]
         public string ContactId { get; set; }
 
         public Person Contact { get; set; }

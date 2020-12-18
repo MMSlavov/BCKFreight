@@ -4,14 +4,16 @@ using BCKFreightTMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BCKFreightTMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215123402_CargoVehicleType")]
+    partial class CargoVehicleType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,9 +316,6 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<float>("Lenght")
                         .HasColumnType("real");
 
-                    b.Property<int>("LoadingBodyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -345,8 +344,6 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("LoadingBodyId");
 
                     b.HasIndex("TypeId");
 
@@ -1312,12 +1309,6 @@ namespace BCKFreightTMS.Data.Migrations
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Cargo", b =>
                 {
-                    b.HasOne("BCKFreightTMS.Data.Models.VehicleLoadingBody", "LoadingBody")
-                        .WithMany("Cargos")
-                        .HasForeignKey("LoadingBodyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BCKFreightTMS.Data.Models.CargoType", "Type")
                         .WithMany("Cargos")
                         .HasForeignKey("TypeId")
@@ -1329,8 +1320,6 @@ namespace BCKFreightTMS.Data.Migrations
                         .HasForeignKey("VehicleTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("LoadingBody");
 
                     b.Navigation("Type");
 
@@ -1758,8 +1747,6 @@ namespace BCKFreightTMS.Data.Migrations
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.VehicleLoadingBody", b =>
                 {
-                    b.Navigation("Cargos");
-
                     b.Navigation("Vehicles");
                 });
 

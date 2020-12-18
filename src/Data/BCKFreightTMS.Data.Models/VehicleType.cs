@@ -11,6 +11,7 @@
         public VehicleType()
         {
             this.Vehicles = new HashSet<Vehicle>();
+            this.Cargos = new HashSet<Cargo>();
         }
 
         [Required]
@@ -21,5 +22,7 @@
         public string Details { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }
+
+        public virtual ICollection<Cargo> Cargos { get; set; }
     }
 }

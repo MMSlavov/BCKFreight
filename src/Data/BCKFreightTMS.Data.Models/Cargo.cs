@@ -20,6 +20,16 @@
 
         public CargoType Type { get; set; }
 
+        [ForeignKey(nameof(VehicleType))]
+        public int VehicleTypeId { get; set; }
+
+        public VehicleType VehicleType { get; set; }
+
+        [ForeignKey(nameof(LoadingBody))]
+        public int LoadingBodyId { get; set; }
+
+        public VehicleLoadingBody LoadingBody { get; set; }
+
         [MaxLength(200)]
         public string Name { get; set; }
 

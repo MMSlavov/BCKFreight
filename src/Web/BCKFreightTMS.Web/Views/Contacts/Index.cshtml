@@ -1,13 +1,7 @@
-﻿@using BCKFreightTMS.Web.ViewModels.Contacts
-@model IEnumerable<AllContactsViewModel>
+﻿@model IEnumerable<BCKFreightTMS.Web.ViewModels.Contacts.AllContactsViewModel>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-</head>
-<body class="container-fluid">
+<div class="container-fluid">
     <div class="row">
         <div class="p-2">
             <a class="btn btn-primary" asp-action="AddCompany">Add Company</a>
@@ -71,8 +65,7 @@
             }
         </tbody>
     </table>
-</body>
-</html>
+</div>
 @section Scripts{
     <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

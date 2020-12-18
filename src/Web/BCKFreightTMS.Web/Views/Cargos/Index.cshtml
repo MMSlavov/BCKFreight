@@ -73,8 +73,8 @@
                     </td>
                     <td class="text-center" style="width:15%">
                         <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
-                        <a onclick="showInPopup('Carsgos/CargoDetails/@item.Id', 'Details')" title="Detais">
-                            <span href="#" @*style="color: dodgerblue"*@>
+                        <a href="javascript:void(0);" onclick="showInPopup('Carsgos/CargoDetails/@item.Id', 'Details')" title="Detais">
+                            <span>
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
                         </a>

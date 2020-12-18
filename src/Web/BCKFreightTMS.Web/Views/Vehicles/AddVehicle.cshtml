@@ -64,7 +64,7 @@
                         row += "<option value=" + v.value + ">"+v.text+"</option>";
                     });
                     $("#driver").html(row);
-                    var item = new Option("Select", "0", true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#driver").append(item);
                 })
@@ -75,7 +75,7 @@
                         row += "<option value=" + v.value + ">" + v.text + "</option>";
                     });
                     $("#trailer").html(row);
-                    var item = new Option("Select", "0", true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#trailer").append(item);
                 })

@@ -1,6 +1,6 @@
 ﻿namespace BCKFreightTMS.Common.Enums
 {
-    public enum VehicleTypes
+    public enum VehicleTypeNames
     {
         Truck,
         Trailer,

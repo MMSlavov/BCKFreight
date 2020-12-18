@@ -28,6 +28,11 @@
                               new RolesSeeder(),
                               new SettingsSeeder(),
                               new AdminSeeder(),
+                              new PersonRolesSeeder(),
+                              new VehicleTypesSeeder(),
+                              new LoadingBodiesSeeder(),
+                              new OrderStatusesSeeder(),
+                              new ActionTypesSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -67,42 +67,14 @@
                     <iframe scrolling="no" frameborder="0" clocktype="html5" width="200" height="50" src="https://www.clocklink.com/html5embed.php?clock=047&timezone=Bulgaria_Sofia&color=gray&size=200&Title=&Message=&Target=&From=2020,1,1,0,0,0&Color=gray"></iframe>
                 </div>
             </div>
+            <div class="m-2 card col-3">
+                <div class="card-body p-2">
+                    <h3>Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
+                    <iframe scrolling="no" frameborder="0" clocktype="html5" width="200" height="50" src="https://www.clocklink.com/html5embed.php?clock=047&timezone=Serbia_Belgrade&color=gray&size=200&Title=&Message=&Target=&From=2020,1,1,0,0,0&Color=gray"></iframe>
+                </div>
+            </div>
         </div>
     </div>
-    <hr />
-    <cache expires-after="TimeSpan.FromMinutes(60)">
-        <table class="table table-bordered table-striped table-hover" id="contacts_data">
-            <thead style="margin-bottom: 0px;">
-                <tr>
-                    <th>
-                        Legal Form
-                    </th>
-                    <th>
-                        Company Name
-                    </th>
-                    <th>
-                        UIC
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var company in companies)
-                {
-                    <tr>
-                        <td>
-                            @Html.Raw(company.LegalForm)
-                        </td>
-                        <td>
-                            @Html.Raw(company.CompanyName)
-                        </td>
-                        <td>
-                            @company.UIC
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </cache>
 </section>
 
 @*<div class="container-fluid">
@@ -140,21 +112,6 @@
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <script src="luxon.js"></script>
-    <!--<script src="~/plugins/chart.js/Chart.min.js"></script>
-    <script src="~/plugins/sparklines/sparkline.js"></script>
-    <script src="~/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="~/plugins/jqvmap/maps/jquery.vmap.europe.js"></script>
-    <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>-->
-    <!-- daterangepicker -->
-    <!--<script src="~/plugins/moment/moment.min.js"></script>
-    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>-->
-    <!-- Tempusdominus Bootstrap 4 -->
-    <!--<script src="~/plugins/tempusdom<script src="dist/js/pages/dashboard.js"></script>-->
-    <!-- AdminLTE for demo purposes -->
-    <!--<script src="dist/js/demo.js"></script>-->
-    <!-- AdminLTE for demo purposes -->
-    <!--<script src="~/js/demo.js"></script>-->
 }
 
 

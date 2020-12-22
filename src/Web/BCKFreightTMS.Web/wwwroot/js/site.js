@@ -8,8 +8,6 @@
             $('#form-modal').modal('show');
 
             // to make popup draggable
-            $(".modal").modal("show");
-
             $(".modal-header").on("mousedown", function (mousedownEvt) {
                 var $draggable = $(this);
                 var x = mousedownEvt.pageX - $draggable.offset().left,

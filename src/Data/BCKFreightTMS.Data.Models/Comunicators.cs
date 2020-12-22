@@ -29,8 +29,8 @@
         [Column(TypeName = "nvarchar(MAX)")]
         public string Details { get; set; }
 
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
-        public Person Person { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

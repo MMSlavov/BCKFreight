@@ -1,5 +1,4 @@
-﻿@model IEnumerable<BCKFreightTMS.Web.ViewModels.Contacts.AllContactsViewModel>
-
+﻿<partial name="_AntiForgery" />
 
 <div class="container-fluid">
     <div class="row">
@@ -11,81 +10,31 @@
         </div>
     </div>
     <hr class="mt-1" />
-    <table class="table table-striped table-hover" id="contacts_data">
+    <table class="table table-striped table-hover table-bordered" width="100%" id="contactsDatatable">
         <thead style="margin-bottom: 0px;">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    Id
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Type)
+                    Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Contacts)
+                    Type
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Address)
+                    Contacts
                 </th>
-                <th style="visibility: hidden;"></th>
+                <th>
+                    Address
+                </th>
+                <th style="visibility: hidden; border-top:none; border-right:none"></th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @item.Type
-                    </td>
-                    <td>
-                        @item.Contacts
-                    </td>
-                    <td>
-                        @item.Address
-                    </td>
-                    <td class="px-2 text-center justify-content-center" style="width:12%">
-                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>
-                        <a href="javascript:void(0);" onclick="showInPopup('Contacts/CompanyDetails/@item.Id', 'Details')" title="Detais">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>
-                        @{
-                            var parms = new Dictionary<string, string>
-                                                    {
-                                { "contactType", item.Type},
-                                { "id", item.Id}
-                            };
-                        }
-                        <a asp-action="Delete" asp-all-route-data="parms" title="Delete"><i class="pl-2 fas fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
     </table>
 </div>
 @section Scripts{
     <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script>
-        $(function () {
-            $('#contacts_data').DataTable({
-                "paging": true,
-                "filter": true,
-                "processing": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                //"scrollX": true,
-                //"scrollCollapse": true,
-            });
-        });
-    </script>
+    <script src="~/js/contactsDatatable.js"></script>
 }

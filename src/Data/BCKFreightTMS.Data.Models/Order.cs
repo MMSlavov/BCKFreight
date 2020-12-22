@@ -19,26 +19,26 @@
         [ForeignKey(nameof(Creator))]
         public string CreatorId { get; set; }
 
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
 
         [Required]
         [ForeignKey(nameof(Cargo))]
         public string CargoId { get; set; }
 
-        public Cargo Cargo { get; set; }
+        public virtual Cargo Cargo { get; set; }
 
         public int OrderToId { get; set; }
 
-        public OrderTo OrderTo { get; set; }
+        public virtual OrderTo OrderTo { get; set; }
 
         public int OrderFromId { get; set; }
 
-        public OrderFrom OrderFrom { get; set; }
+        public virtual OrderFrom OrderFrom { get; set; }
 
         [ForeignKey(nameof(Status))]
         public int StatusId { get; set; }
 
-        public OrderStatus Status { get; set; }
+        public virtual OrderStatus Status { get; set; }
 
         public virtual ICollection<OrderAction> OrderActions { get; set; }
     }

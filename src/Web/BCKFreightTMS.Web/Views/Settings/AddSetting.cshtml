@@ -1,0 +1,16 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Settings.SettingInputModel
+@{
+    Layout = null;
+}
+
+<form asp-action="@Model.Action" onsubmit="return jQueryAjaxPost(this);">
+    <div class="mb-3 col col-8">
+        <input asp-for="Name" type="text" class="form-control" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <div class="col-2">
+            <button type="submit" class="btn btn-block btn-primary">Add</button>
+        </div>
+        <a asp-route="Settings/@Model.Action" class="btn btn-secondary ml-1" style="width:auto">Cancel</a>
+    </div>
+</form>

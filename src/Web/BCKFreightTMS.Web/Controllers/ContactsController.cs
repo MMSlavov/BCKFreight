@@ -1,7 +1,9 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Common.Repositories;
@@ -42,6 +44,19 @@
             return this.View(contacts);
         }
 
+        [HttpPost]
+        public IActionResult GetContacts()
+        {
+            try
+            {
+                return this.Ok(this.contactsService.ProcessDataTableRequest(this.Request));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IActionResult> AddCompany(string searchStr = null)
         {
             try
@@ -67,7 +82,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(input);
+                return this.View(this.contactsService.GetPersonInputModel(input));
             }
 
             var res = await this.contactsService.AddPersonAsync(input);
@@ -80,15 +95,15 @@
             return this.Redirect("/Contacts");
         }
 
-        public async Task<IActionResult> Delete(string contactType, string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (contactType == nameof(Company))
+            if (this.companies.AllAsNoTracking().Any(c => c.Id == id))
             {
                 var company = this.companies.All().FirstOrDefault(c => c.Id == id);
                 this.companies.Delete(company);
                 await this.companies.SaveChangesAsync();
             }
-            else if (contactType == nameof(Person))
+            else if (this.people.AllAsNoTracking().Any(p => p.Id == id))
             {
                 var person = this.people.All().FirstOrDefault(p => p.Id == id);
                 this.people.Delete(person);
@@ -98,10 +113,31 @@
             return this.Redirect("/Contacts");
         }
 
-        public IActionResult CompanyDetails(string? id)
+        public IActionResult Details(string id)
         {
-            var company = this.companies.All().Where(c => c.Id == id).To<CompanyViewModel>().FirstOrDefault();
-            return this.View(company);
+            var data = new Dictionary<string, string>();
+            if (this.companies.AllAsNoTracking().Any(c => c.Id == id))
+            {
+                var company = this.companies.All().FirstOrDefault(c => c.Id == id);
+                data.Add("Id", company.Id);
+                data.Add("Name", company.Name);
+                data.Add("Tax country", company.TaxCountry.Name);
+                data.Add("Tax number", company.TaxNumber);
+                data.Add("Address", company.Address.Address.StreetLine);
+                data.Add("Mobile", company.Comunicators.Mobile1);
+                data.Add("Details", company.Comunicators.Details);
+            }
+            else if (this.people.AllAsNoTracking().Any(p => p.Id == id))
+            {
+                var person = this.people.All().FirstOrDefault(p => p.Id == id);
+                data.Add("Id", person.Id);
+                data.Add("First name", person.FirstName);
+                data.Add("Last name", person.LastName);
+                data.Add("Birthday", person.BirthDate.ToLocalTime().ToShortDateString());
+                data.Add("Mobile", person.Comunicators.Mobile1);
+            }
+
+            return this.View(data);
         }
 
         [HttpPost]

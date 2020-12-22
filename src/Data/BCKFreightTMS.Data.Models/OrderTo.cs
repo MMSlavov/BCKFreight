@@ -23,23 +23,23 @@
         [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         [ForeignKey(nameof(Vehicle))]
         public string VehicleId { get; set; }
 
-        public Vehicle Vehicle { get; set; }
+        public virtual Vehicle Vehicle { get; set; }
 
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
-        public OrderType Type { get; set; }
+        public virtual OrderType Type { get; set; }
 
         public string ContactId { get; set; }
 
-        public Person Contact { get; set; }
+        public virtual Person Contact { get; set; }
 
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
 
         public virtual ICollection<DriverOrder> Drivers { get; set; }
     }

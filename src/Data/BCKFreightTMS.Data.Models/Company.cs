@@ -25,18 +25,18 @@
         [ForeignKey(nameof(TaxCountry))]
         public int TaxCountryId { get; set; }
 
-        public TaxCountry TaxCountry { get; set; }
+        public virtual TaxCountry TaxCountry { get; set; }
 
         [Column(TypeName = "varchar(20)")]
         public string TaxNumber { get; set; }
 
         public int CompanyAddressId { get; set; }
 
-        public CompanyAddress Address { get; set; }
+        public virtual CompanyAddress Address { get; set; }
 
         public int ComunicatorsId { get; set; }
 
-        public Comunicators Comunicators { get; set; }
+        public virtual Comunicators Comunicators { get; set; }
 
         public virtual ICollection<Person> People { get; set; }
 

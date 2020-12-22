@@ -10,19 +10,19 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var role in this.Model)
+        @foreach (var type in this.Model)
         {
             <tr>
-                <td>@role.Id</td>
-                <td>@role.Name</td>
+                <td>@type.Id</td>
+                <td>@type.Name</td>
                 <td>
-                    @if (role.AdminId is null)
+                    @if (type.AdminId is null)
                     {
                         <a class="btn btn-danger text-white disabled"><i class="far fa-trash-alt"></i></a>
                     }
                     else
                     {
-                        <a asp-action="DeletePersonRole" asp-route-id="@role.Id" class="btn btn-danger text-white"><i class="far fa-trash-alt"></i></a>
+                        <a asp-action="DeleteCargoType" asp-route-id="@type.Id" class="btn btn-danger text-white"><i class="far fa-trash-alt"></i></a>
                     }
                 </td>
 
@@ -30,4 +30,4 @@
         }
     </tbody>
 </table>
-<a class="btn btn-primary text-white" onclick="showInPopup('/Settings/AddPersonRole', 'Add person role')">Add <i class="fa fa-plus"></i></a>
+<a class="btn btn-primary text-white" onclick="showInPopup('/CargoTypes/AddCargoType', 'Add cargo type')">Add <i class="fa fa-plus"></i></a>

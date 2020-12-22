@@ -18,17 +18,17 @@
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
-        public CargoType Type { get; set; }
+        public virtual CargoType Type { get; set; }
 
         [ForeignKey(nameof(VehicleType))]
         public int VehicleTypeId { get; set; }
 
-        public VehicleType VehicleType { get; set; }
+        public virtual VehicleType VehicleType { get; set; }
 
         [ForeignKey(nameof(LoadingBody))]
         public int LoadingBodyId { get; set; }
 
-        public VehicleLoadingBody LoadingBody { get; set; }
+        public virtual VehicleLoadingBody LoadingBody { get; set; }
 
         [MaxLength(200)]
         public string Name { get; set; }

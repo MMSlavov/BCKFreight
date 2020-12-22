@@ -5,7 +5,7 @@
 
     using BCKFreightTMS.Data.Common.Models;
 
-    public class CargoType : BaseDeletableModel<int>
+    public class CargoType : SettingModel
     {
         public CargoType()
         {
@@ -14,7 +14,7 @@
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
         public virtual ICollection<Cargo> Cargos { get; set; }
     }

@@ -1,34 +1,43 @@
-﻿@model BCKFreightTMS.Web.ViewModels.Contacts.CompanyViewModel
+﻿@model System.Collections.Generic.Dictionary<string, string>
 
 @{
-    Layout = null;
+    this.Layout = null;
 }
 
-<!DOCTYPE html>
+@*<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CompanyDetails</title>
 </head>
-<body>
+<body>*@
 
 <div>
     <dl class="row">
-        <dt class="col-sm-3 text-right">
+        @foreach (var (name, data) in Model.Skip(1))
+        {
+            <dt class="col-sm-3 text-right">
+                @name
+            </dt>
+            <dd class="col-sm-9">
+                @data
+            </dd>
+        }
+        @*<dt class="col-sm-3 text-right">
             Name
         </dt>
         <dd class="col-sm-9">
             @Model.Name
         </dd>
         <dt class="col-sm-3 text-right">
-            TaxCountry
+            Tax country
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.TaxCountryName)
         </dd>
         <dt class="col-sm-3 text-right">
-            TaxNumber
+            Tax number
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.TaxNumber)
@@ -50,11 +59,9 @@
         </dt>
         <dd class="col-sm-9">
             @Html.DisplayFor(model => model.ComunicatorsDetails)
-        </dd>
+        </dd>*@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model["Id"]">Edit</a>
 </div>
-</body>
-</html>

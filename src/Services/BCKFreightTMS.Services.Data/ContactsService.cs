@@ -1,12 +1,15 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Contacts;
+    using Microsoft.AspNetCore.Http;
 
     public class ContactsService : IContactsService
     {
@@ -80,9 +83,9 @@
             return company.Id;
         }
 
-        public PersonInputModel GetPersonInputModel()
+        public PersonInputModel GetPersonInputModel(PersonInputModel model = null)
         {
-            var viewModel = new PersonInputModel();
+            var viewModel = model ?? new PersonInputModel();
             viewModel.CompanyItems = this.companiesRepository.AllAsNoTracking()
                                                    .Select(c => new System.Collections.Generic.KeyValuePair<string, string>(c.Id, c.Name))
                                                    .ToList();
@@ -121,7 +124,7 @@
         public IEnumerable<AllContactsViewModel> GetAll()
         {
             var contacts = new List<AllContactsViewModel>();
-            contacts.AddRange(this.peopleRepository.All().Select(p => new AllContactsViewModel
+            contacts.AddRange(this.peopleRepository.AllAsNoTracking().Select(p => new AllContactsViewModel
             {
                 Id = p.Id,
                 Name = p.FirstName + " " + p.LastName,
@@ -130,7 +133,7 @@
                 Address = p.Company.Address.Address.StreetLine,
             }).ToArray());
 
-            contacts.AddRange(this.companiesRepository.All().Select(c => new AllContactsViewModel
+            contacts.AddRange(this.companiesRepository.AllAsNoTracking().Select(c => new AllContactsViewModel
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -140,6 +143,37 @@
             }).ToArray());
 
             return contacts;
+        }
+
+        public object ProcessDataTableRequest(HttpRequest request)
+        {
+            var draw = request.Form["draw"].FirstOrDefault();
+            var start = request.Form["start"].FirstOrDefault();
+            var length = request.Form["length"].FirstOrDefault();
+            var sortColumn = request.Form["columns[" + request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDirection = request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = request.Form["search[value]"].FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+            var contactsData = this.GetAll().AsQueryable();
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+            {
+                contactsData = contactsData.OrderBy(sortColumn + " " + sortColumnDirection);
+            }
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                contactsData = contactsData.Where(m => m.Name.Contains(searchValue)
+                                            || m.Type.Contains(searchValue)
+                                            || m.Contacts.Contains(searchValue)
+                                            || m.Address.Contains(searchValue));
+            }
+
+            recordsTotal = contactsData.Count();
+            var data = contactsData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return jsonData;
         }
     }
 }

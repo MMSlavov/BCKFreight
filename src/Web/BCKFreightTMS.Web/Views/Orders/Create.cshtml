@@ -16,14 +16,18 @@
                 <div class="form-group">
                     <label asp-for="CompanyFromId" class="control-label">Client company</label>
                     <select asp-for="CompanyFromId" class="form-control" asp-items="companyItems"></select>
+                    <span asp-validation-for="CompanyFromId" class="text-danger"></span>
+
                 </div>
                 <div class="form-group">
                     <label asp-for="PriceNetIn" class="control-label">Price</label>
                     <input asp-for="PriceNetIn" class="form-control col-3" />
+                    <span asp-validation-for="PriceNetIn" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ContactFromId" class="control-label">Contact</label>
                     <select asp-for="ContactFromId" id="contactFrom" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))"></select>
+                    <span asp-validation-for="ContactFromId" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group border border-dark rounded col-6 p-2">
@@ -31,22 +35,27 @@
                 <div class="form-group">
                     <label asp-for="CompanyToId" class="control-label">Carrier company</label>
                     <select asp-for="CompanyToId" class="form-control" asp-items="companyItems"></select>
+                    <span asp-validation-for="CompanyToId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PriceNetOut" class="control-label">Price</label>
                     <input asp-for="PriceNetOut" class="form-control col-3" />
+                    <span asp-validation-for="PriceNetOut" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ContactToId" class="control-label">Contact</label>
                     <select asp-for="ContactToId" id="contactTo" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))"></select>
+                    <span asp-validation-for="ContactToId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="VehicleId" class="control-label">Vehicle</label>
                     <select asp-for="VehicleId" id="vehicle" class="form-control" asp-items="@(new SelectList(string.Empty, "VehicleId", "VehicleNumber"))"></select>
+                    <span asp-validation-for="VehicleId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="DriverId" class="control-label">Driver</label>
                     <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))"></select>
+                    <span asp-validation-for="DriverId" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -57,14 +66,17 @@
                     <div class="form-group">
                         <label asp-for="CargoName" class="control-label">Cargo name</label>
                         <input asp-for="CargoName" class="form-control col-10" placeholder="Cargo name" />
+                        <span asp-validation-for="CargoName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Type</label>
                         <select asp-for="CargoTypeId" class="form-control col-8" asp-items="cargoTypeItems"></select>
+                        <span asp-validation-for="CargoTypeId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="LoadingBodyId" class="control-label">Required loading body</label>
                         <select asp-for="LoadingBodyId" class="form-control col-8" asp-items="loadingBodyItems"></select>
+                        <span asp-validation-for="LoadingBodyId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Details" class="control-label"></label>
@@ -130,25 +142,30 @@
                         <div class="form-group col-7">
                             <label asp-for="LoadingCity" class="control-label">City</label>
                             <input asp-for="LoadingCity" class="form-control" placeholder="City name" />
+                            <span asp-validation-for="LoadingCity" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="LoadingPostcode" class="control-label">Post code</label>
                             <input asp-for="LoadingPostcode" class="form-control" placeholder="Code" />
+                            <span asp-validation-for="LoadingPostcode" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label asp-for="LoadingState" class="control-label">State</label>
                             <input asp-for="LoadingState" class="form-control" placeholder="State name" />
+                            <span asp-validation-for="LoadingState" class="text-danger"></span>
                         </div>
                         <div class="form-group col-6">
                             <label asp-for="LoadingArea" class="control-label">Area</label>
                             <input asp-for="LoadingArea" class="form-control" placeholder="Area name" />
+                            <span asp-validation-for="LoadingArea" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="LoadingStreetLine" class="control-label">Street line</label>
                         <input asp-for="LoadingStreetLine" class="form-control" placeholder="Street and number" />
+                        <span asp-validation-for="LoadingStreetLine" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -170,25 +187,30 @@
                         <div class="form-group col-7">
                             <label asp-for="UnloadingCity" class="control-label">City</label>
                             <input asp-for="UnloadingCity" class="form-control" placeholder="City name" />
+                            <span asp-validation-for="UnloadingCity" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="UnloadingPostcode" class="control-label">Post code</label>
                             <input asp-for="UnloadingPostcode" class="form-control" placeholder="Code" />
+                            <span asp-validation-for="UnloadingPostcode" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label asp-for="UnloadingState" class="control-label">State</label>
                             <input asp-for="UnloadingState" class="form-control" placeholder="State name" />
+                            <span asp-validation-for="UnloadingState" class="text-danger"></span>
                         </div>
                         <div class="form-group col-6">
                             <label asp-for="LoadingArea" class="control-label">Area</label>
                             <input asp-for="LoadingArea" class="form-control" placeholder="Area name" />
+                            <span asp-validation-for="LoadingArea" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="UnloadingStreetLine" class="control-label">Street line</label>
                         <input asp-for="UnloadingStreetLine" class="form-control" placeholder="Street and number" />
+                        <span asp-validation-for="UnloadingStreetLine" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">

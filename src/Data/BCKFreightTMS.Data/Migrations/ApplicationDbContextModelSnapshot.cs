@@ -1552,7 +1552,7 @@ namespace BCKFreightTMS.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("BCKFreightTMS.Data.Models.PersonRole", "Role")
-                        .WithMany()
+                        .WithMany("People")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1744,6 +1744,11 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("ContactOrdersTo");
 
                     b.Navigation("DriverOrders");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.PersonRole", b =>
+                {
+                    b.Navigation("People");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.TaxCountry", b =>

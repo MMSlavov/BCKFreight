@@ -19,27 +19,27 @@
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
-        public VehicleType Type { get; set; }
+        public virtual VehicleType Type { get; set; }
 
         [ForeignKey(nameof(LoadingBody))]
         public int LoadingBodyId { get; set; }
 
-        public VehicleLoadingBody LoadingBody { get; set; }
+        public virtual VehicleLoadingBody LoadingBody { get; set; }
 
         [ForeignKey(nameof(Driver))]
         public string DriverId { get; set; }
 
-        public Person Driver { get; set; }
+        public virtual Person Driver { get; set; }
 
         [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         [ForeignKey(nameof(Trailer))]
         public string TrailerId { get; set; }
 
-        public Vehicle Trailer { get; set; }
+        public virtual Vehicle Trailer { get; set; }
 
         [Required]
         [MaxLength(10)]

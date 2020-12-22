@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -153,20 +154,33 @@
                 return this.Json(new { isValid = false, html = this.View(input) });
             }
 
-            //var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //var callbackUrl = this.Url.Page(
+            // var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+            // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            // var callbackUrl = this.Url.Page(
             //    "/Account/ConfirmEmail",
             //    pageHandler: null,
             //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
             //    protocol: this.Request.Scheme);
 
-            //await this.emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
+            // await this.emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
             //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
             await this.userManager.AddToRoleAsync(user, RoleNames.User.ToString());
 
             return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("Index", "Users") });
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await this.userManager.FindByIdAsync(id);
+            if (user is null)
+            {
+                this.ModelState.AddModelError(string.Empty, "User do not exist.");
+            }
+
+            this.users.Delete(user);
+            await this.users.SaveChangesAsync();
+
+            return this.RedirectToAction(GlobalConstants.Index);
         }
 
         private async Task<List<string>> GetUserRoles(ApplicationUser user)

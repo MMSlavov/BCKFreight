@@ -1,6 +1,4 @@
-﻿
-
-<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4">
+﻿<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4">
     <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
         <img src="~/img/logo_full2.svg" class="img-fluid"
         style="max-width: 75%">
@@ -8,19 +6,22 @@
     </a>
 
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-around">
             @if (User.Identity.IsAuthenticated)
             {
-                <div class="image">
+                <div class="image pl-3">
                     <img src="~/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
-                        <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index">@(this.User.Identity.Name)</a>
+                <div class="info mr-2 pl-0 pr-2 text-white">
+                        @this.User.Identity.Name
+                </div>
+                <div class="info pl-4">
+                        <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user-cog"></i></a>
                 </div>
             }
             else
             {
-                <div class="info">
+                <div class="info mr-2">
                     <a class="d-block">Hi Guest!</a>
                 </div>
             }
@@ -30,7 +31,7 @@
                 @if (User.Identity.IsAuthenticated && this.User.IsInRole("User"))
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home", "index", "active")">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home", null, "active")">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
@@ -61,8 +62,8 @@
                     </li>
                     @if (this.User.IsInRole("SuperUser"))
                     {
-                        <li class="nav-item has-treeview @Url.MakeActiveClass("users", null, "menu-open")">
-                            <a href="#" class="nav-link @Url.MakeActiveClass("users", "index", "active")">
+                        <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "users", "settings" }, "menu-open")">
+                            <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "users", "settings" }, "active")">
                               <i class="nav-icon fas fa-cog"></i>
                               <p>
                                 Setings
@@ -71,9 +72,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users", "index", "active")">
+                                    <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users", null, "active")">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>Users</p>
+                                    </a>
+                                    <a asp-area="" asp-controller="Settings" asp-action="Index" class="nav-link @Url.MakeActiveClass("settings", null, "active")">
+                                        <i class="nav-icon fas fa-clipboard-check"></i>
+                                        <p>Configuration</p>
                                     </a>
                                 </li>
                             </ul>

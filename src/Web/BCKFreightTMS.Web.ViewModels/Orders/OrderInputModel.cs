@@ -7,7 +7,7 @@
     public class OrderInputModel
     {
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+\.\d{2}$")]
+        [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetIn { get; set; }
 
@@ -19,7 +19,7 @@
         public string ContactFromId { get; set; }
 
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+\.\d{2}$")]
+        [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetOut { get; set; }
 
@@ -41,18 +41,25 @@
 
         public int CargoTypeId { get; set; }
 
+        [Range(0, 9999999999.99)]
         public double Lenght { get; set; }
 
+        [Range(0, 9999999999.99)]
         public double Width { get; set; }
 
+        [Range(0, 9999999999.99)]
         public double Height { get; set; }
 
+        [Range(0, 9999999999.99)]
         public decimal WeightGross { get; set; }
 
+        [Range(0, 9999999999.99)]
         public decimal WeightNet { get; set; }
 
+        [Range(0, 9999999999.99)]
         public decimal Cubature { get; set; }
 
+        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
         public string Details { get; set; }
@@ -61,6 +68,7 @@
         public string LoadingStreetLine { get; set; }
 
         [MaxLength(20)]
+        [RegularExpression(@"^[A-Z\d-]{2,20}$", ErrorMessage = "Invalid postcode.")]
         public string LoadingPostcode { get; set; }
 
         [MaxLength(200)]
@@ -93,7 +101,7 @@
         [MaxLength(200)]
         public string UnloadingArea { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime, ErrorMessage = "Invalid datetime.")]
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy hh}")]
         public DateTime UnloadingUntil { get; set; }
 

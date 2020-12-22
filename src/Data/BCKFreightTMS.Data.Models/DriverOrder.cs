@@ -10,12 +10,12 @@
         [Required]
         public string DriverId { get; set; }
 
-        public Person Driver { get; set; }
+        public virtual Person Driver { get; set; }
 
         [Required]
         public string OrderId { get; set; }
 
-        public OrderTo Order { get; set; }
+        public virtual OrderTo Order { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

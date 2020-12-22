@@ -20,12 +20,12 @@
         [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         [ForeignKey(nameof(Role))]
         public int RoleId { get; set; }
 
-        public PersonRole Role { get; set; }
+        public virtual PersonRole Role { get; set; }
 
         [Required]
         [MaxLength(80)]
@@ -39,7 +39,7 @@
 
         public int ComunicatorsId { get; set; }
 
-        public Comunicators Comunicators { get; set; }
+        public virtual Comunicators Comunicators { get; set; }
 
         public virtual ICollection<OrderTo> ContactOrdersTo { get; set; }
 

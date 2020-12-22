@@ -1,23 +1,25 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Administration.Controllers
 {
-    using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Web.ViewModels.Administration.Dashboard;
+    using System.Threading.Tasks;
 
+    using BCKFreightTMS.Services;
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController
     {
-        private readonly ISettingsService settingsService;
+        private CompaniesManagerService companiesMan;
 
-        public DashboardController(ISettingsService settingsService)
+        public DashboardController()
         {
-            this.settingsService = settingsService;
+            this.companiesMan = new CompaniesManagerService();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var viewModel = new IndexViewModel { SettingsCount = this.settingsService.GetCount(), };
-            return this.View(viewModel);
+            await this.companiesMan.GetJsonCompaniesAsync(@"wwwroot\data\20200930.json");
+            var companies = this.companiesMan.Companies;
+            this.ViewData["companies"] = companies;
+            return this.View();
         }
     }
 }

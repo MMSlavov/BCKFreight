@@ -1,0 +1,11 @@
+﻿<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a asp-action="Index" class="nav-link @Url.MakeActiveClass("settings", "index", "active")">Person roles</a>
+    </li>
+    <li class="nav-item">
+        <a asp-action="CargoTypes" class="nav-link @Url.MakeActiveClass("settings", "cargotypes", "active")">Cargo types</a>
+    </li>
+    <li class="nav-item">
+        <a asp-action="LoadingBodies" class="nav-link @Url.MakeActiveClass("settings", "loadingbodies", "active")">Loading bodies</a>
+    </li>
+</ul>

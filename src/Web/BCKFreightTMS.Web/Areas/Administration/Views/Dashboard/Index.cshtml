@@ -1,7 +1,69 @@
-﻿@model BCKFreightTMS.Web.ViewModels.Administration.Dashboard.IndexViewModel
+﻿@using BCKFreightTMS.Services
 @{
     this.ViewData["Title"] = "Admin dashboard";
+    this.ViewData["Title"] = "Home Page";
+    var companies = this.ViewData["companies"] as List<CompanyInfo>;
 }
 
-<h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+<hr />
+<cache expires-after="TimeSpan.FromMinutes(60)">
+    <table class="table table-bordered table-striped table-hover" id="contacts_data">
+        <thead style="margin-bottom: 0px;">
+            <tr>
+                <th>
+                    Legal Form
+                </th>
+                <th>
+                    Company Name
+                </th>
+                <th>
+                    UIC
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var company in companies)
+            {
+                <tr>
+                    <td>
+                        @Html.Raw(company.LegalForm)
+                    </td>
+                    <td>
+                        @Html.Raw(company.CompanyName)
+                    </td>
+                    <td>
+                        @company.UIC
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</cache>
+
+@section Scripts{
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#contacts_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+            });
+        });
+    </script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+}

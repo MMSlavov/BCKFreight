@@ -11,7 +11,7 @@
         [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         [MaxLength(100)]
         public string BankName { get; set; }

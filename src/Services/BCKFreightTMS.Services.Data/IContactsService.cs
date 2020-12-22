@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Web.ViewModels.Contacts;
+    using Microsoft.AspNetCore.Http;
 
     public interface IContactsService
     {
@@ -13,6 +14,8 @@
 
         Task<string> AddCompanyAsync(CompanyInputModel input);
 
-        PersonInputModel GetPersonInputModel();
+        PersonInputModel GetPersonInputModel(PersonInputModel model = null);
+
+        public object ProcessDataTableRequest(HttpRequest request);
     }
 }

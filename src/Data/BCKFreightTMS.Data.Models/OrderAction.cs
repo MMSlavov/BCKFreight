@@ -12,19 +12,19 @@
         [ForeignKey(nameof(Order))]
         public string OrderId { get; set; }
 
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
 
         [Required]
         [ForeignKey(nameof(Address))]
         public int AddressId { get; set; }
 
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
 
         [Required]
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
 
-        public ActionType Type { get; set; }
+        public virtual ActionType Type { get; set; }
 
         public DateTime Until { get; set; }
 

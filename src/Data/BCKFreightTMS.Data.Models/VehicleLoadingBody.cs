@@ -5,7 +5,7 @@
 
     using BCKFreightTMS.Data.Common.Models;
 
-    public class VehicleLoadingBody : BaseDeletableModel<int>
+    public class VehicleLoadingBody : SettingModel
     {
         public VehicleLoadingBody()
         {
@@ -15,7 +15,7 @@
 
         [Required]
         [MaxLength(80)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }
 

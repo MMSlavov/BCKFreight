@@ -17,5 +17,9 @@
         PersonInputModel GetPersonInputModel(PersonInputModel model = null);
 
         public object ProcessDataTableRequest(HttpRequest request);
+
+        public Dictionary<string, string> GetContactDetails(string id);
+
+        public Task<bool> DeleteAsync(string id);
     }
 }

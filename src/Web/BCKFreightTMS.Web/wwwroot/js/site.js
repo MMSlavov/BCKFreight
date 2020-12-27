@@ -84,7 +84,7 @@ jQueryAjaxBtnGet = (url) => {
 
 function AddSelectOption ()
 {
-    var item = new Option("Select", "", true);
+    var item = new Option("Select", "", true, true);
     $(item).html("Select");
     $('select').append(item);
 };

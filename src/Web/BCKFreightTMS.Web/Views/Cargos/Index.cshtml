@@ -28,9 +28,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.WeightGross)
                 </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.WeightNet)
-                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Cubature)
                 </th>
@@ -62,16 +59,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.WeightGross)
                     </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.WeightNet)
-                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Cubature)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
-                    <td class="text-center" style="width:15%">
+                    <td class="text-center" style="width:auto">
                         @*<a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
                         <a href="javascript:void(0);" onclick="showInPopup('Carsgos/Details/@item.Id', 'Details')" title="Details">
                             <span>
@@ -85,7 +79,7 @@
                                     { "id", item.Id}
                                 };
                         }*@
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="pl-3 fas fa-trash-alt"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

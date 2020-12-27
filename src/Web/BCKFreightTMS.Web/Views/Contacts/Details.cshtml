@@ -4,62 +4,20 @@
     this.Layout = null;
 }
 
-@*<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CompanyDetails</title>
-</head>
-<body>*@
-
 <div>
     <dl class="row">
         @foreach (var (name, data) in Model.Skip(1))
         {
-            <dt class="col-sm-3 text-right">
-                @name
-            </dt>
-            <dd class="col-sm-9">
-                @data
-            </dd>
+            if (data != null)
+            {
+                <dt class="col-sm-3 text-right">
+                    @name
+                </dt>
+                <dd class="col-sm-9">
+                    @data
+                </dd>
+            }
         }
-        @*<dt class="col-sm-3 text-right">
-            Name
-        </dt>
-        <dd class="col-sm-9">
-            @Model.Name
-        </dd>
-        <dt class="col-sm-3 text-right">
-            Tax country
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.TaxCountryName)
-        </dd>
-        <dt class="col-sm-3 text-right">
-            Tax number
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.TaxNumber)
-        </dd>
-        <dt class="col-sm-3 text-right">
-            Address
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.AddressAddressStreetLine)
-        </dd>
-        <dt class="col-sm-3 text-right">
-            Mobile
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.ComunicatorsMobile1)
-        </dd>
-        <dt class="col-sm-3 text-right">
-            Details
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.ComunicatorsDetails)
-        </dd>*@
     </dl>
 </div>
 <div>

@@ -108,8 +108,8 @@
                         <td class="text-bold">
                             @item.Until.ToLocalTime().ToString("dddd, dd MMMM yyyy")
                         </td>
-                        <td>
-                            <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderId" class="btn btn-@(item.IsFinished?"green":"primary") @(item.IsFinished?"disabled":null)">@(item.IsFinished ? "Finished" : "Active")</a>
+                        <td class="text-center">
+                            <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderId" class="btn btn-@(item.IsFinished?"success":"primary") @(item.IsFinished?"disabled":null)">@(item.IsFinished ? "Finished" : "Active")</a>
                         </td>
                     </tr>
                 }

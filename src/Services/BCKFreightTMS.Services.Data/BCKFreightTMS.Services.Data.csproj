@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BCKFreightTMS.Common\BCKFreightTMS.Common.csproj" />
     <ProjectReference Include="..\..\Data\BCKFreightTMS.Data.Common\BCKFreightTMS.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\BCKFreightTMS.Data.Models\BCKFreightTMS.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\BCKFreightTMS.Web.ViewModels\BCKFreightTMS.Web.ViewModels.csproj" />

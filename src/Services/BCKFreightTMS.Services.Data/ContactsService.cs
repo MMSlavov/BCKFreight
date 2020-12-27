@@ -127,22 +127,68 @@
             contacts.AddRange(this.peopleRepository.AllAsNoTracking().Select(p => new AllContactsViewModel
             {
                 Id = p.Id,
-                Name = p.FirstName + " " + p.LastName,
+                Name = (p.FirstName == null || p.LastName == null) ? "-" : p.FirstName + " " + p.LastName,
                 Type = nameof(Person),
-                Contacts = p.Comunicators.Email1 ?? p.Comunicators.Mobile1,
-                Address = p.Company.Address.Address.StreetLine,
+                Contacts = p.Comunicators.Email1 ?? p.Comunicators.Mobile1 ?? "-",
+                Address = p.Company.Address.Address.StreetLine ?? "-",
             }).ToArray());
 
             contacts.AddRange(this.companiesRepository.AllAsNoTracking().Select(c => new AllContactsViewModel
             {
                 Id = c.Id,
-                Name = c.Name,
+                Name = c.Name ?? "-",
                 Type = nameof(Company),
-                Contacts = c.Comunicators.Email1 ?? c.Comunicators.Mobile1,
-                Address = c.Address.Address.StreetLine,
+                Contacts = c.Comunicators.Email1 ?? c.Comunicators.Mobile1 ?? "-",
+                Address = c.Address.Address.StreetLine ?? "-",
             }).ToArray());
 
             return contacts;
+        }
+
+        public Dictionary<string, string> GetContactDetails(string id)
+        {
+            var data = new Dictionary<string, string>();
+            if (this.companiesRepository.AllAsNoTracking().Any(c => c.Id == id))
+            {
+                var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == id);
+                data.Add("Id", company.Id);
+                data.Add("Name", company.Name);
+                data.Add("Tax country", company.TaxCountry.Name);
+                data.Add("Tax number", company.TaxNumber);
+                data.Add("Address", company.Address.Address.StreetLine);
+                data.Add("Mobile", company.Comunicators is null ? null : company.Comunicators.Mobile1);
+                data.Add("Details", company.Comunicators is null ? null : company.Comunicators.Details);
+            }
+            else if (this.peopleRepository.AllAsNoTracking().Any(p => p.Id == id))
+            {
+                var person = this.peopleRepository.All().FirstOrDefault(p => p.Id == id);
+                data.Add("Id", person.Id);
+                data.Add("First name", person.FirstName);
+                data.Add("Last name", person.LastName);
+                data.Add("Birthday", person.BirthDate.ToLocalTime().ToShortDateString());
+                data.Add("Mobile", person.Comunicators is null ? null : person.Comunicators.Mobile1);
+            }
+
+            return data;
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            int result = default;
+            if (this.companiesRepository.AllAsNoTracking().Any(c => c.Id == id))
+            {
+                var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == id);
+                this.companiesRepository.Delete(company);
+                result = await this.companiesRepository.SaveChangesAsync();
+            }
+            else if (this.peopleRepository.AllAsNoTracking().Any(p => p.Id == id))
+            {
+                var person = this.peopleRepository.All().FirstOrDefault(p => p.Id == id);
+                this.peopleRepository.Delete(person);
+                result = await this.peopleRepository.SaveChangesAsync();
+            }
+
+            return result > 0;
         }
 
         public object ProcessDataTableRequest(HttpRequest request)
@@ -164,10 +210,10 @@
 
             if (!string.IsNullOrEmpty(searchValue))
             {
-                contactsData = contactsData.Where(m => m.Name.Contains(searchValue)
-                                            || m.Type.Contains(searchValue)
-                                            || m.Contacts.Contains(searchValue)
-                                            || m.Address.Contains(searchValue));
+                contactsData = contactsData.Where(m => m.Name.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)
+                                            || m.Type.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)
+                                            || m.Contacts.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase)
+                                            || m.Address.Contains(searchValue, StringComparison.InvariantCultureIgnoreCase));
             }
 
             recordsTotal = contactsData.Count();

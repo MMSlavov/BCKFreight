@@ -1,12 +1,9 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Common;
-    using BCKFreightTMS.Data.Common.Repositories;
-    using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Services.Mapping;
+    using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Cargos;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -14,35 +11,22 @@
     [Authorize(Roles = "User")]
     public class CargosController : Controller
     {
-        private readonly IDeletableEntityRepository<Cargo> cargos;
-        private readonly IDeletableEntityRepository<CargoType> types;
-        private readonly IDeletableEntityRepository<VehicleLoadingBody> loadingBodies;
+        private readonly ICargosService cargosService;
 
-        public CargosController(
-            IDeletableEntityRepository<Cargo> cargos,
-            IDeletableEntityRepository<CargoType> types,
-            IDeletableEntityRepository<VehicleLoadingBody> loadingBodies)
+        public CargosController(ICargosService cargosService)
         {
-            this.cargos = cargos;
-            this.types = types;
-            this.loadingBodies = loadingBodies;
+            this.cargosService = cargosService;
         }
 
         public IActionResult Index()
         {
-            var cargos = this.cargos.All().To<CargoListViewModel>().ToList();
+            var cargos = this.cargosService.GetAll<CargoListViewModel>();
             return this.View(cargos);
         }
 
         public IActionResult AddCargo()
         {
-            var model = new CargoInputModel();
-            model.TypeItems = this.types.AllAsNoTracking()
-                                       .Select(ct => new System.Collections.Generic.KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
-                                       .ToList();
-            model.LoadingBodyItems = this.loadingBodies.AllAsNoTracking()
-                                                    .Select(lb => new System.Collections.Generic.KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
-                                                    .ToList();
+            var model = this.cargosService.LoadInputModel();
             return this.View(model);
         }
 
@@ -51,30 +35,11 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.TypeItems = this.types.AllAsNoTracking()
-                           .Select(ct => new System.Collections.Generic.KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
-                           .ToList();
+                input = this.cargosService.LoadInputModel(input);
                 return this.View(input);
             }
 
-            var cargo = new Cargo
-            {
-                Name = input.Name,
-                TypeId = input.TypeId,
-                VehicleTypeId = null,
-                LoadingBodyId = input.LoadingBodyId == 0 ? null : input.LoadingBodyId,
-                Lenght = input.Lenght,
-                Width = input.Width,
-                Height = input.Height,
-                WeightGross = input.WeightGross,
-                WeightNet = input.WeightNet,
-                Cubature = input.Cubature,
-                Quantity = input.Quantity,
-                Details = input.Details,
-            };
-
-            await this.cargos.AddAsync(cargo);
-            await this.cargos.SaveChangesAsync();
+            await this.cargosService.AddCargoAsync(input);
 
             return this.RedirectToAction(GlobalConstants.Index);
         }

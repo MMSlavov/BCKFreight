@@ -1,16 +1,10 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
-    using BCKFreightTMS.Data.Common.Repositories;
-    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -19,22 +13,13 @@
     public class ContactsController : Controller
     {
         private readonly IContactsService contactsService;
-        private readonly IDeletableEntityRepository<Company> companies;
-        private readonly IDeletableEntityRepository<Person> people;
-        private readonly IDeletableEntityRepository<PersonRole> roles;
         private readonly ICompaniesManagerService companiesManager;
 
         public ContactsController(
             IContactsService contactsService,
-            IDeletableEntityRepository<Company> compRepo,
-            IDeletableEntityRepository<Person> peopRepo,
-            IDeletableEntityRepository<PersonRole> rolesRepo,
             ICompaniesManagerService companiesManager)
         {
             this.contactsService = contactsService;
-            this.companies = compRepo;
-            this.people = peopRepo;
-            this.roles = rolesRepo;
             this.companiesManager = companiesManager;
         }
 
@@ -97,45 +82,14 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (this.companies.AllAsNoTracking().Any(c => c.Id == id))
-            {
-                var company = this.companies.All().FirstOrDefault(c => c.Id == id);
-                this.companies.Delete(company);
-                await this.companies.SaveChangesAsync();
-            }
-            else if (this.people.AllAsNoTracking().Any(p => p.Id == id))
-            {
-                var person = this.people.All().FirstOrDefault(p => p.Id == id);
-                this.people.Delete(person);
-                await this.people.SaveChangesAsync();
-            }
+            await this.contactsService.DeleteAsync(id);
 
-            return this.Redirect("/Contacts");
+            return this.RedirectToAction("Contacts");
         }
 
         public IActionResult Details(string id)
         {
-            var data = new Dictionary<string, string>();
-            if (this.companies.AllAsNoTracking().Any(c => c.Id == id))
-            {
-                var company = this.companies.All().FirstOrDefault(c => c.Id == id);
-                data.Add("Id", company.Id);
-                data.Add("Name", company.Name);
-                data.Add("Tax country", company.TaxCountry.Name);
-                data.Add("Tax number", company.TaxNumber);
-                data.Add("Address", company.Address.Address.StreetLine);
-                data.Add("Mobile", company.Comunicators.Mobile1);
-                data.Add("Details", company.Comunicators.Details);
-            }
-            else if (this.people.AllAsNoTracking().Any(p => p.Id == id))
-            {
-                var person = this.people.All().FirstOrDefault(p => p.Id == id);
-                data.Add("Id", person.Id);
-                data.Add("First name", person.FirstName);
-                data.Add("Last name", person.LastName);
-                data.Add("Birthday", person.BirthDate.ToLocalTime().ToShortDateString());
-                data.Add("Mobile", person.Comunicators.Mobile1);
-            }
+            var data = this.contactsService.GetContactDetails(id);
 
             return this.View(data);
         }

@@ -72,9 +72,13 @@
             // Application services
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<IContactsService, ContactsService>();
+            services.AddTransient<ICargosService, CargosService>();
+            services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IVehiclesService, VehiclesService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
@@ -91,8 +95,9 @@
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+                app.UseDeveloperExceptionPage();
+
+                // app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
             else
             {

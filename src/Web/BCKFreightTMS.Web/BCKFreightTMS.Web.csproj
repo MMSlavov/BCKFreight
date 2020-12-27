@@ -45,7 +45,6 @@
     <ProjectReference Include="..\..\Services\BCKFreightTMS.Services.Mapping\BCKFreightTMS.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\BCKFreightTMS.Services.Messaging\BCKFreightTMS.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\BCKFreightTMS.Services\BCKFreightTMS.Services.csproj" />
-    <ProjectReference Include="..\BCKFreightTMS.Web.Infrastructure\BCKFreightTMS.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Web.ViewModels\BCKFreightTMS.Web.ViewModels.csproj" />
   </ItemGroup>
 

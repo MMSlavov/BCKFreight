@@ -6,6 +6,7 @@
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Settings;
     using Microsoft.AspNetCore.Authorization;
@@ -17,15 +18,18 @@
         private readonly IDeletableEntityRepository<PersonRole> perRoles;
         private readonly IDeletableEntityRepository<CargoType> cargoTypes;
         private readonly IDeletableEntityRepository<VehicleLoadingBody> loadBodies;
+        private readonly ISettingsService settingsService;
 
         public SettingsController(
             IDeletableEntityRepository<PersonRole> perRoles,
             IDeletableEntityRepository<CargoType> cargoTypes,
-            IDeletableEntityRepository<VehicleLoadingBody> loadBodies)
+            IDeletableEntityRepository<VehicleLoadingBody> loadBodies,
+            ISettingsService settingsService)
         {
             this.perRoles = perRoles;
             this.cargoTypes = cargoTypes;
             this.loadBodies = loadBodies;
+            this.settingsService = settingsService;
         }
 
         public IActionResult Index()
@@ -48,24 +52,13 @@
                 return this.Json(new { isValid = false, html = this.View(input) });
             }
 
-            var role = new PersonRole
-            {
-                Name = input.Name,
-            };
-
-            await this.perRoles.AddAsync(role);
-            await this.perRoles.SaveChangesAsync();
+            await this.settingsService.AddPersonRoleAsync(input);
             return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("Index", "Settings") });
         }
 
         public async Task<IActionResult> DeletePersonRole(int id)
         {
-            var role = this.perRoles.All().FirstOrDefault(r => r.Id == id);
-            if (role is not null)
-            {
-                this.perRoles.Delete(role);
-                await this.perRoles.SaveChangesAsync();
-            }
+            await this.settingsService.DeletePersonRoleAsync(id);
 
             return this.RedirectToAction(GlobalConstants.Index);
         }
@@ -79,7 +72,7 @@
         [HttpGet("/CargoTypes/AddCargoType")]
         public IActionResult AddCargoType()
         {
-            var model = new SettingInputModel { Action = "AddCargoType" };
+            var model = new SettingInputModel { Action = nameof(this.AddCargoType) };
             return this.View("AddSetting", model);
         }
 
@@ -91,24 +84,13 @@
                 return this.Json(new { isValid = false, html = this.View(input) });
             }
 
-            var type = new CargoType
-            {
-                Name = input.Name,
-            };
-
-            await this.cargoTypes.AddAsync(type);
-            await this.cargoTypes.SaveChangesAsync();
+            await this.settingsService.AddCargoTypeAsync(input);
             return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("CargoTypes", "Settings") });
         }
 
         public async Task<IActionResult> DeleteCargoType(int id)
         {
-            var type = this.cargoTypes.All().FirstOrDefault(r => r.Id == id);
-            if (type is not null)
-            {
-                this.cargoTypes.Delete(type);
-                await this.cargoTypes.SaveChangesAsync();
-            }
+            await this.settingsService.DeleteCargoTypeAsync(id);
 
             return this.RedirectToAction("CargoTypes");
         }
@@ -122,7 +104,7 @@
         [HttpGet("/LoadingBodies/AddLoadingBody")]
         public IActionResult AddLoadingBody()
         {
-            var model = new SettingInputModel { Action = "AddLoadingBody" };
+            var model = new SettingInputModel { Action = nameof(this.AddLoadingBody) };
             return this.View("AddSetting", model);
         }
 
@@ -134,24 +116,13 @@
                 return this.Json(new { isValid = false, html = this.View(input) });
             }
 
-            var body = new VehicleLoadingBody
-            {
-                Name = input.Name,
-            };
-
-            await this.loadBodies.AddAsync(body);
-            await this.loadBodies.SaveChangesAsync();
+            await this.settingsService.AddLoadingBodyAsync(input);
             return this.Json(new { isValid = true, redirectToUrl = this.Url.Action("LoadingBodies", "Settings") });
         }
 
         public async Task<IActionResult> DeleteLoadingBody(int id)
         {
-            var body = this.loadBodies.All().FirstOrDefault(b => b.Id == id);
-            if (body is not null)
-            {
-                this.loadBodies.Delete(body);
-                await this.loadBodies.SaveChangesAsync();
-            }
+            await this.settingsService.DeleteLoadingBodyAsync(id);
 
             return this.RedirectToAction("LoadingBodies");
         }

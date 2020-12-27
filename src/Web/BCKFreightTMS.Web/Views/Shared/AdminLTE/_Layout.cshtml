@@ -17,9 +17,7 @@
 
         <partial name="AdminLTE/_MainNavigation" />
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             @*<div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -35,46 +33,29 @@
                 </div>
             </div>
         </div>*@
-            <!-- Main content -->
             <div class="content">
-                <div class="container-fluid p-2" style="margin-top: 56px;">
+                <div id="layout_content" class="container-fluid p-2">
                 <partial name="_CookieConsentPartial" />
                     @RenderBody()
                 </div>
             </div>
-            <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+            <a id="back-to-top" href="#" class="btn btn-primary back-to-top" style="display: none" role="button" aria-label="Scroll to top">
                 <i class="fas fa-chevron-up"></i>
             </a>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="form-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+        <partial name="AdminLTE/_Modal">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <div class="p-3">
                 <h5>Title</h5>
                 <p>Sidebar content</p>
             </div>
         </aside>
-        <!-- Main Footer -->
+
         <partial name="AdminLTE/_Footer" />
     </div>
-    <!-- ./wrapper -->
-    <!-- REQUIRED SCRIPTS -->
     <partial name="AdminLTE/_Scripts" />
-    @this.RenderSection("Scripts", required: false)
+    @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

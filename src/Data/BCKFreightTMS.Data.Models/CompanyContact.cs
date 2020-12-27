@@ -15,7 +15,7 @@
         public string Phone { get; set; }
 
         [ForeignKey(nameof(Address))]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         public virtual Address Address { get; set; }
     }

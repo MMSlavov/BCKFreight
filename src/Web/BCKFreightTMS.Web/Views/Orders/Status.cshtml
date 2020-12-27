@@ -1,0 +1,144 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Orders.OrderStatusViewModel
+@{
+    this.Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    var actions = Model.Actions.ToList();
+    var actionTypeItems = this.Model.ActionTypeItems.ToDictionary(x => x.Key, y => y.Value);
+    var actionNFResItems = this.Model.ActionNotFinishedItems.Select(anf => new SelectListItem(anf.Value, anf.Key));
+}
+
+<h3 class="text-bold">Order status</h3>
+<hr class="mb-1" />
+<div class="container-fluid p-2">
+    <div class="row bg-gray-light p-2 border rounded d-flex">
+        <div class="col-3">
+            <dl class="row">
+                <dt class="text-right">
+                    Vehicle:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToVehicleName
+                </dd>
+                <dt class="text-right">
+                    Registration number:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToVehicleRegNumber
+                </dd>
+                <dt class="text-right">
+                    Trailer:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToVehicleRegNumber
+                </dd>
+            </dl>
+        </div>
+        <div class="col-3">
+            <dl class="row">
+                <dt class="text-right">
+                    Carrier:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToCompanyName
+                </dd>
+                <dt class="text-right">
+                    Company mobile:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToCompanyComunicatorsMobile1
+                </dd>
+            </dl>
+        </div>
+        <div class="col-3">
+            <dl class="row">
+                <dt class="text-right">
+                    Contact person:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToContactFirstName @Model.OrderToContactLastName
+                </dd>
+                <dt class="text-right">
+                    Contact mobile:&nbsp;&nbsp;
+                </dt>
+                <dd>
+                    @Model.OrderToContactComunicatorsMobile1
+                </dd>
+            </dl>
+        </div>
+        <div class="col-3">
+            <dl class="row">
+                @foreach (var (name, mobile) in Model.DriversMobiles)
+                {
+                    <dt class="text-right">
+                        Driver:&nbsp;&nbsp;
+                    </dt>
+                    <dd>
+                        @name
+                    </dd>
+                    <dt class="text-right">
+                        Driver mobile:&nbsp;&nbsp;
+                    </dt>
+                    <dd>
+                        @mobile
+                    </dd>
+                }
+            </dl>
+        </div>
+    </div>
+    <hr />
+    <div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post" class="p-2">
+            @for (int i = 0; i < actions.Count; i++)
+            {
+                <div class="form-group border rounded bg-gray-light col-6 p-2">
+                    <h5 class="control-label text-muted text-bold mr-3">@actionTypeItems[actions[i].TypeId.ToString()]</h5>
+                    <div class="col-8">
+                        <dl class="row mb-1">
+                            <dt class="text-right">
+                                Address:&nbsp;&nbsp;
+                            </dt>
+                            <dd>
+                                @actions[i].AddressCity, @actions[i].AddressStreetLine
+                            </dd>
+                            <dt class="text-right">
+                                Details:&nbsp;&nbsp;
+                            </dt>
+                            <dd class="col-6">
+                                @actions[i].Details
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input asp-for="@actions[i].IsFinnished" type="checkbox" id="remember" onchange='DisableReason(this, @i)'>
+                        <label>
+                            &nbsp;Finished
+                        </label>
+                    </div>
+                    <input asp-for="@actions[i].Id" hidden />
+                    <input asp-for="@Model.Id" hidden />
+                    <label class="control-label">Not finished reasons</label>
+                    <select asp-for="@actions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems"></select>
+                </div>
+            }
+            <div class="form-group">
+                <input asp-action="Status" type="submit" class="btn btn-primary" value="Update" />
+                <input asp-action="Finish" type="submit" class="btn btn-success" value="Finish" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(AddSelectOption);
+        function DisableReason(checkbox, i) {
+            var reason = document.getElementById("actions_" + i + "__NotFinishedReasonId");
+            if (checkbox.checked == false) {
+                reason.removeAttribute("disabled");
+            }
+            else {
+                reason.value = "";
+                reason.setAttribute("disabled", "disabled");
+            }
+        }
+    </script>
+ }

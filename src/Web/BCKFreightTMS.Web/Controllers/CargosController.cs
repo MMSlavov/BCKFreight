@@ -16,13 +16,16 @@
     {
         private readonly IDeletableEntityRepository<Cargo> cargos;
         private readonly IDeletableEntityRepository<CargoType> types;
+        private readonly IDeletableEntityRepository<VehicleLoadingBody> loadingBodies;
 
         public CargosController(
             IDeletableEntityRepository<Cargo> cargos,
-            IDeletableEntityRepository<CargoType> types)
+            IDeletableEntityRepository<CargoType> types,
+            IDeletableEntityRepository<VehicleLoadingBody> loadingBodies)
         {
             this.cargos = cargos;
             this.types = types;
+            this.loadingBodies = loadingBodies;
         }
 
         public IActionResult Index()
@@ -37,6 +40,9 @@
             model.TypeItems = this.types.AllAsNoTracking()
                                        .Select(ct => new System.Collections.Generic.KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
                                        .ToList();
+            model.LoadingBodyItems = this.loadingBodies.AllAsNoTracking()
+                                                    .Select(lb => new System.Collections.Generic.KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
+                                                    .ToList();
             return this.View(model);
         }
 
@@ -55,6 +61,8 @@
             {
                 Name = input.Name,
                 TypeId = input.TypeId,
+                VehicleTypeId = null,
+                LoadingBodyId = input.LoadingBodyId == 0 ? null : input.LoadingBodyId,
                 Lenght = input.Lenght,
                 Width = input.Width,
                 Height = input.Height,

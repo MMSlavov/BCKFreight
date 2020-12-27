@@ -10,6 +10,5 @@
     [Area("Administration")]
     public class AdministrationController : BaseController
     {
-
     }
 }

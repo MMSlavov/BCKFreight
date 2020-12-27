@@ -31,7 +31,7 @@
         public virtual Vehicle Vehicle { get; set; }
 
         [ForeignKey(nameof(Type))]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
 
         public virtual OrderType Type { get; set; }
 

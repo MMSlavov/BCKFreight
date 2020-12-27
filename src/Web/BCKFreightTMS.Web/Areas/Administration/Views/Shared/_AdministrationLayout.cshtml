@@ -1,0 +1,22 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        this.Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    }
+}
+
+<div class="p-2">
+    <div class="row">
+        <partial name="_AdministrationNav" />
+    </div>
+    <div class="content">
+        @RenderBody()
+    </div>
+</div>
+@section Scripts{ 
+    @await this.RenderSectionAsync("Scripts", required: false)
+}

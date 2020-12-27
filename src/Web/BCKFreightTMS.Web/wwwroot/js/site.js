@@ -82,9 +82,25 @@ jQueryAjaxBtnGet = (url) => {
     }
 }
 
-$(document).ready(function ()
+function AddSelectOption ()
 {
-    var item = new Option("Select", null, true, true);
+    var item = new Option("Select", "", true);
     $(item).html("Select");
     $('select').append(item);
+};
+
+$(document).ready(function () {
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    $('#back-to-top').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    });
 });

@@ -5,7 +5,6 @@
     this.Layout = null;
 }
 
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -13,15 +12,10 @@
     <title>BCKFreight | Registration Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="~/plugins/fontawesome-free-5.15.1-web/css/all.min.css" asp-append-version="true">
-    <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" asp-append-version="true">
-    <!-- icheck bootstrap -->
     <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css" asp-append-version="true">
-    <!-- Theme style -->
     <link rel="stylesheet" href="~/css/adminlte.min.css" asp-append-version="true">
-    <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" asp-append-version="true">
 </head>
 <body class="hold-transition register-page" style="
@@ -36,62 +30,106 @@
         </div>
 
         <div class="card">
-            <div class="card-body register-card-body">
+
+            <div class="card-body register-card-body pt-0">
                 @*<p class="login-box-msg">Register a new membership</p>*@
 
-                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <div class="row row-cols-2">
-                        <div class="mb-3 col col-6">
-                            <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="First name">
-                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                <form asp-route-returnUrl="@Model.ReturnUrl" id="regForm" method="post">
+                    <div class="tab">
+                        <div class="card-header text-center border-0">
+                            <h5>Personal</h5>
+                            <hr class="m-0"/>
                         </div>
-                        <div class="mb-3 col col-6">
-                            <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Last name">
-                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        <div class="row row-cols-2">
+                            <div class="mb-3 col col-6">
+                                <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="First name">
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 col col-6">
+                                <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Last name">
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-3">
-                        <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                        <div class="input-group mb-3">
+                            <input asp-for="Input.Email" type="email" class="form-control" placeholder="Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text rounded">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <div>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
                         </div>
-                        <div>
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        <div class="input-group mb-3">
+                            <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text rounded">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm password">
+                            <div class="input-group-append">
+                                <div class="input-group-text rounded">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                    <div class="tab" style="display:none">
+                        <div class="card-header text-center border-0">
+                            <h5>Company</h5>
+                            <hr class="m-0" />
+                        </div>
+                        <div class="mb-3 p-0 col col-10">
+                            <input asp-for="Input.CompanyName" type="text" class="form-control" placeholder="Company name">
+                            <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+                        </div>
+                        <div class="row row-cols-2">
+                            <div class="mb-3 col col-7">
+                                <input asp-for="Input.TaxCountry" type="text" class="form-control" placeholder="Tax country">
+                                <span asp-validation-for="Input.TaxCountry" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 col col-5">
+                                <input asp-for="Input.TaxNumber" type="text" class="form-control" placeholder="Tax number">
+                                <span asp-validation-for="Input.TaxNumber" class="text-danger"></span>
                             </div>
                         </div>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                        <div class="mb-3 p-0 col col-7">
+                            <input asp-for="Input.City" type="text" class="form-control" placeholder="City">
+                            <span asp-validation-for="Input.City" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3 p-0 col">
+                            <input asp-for="Input.StreetLine" type="text" class="form-control" placeholder="Street line">
+                            <span asp-validation-for="Input.StreetLine" class="text-danger"></span>
+                        </div>
+                        <div class="row row-cols-2">
+                            <div class="mb-3 col col-6">
+                                <input asp-for="Input.MOLFirstName" type="text" class="form-control" placeholder="MOL first name">
+                                <span asp-validation-for="Input.MOLFirstName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 col col-6">
+                                <input asp-for="Input.MOLLastName" type="text" class="form-control" placeholder="MOL last name">
+                                <span asp-validation-for="Input.MOLLastName" class="text-danger"></span>
                             </div>
                         </div>
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-end">
                         @*<div class="col-8">
-                <div class="icheck-primary">
-                    <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                    <label for="agreeTerms">
-                        I agree to the <a href="#">terms</a>
-                    </label>
-                </div>
-            </div>*@
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-block btn-primary">Register</button>
-                        </div>
+            <div class="icheck-primary">
+                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                <label for="agreeTerms">
+                    I agree to the <a href="#">terms</a>
+                </label>
+            </div>
+        </div>*@
+                        <button type="button" id="prevBtn" onclick='nextPrev(-1)' class="btn btn-secondary m-2">Personal</button>
+                        <button type="button" id="nextBtn" onclick='nextPrev(1)' class="btn btn-primary col-4 m-2">Next</button>
                     </div>
                 </form>
 
@@ -107,21 +145,53 @@
                     </a>
                 </div>*@
 
-                <a asp-area="Identity" asp-page="/Account/Login" class="text-center">I already have a membership</a>
+            <a asp-area="Identity" asp-page="/Account/Login" class="text-center">I am already registered</a>
             </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+        </div>
     </div>
-    <!-- /.register-box -->
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
-    <!-- jQuery -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
     <script src="~/js/adminlte.min.js"></script>
+    <script>
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the crurrent tab
+
+        function showTab(n) {
+            // This function will display the specified tab of the form...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Register";
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            //... and run a function that will display the correct step indicator:
+        }
+
+        function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form...
+            if (currentTab >= x.length) {
+                // ... the form gets submitted:
+                document.getElementById("regForm").submit();
+                return false;
+            }
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+        }
+    </script>
 </body>
 </html>
 

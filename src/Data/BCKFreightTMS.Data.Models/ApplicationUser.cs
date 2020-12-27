@@ -1,8 +1,8 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace BCKFreightTMS.Data.Models
+﻿namespace BCKFreightTMS.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using BCKFreightTMS.Data.Common.Models;
 
@@ -38,6 +38,11 @@ namespace BCKFreightTMS.Data.Models
 
         // Company entity
         public string AdminId { get; set; }
+
+        [ForeignKey(nameof(Company))]
+        public string CompanyId { get; set; }
+
+        public virtual Company Company { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

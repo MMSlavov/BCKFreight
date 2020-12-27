@@ -13,5 +13,7 @@
         public const string SystemEmail = "mmslavov00@gmail.com";
 
         public const string Index = "Index";
+
+        public const string JsonDataPath = @"wwwroot\data\{0}";
     }
 }

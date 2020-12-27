@@ -23,7 +23,7 @@
         public virtual Company Company { get; set; }
 
         [ForeignKey(nameof(Role))]
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
 
         public virtual PersonRole Role { get; set; }
 
@@ -37,7 +37,7 @@
 
         public DateTime BirthDate { get; set; }
 
-        public int ComunicatorsId { get; set; }
+        public int? ComunicatorsId { get; set; }
 
         public virtual Comunicators Comunicators { get; set; }
 

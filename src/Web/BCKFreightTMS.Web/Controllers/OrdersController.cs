@@ -25,6 +25,10 @@
         private readonly IDeletableEntityRepository<Person> people;
         private readonly IDeletableEntityRepository<Vehicle> vehicles;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDeletableEntityRepository<ActionNotFinishedReason> actionNFReasons;
+        private readonly IDeletableEntityRepository<OrderAction> orderActions;
+        private readonly IDeletableEntityRepository<ActionType> actionTypes;
+        private readonly IDeletableEntityRepository<OrderStatus> orderStatuses;
 
         public OrdersController(
             IDeletableEntityRepository<Company> companies,
@@ -33,7 +37,11 @@
             IDeletableEntityRepository<CargoType> cargoTypes,
             IDeletableEntityRepository<Person> people,
             IDeletableEntityRepository<Vehicle> vehicles,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IDeletableEntityRepository<ActionNotFinishedReason> actionNFReasons,
+            IDeletableEntityRepository<OrderAction> orderActions,
+            IDeletableEntityRepository<ActionType> actionTypes,
+            IDeletableEntityRepository<OrderStatus> orderStatuses)
         {
             this.companies = companies;
             this.orders = orders;
@@ -42,6 +50,10 @@
             this.people = people;
             this.vehicles = vehicles;
             this.userManager = userManager;
+            this.actionNFReasons = actionNFReasons;
+            this.orderActions = orderActions;
+            this.actionTypes = actionTypes;
+            this.orderStatuses = orderStatuses;
         }
 
         public IActionResult Index()
@@ -184,7 +196,7 @@
             orderFrom.AdminId = order.AdminId;
             order.OrderFrom = orderFrom;
             orderTo.AdminId = order.AdminId;
-            orderTo.Drivers.Add(new DriverOrder { OrderId = order.Id, DriverId = input.DriverId });
+            orderTo.Drivers.Add(new DriverOrder { OrderId = order.Id, DriverId = input.DriverId, });
             order.OrderTo = orderTo;
             loadingAction.AdminId = order.AdminId;
             loadingAction.Address.AdminId = order.AdminId;
@@ -195,6 +207,106 @@
 
             await this.orders.SaveChangesAsync();
             return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == id);
+            if (order is null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Order do not exist.");
+            }
+            else
+            {
+                this.orders.Delete(order);
+                foreach (var action in this.orderActions.All().Where(a => a.OrderId == id))
+                {
+                    this.orderActions.Delete(action);
+                }
+
+                await this.orders.SaveChangesAsync();
+            }
+
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        public IActionResult Status(string id)
+        {
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name == OrderStatusNames.Finished.ToString())
+            {
+                return this.RedirectToAction(GlobalConstants.Index);
+            }
+
+            var model = this.LoadOrderStatusModel(id);
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Status(OrderStatusViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(this.LoadOrderStatusModel(input.Id));
+            }
+
+            foreach (var actionInput in input.Actions)
+            {
+                var action = this.orderActions.All().FirstOrDefault(oa => oa.Id == actionInput.Id);
+                action.IsFinished = actionInput.IsFinnished;
+                if (actionInput.NotFinishedReasonId == 0)
+                {
+                    action.NotFinishedReason = null;
+                }
+                else
+                {
+                    action.NotFinishedReasonId = actionInput.NotFinishedReasonId;
+                }
+
+                this.orderActions.Update(action);
+            }
+
+            await this.orderActions.SaveChangesAsync();
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Finish(OrderStatusViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Status", this.LoadOrderStatusModel(input.Id));
+            }
+
+            if (input.Actions.Any(a => a.IsFinnished == false))
+            {
+                this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
+                return this.RedirectToAction("Status", this.LoadOrderStatusModel(input.Id));
+            }
+
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            order.StatusId = this.orderStatuses.AllAsNoTracking()
+                                               .FirstOrDefault(s => s.Name == OrderStatusNames.Finished.ToString())
+                                               .Id;
+            this.orders.Update(order);
+            await this.orders.SaveChangesAsync();
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        private OrderStatusViewModel LoadOrderStatusModel(string id)
+        {
+            var model = this.orders.All().Where(x => x.Id == id).To<OrderStatusViewModel>().FirstOrDefault();
+            model.ActionNotFinishedItems = this.actionNFReasons.AllAsNoTracking()
+                           .Select(ar => new System.Collections.Generic.KeyValuePair<string, string>(ar.Id.ToString(), ar.Name))
+                           .ToList();
+            model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
+               .Select(ar => new System.Collections.Generic.KeyValuePair<string, string>(ar.Id.ToString(), ar.Name))
+               .ToList();
+            model.Actions = this.orderActions.All()
+                                             .Where(oa => oa.OrderId == model.Id)
+                                             .To<ActionStatusInputModel>()
+                                             .ToList();
+            return model;
         }
     }
 }

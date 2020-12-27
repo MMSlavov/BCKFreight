@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using BCKFreightTMS.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-
-namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
+﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
+    using BCKFreightTMS.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+    using Microsoft.Extensions.Logging;
+
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IEmailSender emailSender;
+        private readonly ILogger<ExternalLoginModel> logger;
 
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
@@ -31,10 +29,10 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
-            this._signInManager = signInManager;
-            this._userManager = userManager;
-            this._logger = logger;
-            this._emailSender = emailSender;
+            this.signInManager = signInManager;
+            this.userManager = userManager;
+            this.logger = logger;
+            this.emailSender = emailSender;
         }
 
         [BindProperty]
@@ -63,7 +61,7 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
         {
             // Request a redirect to the external login provider.
             var redirectUrl = this.Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
-            var properties = this._signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
@@ -75,7 +73,8 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
                 this.ErrorMessage = $"Error from external provider: {remoteError}";
                 return this.RedirectToPage("./Login", new {ReturnUrl = returnUrl });
             }
-            var info = await this._signInManager.GetExternalLoginInfoAsync();
+
+            var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 this.ErrorMessage = "Error loading external login information.";
@@ -83,12 +82,13 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await this._signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await this.signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
-                this._logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                this.logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return this.LocalRedirect(returnUrl);
             }
+
             if (result.IsLockedOut)
             {
                 return this.RedirectToPage("./Lockout");
@@ -102,9 +102,10 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
                 {
                     this.Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     };
                 }
+
                 return this.Page();
             }
         }
@@ -112,8 +113,9 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? this.Url.Content("~/");
+
             // Get the information about the user from the external login provider
-            var info = await this._signInManager.GetExternalLoginInfoAsync();
+            var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 this.ErrorMessage = "Error loading external login information during confirmation.";
@@ -124,16 +126,16 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
 
-                var result = await this._userManager.CreateAsync(user);
+                var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await this._userManager.AddLoginAsync(user, info);
+                    result = await this.userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        this._logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        this.logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                        var userId = await this._userManager.GetUserIdAsync(user);
-                        var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var userId = await this.userManager.GetUserIdAsync(user);
+                        var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = this.Url.Page(
                             "/Account/ConfirmEmail",
@@ -141,20 +143,23 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: this.Request.Scheme);
 
-                        await this._emailSender.SendEmailAsync(this.Input.Email, "Confirm your email",
+                        await this.emailSender.SendEmailAsync(
+                            this.Input.Email,
+                            "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (this._userManager.Options.SignIn.RequireConfirmedAccount)
+                        if (this.userManager.Options.SignIn.RequireConfirmedAccount)
                         {
                             return this.RedirectToPage("./RegisterConfirmation", new { Email = this.Input.Email });
                         }
 
-                        await this._signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                        await this.signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 
                         return this.LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     this.ModelState.AddModelError(string.Empty, error.Description);

@@ -13,8 +13,8 @@
         @foreach (var type in this.Model)
         {
             <tr>
-                <td>@type.Id</td>
-                <td>@type.Name</td>
+                <td class="align-middle">@type.Id</td>
+                <td class="align-middle">@type.Name</td>
                 <td>
                     @if (type.AdminId is null)
                     {

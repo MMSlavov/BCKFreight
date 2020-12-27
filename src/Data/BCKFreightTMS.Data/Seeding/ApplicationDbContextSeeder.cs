@@ -26,13 +26,13 @@
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
-                              new SettingsSeeder(),
                               new AdminSeeder(),
                               new PersonRolesSeeder(),
                               new VehicleTypesSeeder(),
                               new LoadingBodiesSeeder(),
                               new OrderStatusesSeeder(),
                               new ActionTypesSeeder(),
+                              new ActionNotFinishedReasonsSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -97,7 +97,7 @@
                 TypeId = input.TypeId,
                 LoadingBodyId = input.LoadingBodyId,
                 CompanyId = input.CompanyId,
-                DriverId = input.DriverId,
+                DriverId = input.DriverId == "null" ? null : input.DriverId,
                 TrailerId = input.TrailerId == "null" ? null : input.TrailerId,
                 RegNumber = input.RegNumber,
                 Name = input.Name,
@@ -107,6 +107,19 @@
             await this.vehicles.AddAsync(vehicle);
             await this.vehicles.SaveChangesAsync();
 
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            var model = this.vehicles.All().FirstOrDefault(v => v.Id == id);
+            if (model is null)
+            {
+                return this.RedirectToAction(GlobalConstants.Index);
+            }
+
+            this.vehicles.Delete(model);
+            await this.vehicles.SaveChangesAsync();
             return this.RedirectToAction(GlobalConstants.Index);
         }
     }

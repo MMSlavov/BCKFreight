@@ -8,7 +8,10 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Common.Enums;
+    using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -25,17 +28,21 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly ApplicationDbContext dbContext;
+        private readonly IContactsService contactsService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext dbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
+            this.dbContext = dbContext;
         }
 
         [BindProperty]
@@ -72,6 +79,28 @@
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [MaxLength(200)]
+            public string CompanyName { get; set; }
+
+            [MaxLength(90)]
+            public string TaxCountry { get; set; }
+
+            [MaxLength(20)]
+            public string TaxNumber { get; set; }
+
+            [MaxLength(200)]
+            public string City { get; set; }
+
+            [MaxLength(100)]
+            public string StreetLine { get; set; }
+
+            [MaxLength(80)]
+            public string MOLFirstName { get; set; }
+
+            [MaxLength(80)]
+            public string MOLLastName { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -86,14 +115,44 @@
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (this.ModelState.IsValid)
             {
+                var company = new Company
+                {
+                    Name = this.Input.CompanyName,
+                    TaxNumber = this.Input.TaxNumber,
+                    Address = new CompanyAddress
+                    {
+                        MOLFirstName = this.Input.MOLFirstName,
+                        MOLLastName = this.Input.MOLLastName,
+                        Address = new Address
+                        {
+                            StreetLine = this.Input.StreetLine,
+                            City = this.Input.City,
+                        },
+                    },
+                };
+
+                var taxCoutry = this.dbContext.TaxCountries.FirstOrDefault(c => c.Name == this.Input.TaxCountry);
+                if (taxCoutry == null)
+                {
+                    taxCoutry = new TaxCountry { Name = this.Input.TaxCountry };
+                }
+
                 var user = new ApplicationUser
                 {
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
                     UserName = this.Input.FirstName,
                     Email = this.Input.Email,
+                    CompanyId = company.Id,
                 };
                 user.AdminId = user.Id;
+                company.AdminId = user.Id;
+                company.TaxCountry = taxCoutry;
+                company.Address.AdminId = company.AdminId;
+                company.Address.Address.AdminId = company.AdminId;
+                company.TaxCountry.AdminId = company.AdminId;
+                await this.dbContext.Companies.AddAsync(company);
+                await this.dbContext.SaveChangesAsync();
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {

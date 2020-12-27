@@ -1,5 +1,5 @@
 ﻿<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4">
-    <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
+    <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
         <img src="~/img/logo_full2.svg" class="img-fluid"
         style="max-width: 75%">
         @*<span class="brand-text font-weight-light">BCK Freight</span>*@
@@ -22,7 +22,7 @@
             else
             {
                 <div class="info mr-2">
-                    <a class="d-block">Hi Guest!</a>
+                    <a class="d-block">Guest</a>
                 </div>
             }
         </div>
@@ -31,7 +31,7 @@
                 @if (User.Identity.IsAuthenticated && this.User.IsInRole("User"))
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home", null, "active")">
+                        <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="nav-link @Url.MakeActiveClass("dashboard", null, "active")">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>

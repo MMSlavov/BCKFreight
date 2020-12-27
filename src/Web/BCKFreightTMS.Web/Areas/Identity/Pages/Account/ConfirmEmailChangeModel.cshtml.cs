@@ -38,7 +38,7 @@
                 return this.NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            //code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            // code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await this.userManager.ChangeEmailAsync(user, email, code);
             if (!result.Succeeded)
             {
@@ -48,13 +48,12 @@
 
             // In our UI email and user name are one and the same, so when we update the email
             // we need to update the user name.
-            //var setUserNameResult = await this.userManager.SetUserNameAsync(user, email);
-            //if (!setUserNameResult.Succeeded)
-            //{
+            // var setUserNameResult = await this.userManager.SetUserNameAsync(user, email);
+            // if (!setUserNameResult.Succeeded)
+            // {
             //    this.StatusMessage = "Error changing user name.";
             //    return this.Page();
-            //}
-
+            // }
             await this.signInManager.RefreshSignInAsync(user);
             this.StatusMessage = "Thank you for confirming your email change.";
             return this.Page();

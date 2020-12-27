@@ -27,7 +27,7 @@
             this.browser.Navigate().GoToUrl(this.server.RootUri);
             Assert.Contains(
                 this.browser.FindElements(By.CssSelector("footer a")),
-                x => x.GetAttribute("href").EndsWith("/Home/Privacy"));
+                x => x.GetAttribute("href").EndsWith("/Dashboard/Privacy"));
         }
     }
 }

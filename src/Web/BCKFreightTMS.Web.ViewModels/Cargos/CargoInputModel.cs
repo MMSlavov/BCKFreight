@@ -35,6 +35,10 @@
 
         public int TypeId { get; set; }
 
+        public int LoadingBodyId { get; set; }
+
         public IEnumerable<KeyValuePair<string, string>> TypeItems { get; set; }
+
+        public IEnumerable<KeyValuePair<string, string>> LoadingBodyItems { get; set; }
     }
 }

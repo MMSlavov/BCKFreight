@@ -2,9 +2,6 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Services.Mapping;
-
     public class CompanyInputModel
     {
         [Required]

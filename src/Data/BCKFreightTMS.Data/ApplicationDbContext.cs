@@ -24,8 +24,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public DbSet<ActionType> ActionTypes { get; set; }
 
         public DbSet<Address> Addresses { get; set; }
@@ -69,6 +67,8 @@
         public DbSet<VehicleLoadingBody> VehicleLoadingBodies { get; set; }
 
         public DbSet<VehicleType> VehicleTypes { get; set; }
+
+        public DbSet<ActionNotFinishedReason> ActionNotFinishedReasons { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

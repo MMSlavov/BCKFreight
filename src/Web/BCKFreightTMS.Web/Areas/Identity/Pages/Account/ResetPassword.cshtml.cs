@@ -16,11 +16,11 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public ResetPasswordModel(UserManager<ApplicationUser> userManager)
         {
-            this._userManager = userManager;
+            this.userManager = userManager;
         }
 
         [BindProperty]
@@ -68,14 +68,14 @@ namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
                 return this.Page();
             }
 
-            var user = await this._userManager.FindByEmailAsync(this.Input.Email);
+            var user = await this.userManager.FindByEmailAsync(this.Input.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return this.RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var result = await this._userManager.ResetPasswordAsync(user, this.Input.Code, this.Input.Password);
+            var result = await this.userManager.ResetPasswordAsync(user, this.Input.Code, this.Input.Password);
             if (result.Succeeded)
             {
                 return this.RedirectToPage("./ResetPasswordConfirmation");

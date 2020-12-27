@@ -11,13 +11,12 @@
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-row">
-            <div class="form-group border border-dark rounded col-5 p-2 mr-4" style="height: 80%">
+            <div class="form-group border border-dark rounded bg-gray-light col-5 p-2 mr-4" style="height: 80%">
                 <h5 class="text-muted text-bold text-center">Client</h5>
                 <div class="form-group">
                     <label asp-for="CompanyFromId" class="control-label">Client company</label>
                     <select asp-for="CompanyFromId" class="form-control" asp-items="companyItems"></select>
                     <span asp-validation-for="CompanyFromId" class="text-danger"></span>
-
                 </div>
                 <div class="form-group">
                     <label asp-for="PriceNetIn" class="control-label">Price</label>
@@ -30,7 +29,7 @@
                     <span asp-validation-for="ContactFromId" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group border border-dark rounded col-6 p-2">
+            <div class="form-group border border-dark rounded bg-gray-light col-6 p-2">
                 <h5 class="text-muted text-bold text-center">Carrier</h5>
                 <div class="form-group">
                     <label asp-for="CompanyToId" class="control-label">Carrier company</label>
@@ -59,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group border border-dark rounded p-2">
+        <div class="form-group border border-dark rounded bg-gray-light p-2">
             <h5 class="text-muted text-bold ml-2">Cargo</h5>
             <div class="form-row">
                 <div class="form-group col-6 m-0">
@@ -134,7 +133,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group border border-dark rounded col-5 p-2 mr-4">
+            <div class="form-group border border-dark rounded bg-gray-light col-5 p-2 mr-4">
                 <h5 class="text-muted text-bold ml-2">Loading</h5>
                 <div class="form-group border rounded p-2">
                     <label class="text-muted">Address</label>
@@ -179,7 +178,7 @@
                     <span asp-validation-for="LoadingDetails" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group border border-dark rounded col-5 p-2">
+            <div class="form-group border border-dark rounded bg-gray-light col-5 p-2">
                 <h5 class="text-muted text-bold ml-2">Unloading</h5>
                 <div class="form-group border rounded p-2">
                     <label class="text-muted">Address</label>
@@ -234,6 +233,7 @@
 
 @section Scripts {
     <script>
+        $(document).ready(AddSelectOption)
         $(function () {
             $("#CompanyFromId").change(function () {
                 $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyFromId").val() }, function (d) {
@@ -243,7 +243,7 @@
                         row += "<option value=" + v.value + ">"+v.text+"</option>";
                     });
                     $("#contactFrom").html(row);
-                    var item = new Option("Select", "0", true, true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#contactFrom").append(item);
                 })
@@ -256,7 +256,7 @@
                         row += "<option value=" + v.value + ">" + v.text + "</option>";
                     });
                     $("#contactTo").html(row);
-                    var item = new Option("Select", "0", true, true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#contactTo").append(item);
                 })
@@ -267,7 +267,7 @@
                         row += "<option value=" + v.value + ">" + v.text + "</option>";
                     });
                     $("#driver").html(row);
-                    var item = new Option("Select", "0", true, true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#driver").append(item);
                 })
@@ -278,7 +278,7 @@
                         row += "<option value=" + v.value + ">" + v.text + "</option>";
                     });
                     $("#vehicle").html(row);
-                    var item = new Option("Select", "0", true, true);
+                    var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#vehicle").append(item);
                 })

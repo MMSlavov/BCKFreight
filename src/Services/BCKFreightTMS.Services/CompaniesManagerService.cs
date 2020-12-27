@@ -28,7 +28,7 @@
 
         public IReadOnlyCollection<CompanyInfo> Companies => (IReadOnlyCollection<CompanyInfo>)this.companies;
 
-        public async Task GetJsonCompaniesAsync(string pathJson)
+        public async Task AddJsonCompaniesAsync(string pathJson)
         {
             using (FileStream fs = File.OpenRead(pathJson))
             {

@@ -36,7 +36,7 @@
         public virtual OrderFrom OrderFrom { get; set; }
 
         [ForeignKey(nameof(Status))]
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
 
         public virtual OrderStatus Status { get; set; }
 

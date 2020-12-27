@@ -17,12 +17,12 @@
 
         [Required]
         [ForeignKey(nameof(Type))]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
 
         public virtual VehicleType Type { get; set; }
 
         [ForeignKey(nameof(LoadingBody))]
-        public int LoadingBodyId { get; set; }
+        public int? LoadingBodyId { get; set; }
 
         public virtual VehicleLoadingBody LoadingBody { get; set; }
 

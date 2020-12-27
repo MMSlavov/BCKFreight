@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Services;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@
 
         public async Task<IActionResult> Index()
         {
-            await this.companiesMan.GetJsonCompaniesAsync(@"wwwroot\data\20200930.json");
+            await this.companiesMan.AddJsonCompaniesAsync(string.Format(GlobalConstants.JsonDataPath, "20200930.json"));
             var companies = this.companiesMan.Companies;
             this.ViewData["companies"] = companies;
             return this.View();

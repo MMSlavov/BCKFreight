@@ -9,7 +9,7 @@
     {
         public IReadOnlyCollection<CompanyInfo> Companies { get; }
 
-        public Task GetJsonCompaniesAsync(string pathJson);
+        public Task AddJsonCompaniesAsync(string pathJson);
 
         public Task<CompanyInputModel> GetCompanyAsync(string searchStr);
     }

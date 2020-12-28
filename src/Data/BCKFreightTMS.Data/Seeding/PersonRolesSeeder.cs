@@ -9,7 +9,7 @@
 
     internal class PersonRolesSeeder : ISeeder
     {
-        public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
+        public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider = null)
         {
             if (dbContext.PersonRoles.Any())
             {

@@ -17,17 +17,16 @@
             this.server = server;
             server.CreateClient();
             var opts = new ChromeOptions();
-            opts.AddArguments("--headless", "--ignore-certificate-errors");
-            this.browser = new RemoteWebDriver(opts);
+            opts.AddArguments("--headless");
+            opts.AcceptInsecureCertificates = true;
+            this.browser = new ChromeDriver(opts);
         }
 
-        [Fact(Skip = "Example test. Disabled for CI.")]
-        public void FooterOfThePageContainsPrivacyLink()
+        [Fact]
+        public void ContactsDatatableContainsData()
         {
-            this.browser.Navigate().GoToUrl(this.server.RootUri);
-            Assert.Contains(
-                this.browser.FindElements(By.CssSelector("footer a")),
-                x => x.GetAttribute("href").EndsWith("/Dashboard/Privacy"));
+            this.browser.Navigate().GoToUrl(this.server.RootUri + "/Contacts");
+            Assert.NotEmpty(this.browser.FindElements(By.TagName("div")));
         }
     }
 }

@@ -111,7 +111,7 @@
                 BirthDate = input.BirthDate.ToUniversalTime(),
                 Comunicators = new Comunicators
                 {
-                    Mobile1 = input.Comunicators.Mobile1,
+                    Mobile1 = input.Comunicators is null ? "-" : input.Comunicators.Mobile1,
                 },
             };
 
@@ -153,9 +153,9 @@
                 var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == id);
                 data.Add("Id", company.Id);
                 data.Add("Name", company.Name);
-                data.Add("Tax country", company.TaxCountry.Name);
+                data.Add("Tax country", company.TaxCountry is null ? null : company.TaxCountry.Name);
                 data.Add("Tax number", company.TaxNumber);
-                data.Add("Address", company.Address.Address.StreetLine);
+                data.Add("Address", company.Address is null ? null : company.Address.Address.StreetLine);
                 data.Add("Mobile", company.Comunicators is null ? null : company.Comunicators.Mobile1);
                 data.Add("Details", company.Comunicators is null ? null : company.Comunicators.Details);
             }
@@ -165,11 +165,15 @@
                 data.Add("Id", person.Id);
                 data.Add("First name", person.FirstName);
                 data.Add("Last name", person.LastName);
-                data.Add("Birthday", person.BirthDate.ToLocalTime().ToShortDateString());
+                data.Add("Birthday", person.BirthDate == default ? null : person.BirthDate.ToLocalTime().ToShortDateString());
                 data.Add("Mobile", person.Comunicators is null ? null : person.Comunicators.Mobile1);
             }
+            else
+            {
+                return null;
+            }
 
-            return data;
+            return data.Where(kv => kv.Value != null).ToDictionary(x => x.Key, y => y.Value);
         }
 
         public async Task<bool> DeleteAsync(string id)

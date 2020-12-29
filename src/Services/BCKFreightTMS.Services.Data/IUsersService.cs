@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Identity;

@@ -9,6 +9,11 @@ public static class NavigationIndicatorHelper
     {
         try
         {
+            if (urlHelper.ActionContext.RouteData.Values.ContainsKey("page"))
+            {
+                return null;
+            }
+
             string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
             string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
             if (string.IsNullOrEmpty(controllerName))
@@ -36,6 +41,11 @@ public static class NavigationIndicatorHelper
     {
         try
         {
+            if (urlHelper.ActionContext.RouteData.Values.Count() == 2)
+            {
+                return null;
+            }
+
             string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
             string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
             if (string.IsNullOrEmpty(controllerName))

@@ -49,23 +49,6 @@
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(ApplicationUser user)
-        {
-            var userName = await this.userManager.GetUserNameAsync(user);
-            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
-            var firstName = user.FirstName;
-            var lastName = user.LastName;
-            this.Username = userName;
-
-            this.Input = new InputModel
-            {
-                PhoneNumber = phoneNumber,
-                Username = userName,
-                FirstName = firstName,
-                LastName = lastName,
-            };
-        }
-
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -146,6 +129,23 @@
             this.UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
             this.StatusMessage = "Your profile has been updated";
             return this.RedirectToPage();
+        }
+
+        private async Task LoadAsync(ApplicationUser user)
+        {
+            var userName = await this.userManager.GetUserNameAsync(user);
+            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            this.Username = userName;
+
+            this.Input = new InputModel
+            {
+                PhoneNumber = phoneNumber,
+                Username = userName,
+                FirstName = firstName,
+                LastName = lastName,
+            };
         }
     }
 }

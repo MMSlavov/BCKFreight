@@ -9,7 +9,7 @@
         public void Configure(EntityTypeBuilder<DriverOrder> drOrder)
         {
             drOrder.
-                HasKey(drOrder => new { drOrder.DriverId, drOrder.OrderId });
+                HasKey(dord => new { dord.DriverId, dord.OrderId });
         }
     }
 }

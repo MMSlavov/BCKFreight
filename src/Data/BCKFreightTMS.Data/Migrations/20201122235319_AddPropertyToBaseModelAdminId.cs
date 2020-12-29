@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace BCKFreightTMS.Data.Migrations
+﻿namespace BCKFreightTMS.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddPropertyToBaseModelAdminId : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

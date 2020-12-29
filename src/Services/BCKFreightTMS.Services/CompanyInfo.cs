@@ -13,8 +13,9 @@
         public string LegalForm { get; set; }
     }
 }
+
 // "DeedStatus": "N",
-//"CompanyName": "Д-ГРАХОВА",
-//"GUID": "b7f3fe684341499888a73783235f8b19",
-//"UIC": "205002021",
-//"LegalForm": "EOOD"
+// "CompanyName": "Д-ГРАХОВА",
+// "GUID": "b7f3fe684341499888a73783235f8b19",
+// "UIC": "205002021",
+// "LegalForm": "EOOD"

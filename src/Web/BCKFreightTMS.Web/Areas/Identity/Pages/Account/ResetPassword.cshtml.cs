@@ -56,7 +56,7 @@
             {
                 this.Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
                 };
                 return this.Page();
             }
@@ -86,6 +86,7 @@
             {
                 this.ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return this.Page();
         }
     }

@@ -42,12 +42,10 @@
                 var user = await this.userManager.FindByEmailAsync(this.Input.Email);
                 if (user == null || !(await this.userManager.IsEmailConfirmedAsync(user)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return this.RedirectToPage("./ForgotPasswordConfirmation");
+                    this.ModelState.AddModelError(string.Empty, "Email do not exist.");
+                    return this.Page();
                 }
 
-                // For more information on how to enable account confirmation and password reset please 
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await this.userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = this.Url.Page(

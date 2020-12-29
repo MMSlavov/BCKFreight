@@ -75,6 +75,7 @@
                 this.logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
                 return this.LocalRedirect(returnUrl ?? this.Url.Content("~/"));
             }
+
             if (result.IsLockedOut)
             {
                 this.logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);

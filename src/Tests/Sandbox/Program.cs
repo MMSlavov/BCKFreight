@@ -37,13 +37,12 @@
             Console.WriteLine(data);
 
             // Seed data on application startup
-            //using (var serviceScope = serviceProvider.CreateScope())
-            //{
+            // using (var serviceScope = serviceProvider.CreateScope())
+            // {
             //    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             //    dbContext.Database.Migrate();
             //    new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            //}
-
+            // }
             using (var serviceScope = serviceProvider.CreateScope())
             {
                 serviceProvider = serviceScope.ServiceProvider;
@@ -56,13 +55,12 @@
 
         private static async Task<int> SandboxCode(SandboxOptions options, IServiceProvider serviceProvider)
         {
-            //var sw = Stopwatch.StartNew();
+            // var sw = Stopwatch.StartNew();
 
-            //var settingsService = serviceProvider.GetService<ISettingsService>();
-            //Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
+            // var settingsService = serviceProvider.GetService<ISettingsService>();
+            // Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
 
-            //Console.WriteLine(sw.Elapsed);
-
+            // Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
         }
 

@@ -58,6 +58,11 @@
 
         public IEnumerable<T> GetAll<T>()
         {
+            if (!this.orders.AllAsNoTracking().Any())
+            {
+                return null;
+            }
+
             var orders = this.orders.All().To<T>().ToList();
             return orders;
         }
@@ -223,6 +228,11 @@
         public OrderStatusViewModel LoadOrderStatusModel(string id)
         {
             var model = this.orders.All().Where(x => x.Id == id).To<OrderStatusViewModel>().FirstOrDefault();
+            if (model is null)
+            {
+                return null;
+            }
+
             model.ActionNotFinishedItems = this.actionNFReasons.AllAsNoTracking()
                            .Select(ar => new System.Collections.Generic.KeyValuePair<string, string>(ar.Id.ToString(), ar.Name))
                            .ToList();

@@ -31,7 +31,8 @@ $(document).ready(function () {
             { "data": "address", "name": "Address", "autoWidth": true },
             {
                 "render": function (data, type, row) {
-                    return "<a href='Contacts/Edit?id=" + row.id + "' title='Edit'><i class='pr-3 fas fa-edit'></i></a><a href = '#' onclick = showInPopup('Contacts/Details/"+ row.id +"','Details') title = 'Details' ><span><i class='p-1 fas fa-info-circle'></i></span></a ><a href='Contacts/Delete?id=" + row.id + "' title='Delete'><i class='pl-3 fas fa-trash-alt'></i></a>";
+                    //<a href='Contacts/Edit?id=" + row.id + "' title='Edit'><i class='pr-3 fas fa-edit'></i></a>
+                    return "<a href = '#' onclick = showInPopup('Contacts/Details/"+ row.id +"','Details') title = 'Details' ><span><i class='p-1 fas fa-info-circle'></i></span></a ><a href='Contacts/Delete?id=" + row.id + "' title='Delete'><i class='pl-3 fas fa-trash-alt'></i></a>";
                 }
             },
         ]

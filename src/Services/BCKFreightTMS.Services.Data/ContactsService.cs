@@ -153,11 +153,11 @@
                 var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == id);
                 data.Add("Id", company.Id);
                 data.Add("Name", company.Name);
-                data.Add("Tax country", company.TaxCountry is null ? null : company.TaxCountry.Name);
+                data.Add("Tax country", company.TaxCountry?.Name);
                 data.Add("Tax number", company.TaxNumber);
-                data.Add("Address", company.Address is null ? null : company.Address.Address.StreetLine);
-                data.Add("Mobile", company.Comunicators is null ? null : company.Comunicators.Mobile1);
-                data.Add("Details", company.Comunicators is null ? null : company.Comunicators.Details);
+                data.Add("Address", company.Address?.Address.StreetLine);
+                data.Add("Mobile", company.Comunicators?.Mobile1);
+                data.Add("Details", company.Comunicators?.Details);
             }
             else if (this.peopleRepository.AllAsNoTracking().Any(p => p.Id == id))
             {
@@ -166,7 +166,7 @@
                 data.Add("First name", person.FirstName);
                 data.Add("Last name", person.LastName);
                 data.Add("Birthday", person.BirthDate == default ? null : person.BirthDate.ToLocalTime().ToShortDateString());
-                data.Add("Mobile", person.Comunicators is null ? null : person.Comunicators.Mobile1);
+                data.Add("Mobile", person.Comunicators?.Mobile1);
             }
             else
             {
@@ -222,7 +222,7 @@
 
             recordsTotal = contactsData.Count();
             var data = contactsData.Skip(skip).Take(pageSize).ToList();
-            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return jsonData;
         }
     }

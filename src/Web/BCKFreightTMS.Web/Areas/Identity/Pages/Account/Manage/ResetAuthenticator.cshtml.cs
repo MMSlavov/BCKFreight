@@ -1,8 +1,5 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
@@ -13,9 +10,9 @@
 
     public class ResetAuthenticatorModel : PageModel
     {
-        UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        ILogger<ResetAuthenticatorModel> logger;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<ResetAuthenticatorModel> logger;
 
         public ResetAuthenticatorModel(
             UserManager<ApplicationUser> userManager,
@@ -52,7 +49,7 @@
             await this.userManager.SetTwoFactorEnabledAsync(user, false);
             await this.userManager.ResetAuthenticatorKeyAsync(user);
             this.logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
-            
+
             await this.signInManager.RefreshSignInAsync(user);
             this.StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
 

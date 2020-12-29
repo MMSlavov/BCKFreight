@@ -39,7 +39,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -60,7 +60,7 @@
                     Postcode = table.Column<string>(maxLength: 20, nullable: true),
                     City = table.Column<string>(maxLength: 200, nullable: true),
                     State = table.Column<string>(maxLength: 200, nullable: true),
-                    Area = table.Column<string>(maxLength: 200, nullable: true)
+                    Area = table.Column<string>(maxLength: 200, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -100,7 +100,7 @@
                     Phone2 = table.Column<string>(type: "varchar(10)", nullable: true),
                     Email1 = table.Column<string>(type: "varchar(50)", nullable: true),
                     Email2 = table.Column<string>(type: "varchar(50)", nullable: true),
-                    Details = table.Column<string>(type: "text", nullable: true)
+                    Details = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -117,7 +117,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -134,7 +134,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -151,7 +151,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -168,7 +168,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 90, nullable: false)
+                    Name = table.Column<string>(maxLength: 90, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -185,7 +185,7 @@
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 80, nullable: false)
+                    Name = table.Column<string>(maxLength: 80, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -203,7 +203,7 @@
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
-                    MyProperty = table.Column<string>(type: "text", nullable: true)
+                    MyProperty = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -222,7 +222,7 @@
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     AddressId = table.Column<int>(nullable: false),
                     MOLFirstName = table.Column<string>(maxLength: 80, nullable: true),
-                    MOLLastName = table.Column<string>(maxLength: 80, nullable: true)
+                    MOLLastName = table.Column<string>(maxLength: 80, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -253,7 +253,7 @@
                     WeightNet = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Cubature = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    MyProperty = table.Column<string>(type: "text", nullable: true)
+                    MyProperty = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -279,7 +279,7 @@
                     TaxCountryId = table.Column<int>(nullable: false),
                     TaxNumber = table.Column<string>(type: "varchar(20)", nullable: true),
                     CompanyAddressId = table.Column<int>(nullable: false),
-                    ComunicatorsId = table.Column<int>(nullable: false)
+                    ComunicatorsId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -317,7 +317,7 @@
                     CompanyId = table.Column<string>(nullable: false),
                     BankName = table.Column<string>(maxLength: 100, nullable: true),
                     BankCode = table.Column<string>(type: "varchar(50)", nullable: true),
-                    BankIban = table.Column<string>(type: "varchar(22)", nullable: true)
+                    BankIban = table.Column<string>(type: "varchar(22)", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -342,7 +342,7 @@
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     CompanyId = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(type: "varchar(10)", nullable: true),
-                    AddressId = table.Column<int>(nullable: false)
+                    AddressId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -375,7 +375,7 @@
                     FirstName = table.Column<string>(maxLength: 80, nullable: false),
                     LastName = table.Column<string>(maxLength: 80, nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
-                    ComunicatorsId = table.Column<int>(nullable: false)
+                    ComunicatorsId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -415,7 +415,7 @@
                     DueDays = table.Column<int>(nullable: false),
                     CompanyId = table.Column<string>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
-                    ContactId = table.Column<string>(nullable: true)
+                    ContactId = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {
@@ -456,7 +456,7 @@
                     TrailerId = table.Column<string>(nullable: true),
                     RegNumber = table.Column<string>(maxLength: 10, nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
-                    Details = table.Column<string>(type: "text", nullable: true)
+                    Details = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -510,7 +510,7 @@
                     VehicleId = table.Column<string>(nullable: true),
                     TypeId = table.Column<int>(nullable: false),
                     ContactId = table.Column<string>(nullable: true),
-                    PersonId = table.Column<string>(nullable: true)
+                    PersonId = table.Column<string>(nullable: true),
                 },
                 constraints: table =>
                 {
@@ -557,7 +557,7 @@
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                 },
                 constraints: table =>
                 {
@@ -589,7 +589,7 @@
                     CargoId = table.Column<string>(nullable: false),
                     OrderToId = table.Column<int>(nullable: false),
                     OrderFromId = table.Column<int>(nullable: false),
-                    StatusId = table.Column<int>(nullable: false)
+                    StatusId = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -640,7 +640,7 @@
                     AddressId = table.Column<int>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
                     Until = table.Column<DateTime>(nullable: false),
-                    Details = table.Column<string>(type: "text", nullable: true)
+                    Details = table.Column<string>(type: "text", nullable: true),
                 },
                 constraints: table =>
                 {

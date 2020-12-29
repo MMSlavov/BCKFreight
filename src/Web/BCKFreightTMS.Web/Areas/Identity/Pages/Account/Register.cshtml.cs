@@ -29,7 +29,6 @@
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
         private readonly ApplicationDbContext dbContext;
-        private readonly IContactsService contactsService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,

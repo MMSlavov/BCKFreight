@@ -17,11 +17,10 @@
 
     public class EnableAuthenticatorModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly ILogger<EnableAuthenticatorModel> _logger;
-        private readonly UrlEncoder _urlEncoder;
-
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<EnableAuthenticatorModel> logger;
+        private readonly UrlEncoder urlEncoder;
 
         public EnableAuthenticatorModel(
             UserManager<ApplicationUser> userManager,
@@ -29,8 +28,8 @@
             UrlEncoder urlEncoder)
         {
             this.userManager = userManager;
-            this._logger = logger;
-            this._urlEncoder = urlEncoder;
+            this.logger = logger;
+            this.urlEncoder = urlEncoder;
         }
 
         public string SharedKey { get; set; }
@@ -97,7 +96,7 @@
 
             await this.userManager.SetTwoFactorEnabledAsync(user, true);
             var userId = await this.userManager.GetUserIdAsync(user);
-            this._logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
+            this.logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
             this.StatusMessage = "Your authenticator app has been verified.";
 
@@ -138,6 +137,7 @@
                 result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
                 currentPosition += 4;
             }
+
             if (currentPosition < unformattedKey.Length)
             {
                 result.Append(unformattedKey.Substring(currentPosition));
@@ -150,8 +150,8 @@
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                this._urlEncoder.Encode("BCKFreightTMS.Web"),
-                this._urlEncoder.Encode(email),
+                this.urlEncoder.Encode("BCKFreightTMS.Web"),
+                this.urlEncoder.Encode(email),
                 unformattedKey);
         }
     }

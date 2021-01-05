@@ -1,7 +1,7 @@
 ﻿namespace BCKFreightTMS.Web
 {
     using System.Reflection;
-
+    using AutoMapper;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -61,6 +61,9 @@
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
+            var mapperConf = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            IMapper mapper = mapperConf.CreateMapper();
+            services.AddSingleton(mapper);
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));

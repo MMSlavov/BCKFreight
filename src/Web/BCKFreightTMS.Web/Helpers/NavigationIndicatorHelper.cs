@@ -41,7 +41,7 @@ public static class NavigationIndicatorHelper
     {
         try
         {
-            if (urlHelper.ActionContext.RouteData.Values.Count() == 2)
+            if (urlHelper.ActionContext.RouteData.Values.ContainsKey("page"))
             {
                 return null;
             }

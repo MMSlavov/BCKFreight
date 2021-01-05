@@ -52,4 +52,8 @@
     <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <None Include="wwwroot\data\20200930.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Hubs\" />
+  </ItemGroup>
 </Project>

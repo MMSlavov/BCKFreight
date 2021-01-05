@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class OrderInputModel
+    public class OrderInputModel : IValidatableObject
     {
         [DataType(DataType.Currency)]
         [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetIn { get; set; }
+
+        public int CurrencyInId { get; set; }
 
         public int DueDaysFrom { get; set; }
 
@@ -22,6 +24,8 @@
         [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetOut { get; set; }
+
+        public int CurrencyOutId { get; set; }
 
         public int DueDaysTo { get; set; }
 
@@ -64,6 +68,8 @@
 
         public string Details { get; set; }
 
+        public DocumentationInputModel Documentation { get; set; }
+
         [MaxLength(100)]
         public string LoadingStreetLine { get; set; }
 
@@ -80,7 +86,7 @@
         [MaxLength(200)]
         public string LoadingArea { get; set; }
 
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime, ErrorMessage = "Invalid datetime.")]
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy hh}")]
         public DateTime LoadingUntil { get; set; }
 
@@ -112,5 +118,19 @@
         public IEnumerable<KeyValuePair<string, string>> LoadingBodyItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> CargoTypeItems { get; set; }
+
+        public IEnumerable<KeyValuePair<string, string>> CurrencyItems { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (this.PriceNetIn <= this.PriceNetOut)
+            {
+                errors.Add(new ValidationResult("You are dumb."));
+            }
+
+            return errors;
+        }
     }
 }

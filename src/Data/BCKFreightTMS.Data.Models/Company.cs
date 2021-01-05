@@ -32,6 +32,11 @@
 
         public int? CompanyAddressId { get; set; }
 
+        [ForeignKey(nameof(TaxCurrency))]
+        public int? TaxCurrencyId { get; set; }
+
+        public virtual Currency TaxCurrency { get; set; }
+
         public virtual CompanyAddress Address { get; set; }
 
         public int? ComunicatorsId { get; set; }

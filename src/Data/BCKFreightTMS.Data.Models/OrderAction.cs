@@ -36,6 +36,11 @@
         [ForeignKey(nameof(NotFinishedReason))]
         public int? NotFinishedReasonId { get; set; }
 
+        public bool NoNotes { get; set; }
+
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string Notes { get; set; }
+
         public virtual ActionNotFinishedReason NotFinishedReason { get; set; }
     }
 }

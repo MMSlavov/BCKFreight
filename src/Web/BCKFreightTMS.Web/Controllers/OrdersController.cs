@@ -99,7 +99,7 @@
                 return this.View(this.ordersService.LoadOrderStatusModel(input.Id));
             }
 
-            await this.ordersService.UpdateOrderActionsAsync(input);
+            await this.ordersService.UpdateOrderStatusAsync(input);
             return this.RedirectToAction(GlobalConstants.Index);
         }
 
@@ -111,7 +111,7 @@
                 return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
             }
 
-            if (input.Actions.Any(a => a.IsFinnished == false))
+            if (input.Actions.Any(a => !a.IsFinnished))
             {
                 this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
                 return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));

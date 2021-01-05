@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using AutoMapper;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -27,6 +27,9 @@
         private readonly IDeletableEntityRepository<ActionType> actionTypes;
         private readonly IDeletableEntityRepository<OrderStatus> orderStatuses;
         private readonly IDeletableEntityRepository<VehicleType> vehicleTypes;
+        private readonly IDeletableEntityRepository<Currency> currencies;
+        private readonly IDeletableEntityRepository<Documentation> documentations;
+        private readonly IMapper mapper;
 
         public OrdersService(
             IDeletableEntityRepository<Company> companies,
@@ -40,7 +43,10 @@
             IDeletableEntityRepository<OrderAction> orderActions,
             IDeletableEntityRepository<ActionType> actionTypes,
             IDeletableEntityRepository<OrderStatus> orderStatuses,
-            IDeletableEntityRepository<VehicleType> vehicleTypes)
+            IDeletableEntityRepository<VehicleType> vehicleTypes,
+            IDeletableEntityRepository<Currency> currencies,
+            IDeletableEntityRepository<Documentation> documentations,
+            IMapper mapper)
         {
             this.companies = companies;
             this.orders = orders;
@@ -54,13 +60,16 @@
             this.actionTypes = actionTypes;
             this.orderStatuses = orderStatuses;
             this.vehicleTypes = vehicleTypes;
+            this.currencies = currencies;
+            this.documentations = documentations;
+            this.mapper = mapper;
         }
 
         public IEnumerable<T> GetAll<T>()
         {
             if (!this.orders.AllAsNoTracking().Any())
             {
-                return null;
+                return new List<T>();
             }
 
             var orders = this.orders.All().To<T>().ToList();
@@ -83,6 +92,9 @@
             model.CargoTypeItems = this.cargoTypes.AllAsNoTracking()
                                           .Select(ct => new KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
                                           .ToList();
+            model.CurrencyItems = this.currencies.AllAsNoTracking()
+                              .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
+                              .ToList();
             return model;
         }
 
@@ -137,9 +149,14 @@
                 Details = input.Details,
             };
 
+            var documentation = this.mapper.Map<Documentation>(input.Documentation);
+            await this.documentations.AddAsync(documentation);
+            await this.documentations.SaveChangesAsync();
+
             var orderFrom = new OrderFrom
             {
                 PriceNetIn = input.PriceNetIn,
+                CurrencyId = input.CurrencyInId,
                 CompanyId = input.CompanyFromId,
                 ContactId = input.ContactFromId,
                 TypeId = null,
@@ -148,6 +165,7 @@
             var orderTo = new OrderTo
             {
                 PriceNetOut = input.PriceNetOut,
+                CurrencyId = input.CurrencyOutId,
                 CompanyId = input.CompanyToId,
                 ContactId = input.ContactToId,
                 VehicleId = input.VehicleId,
@@ -198,6 +216,7 @@
             unloadingAction.AdminId = order.AdminId;
             unloadingAction.Address.AdminId = order.AdminId;
             order.OrderActions.Add(unloadingAction);
+            order.DocumentationId = documentation.Id;
 
             await this.orders.SaveChangesAsync();
             return order.Id;
@@ -243,10 +262,14 @@
                                              .Where(oa => oa.OrderId == model.Id)
                                              .To<ActionStatusInputModel>()
                                              .ToList();
+            var documentation = this.documentations.All()
+                                                     .FirstOrDefault(d => d.OrderId == model.Id);
+            model.Documentation = this.mapper.Map<DocumentationInputModel>(documentation);
+
             return model;
         }
 
-        public async Task UpdateOrderActionsAsync(OrderStatusViewModel input)
+        public async Task UpdateOrderStatusAsync(OrderStatusViewModel input)
         {
             foreach (var actionInput in input.Actions)
             {
@@ -261,15 +284,29 @@
                     action.NotFinishedReasonId = actionInput.NotFinishedReasonId;
                 }
 
+                action.NoNotes = actionInput.NoNotes;
+                action.Notes = actionInput.Notes;
                 this.orderActions.Update(action);
             }
+
+            var inputDocumentation = input.Documentation;
+            var documentation = this.documentations.All().FirstOrDefault(d => d.OrderId == input.Id);
+            documentation.CMR = inputDocumentation.CMR;
+            documentation.BillOfLading = inputDocumentation.BillOfLading;
+            documentation.AOA = inputDocumentation.AOA;
+            documentation.DeliveryNote = inputDocumentation.DeliveryNote;
+            documentation.PackingList = inputDocumentation.PackingList;
+            documentation.ListItems = inputDocumentation.ListItems;
+            documentation.Invoice = inputDocumentation.Invoice;
+            documentation.BillOfGoods = inputDocumentation.BillOfGoods;
+            await this.documentations.SaveChangesAsync();
 
             await this.orderActions.SaveChangesAsync();
         }
 
         public async Task<string> FinishOrderAsync(OrderStatusViewModel input)
         {
-            await this.UpdateOrderActionsAsync(input);
+            await this.UpdateOrderStatusAsync(input);
             var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
             order.StatusId = this.orderStatuses.AllAsNoTracking()
                                                .FirstOrDefault(s => s.Name == OrderStatusNames.Finished.ToString())

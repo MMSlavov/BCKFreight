@@ -50,73 +50,74 @@
         </div>
         <div class="col-6"></div>
         <div class="row flex-row">
-            <div class="m-2 card col-3">
+            <div class="m-2 card col-lg-3 col-sm">
                 <div class="card-body p-2">
-                    <h3>Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
-                    <iframe scrolling="no" frameborder="0" clocktype="html5" width="200" height="50" src="https://www.clocklink.com/html5embed.php?clock=047&timezone=Romania_Bucharest&color=gray&size=200&Title=&Message=&Target=&From=2020,1,1,0,0,0&Color=gray"></iframe>
+                    <h3 class="m-0">Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
+                    <span id="Bucharest_z707" style="font-size:45px; font-family: 'Segoe UI'"></span>
                 </div>
             </div>
-            <div class="m-2 card col-3">
+            <div class="m-2 card col-lg-3 col-sm">
                 <div class="card-body p-2">
-                    <h3>Targovishte <p class="m-0"><strong>Bulgaria</strong></p></h3>
-                    <iframe scrolling="no" frameborder="0" clocktype="html5" width="200" height="50" src="https://www.clocklink.com/html5embed.php?clock=047&timezone=Bulgaria_Sofia&color=gray&size=200&Title=&Message=&Target=&From=2020,1,1,0,0,0&Color=gray"></iframe>
+                    <h3 class="m-0">Targovishte <p class="m-0"><strong>Bulgaria</strong></p></h3>
+                    <span id="Targovishte_z729" style="font-size:45px; font-family: 'Segoe UI'"></span>
                 </div>
             </div>
-            <div class="m-2 card col-3">
+            <div class="m-2 card col-lg-3 col-sm">
                 <div class="card-body p-2">
-                    <h3>Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
-                    <iframe scrolling="no" frameborder="0" clocktype="html5" width="200" height="50" src="https://www.clocklink.com/html5embed.php?clock=047&timezone=Serbia_Belgrade&color=gray&size=200&Title=&Message=&Target=&From=2020,1,1,0,0,0&Color=gray"></iframe>
+                    <h3 class="m-0">Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
+                    <span id="Belgrade_z703" style="font-size:45px; font-family: 'Segoe UI'"></span>
                 </div>
             </div>
+            <a href="https://time.is/" id="time_is_link" rel="nofollow" style="font-size:10px" class="ml-auto mt-auto">time.is</a>
+        </div>
+    </div>
+    <hr class="mt-1" />
+    <div class="card">
+        <h5 class="card-header text-bold">
+            Pending actions
+        </h5>
+        <div class="card-body pt-2">
+            <table class="table table-striped table-hover rounded" id="actions_data">
+                <thead>
+                    <tr>
+                        <th>
+                            Action
+                        </th>
+                        <th>
+                            Destination
+                        </th>
+                        <th>
+                            Due time
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-bold">
+                                @item.TypeName
+                            </td>
+                            <td>
+                                @item.AddressCity, @item.AddressStreetLine
+                            </td>
+                            <td class="text-bold">
+                                @item.Until.ToLocalTime().ToString("dddd, dd MMMM yyyy")
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderId" class="btn btn-@(item.IsFinished?"success":"primary") @(item.IsFinished?"disabled":null)">@(item.IsFinished ? "Finished" : "Active")</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </section>
 
-<hr class="mt-1" />
-<div class="card">
-    <h5 class="card-header text-bold">
-        Pending actions
-    </h5>
-    <div class="card-body">
-        <table class="table table-striped table-hover rounded" id="actions_data">
-            <thead>
-                <tr>
-                    <th>
-                        Action
-                    </th>
-                    <th>
-                        Destination
-                    </th>
-                    <th>
-                        Due time
-                    </th>
-                    <th>
-                        Status
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="text-bold">
-                            @item.TypeName
-                        </td>
-                        <td>
-                            @item.AddressCity, @item.AddressStreetLine
-                        </td>
-                        <td class="text-bold">
-                            @item.Until.ToLocalTime().ToString("dddd, dd MMMM yyyy")
-                        </td>
-                        <td class="text-center">
-                            <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderId" class="btn btn-@(item.IsFinished?"success":"primary") @(item.IsFinished?"disabled":null)">@(item.IsFinished ? "Finished" : "Active")</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
 @section Scripts{
     <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -135,6 +136,13 @@
                 "responsive": true,
             });
         });
+    </script>
+    <script src="//widget.time.is/t.js"></script>
+    <script>
+        time_is_widget.init({
+            Targovishte_z729: {},
+            Bucharest_z707: {},
+            Belgrade_z703: {}});
     </script>
 }
 

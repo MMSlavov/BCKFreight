@@ -17,6 +17,11 @@
 
         public decimal PriceNetOut { get; set; }
 
+        [ForeignKey(nameof(Currency))]
+        public int? CurrencyId { get; set; }
+
+        public virtual Currency Currency { get; set; }
+
         public int DueDays { get; set; }
 
         [Required]

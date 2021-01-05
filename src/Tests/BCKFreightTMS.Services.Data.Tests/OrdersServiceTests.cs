@@ -41,8 +41,8 @@
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
-            var res = service.GetAll<ListOrderViewModel>();
-            Assert.Null(res);
+            var res = service.GetAll<ListOrderViewModel>().ToList();
+            Assert.Empty(res);
         }
 
         [Fact]

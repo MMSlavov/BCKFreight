@@ -31,6 +31,8 @@
 
         public ICollection<ActionStatusInputModel> Actions { get; set; }
 
+        public DocumentationInputModel Documentation { get; set; }
+
         public IEnumerable<KeyValuePair<string, string>> ActionTypeItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ActionNotFinishedItems { get; set; }

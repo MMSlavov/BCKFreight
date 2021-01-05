@@ -70,6 +70,10 @@
 
         public DbSet<ActionNotFinishedReason> ActionNotFinishedReasons { get; set; }
 
+        public DbSet<Documentation> Documentations { get; set; }
+
+        public DbSet<Currency> Currency { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

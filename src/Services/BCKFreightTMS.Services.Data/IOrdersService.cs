@@ -25,7 +25,7 @@
 
         public OrderStatusViewModel LoadOrderStatusModel(string id);
 
-        public Task UpdateOrderActionsAsync(OrderStatusViewModel input);
+        public Task UpdateOrderStatusAsync(OrderStatusViewModel input);
 
         public Task<string> FinishOrderAsync(OrderStatusViewModel input);
     }

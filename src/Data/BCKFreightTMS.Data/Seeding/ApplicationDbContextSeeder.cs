@@ -33,6 +33,7 @@
                               new OrderStatusesSeeder(),
                               new ActionTypesSeeder(),
                               new ActionNotFinishedReasonsSeeder(),
+                              new CurrencyCodesSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -1,10 +1,11 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 {
     using System.ComponentModel.DataAnnotations;
+    using System.IO;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -47,6 +48,9 @@
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Profile Picture")]
+            public byte[] ProfilePicture { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -61,7 +65,7 @@
             return this.Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
@@ -125,6 +129,17 @@
                 }
             }
 
+            if (this.Request.Form.Files.Count > 0)
+            {
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    user.ProfilePicture = dataStream.ToArray();
+                }
+
+                await this.userManager.UpdateAsync(user);
+            }
+
             await this.signInManager.RefreshSignInAsync(user);
             this.UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
             this.StatusMessage = "Your profile has been updated";
@@ -137,6 +152,7 @@
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var profilePic = user.ProfilePicture;
             this.Username = userName;
 
             this.Input = new InputModel
@@ -145,6 +161,7 @@
                 Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
+                ProfilePicture = profilePic,
             };
         }
     }

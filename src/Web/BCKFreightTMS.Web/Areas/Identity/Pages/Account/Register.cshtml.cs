@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -11,13 +12,13 @@
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
 
@@ -29,19 +30,22 @@
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
         private readonly ApplicationDbContext dbContext;
+        private readonly IFinanceService financeService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            ApplicationDbContext dbContext)
+            ApplicationDbContext dbContext,
+            IFinanceService financeService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
             this.dbContext = dbContext;
+            this.financeService = financeService;
         }
 
         [BindProperty]
@@ -50,6 +54,8 @@
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        public List<SelectListItem> TaxCurrencyItems { get; set; }
 
         public class InputModel
         {
@@ -89,6 +95,8 @@
             [MaxLength(20)]
             public string TaxNumber { get; set; }
 
+            public string TaxCurrency { get; set; }
+
             [MaxLength(200)]
             public string City { get; set; }
 
@@ -105,6 +113,12 @@
         public async Task OnGetAsync(string returnUrl = null)
         {
             this.ReturnUrl = returnUrl;
+            this.TaxCurrencyItems = new List<SelectListItem>();
+            foreach (var code in (CurrencyCodes[])Enum.GetValues(typeof(CurrencyCodes)))
+            {
+                this.TaxCurrencyItems.Add(new SelectListItem(code.ToString(), code.ToString()));
+            }
+
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -118,6 +132,7 @@
                 {
                     Name = this.Input.CompanyName,
                     TaxNumber = this.Input.TaxNumber,
+                    TaxCurrency = new Currency { Name = this.Input.TaxCurrency },
                     Address = new CompanyAddress
                     {
                         MOLFirstName = this.Input.MOLFirstName,
@@ -150,6 +165,9 @@
                 company.Address.AdminId = company.AdminId;
                 company.Address.Address.AdminId = company.AdminId;
                 company.TaxCountry.AdminId = company.AdminId;
+                company.TaxCurrency.AdminId = company.AdminId;
+
+                await this.financeService.AddNewCompanyCurrencyRatesAsync(company.AdminId, company.TaxCurrency.Name);
                 await this.dbContext.Companies.AddAsync(company);
                 await this.dbContext.SaveChangesAsync();
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
@@ -190,7 +208,6 @@
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return this.Page();
         }
     }

@@ -33,6 +33,10 @@
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            @if (this.User.IsInRole("SuperUser"))
+            {
+                <a asp-page-handler="UpdateCurrencyRates" class="btn btn-primary">Update currency rates</a>
+            }
         </div>
         <div class="col-5">
             <div class="form-group">

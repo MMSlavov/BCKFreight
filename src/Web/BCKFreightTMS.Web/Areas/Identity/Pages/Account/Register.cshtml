@@ -99,6 +99,11 @@
                                 <span asp-validation-for="Input.TaxNumber" class="text-danger"></span>
                             </div>
                         </div>
+                        <div class="mb-3 p-0 col col-5">
+                            <select asp-for="Input.TaxCurrency" class="form-control" asp-items="Model.TaxCurrencyItems">
+                                <option class="text-muted" hidden>Tax Currency</option>
+                            </select>
+                        </div>
                         <div class="mb-3 p-0 col col-7">
                             <input asp-for="Input.City" type="text" class="form-control" placeholder="City">
                             <span asp-validation-for="Input.City" class="text-danger"></span>
@@ -171,7 +176,6 @@
             } else {
                 document.getElementById("nextBtn").innerHTML = "Next";
             }
-            //... and run a function that will display the correct step indicator:
         }
 
         function nextPrev(n) {

@@ -11,14 +11,15 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.OrderStatuses.Any())
+            foreach (var name in (OrderStatusNames[])Enum.GetValues(typeof(OrderStatusNames)))
             {
-                return;
-            }
+                if (dbContext.OrderStatuses.Any(s => s.Name == name.ToString()))
+                {
+                    continue;
+                }
 
-            await dbContext.OrderStatuses.AddAsync(new OrderStatus { Name = OrderStatusNames.Draft.ToString() });
-            await dbContext.OrderStatuses.AddAsync(new OrderStatus { Name = OrderStatusNames.InProgress.ToString() });
-            await dbContext.OrderStatuses.AddAsync(new OrderStatus { Name = OrderStatusNames.Finished.ToString() });
+                await dbContext.OrderStatuses.AddAsync(new OrderStatus { Name = name.ToString() });
+            }
 
             await dbContext.SaveChangesAsync();
         }

@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Data;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,16 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IFinanceService financeService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IFinanceService financeService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.financeService = financeService;
         }
 
         public string Username { get; set; }
@@ -143,6 +147,18 @@
             await this.signInManager.RefreshSignInAsync(user);
             this.UserNameChangeLimitMessage = $"You can change your username {user.UsernameChangeLimit} more time(s).";
             this.StatusMessage = "Your profile has been updated";
+            return this.RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnGetUpdateCurrencyRates()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
+            }
+
+            await this.financeService.UpdateCurrencyRatesAsync(user.CompanyId);
             return this.RedirectToPage();
         }
 

@@ -1,5 +1,7 @@
 ﻿namespace BCKFreightTMS.Data.Models
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
     using BCKFreightTMS.Data.Common.Models;
 
     public class Documentation : BaseDeletableModel<int>
@@ -19,6 +21,11 @@
         public bool Invoice { get; set; }
 
         public bool BillOfGoods { get; set; }
+
+        [ForeignKey(nameof(RecievedDocumentation))]
+        public int? RecievedDocumentationId { get; set; }
+
+        public virtual Documentation RecievedDocumentation { get; set; }
 
         public string OrderId { get; set; }
 

@@ -5,5 +5,8 @@
         InProgress,
         Draft,
         Finished,
+        DocumentationCheck,
+        AwaitingApproval,
+        Approved,
     }
 }

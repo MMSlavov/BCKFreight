@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
     using AutoMapper;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -90,11 +91,19 @@
                                                       .Select(lb => new KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
                                                       .ToList();
             model.CargoTypeItems = this.cargoTypes.AllAsNoTracking()
-                                          .Select(ct => new KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
-                                          .ToList();
+                                                  .Select(ct => new KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
+                                                  .ToList();
             model.CurrencyItems = this.currencies.AllAsNoTracking()
-                              .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
-                              .ToList();
+                                                  .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
+                                                  .ToList();
+            model.AreasItems = this.orderActions.All()
+                                                 .Where(a => (a.Type.Name == ActionTypeNames.Unloading.ToString() ||
+                                                             a.Type.Name == ActionTypeNames.Loading.ToString()) &&
+                                                                 a.Address.Area != null)
+                                                 .Select(a => a.Address.Area)
+                                                 .Distinct()
+                                                  .Select(a => new SelectListItem { Text = a, Value = a })
+                                                  .ToList();
             return model;
         }
 
@@ -123,6 +132,18 @@
                          .Select(v => new SelectListItem { Text = v.RegNumber, Value = v.Id })
                          .ToList();
             return vehicles;
+        }
+
+        public IEnumerable<SelectListItem> GetCarriersByArea(string area)
+        {
+            var carriers = this.companies.All().Where(c => c.OrderTos.Any(o =>
+                                                            o.Order.OrderActions.Any(oa =>
+                                                              oa.Address.Area == area)))
+                                                .OrderBy(c => c.OrderTos.Count())
+                                                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = $"{c.Name} - {c.TaxNumber}" })
+                                                .ToList();
+
+            return carriers;
         }
 
         public async Task<string> CreateAsync(OrderInputModel input, ClaimsPrincipal user)
@@ -304,16 +325,62 @@
             await this.orderActions.SaveChangesAsync();
         }
 
-        public async Task<string> FinishOrderAsync(OrderStatusViewModel input)
+        public async Task<string> FinishOrderAsync(OrderFinishViewModel input)
         {
-            await this.UpdateOrderStatusAsync(input);
-            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            await this.SetOrderReceivedDocumentation(input);
+            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Finished.ToString());
+            return input.OrderStatus.Id;
+        }
+
+        public bool ValidateFinishModel(OrderFinishViewModel input)
+        {
+            return !(input.OrderStatus.Documentation.CMR != input.RecievedDocumentation.CMR ||
+                     input.OrderStatus.Documentation.AOA != input.RecievedDocumentation.AOA ||
+                     input.OrderStatus.Documentation.BillOfLading != input.RecievedDocumentation.BillOfLading ||
+                     input.OrderStatus.Documentation.DeliveryNote != input.RecievedDocumentation.DeliveryNote ||
+                     input.OrderStatus.Documentation.ListItems != input.RecievedDocumentation.ListItems ||
+                     input.OrderStatus.Documentation.PackingList != input.RecievedDocumentation.PackingList ||
+                     input.OrderStatus.Documentation.Invoice != input.RecievedDocumentation.Invoice ||
+                     input.OrderStatus.Documentation.BillOfGoods != input.RecievedDocumentation.BillOfGoods);
+        }
+
+        public OrderFinishViewModel LoadOrderFinishModel(string orderId)
+        {
+            var model = new OrderFinishViewModel();
+
+            model.OrderStatus = this.LoadOrderStatusModel(orderId);
+            var receivedDoc = this.documentations.All().FirstOrDefault(d => d.OrderId == orderId).RecievedDocumentation;
+            model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);
+            return model;
+        }
+
+        public async Task MarkOrderForApproval(OrderFinishViewModel input)
+        {
+            await this.SetOrderReceivedDocumentation(input);
+            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.AwaitingApproval.ToString());
+        }
+
+        public async Task ApproveOrder(OrderFinishViewModel input)
+        {
+            await this.SetOrderReceivedDocumentation(input);
+            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Approved.ToString());
+        }
+
+        private async Task UpdateOrderStatus(string orderId, string status)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
             order.StatusId = this.orderStatuses.AllAsNoTracking()
-                                               .FirstOrDefault(s => s.Name == OrderStatusNames.Finished.ToString())
+                                               .FirstOrDefault(s => s.Name == status)
                                                .Id;
             this.orders.Update(order);
             await this.orders.SaveChangesAsync();
-            return order.Id;
+        }
+
+        private async Task SetOrderReceivedDocumentation(OrderFinishViewModel input)
+        {
+            var receivedDoc = this.mapper.Map<Documentation>(input.RecievedDocumentation);
+            this.documentations.All().FirstOrDefault(d => d.OrderId == input.OrderStatus.Id).RecievedDocumentation = receivedDoc;
+            await this.documentations.SaveChangesAsync();
         }
     }
 }

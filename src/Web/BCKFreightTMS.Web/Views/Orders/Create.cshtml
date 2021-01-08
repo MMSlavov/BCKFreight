@@ -25,15 +25,15 @@
                     <label asp-for="PriceNetIn" class="control-label">Price</label>
                     <div class="form-row">
                         <input asp-for="PriceNetIn" class="form-control col-3" />
-                        <select asp-for="CurrencyInId" class="form-control col-2" asp-items="currencyItems"></select>
+                        <select asp-for="CurrencyInId" class="form-control col-2 ml-2" asp-items="currencyItems"></select>
                     </div>
                     <span asp-validation-for="PriceNetIn" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ContactFromId" class="control-label">Contact</label>
-                    <select asp-for="ContactFromId" id="contactFrom" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
-                        <option hidden>Select client first</option>
-                    </select>
+                        <select asp-for="ContactFromId" id="contactFrom" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
+                            <option hidden>Select client first</option>
+                        </select>
                     <span asp-validation-for="ContactFromId" class="text-danger"></span>
                 </div>
             </div>
@@ -41,16 +41,21 @@
                 <h5 class="text-muted text-bold text-center">Carrier</h5>
                 <div class="form-group">
                     <label asp-for="CompanyToId" class="control-label">Carrier company</label>
-                    <select asp-for="CompanyToId" class="form-control" asp-items="companyItems">
-                        <option hidden>Select</option>
-                    </select>
+                    <div class="form-row">
+                        <select asp-for="CompanyToId" class="form-control col-7" asp-items="companyItems">
+                            <option hidden>Select</option>
+                        </select>
+                        <select id="areaFilter" class="form-control col-4 ml-2" asp-items="@Model.AreasItems">
+                            <option hidden>Filter by area</option>
+                        </select>
+                    </div>
                     <span asp-validation-for="CompanyToId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PriceNetOut" class="control-label">Price</label>
                     <div class="form-row">
                         <input asp-for="PriceNetOut" class="form-control col-3" />
-                        <select asp-for="CurrencyOutId" class="form-control col-2" asp-items="currencyItems"></select>
+                        <select asp-for="CurrencyOutId" class="form-control col-2 ml-2" asp-items="currencyItems"></select>
                     </div>
                     <span asp-validation-for="PriceNetOut" class="text-danger"></span>
                 </div>
@@ -267,8 +272,8 @@
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary mr-1" />
-            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+            <input type="submit" value="Create" class="btn btn-primary col-1 mr-1" />
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
@@ -294,6 +299,19 @@
                     var item = new Option("Select", null, true, true);
                     $(item).html("Select");
                     $("#contactFrom").append(item);
+                })
+            })
+            $("#areaFilter").change(function () {
+                $.getJSON("/Orders/GetCarriersByArea", { companyId: $("#areaFilter").val() }, function (d) {
+                    var row = "";
+                    $("#CompanyToId").empty();
+                    $.each(d, function (i, v) {
+                        row += "<option value=" + v.value + ">" + v.text + "</option>";
+                    });
+                    $("#CompanyToId").html(row);
+                    var item = new Option("Select", null);
+                    $(item).html("Select");
+                    $("#CompanyToId").append(item);
                 })
             })
             $("#CompanyToId").change(function () {

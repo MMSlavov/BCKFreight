@@ -106,7 +106,9 @@
                 UserName = input.FirstName,
                 Email = input.Email,
             };
-            user.AdminId = this.userManager.GetUserId(adminUser);
+            var admin = await this.userManager.GetUserAsync(adminUser);
+            user.AdminId = admin.Id;
+            user.CompanyId = admin.CompanyId;
             var result = await this.userManager.CreateAsync(user, input.Password);
             if (!result.Succeeded)
             {

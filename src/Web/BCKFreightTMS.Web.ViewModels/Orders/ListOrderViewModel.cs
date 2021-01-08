@@ -21,6 +21,8 @@
 
         public decimal OrderToPriceNetOut { get; set; }
 
+        public int OrderToCurrencyId { get; set; }
+
         public string OrderFromContactFirstName { get; set; }
 
         public string OrderFromContactLastName { get; set; }
@@ -28,6 +30,8 @@
         public string OrderFromCompanyName { get; set; }
 
         public decimal OrderFromPriceNetIn { get; set; }
+
+        public int OrderFromCurrencyId { get; set; }
 
         public string Voyage { get; set; }
 

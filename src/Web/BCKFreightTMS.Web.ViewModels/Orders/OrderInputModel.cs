@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     public class OrderInputModel : IValidatableObject
     {
         [DataType(DataType.Currency)]
@@ -121,14 +123,11 @@
 
         public IEnumerable<KeyValuePair<string, string>> CurrencyItems { get; set; }
 
+        public IEnumerable<SelectListItem> AreasItems { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-
-            if (this.PriceNetIn <= this.PriceNetOut)
-            {
-                errors.Add(new ValidationResult("You are dumb."));
-            }
 
             return errors;
         }

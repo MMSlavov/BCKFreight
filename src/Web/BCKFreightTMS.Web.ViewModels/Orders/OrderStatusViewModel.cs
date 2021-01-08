@@ -11,6 +11,8 @@
     {
         public string Id { get; set; }
 
+        public string StatusName { get; set; }
+
         public string OrderToVehicleName { get; set; }
 
         public string OrderToVehicleRegNumber { get; set; }

@@ -1,6 +1,7 @@
 ﻿namespace BCKFreightTMS.Web
 {
     using System.Reflection;
+
     using AutoMapper;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common;
@@ -80,6 +81,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IVehiclesService, VehiclesService>();
+            services.AddTransient<IFinanceService, FinanceService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

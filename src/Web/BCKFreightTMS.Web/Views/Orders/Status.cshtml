@@ -88,7 +88,7 @@
     <div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <form method="post" class="p-2">
-            <div class="form-group border border-dark rounded bg-gray-light p-2">
+            <div class="form-group border rounded bg-gray-light p-2">
                 <h5 class="text-muted text-bold ml-2">Requaired documentation</h5>
                 <div class="d-flex justify-content-around">
                     <div class="col">
@@ -229,7 +229,7 @@
             }
         }
         function UpdateBtns() {
-            if ($(':checkbox:checked').length == $(':checkbox').length) {
+            if ($(':checkbox[id$=IsFinnished]:checked').length == $(':checkbox[id$=IsFinnished]').length) {
                 $(".btn-primary").attr("disabled", "disabled");
                 $(".btn-success").attr("disabled", null);
             }

@@ -40,9 +40,9 @@
 
         public virtual OrderStatus Status { get; set; }
 
-        [ForeignKey(nameof(Documentation))]
         public int? DocumentationId { get; set; }
 
+        [ForeignKey(nameof(DocumentationId))]
         public virtual Documentation Documentation { get; set; }
 
         public virtual ICollection<OrderAction> OrderActions { get; set; }

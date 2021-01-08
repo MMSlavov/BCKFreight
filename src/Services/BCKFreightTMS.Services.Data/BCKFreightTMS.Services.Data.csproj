@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\BCKFreightTMS.Common\BCKFreightTMS.Common.csproj" />
     <ProjectReference Include="..\..\Data\BCKFreightTMS.Data.Common\BCKFreightTMS.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\BCKFreightTMS.Data.Models\BCKFreightTMS.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\BCKFreightTMS.Data\BCKFreightTMS.Data.csproj" />
     <ProjectReference Include="..\..\Web\BCKFreightTMS.Web.ViewModels\BCKFreightTMS.Web.ViewModels.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Services.Mapping\BCKFreightTMS.Services.Mapping.csproj" />
   </ItemGroup>

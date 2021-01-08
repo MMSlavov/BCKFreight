@@ -1,4 +1,5 @@
 ﻿@using BCKFreightTMS.Common.Enums;
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListOrderViewModel>
 
 <div class="p-2">
@@ -30,36 +31,70 @@
     <tbody>
         @foreach (var order in this.Model)
         {
-            <tr>
-                <td>
-                    <span class="text-bold">@order.CreatedOn.ToLocalTime().ToShortDateString()</span>
-                    <p class="mt-1">@Html.DisplayFor(modelItem => order.Voyage)</p>
+        <tr>
+            <td>
+                <span class="text-bold">@order.CreatedOn.ToLocalTime().ToShortDateString()</span>
+                <p class="mt-1">@Html.DisplayFor(modelItem => order.Voyage)</p>
+            </td>
+            <td>
+                <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderFromCompanyName)</span>
+                <p>@($"{order.OrderFromContactFirstName} {order.OrderFromContactLastName}")</p>
+            </td>
+            <td>
+                <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderToCompanyName)</span>
+                <p>@($"{order.OrderToContactFirstName} {order.OrderToContactLastName}")</p>
+            </td>
+            @{
+                var priceIn = this.financeService.GetAmount(order.OrderFromCurrencyId, order.OrderFromPriceNetIn);
+                var priceOut = this.financeService.GetAmount(order.OrderToCurrencyId, order.OrderToPriceNetOut);
+                var margin = (priceIn - priceOut);
+            }
+            @if (margin > 0)
+            {
+                <td class="text-green text-bold align-middle">
+                    @($"{margin:f2}")
                 </td>
-                <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderFromCompanyName)</span>
-                    <p>@($"{order.OrderFromContactFirstName} {order.OrderFromContactLastName}")</p>
+            }
+            else
+            {
+                <td class="text-danger text-bold align-middle">
+                    @($"{margin:f2}")
                 </td>
-                <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderToCompanyName)</span>
-                    <p>@($"{order.OrderToContactFirstName} {order.OrderToContactLastName}")</p>
-                </td>
-                @{var margin = (order.OrderFromPriceNetIn - order.OrderToPriceNetOut);}
-                @if (margin > 0)
-                {
-                    <td class="text-green text-bold align-middle">
-                        @margin
-                    </td>
-                }
-                else
-                {
-                    <td class="text-danger text-bold align-middle">
-                        @margin
-                    </td>
-                }
+            }
             <td class="align-middle text-center">
-                @if (order.StatusName == OrderStatusNames.InProgress.ToString())
+                @if (order.StatusName != OrderStatusNames.Finished.ToString())
                 {
-                    <a asp-action="Status" asp-route-id="@order.Id" class="btn btn-primary">@order.StatusName</a>
+                    string action;
+                    string btnColor;
+                    string btnState = string.Empty;
+                    switch (order.StatusName)
+                    {
+                        case "InProgress":
+                            action = "Status";
+                            btnColor = "primary";
+                            break;
+                        case "DocumentationCheck":
+                            action = "Finish";
+                            btnColor = "primary";
+                            break;
+                        case "AwaitingApproval":
+                            action = "Finish";
+                            btnColor = "warning";
+                            if (!this.User.IsInRole(RoleNames.SuperUser.ToString()))
+                            {
+                                btnState = "disabled";
+                            }
+                            break;
+                        case "Approved":
+                            action = "Finish";
+                            btnColor = "success";
+                            break;
+                        default:
+                            action = null;
+                            btnColor = "primary";
+                            break;
+                    }
+                    <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor @btnState">@order.StatusName</a>
                 }
                 else
                 {
@@ -67,16 +102,16 @@
 
                 }
             </td>
-                <td class="px-2 text-center align-middle" style="width:auto">
-                    @*<a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>*@
-                    @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>*@
-                    <a asp-action="Delete" asp-route-id="@order.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
-                </td>
-            </tr>
+            <td class="px-2 text-center align-middle" style="width:auto">
+                @*<a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>*@
+                @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
+                <span>
+                    <i class="p-1 fas fa-info-circle"></i>
+                </span>
+            </a>*@
+                <a asp-action="Delete" asp-route-id="@order.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

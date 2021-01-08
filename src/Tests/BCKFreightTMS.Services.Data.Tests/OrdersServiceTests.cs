@@ -4,9 +4,11 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Data.Repositories;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,8 @@
         private IDeletableEntityRepository<CargoType> cargoTypes;
         private IDeletableEntityRepository<Person> people;
         private IDeletableEntityRepository<Vehicle> vehicles;
+        private EfDeletableEntityRepository<Currency> currencies;
+        private EfDeletableEntityRepository<Documentation> documentations;
         private IDeletableEntityRepository<ActionNotFinishedReason> actionNFReasons;
         private IDeletableEntityRepository<OrderAction> orderActions;
         private IDeletableEntityRepository<ActionType> actionTypes;
@@ -194,11 +198,14 @@
             this.orderStatuses = repoFactory.GetEfDeletableEntityRepository<OrderStatus>(dbContext);
             this.vehicleTypes = repoFactory.GetEfDeletableEntityRepository<VehicleType>(dbContext);
             this.vehicles = repoFactory.GetEfDeletableEntityRepository<Vehicle>(dbContext);
+            this.currencies = repoFactory.GetEfDeletableEntityRepository<Currency>(dbContext);
+            this.documentations = repoFactory.GetEfDeletableEntityRepository<Documentation>(dbContext);
 
             var store = new Mock<IUserStore<ApplicationUser>>();
             var userMan = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
             userMan.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(Task.FromResult(new ApplicationUser { AdminId = string.Empty }));
+            var mapper = new Mock<IMapper>();
 
             return new OrdersService(
                 this.companies,
@@ -212,7 +219,10 @@
                 this.orderActions,
                 this.actionTypes,
                 this.orderStatuses,
-                this.vehicleTypes);
+                this.vehicleTypes,
+                this.currencies,
+                this.documentations,
+                mapper.Object);
         }
     }
 }

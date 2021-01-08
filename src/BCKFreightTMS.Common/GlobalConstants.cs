@@ -15,5 +15,13 @@
         public const string Index = "Index";
 
         public const string JsonDataPath = @"wwwroot\data\{0}";
+
+        public const string ExchangeRateUrl = @"http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
+
+        public const decimal MinOrderMargin = 0.05m;
+
+        public const decimal SmallOrderMaxAmount = 500;
+
+        public const decimal SmallOrderMinMargin = 25;
     }
 }

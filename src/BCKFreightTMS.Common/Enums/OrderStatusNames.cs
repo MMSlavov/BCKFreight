@@ -3,6 +3,7 @@
     public enum OrderStatusNames
     {
         InProgress,
+        Accepted,
         Draft,
         Finished,
         DocumentationCheck,

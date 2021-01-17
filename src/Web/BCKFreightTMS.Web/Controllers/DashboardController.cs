@@ -31,6 +31,7 @@
         {
             var model = this.orderActions.All()
                                         .Where(a => a.Until > DateTime.UtcNow && a.Order.Creator.Id == this.userManager.GetUserId(this.User))
+                                        .OrderBy(a => a.Until)
                                         .To<ActionIndexViewModel>()
                                         .ToList();
             return this.View(model);

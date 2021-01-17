@@ -27,11 +27,11 @@
 
         public virtual Cargo Cargo { get; set; }
 
-        public int OrderToId { get; set; }
+        public int? OrderToId { get; set; }
 
         public virtual OrderTo OrderTo { get; set; }
 
-        public int OrderFromId { get; set; }
+        public int? OrderFromId { get; set; }
 
         public virtual OrderFrom OrderFrom { get; set; }
 

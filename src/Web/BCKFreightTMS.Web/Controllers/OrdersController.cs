@@ -8,6 +8,7 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -37,13 +38,27 @@
 
         public IActionResult Index()
         {
-            var orders = this.ordersService.GetAll<ListOrderViewModel>();
+            var orders = this.ordersService.GetAll<ListOrderViewModel>(o => o.Status.Name != OrderStatusNames.Accepted.ToString())
+                                           .ToList();
             return this.View(orders);
         }
 
-        public IActionResult Create()
+        public new IActionResult Accepted()
         {
-            var model = this.ordersService.LoadOrderInputModel();
+            var orders = this.ordersService.GetAll<ListAcceptedOrderViewModel>(o => o.Status.Name == OrderStatusNames.Accepted.ToString())
+                                           .ToList();
+            return this.View(orders);
+        }
+
+        public IActionResult Accept()
+        {
+            var model = this.ordersService.LoadOrderAcceptInputModel();
+            return this.View(model);
+        }
+
+        public IActionResult Create(string id)
+        {
+            var model = this.ordersService.LoadOrderCreateInputModel(id);
             return this.View(model);
         }
 
@@ -72,15 +87,28 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(OrderInputModel input)
+        public async Task<IActionResult> Accept(OrderAcceptInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                input = this.ordersService.LoadOrderInputModel(input);
+                input = this.ordersService.LoadOrderAcceptInputModel(input);
                 return this.View(input);
             }
 
-            var priceIn = this.financeService.GetAmount(input.CurrencyInId, input.PriceNetIn);
+            await this.ordersService.AcceptAsync(input, this.User);
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(OrderCreateInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input = this.ordersService.LoadOrderCreateInputModel(input.Id);
+                return this.View(input);
+            }
+
+            var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
             var priceOut = this.financeService.GetAmount(input.CurrencyOutId, input.PriceNetOut);
             var margin = priceIn - priceOut;
             var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
@@ -88,7 +116,7 @@
                 margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
             {
                 this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
-                input = this.ordersService.LoadOrderInputModel(input);
+                input = this.ordersService.LoadOrderCreateInputModel(input.Id);
                 return this.View(input);
             }
 
@@ -97,11 +125,11 @@
             if (margin < minMarginPer)
             {
                 this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
-                input = this.ordersService.LoadOrderInputModel(input);
+                input = this.ordersService.LoadOrderCreateInputModel(input.Id);
                 return this.View(input);
             }
 
-            await this.ordersService.CreateAsync(input, this.User);
+            await this.ordersService.CreateAsync(input);
             return this.RedirectToAction(GlobalConstants.Index);
         }
 

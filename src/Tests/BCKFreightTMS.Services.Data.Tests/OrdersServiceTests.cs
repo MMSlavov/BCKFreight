@@ -40,14 +40,14 @@
         // var res = service.GetAll<ListOrderViewModel>();
         //    Assert.NotNull(res);
         // }
-        [Fact]
-        public void GetAllNullTest()
-        {
-            using var dbContext = this.GetDbContext();
-            var service = this.GetContactsService(dbContext);
-            var res = service.GetAll<ListOrderViewModel>().ToList();
-            Assert.Empty(res);
-        }
+        //[Fact]
+        //public void GetAllNullTest()
+        //{
+        //    using var dbContext = this.GetDbContext();
+        //    var service = this.GetContactsService(dbContext);
+        //    var res = service.GetAll<ListOrderViewModel>().ToList();
+        //    Assert.Empty(res);
+        //}
 
         [Fact]
         public void LoadOrderInputModelTest()
@@ -56,7 +56,7 @@
             dbContext.Orders.Add(new Order { CreatorId = "test", CargoId = "test" });
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
-            var res = service.LoadOrderInputModel();
+            var res = service.LoadOrderAcceptInputModel();
             Assert.NotNull(res);
         }
 
@@ -123,13 +123,13 @@
 
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
-            var model = new OrderInputModel
+            var model = new OrderAcceptInputModel
             {
                 CompanyFromId = "test",
-                CompanyToId = "test",
-                DriverId = "test",
+                //CompanyToId = "test",
+                //DriverId = "test",
             };
-            var res = await service.CreateAsync(model, new ClaimsPrincipal());
+            var res = await service.AcceptAsync(model, new ClaimsPrincipal());
             Assert.NotNull(res);
         }
 

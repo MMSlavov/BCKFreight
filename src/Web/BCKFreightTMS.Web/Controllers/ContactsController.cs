@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Contacts;
@@ -42,17 +43,26 @@
             }
         }
 
-        public async Task<IActionResult> AddCompany(string searchStr = null)
+        public IActionResult AddCompany(bool popUp = false)
+        {
+            if (popUp)
+            {
+                this.ViewData["Layout"] = null;
+            }
+
+            return this.View();
+        }
+
+        public async Task<IActionResult> GetCompany(string searchStr = null)
         {
             try
             {
                 var model = searchStr != null ? await this.companiesManager.GetCompanyAsync(searchStr) : null;
-                return this.View(model);
+                return this.Json(model);
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-                return this.View();
+                return this.Problem();
             }
         }
 
@@ -84,7 +94,7 @@
         {
             await this.contactsService.DeleteAsync(id);
 
-            return this.RedirectToAction("Contacts");
+            return this.RedirectToAction(GlobalConstants.Index);
         }
 
         public IActionResult Details(string id)

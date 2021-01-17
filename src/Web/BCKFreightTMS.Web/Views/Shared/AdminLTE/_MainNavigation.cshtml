@@ -59,11 +59,26 @@
                             <p>Contacts</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders", null, "active")">
+                    <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "orders" }, "menu-open")">
+                        <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "orders" }, "active")">
                             <i class="nav-icon fab fa-buffer"></i>
-                            <p>Orders</p>
+                            <p>
+                            Orders
+                            <i class="fas fa-angle-left right"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item pl-3">
+                                <a asp-area="" asp-controller="Orders" asp-action="Accepted" class="nav-link">
+                                    <i class="nav-icon fas fa-check-circle"></i>
+                                    <p>Accepted</p>
+                                </a>
+                                <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link">
+                                    <i class="nav-icon fas fa-flag-checkered"></i>
+                                    <p>Active</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Cargos" asp-action="Index" class="nav-link @Url.MakeActiveClass("cargos", null, "active")">
@@ -88,7 +103,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users", null, "active")">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>Users</p>

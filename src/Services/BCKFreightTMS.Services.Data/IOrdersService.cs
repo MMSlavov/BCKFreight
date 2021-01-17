@@ -1,17 +1,22 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IOrdersService
     {
-        public IEnumerable<T> GetAll<T>();
+        public IEnumerable<T> GetAll<T>(Expression<Func<Order, bool>> whereFilter);
 
-        public OrderInputModel LoadOrderInputModel(OrderInputModel model = null);
+        public OrderAcceptInputModel LoadOrderAcceptInputModel(OrderAcceptInputModel model = null);
+
+        public OrderCreateInputModel LoadOrderCreateInputModel(string orderId);
 
         public IEnumerable<SelectListItem> GetContacts(string companyId);
 
@@ -21,7 +26,9 @@
 
         public IEnumerable<SelectListItem> GetCarriersByArea(string area);
 
-        public Task<string> CreateAsync(OrderInputModel input, ClaimsPrincipal user);
+        public Task<string> AcceptAsync(OrderAcceptInputModel input, ClaimsPrincipal user);
+
+        public Task<string> CreateAsync(OrderCreateInputModel input);
 
         public Task<bool> DeleteAsync(string id);
 

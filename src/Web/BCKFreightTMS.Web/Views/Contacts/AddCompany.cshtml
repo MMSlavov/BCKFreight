@@ -1,36 +1,39 @@
 ﻿@model BCKFreightTMS.Web.ViewModels.Contacts.CompanyInputModel
+@{
+    if (this.ViewData.TryGetValue("Layout", out var Layout))
+    {
+        this.Layout = (string)Layout;
+    }
+}
 
-<!DOCTYPE html>
-
-<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Create Company</title>
 </head>
 <body>
-    <form method="get" class="form-inline p-2">
+    <form class="form-inline p-2" id="search">
         <div class="form-row">
             <input class="form-control" type="search" name="searchStr" placeholder="Search by Name or UIC" aria-label="Search">
             <div class="form-inline pl-2">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" id="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
     </form>
-    <form method="post" class="col-md-6 p-2 border rounded">
+    <form method="post" class="col-lg-12 col-sm-12 p-2 border rounded" id="company_input">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Name">Company name <span class="text-danger">*</span></label>
+            <label>Company name <span class="text-danger">*</span></label>
             <input asp-for="Name" type="text" class="form-control" placeholder="Enter company name" required>
         </div>
         <div class="form-row">
             <div class="form-group col-5">
-                <label asp-for="TaxCountry">Tax country</label>
+                <label>Tax country</label>
                 <input asp-for="TaxCountry" type="text" class="form-control" placeholder="Enter Tax country">
             </div>
             <div class="form-group col-7">
-                <label asp-for="TaxNumber">Tax number</label>
+                <label>Tax number</label>
                 <input asp-for="TaxNumber" type="text" id="uicInput" class="form-control" placeholder="Enter Tax number">
             </div>
         </div>
@@ -59,8 +62,50 @@
             <label asp-for="Details">Details</label>
             <textarea asp-for="Details" type="text" class="form-control" placeholder="Enter Details" rows="5"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-primary">Cancel</a>
+        <button asp-action="AddCompany" asp-controller="Contacts" type="submit" class="btn btn-primary">Save</button>
+        @if (this.Layout is not null)
+        {<a asp-action="Index" class="btn btn-secondary">Cancel</a>}
     </form>
 </body>
-</html>
+@if (this.Layout is null)
+{
+    <script>
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                evt.preventDefault();
+                $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
+                    $.each($('#company_input :input[name!=Mobile1]'), function () {
+                        let index = $("#company_input :input").index(this);
+                        let input = this.getAttribute('name');
+                        if (input == null) {
+                            return true;
+                        }
+                        $('#company_input :input').eq(index).val(data[Object.keys(data)
+                            .find(k => k.toLowerCase() === input.toLowerCase())]);
+                    });
+                });
+            });
+        });
+    </script>
+}
+@section Scripts
+{
+    <script>
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                evt.preventDefault();
+                $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
+                    $.each($('#company_input :input[name!=Mobile1]'), function () {
+                        let index = $("#company_input :input").index(this);
+                        let input = this.getAttribute('name');
+                        if (input == null) {
+                            return true;
+                        }
+                        $('#company_input :input').eq(index).val(data[Object.keys(data)
+                            .find(k => k.toLowerCase() === input.toLowerCase())]);
+                    });
+                });
+            });
+        });
+    </script>
+}

@@ -1,7 +1,9 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -66,22 +68,22 @@
             this.mapper = mapper;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>(Expression<Func<Order, bool>> whereFilter)
         {
             if (!this.orders.AllAsNoTracking().Any())
             {
                 return new List<T>();
             }
 
-            var orders = this.orders.All().To<T>().ToList();
+            var orders = this.orders.All().Where(whereFilter).To<T>().ToList();
             return orders;
         }
 
-        public OrderInputModel LoadOrderInputModel(OrderInputModel model = null)
+        public OrderAcceptInputModel LoadOrderAcceptInputModel(OrderAcceptInputModel model = null)
         {
             if (model is null)
             {
-                model = new OrderInputModel();
+                model = new OrderAcceptInputModel();
             }
 
             model.CompanyItems = this.companies.AllAsNoTracking()
@@ -96,14 +98,36 @@
             model.CurrencyItems = this.currencies.AllAsNoTracking()
                                                   .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
                                                   .ToList();
+            model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
+                                                    .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
+                                                    .ToList();
+            return model;
+        }
+
+        public OrderCreateInputModel LoadOrderCreateInputModel(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            if (order is null)
+            {
+                return null;
+            }
+
+            var model = this.mapper.Map<OrderCreateInputModel>(order);
+
+            model.CompanyItems = this.companies.AllAsNoTracking()
+                                               .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), $"{c.Name} - {c.TaxNumber}"))
+                                               .ToList();
+            model.CurrencyItems = this.currencies.AllAsNoTracking()
+                                                  .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
+                                                  .ToList();
             model.AreasItems = this.orderActions.All()
                                                  .Where(a => (a.Type.Name == ActionTypeNames.Unloading.ToString() ||
                                                              a.Type.Name == ActionTypeNames.Loading.ToString()) &&
                                                                  a.Address.Area != null)
                                                  .Select(a => a.Address.Area)
                                                  .Distinct()
-                                                  .Select(a => new SelectListItem { Text = a, Value = a })
-                                                  .ToList();
+                                                 .Select(a => new SelectListItem { Text = a, Value = a })
+                                                 .ToList();
             return model;
         }
 
@@ -146,12 +170,12 @@
             return carriers;
         }
 
-        public async Task<string> CreateAsync(OrderInputModel input, ClaimsPrincipal user)
+        public async Task<string> AcceptAsync(OrderAcceptInputModel input, ClaimsPrincipal user)
         {
             var order = new Order
             {
                 CreatorId = this.userManager.GetUserId(user),
-                Status = this.orderStatuses.All().FirstOrDefault(s => s.Name == OrderStatusNames.InProgress.ToString()),
+                Status = this.orderStatuses.All().FirstOrDefault(s => s.Name == OrderStatusNames.Accepted.ToString()),
             };
 
             var cargo = new Cargo
@@ -171,8 +195,6 @@
             };
 
             var documentation = this.mapper.Map<Documentation>(input.Documentation);
-            await this.documentations.AddAsync(documentation);
-            await this.documentations.SaveChangesAsync();
 
             var orderFrom = new OrderFrom
             {
@@ -183,6 +205,30 @@
                 TypeId = null,
             };
 
+            await this.orders.AddAsync(order);
+
+            cargo.AdminId = order.AdminId;
+            order.Cargo = cargo;
+            orderFrom.AdminId = order.AdminId;
+            order.OrderFrom = orderFrom;
+            documentation.AdminId = order.AdminId;
+            order.Documentation = documentation;
+
+            foreach (var actionIM in input.Actions)
+            {
+                var action = this.mapper.Map<OrderAction>(actionIM);
+                action.AdminId = order.AdminId;
+                action.Address.AdminId = order.AdminId;
+                order.OrderActions.Add(action);
+            }
+
+            await this.orders.SaveChangesAsync();
+            return order.Id;
+        }
+
+        public async Task<string> CreateAsync(OrderCreateInputModel input)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
             var orderTo = new OrderTo
             {
                 PriceNetOut = input.PriceNetOut,
@@ -193,51 +239,10 @@
                 TypeId = null,
             };
 
-            var loadingAction = new OrderAction
-            {
-                Until = input.LoadingUntil.ToUniversalTime(),
-                Details = input.LoadingDetails,
-                Address = new Address
-                {
-                    City = input.LoadingCity,
-                    Postcode = input.LoadingPostcode,
-                    State = input.LoadingState,
-                    Area = input.LoadingArea,
-                    StreetLine = input.LoadingStreetLine,
-                },
-                Type = this.actionTypes.All().FirstOrDefault(t => t.Name == ActionTypeNames.Loading.ToString()),
-            };
-            var unloadingAction = new OrderAction
-            {
-                Until = input.UnloadingUntil.ToUniversalTime(),
-                Details = input.UnloadingDetails,
-                Address = new Address
-                {
-                    City = input.UnloadingCity,
-                    Postcode = input.UnloadingPostcode,
-                    State = input.UnloadingState,
-                    Area = input.UnloadingArea,
-                    StreetLine = input.UnloadingStreetLine,
-                },
-                Type = this.actionTypes.All().FirstOrDefault(t => t.Name == ActionTypeNames.Unloading.ToString()),
-            };
-
-            await this.orders.AddAsync(order);
-
-            cargo.AdminId = order.AdminId;
-            order.Cargo = cargo;
-            orderFrom.AdminId = order.AdminId;
-            order.OrderFrom = orderFrom;
             orderTo.AdminId = order.AdminId;
             orderTo.Drivers.Add(new DriverOrder { OrderId = order.Id, DriverId = input.DriverId, });
             order.OrderTo = orderTo;
-            loadingAction.AdminId = order.AdminId;
-            loadingAction.Address.AdminId = order.AdminId;
-            order.OrderActions.Add(loadingAction);
-            unloadingAction.AdminId = order.AdminId;
-            unloadingAction.Address.AdminId = order.AdminId;
-            order.OrderActions.Add(unloadingAction);
-            order.DocumentationId = documentation.Id;
+            order.Status = this.orderStatuses.All().FirstOrDefault(s => s.Name == OrderStatusNames.InProgress.ToString());
 
             await this.orders.SaveChangesAsync();
             return order.Id;

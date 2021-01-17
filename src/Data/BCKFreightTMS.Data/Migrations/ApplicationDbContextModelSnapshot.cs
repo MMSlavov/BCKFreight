@@ -782,10 +782,10 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderFromId")
+                    b.Property<int?>("OrderFromId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderToId")
+                    b.Property<int?>("OrderToId")
                         .HasColumnType("int");
 
                     b.Property<int?>("StatusId")
@@ -804,10 +804,12 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("OrderFromId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[OrderFromId] IS NOT NULL");
 
                     b.HasIndex("OrderToId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[OrderToId] IS NOT NULL");
 
                     b.HasIndex("StatusId");
 
@@ -1580,15 +1582,11 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderFrom", "OrderFrom")
                         .WithOne("Order")
-                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderFromId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderFromId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderTo", "OrderTo")
                         .WithOne("Order")
-                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderToId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderToId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderStatus", "Status")
                         .WithMany("Orders")

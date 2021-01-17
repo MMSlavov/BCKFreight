@@ -2,9 +2,17 @@
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @using BCKFreightTMS.Services.Data
+@using BCKFreightTMS.Data.Common.Repositories
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IContactsService contacts
+@inject IDeletableEntityRepository<Order> orders
+@{ 
+    var awaitingOrders = this.User.IsInRole("SuperUser") ? 
+                         this.orders.AllAsNoTracking()
+                                    .Where(o => o.Status.Name == OrderStatusNames.AwaitingApproval.ToString())
+                                    .Count() : 0;
+}
 
 <nav id="top_nav" class="main-header navbar navbar-expand navbar-white navbar-light position-fixed" style="top:0">
     <ul class="navbar-nav">
@@ -22,7 +30,7 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Dashboard", new { area = "" })">Logout</a>
             </li>
-         }
+        }
         else
         {
             <li class="nav-item d-none d-sm-inline-block">
@@ -72,31 +80,36 @@
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
+                @if (awaitingOrders > 0)
+                {<span class="badge badge-danger navbar-badge">@awaitingOrders</span>}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 @*<span class="dropdown-header">15 Notifications</span>*@
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    TODO
-                </a>
+                @if (awaitingOrders > 0)
+                {
+                    <a asp-controller="Orders" class="dropdown-item">
+                        You have @awaitingOrders orders for approval.
+                    </a>
+                }
                 @*<div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> 8 friend requests
+                        <span class="float-right text-muted text-sm">12 hours</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>*@
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>*@
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                <a href="#" class="dropdown-item dropdown-footer">@(awaitingOrders > 0 ? "See All Notifications" : "No notifications")</a>
             </div>
         </li>
         @*<li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>*@
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                    <i class="fas fa-th-large"></i>
+                </a>
+            </li>*@
     </ul>
 </nav>

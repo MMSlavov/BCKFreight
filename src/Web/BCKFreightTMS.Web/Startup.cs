@@ -1,5 +1,7 @@
 ﻿namespace BCKFreightTMS.Web
 {
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Reflection;
 
     using AutoMapper;
@@ -20,10 +22,12 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Options;
 
     public class Startup
     {
@@ -34,7 +38,6 @@
             this.configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(
@@ -62,9 +65,28 @@
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
+
+            // Automapper
             var mapperConf = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
             IMapper mapper = mapperConf.CreateMapper();
             services.AddSingleton(mapper);
+
+            // Localization
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var cultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("bg"),
+                };
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                options.SupportedCultures = cultures;
+                options.SupportedUICultures = cultures;
+            });
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -72,6 +94,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             services.AddScoped<ICompaniesManagerService, CompaniesManagerService>();
+            services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
 
             // Application services
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
@@ -124,6 +148,8 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
             app.UseRouting();
 

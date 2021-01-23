@@ -69,13 +69,17 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item pl-3">
-                                <a asp-area="" asp-controller="Orders" asp-action="Accepted" class="nav-link">
+                                <a asp-area="" asp-controller="Orders" asp-action="Accepted" class="nav-link @Url.MakeActiveClass("orders", "accepted", "active")">
                                     <i class="nav-icon fas fa-check-circle"></i>
                                     <p>Accepted</p>
                                 </a>
-                                <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link">
+                                <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders", "index", "active")">
                                     <i class="nav-icon fas fa-flag-checkered"></i>
                                     <p>Active</p>
+                                </a>
+                                <a asp-area="" asp-controller="Orders" asp-action="Finished" class="nav-link @Url.MakeActiveClass("orders", "finished", "active")">
+                                    <i class="nav-icon fas fa-archive"></i>
+                                    <p>Finished</p>
                                 </a>
                             </li>
                         </ul>

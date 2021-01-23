@@ -40,15 +40,14 @@
         // var res = service.GetAll<ListOrderViewModel>();
         //    Assert.NotNull(res);
         // }
-        //[Fact]
-        //public void GetAllNullTest()
-        //{
+        // [Fact]
+        // public void GetAllNullTest()
+        // {
         //    using var dbContext = this.GetDbContext();
         //    var service = this.GetContactsService(dbContext);
         //    var res = service.GetAll<ListOrderViewModel>().ToList();
         //    Assert.Empty(res);
-        //}
-
+        // }
         [Fact]
         public void LoadOrderInputModelTest()
         {
@@ -126,8 +125,9 @@
             var model = new OrderAcceptInputModel
             {
                 CompanyFromId = "test",
-                //CompanyToId = "test",
-                //DriverId = "test",
+
+                // CompanyToId = "test",
+                // DriverId = "test",
             };
             var res = await service.AcceptAsync(model, new ClaimsPrincipal());
             Assert.NotNull(res);

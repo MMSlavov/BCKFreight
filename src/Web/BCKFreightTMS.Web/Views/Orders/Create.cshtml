@@ -14,8 +14,8 @@
             <div class="form-group">
                 <label asp-for="CompanyToId" class="control-label">Carrier company</label>
                 <div class="form-row">
-                    <select asp-for="CompanyToId" class="form-control col-7" asp-items="companyItems">
-                        <option hidden>Select</option>
+                    <select asp-for="CompanyToId" class="form-control col-7" asp-items="companyItems" required>
+                        <option disabled selected hidden>Select</option>
                     </select>
                     <select id="areaFilter" class="form-control col-4 ml-2" asp-items="@Model.AreasItems">
                         <option hidden>Filter by area</option>
@@ -35,30 +35,31 @@
             <div class="form-group col-6">
                 <label asp-for="ContactToId" class="control-label">Contact</label>
                 <select asp-for="ContactToId" id="contactTo" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
-                    <option hidden>Select carrier first</option>
+                    <option disabled selected hidden>Select carrier first</option>
                 </select>
                 <span asp-validation-for="ContactToId" class="text-danger"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="VehicleId" class="control-label">Vehicle</label>
                 <select asp-for="VehicleId" id="vehicle" class="form-control" asp-items="@(new SelectList(string.Empty, "VehicleId", "VehicleNumber"))">
-                    <option hidden>Select carrier first</option>
+                    <option disabled selected hidden>Select carrier first</option>
                 </select>
                 <span asp-validation-for="VehicleId" class="text-danger"></span>
             </div>
             <div class="form-group col-6">
                 <label asp-for="DriverId" class="control-label">Driver</label>
                 <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))">
-                    <option hidden>Select carrier first</option>
+                    <option disabled selected hidden>Select carrier first</option>
                 </select>
                 <span asp-validation-for="DriverId" class="text-danger"></span>
             </div>
         </div>
         @Html.HiddenFor(m => m.OrderFromPriceNetIn)
         @Html.HiddenFor(m => m.OrderFromCurrencyId)
+        @Html.HiddenFor(m => m.Id)
         <div class="form-group">
             <button type="submit" title="Create" class="btn btn-primary mr-1" style="width:8em">Create</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <a asp-action="Accepted" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
@@ -74,9 +75,10 @@
                         row += "<option value=" + v.value + ">" + v.text + "</option>";
                     });
                     $("#CompanyToId").html(row);
-                    var item = new Option("Select", null);
-                    $(item).html("Select");
-                    $("#CompanyToId").append(item);
+                    //var item = new Option("Select", null);
+                    //$(item).html("Select");
+                    //item.setAttribute("disabled", "disabled");
+                    //$("#CompanyToId").append(item);
                 })
             })
             $("#CompanyToId").change(function () {
@@ -89,6 +91,7 @@
                     $("#contactTo").html(row);
                     var item = new Option("Select", null, true, true);
                     $(item).html("Select");
+                    item.setAttribute("disabled", "disabled");
                     $("#contactTo").append(item);
                 })
                 $.getJSON("/Orders/GetDrivers", { companyId: $("#CompanyToId").val() }, function (d) {
@@ -100,6 +103,7 @@
                     $("#driver").html(row);
                     var item = new Option("Select", null, true, true);
                     $(item).html("Select");
+                    item.setAttribute("disabled", "disabled");
                     $("#driver").append(item);
                 })
                 $.getJSON("/Orders/GetVehicles", { companyId: $("#CompanyToId").val() }, function (d) {
@@ -111,6 +115,7 @@
                     $("#vehicle").html(row);
                     var item = new Option("Select", null, true, true);
                     $(item).html("Select");
+                    item.setAttribute("disabled", "disabled");
                     $("#vehicle").append(item);
                 })
             })

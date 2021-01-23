@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+}
+
+<div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+    <form id="selectLanguage" asp-controller="Culture" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post" class="form-horizontal" role="form">
+        @Localizer["Language:"] <select name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+        </select>
+    </form>
+</div>
+
+@*<a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="flag-icon flag-icon-gb"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right p-0">
+        <a href="#" class="dropdown-item active">
+            <i class="flag-icon flag-icon-gb mr-2"></i> English
+        </a>
+        <a href="#" class="dropdown-item">
+            <i class="flag-icon flag-icon-bg mr-2"></i> Bulgarian
+        </a>
+    </div>*@

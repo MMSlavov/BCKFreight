@@ -13,12 +13,12 @@
         <div class="col-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.FirstName"></label>
+                <label asp-for="Input.FirstName">First name</label>
                 <input asp-for="Input.FirstName" class="form-control" placeholder="Enter First name" />
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.LastName"></label>
+                <label asp-for="Input.LastName">Last name</label>
                 <input asp-for="Input.LastName" class="form-control" placeholder="Enter Last name" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="col-5">
             <div class="form-group">
-                <label asp-for="Input.ProfilePicture" class="col"></label>
+                <label asp-for="Input.ProfilePicture" class="col">Profile picture</label>
                 @if (Model.Input.ProfilePicture != null)
                 {
                     <img id="profilePicture" style="width:200px;height:200px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">

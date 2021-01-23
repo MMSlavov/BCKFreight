@@ -3,10 +3,14 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Shared;
 
-    public class ActionCreateInputModel
+    public class ActionCreateInputModel : IMapFrom<OrderAction>
     {
+        public int Id { get; set; }
+
         public int TypeId { get; set; }
 
         public AddressInputModel Address { get; set; }

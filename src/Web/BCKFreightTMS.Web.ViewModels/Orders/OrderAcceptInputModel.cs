@@ -15,6 +15,8 @@
 
         public int DueDaysFrom { get; set; }
 
+        public string FromReferenceNum { get; set; }
+
         [Required]
         public string CompanyFromId { get; set; }
 

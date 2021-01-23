@@ -13,6 +13,7 @@
             this.Drivers = new HashSet<DriverOrder>();
         }
 
+        [MaxLength(10)]
         public string ReferenceNum { get; set; }
 
         public decimal PriceNetOut { get; set; }

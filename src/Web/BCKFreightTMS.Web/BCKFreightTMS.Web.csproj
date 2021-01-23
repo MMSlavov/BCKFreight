@@ -51,6 +51,10 @@
   <ItemGroup>
     <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <None Include="wwwroot\data\20200930.json" />
+    <None Include="wwwroot\plugins\overlayScrollbars\js\jquery.overlayScrollbars.js" />
+    <None Include="wwwroot\plugins\overlayScrollbars\js\jquery.overlayScrollbars.min.js" />
+    <None Include="wwwroot\plugins\overlayScrollbars\js\OverlayScrollbars.js" />
+    <None Include="wwwroot\plugins\overlayScrollbars\js\OverlayScrollbars.min.js" />
   </ItemGroup>
 
   <ItemGroup>

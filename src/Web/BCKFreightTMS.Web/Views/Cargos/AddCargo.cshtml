@@ -9,18 +9,13 @@
     <form method="post" class="col-md-6 p-2 border rounded">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group">
             <label class="control-label">Type</label>
-            <select asp-for="TypeId" class="form-control" asp-items="typeItems"></select>
+            <select asp-for="TypeId" class="form-control col-10" asp-items="typeItems"></select>
             <span asp-validation-for="TypeId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label class="control-label">Required loading body</label>
-            <select asp-for="LoadingBodyId" class="form-control" asp-items="loadinBodyItems"></select>
+            <select asp-for="LoadingBodyId" class="form-control col-10" asp-items="loadinBodyItems"></select>
             <span asp-validation-for="LoadingBodyId" class="text-danger"></span>
         </div>
         <div class="form-group p-2 border rounded">
@@ -69,13 +64,18 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="Name" class="control-label"></label><span class="text-danger">*</span>
+            <input asp-for="Name" placeholder="Cargo name" class="form-control col-10" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="Details" class="control-label"></label>
             <textarea asp-for="Details" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Details" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

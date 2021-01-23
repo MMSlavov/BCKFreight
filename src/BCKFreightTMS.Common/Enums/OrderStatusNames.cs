@@ -9,5 +9,6 @@
         DocumentationCheck,
         AwaitingApproval,
         Approved,
+        Ready,
     }
 }

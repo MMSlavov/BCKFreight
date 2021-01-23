@@ -16,7 +16,11 @@
 
         public OrderAcceptInputModel LoadOrderAcceptInputModel(OrderAcceptInputModel model = null);
 
+        public OrderEditInputModel LoadOrderEditInputModel(string orderId);
+
         public OrderCreateInputModel LoadOrderCreateInputModel(string orderId);
+
+        public OrderApplicationModel GenerateApplicationModel(string orderId);
 
         public IEnumerable<SelectListItem> GetContacts(string companyId);
 
@@ -29,6 +33,10 @@
         public Task<string> AcceptAsync(OrderAcceptInputModel input, ClaimsPrincipal user);
 
         public Task<string> CreateAsync(OrderCreateInputModel input);
+
+        public Task<string> EditAsync(OrderEditInputModel input);
+
+        public Task<string> BeginAsync(string orderId);
 
         public Task<bool> DeleteAsync(string id);
 

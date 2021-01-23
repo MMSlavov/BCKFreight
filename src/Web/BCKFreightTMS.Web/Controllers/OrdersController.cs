@@ -7,9 +7,10 @@
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Orders;
+    using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -21,31 +22,49 @@
         private readonly IDeletableEntityRepository<OrderStatus> orderStatuses;
         private readonly IOrdersService ordersService;
         private readonly IFinanceService financeService;
+        private readonly IPdfService pdfService;
+        private readonly IViewRenderService viewRenderService;
 
         public OrdersController(
             IDeletableEntityRepository<Order> orders,
             IDeletableEntityRepository<Currency> currencies,
             IDeletableEntityRepository<OrderStatus> orderStatuses,
             IOrdersService ordersService,
-            IFinanceService financeService)
+            IFinanceService financeService,
+            IPdfService pdfService,
+            IViewRenderService viewRenderService)
         {
             this.orders = orders;
             this.currencies = currencies;
             this.orderStatuses = orderStatuses;
             this.ordersService = ordersService;
             this.financeService = financeService;
+            this.pdfService = pdfService;
+            this.viewRenderService = viewRenderService;
         }
 
         public IActionResult Index()
         {
-            var orders = this.ordersService.GetAll<ListOrderViewModel>(o => o.Status.Name != OrderStatusNames.Accepted.ToString())
+            var orders = this.ordersService.GetAll<ListOrderViewModel>(o => o.Status.Name != OrderStatusNames.Accepted.ToString() &&
+                                                                            o.Status.Name != OrderStatusNames.Ready.ToString() &&
+                                                                            o.Status.Name != OrderStatusNames.Finished.ToString())
                                            .ToList();
             return this.View(orders);
         }
 
         public new IActionResult Accepted()
         {
-            var orders = this.ordersService.GetAll<ListAcceptedOrderViewModel>(o => o.Status.Name == OrderStatusNames.Accepted.ToString())
+            var orders = this.ordersService.GetAll<ListAcceptedOrderViewModel>(o =>
+                                            o.Status.Name == OrderStatusNames.Accepted.ToString() ||
+                                            o.Status.Name == OrderStatusNames.Ready.ToString())
+                                           .ToList();
+            return this.View(orders);
+        }
+
+        public IActionResult Finished()
+        {
+            var orders = this.ordersService.GetAll<ListFinishedOrderViewModel>(o =>
+                                            o.Status.Name == OrderStatusNames.Finished.ToString())
                                            .ToList();
             return this.View(orders);
         }
@@ -54,6 +73,34 @@
         {
             var model = this.ordersService.LoadOrderAcceptInputModel();
             return this.View(model);
+        }
+
+        public async Task<IActionResult> GenerateApplication(string id)
+        {
+            var model = this.ordersService.GenerateApplicationModel(id);
+            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
+            var appModel = new ApplicationModel { ApplicationHtml = html, OrderId = id };
+            return this.View(appModel);
+        }
+
+        public async Task<IActionResult> DownloadApplication(string id)
+        {
+            var model = this.ordersService.GenerateApplicationModel(id);
+            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
+            var pdfData = this.pdfService.PdfSharpConvert(html);
+            return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderApplication{model.RefNumber}.pdf");
+        }
+
+        public async Task<IActionResult> BeginOrder(string id)
+        {
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.Ready.ToString())
+            {
+                return this.NotFound();
+            }
+
+            await this.ordersService.BeginAsync(id);
+
+            return this.RedirectToAction(GlobalConstants.Index);
         }
 
         public IActionResult Create(string id)
@@ -96,7 +143,7 @@
             }
 
             await this.ordersService.AcceptAsync(input, this.User);
-            return this.RedirectToAction(GlobalConstants.Index);
+            return this.RedirectToAction("Accepted");
         }
 
         [HttpPost]
@@ -130,6 +177,42 @@
             }
 
             await this.ordersService.CreateAsync(input);
+            return this.Redirect(@$"/Orders/GenerateApplication/{input.Id}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(OrderEditInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input = this.ordersService.LoadOrderEditInputModel(input.Id);
+                return this.View(input);
+            }
+
+            var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
+            var priceOut = this.financeService.GetAmount(input.OrderToCurrencyId, input.OrderToPriceNetOut);
+            var margin = priceIn - priceOut;
+            var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
+            if (priceIn < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMaxAmount) &&
+                margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
+            {
+                this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
+                input = this.ordersService.LoadOrderEditInputModel(input.Id);
+                return this.View(input);
+            }
+
+            var minMarginPer = priceIn * GlobalConstants.MinOrderMargin;
+
+            if (margin < minMarginPer)
+            {
+                this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
+                input = this.ordersService.LoadOrderEditInputModel(input.Id);
+                return this.View(input);
+            }
+
+            await this.ordersService.EditAsync(input);
+
+            // send or download application
             return this.RedirectToAction(GlobalConstants.Index);
         }
 
@@ -141,6 +224,18 @@
             }
 
             return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        public IActionResult Edit(string id)
+        {
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name == OrderStatusNames.Finished.ToString())
+            {
+                return this.RedirectToAction(GlobalConstants.Index);
+            }
+
+            var model = this.ordersService.LoadOrderEditInputModel(id);
+
+            return this.View(model);
         }
 
         public IActionResult Status(string id)

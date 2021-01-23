@@ -1,4 +1,12 @@
-﻿showInPopup = (url, title) => {
+﻿(function () {
+    $("#selectLanguage select").change(function () {
+        $(this).parent().submit();
+    });
+}());
+
+var instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
+
+showInPopup = (url, title) => {
     $.ajax({
         type: 'GET',
         url: url,

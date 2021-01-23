@@ -1,4 +1,5 @@
-﻿@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+﻿@using BCKFreightTMS.Common.Enums;
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListAcceptedOrderViewModel>
 
 <div class="p-2">
@@ -39,15 +40,35 @@
                     <p class="m-0">@order.OrderFromCurrencyName</p>
                 </td>
                 <td class="align-middle text-center p-1" style="width:auto">
-                    <a asp-action="Create" asp-route-id="@order.Id" class="btn btn-primary">Find carrier</a>
+                    @{
+                        string action;
+                        string btnColor;
+                        string btnState = string.Empty;
+                        switch (order.StatusName)
+                        {
+                            case "Ready":
+                                action = "GenerateApplication";
+                                btnColor = "success";
+                                break;
+                            case "Accepted":
+                                action = "Create";
+                                btnColor = "primary";
+                                break;
+                            default:
+                                action = null;
+                                btnColor = "primary";
+                                break;
+                        }
+                    }
+                    <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor">@order.StatusName</a>
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     @*<a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>*@
                     @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
-                    <span>
-                        <i class="p-1 fas fa-info-circle"></i>
-                    </span>
-                </a>*@
+                            <span>
+                                <i class="p-1 fas fa-info-circle"></i>
+                            </span>
+                        </a>*@
                     <a asp-action="Delete" asp-route-id="@order.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>

@@ -104,6 +104,34 @@
             return model;
         }
 
+        public OrderEditInputModel LoadOrderEditInputModel(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            if (order is null)
+            {
+                return null;
+            }
+
+            var model = this.mapper.Map<OrderEditInputModel>(order);
+
+            model.CompanyItems = this.companies.AllAsNoTracking()
+                                               .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), $"{c.Name} - {c.TaxNumber}"))
+                                               .ToList();
+            model.Cargo.LoadingBodyItems = this.loadingBodies.AllAsNoTracking()
+                                                      .Select(lb => new KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
+                                                      .ToList();
+            model.Cargo.TypeItems = this.cargoTypes.AllAsNoTracking()
+                                                  .Select(ct => new KeyValuePair<string, string>(ct.Id.ToString(), ct.Name))
+                                                  .ToList();
+            model.CurrencyItems = this.currencies.AllAsNoTracking()
+                                                  .Select(c => new KeyValuePair<string, string>(c.Id.ToString(), c.Name))
+                                                  .ToList();
+            model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
+                                                    .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
+                                                    .ToList();
+            return model;
+        }
+
         public OrderCreateInputModel LoadOrderCreateInputModel(string orderId)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
@@ -131,6 +159,14 @@
             return model;
         }
 
+        public OrderApplicationModel GenerateApplicationModel(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            var model = this.mapper.Map<OrderApplicationModel>(order);
+            model.RefNumber = this.GenerateOrderNumber();
+            return model;
+        }
+
         public IEnumerable<SelectListItem> GetContacts(string companyId)
         {
             var contacts = this.people.AllAsNoTracking()
@@ -153,7 +189,11 @@
         {
             var vehicles = this.vehicles.AllAsNoTracking()
                          .Where(v => v.CompanyId == companyId)
-                         .Select(v => new SelectListItem { Text = v.RegNumber, Value = v.Id })
+                         .Select(v => new SelectListItem
+                         {
+                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber}/{v.Trailer.RegNumber}",
+                             Value = v.Id,
+                         })
                          .ToList();
             return vehicles;
         }
@@ -242,9 +282,30 @@
             orderTo.AdminId = order.AdminId;
             orderTo.Drivers.Add(new DriverOrder { OrderId = order.Id, DriverId = input.DriverId, });
             order.OrderTo = orderTo;
-            order.Status = this.orderStatuses.All().FirstOrDefault(s => s.Name == OrderStatusNames.InProgress.ToString());
 
             await this.orders.SaveChangesAsync();
+            await this.UpdateOrderStatus(order.Id, OrderStatusNames.Ready.ToString());
+            return order.Id;
+        }
+
+        public async Task<string> EditAsync(OrderEditInputModel input)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+
+            // order = this.mapper.Map<OrderEditInputModel, Order>(input, order);
+            await this.orders.SaveChangesAsync();
+            return order.Id;
+        }
+
+        public async Task<string> BeginAsync(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+
+            order.OrderTo.ReferenceNum = this.GenerateOrderNumber();
+
+            // TODO: Send application
+            await this.orders.SaveChangesAsync();
+            await this.UpdateOrderStatus(order.Id, OrderStatusNames.InProgress.ToString());
             return order.Id;
         }
 
@@ -288,10 +349,10 @@
                                              .Where(oa => oa.OrderId == model.Id)
                                              .To<ActionStatusInputModel>()
                                              .ToList();
-            var documentation = this.documentations.All()
-                                                     .FirstOrDefault(d => d.OrderId == model.Id);
-            model.Documentation = this.mapper.Map<DocumentationInputModel>(documentation);
 
+            // var documentation = this.documentations.All()
+            //                                         .FirstOrDefault(d => d.OrderId == model.Id);
+            // model.Documentation = this.mapper.Map<DocumentationInputModel>(documentation);
             return model;
         }
 
@@ -332,7 +393,11 @@
 
         public async Task<string> FinishOrderAsync(OrderFinishViewModel input)
         {
-            await this.SetOrderReceivedDocumentation(input);
+            if (input.OrderStatus.StatusName != OrderStatusNames.Approved.ToString())
+            {
+                await this.SetOrderReceivedDocumentation(input);
+            }
+
             await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Finished.ToString());
             return input.OrderStatus.Id;
         }
@@ -371,12 +436,26 @@
             await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Approved.ToString());
         }
 
+        private string GenerateOrderNumber()
+        {
+            var year = DateTime.UtcNow.Year;
+            var month = DateTime.UtcNow.Month;
+            var ordersCount = this.orders.AllAsNoTracking()
+                                         .Where(o =>
+                                         o.CreatedOn.Month == month &&
+                                         o.Status.Name != OrderStatusNames.Accepted.ToString() &&
+                                         o.Status.Name != OrderStatusNames.Ready.ToString())
+                                         .Count()
+                                         .ToString()
+                                         .PadLeft(4, '0');
+            return $"{year}{month.ToString().PadLeft(2, '0')}{ordersCount}";
+        }
+
         private async Task UpdateOrderStatus(string orderId, string status)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
-            order.StatusId = this.orderStatuses.AllAsNoTracking()
-                                               .FirstOrDefault(s => s.Name == status)
-                                               .Id;
+            order.Status = this.orderStatuses.AllAsNoTracking()
+                                               .FirstOrDefault(s => s.Name == status);
             this.orders.Update(order);
             await this.orders.SaveChangesAsync();
         }

@@ -1,0 +1,276 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Orders.OrderEditInputModel
+@{
+    var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var loadingBodyItems = this.Model.Cargo.LoadingBodyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var cargoTypeItems = this.Model.Cargo.TypeItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var currencyItems = this.Model.CurrencyItems.Select(c => new SelectListItem(c.Value, c.Key));
+    var actionTypeItems = this.Model.ActionTypeItems.Select(at => new SelectListItem(at.Value, at.Key));
+}
+
+@*<h4 class="text-bold mt-2">New Order</h4>
+<hr />*@
+<div class="col p-2">
+    @using (Html.BeginForm("Edit", "Orders", FormMethod.Post))
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="form-group border border-dark rounded bg-gray-light col p-2">
+                <h4 class="text-muted text-bold text-center">Data</h4>
+                <div class="form-row ml-2">
+                    <div class="form-group">
+                        <div class="form-group col-10">
+                            <label class="control-label">Carrier company</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompany?popUp=true', 'Add company')"><i class="fas fa-plus"></i></a>
+                            <select asp-for="OrderToCompanyId" class="form-control" asp-items="companyItems">
+                                @*<option hidden>Select</option>*@
+                            </select>
+                            <span asp-validation-for="OrderToCompanyId" class="text-danger"></span>
+                        </div>
+                        <div class="form-row ml-2">
+                            <div class="form-group col-5">
+                                <label class="control-label">Price out</label>
+                                <input asp-for="OrderToPriceNetOut" class="form-control" />
+                                <span asp-validation-for="OrderToPriceNetOut" class="text-danger"></span>
+                            </div>
+                            <div class="form-group ml-2">
+                                <label class="control-label">Currency</label>
+                                <select asp-for="OrderToCurrencyId" class="form-control" asp-items="currencyItems"></select>
+                            </div>
+                        </div>
+                        <div class="form-group col-8">
+                            <label asp-for="OrderToContactId" class="control-label">Carrier contact</label>
+                            <select asp-for="OrderToContactId" id="contactFrom" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
+                                @*<option hidden>Select client first</option>*@
+                            </select>
+                            <span asp-validation-for="OrderToContactId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group p-2 border rounded">
+                        <h5 class="text-muted text-bold text-center">Client</h5>
+                        <div class="form-group col-8">
+                            <label class="control-label">Reference number</label>
+                            <input asp-for="OrderFromReferenceNum" class="form-control" placeholder="Reference number" />
+                            <span asp-validation-for="OrderFromReferenceNum" class="text-danger"></span>
+                        </div>
+                        <div class="form-row ml-2">
+                            <div class="form-group col-5">
+                                <label class="control-label">Price in</label>
+                                <input asp-for="OrderFromPriceNetIn" class="form-control" />
+                                <span asp-validation-for="OrderFromPriceNetIn" class="text-danger"></span>
+                            </div>
+                            <div class="form-group ml-2">
+                                <label class="control-label">Currency</label>
+                                <select asp-for="OrderFromCurrencyId" class="form-control" asp-items="currencyItems"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="actionsWrapper">
+            @for (int i = 0; i < Model.OrderActions.Count; i++)
+            {
+                <div class="card p-2" id="action">
+                    <div class="form-group col-4">
+                        <label class="control-label">Action type</label>
+                        <select asp-for="OrderActions[i].TypeId" class="form-control" asp-items="actionTypeItems"></select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group border rounded col-6 p-2 m-0 ml-2">
+                            <label class="text-muted">Address</label>
+                            <div class="form-row">
+                                <div class="form-group col-7">
+                                    <label class="control-label">City</label>
+                                    <input asp-for="OrderActions[i].Address.City" class="form-control" placeholder="City name" />
+                                    <span asp-validation-for="OrderActions[i].Address.City" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="control-label">Post code</label>
+                                    <input asp-for="OrderActions[i].Address.Postcode" class="form-control" placeholder="Code" />
+                                    <span asp-validation-for="OrderActions[i].Address.Postcode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label class="control-label">State</label>
+                                    <input asp-for="OrderActions[i].Address.State" class="form-control" placeholder="State name" />
+                                    <span asp-validation-for="OrderActions[i].Address.State" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="control-label">Area</label>
+                                    <input asp-for="OrderActions[i].Address.Area" class="form-control" placeholder="Area name" />
+                                    <span asp-validation-for="OrderActions[i].Address.Area" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Street line</label>
+                                <input asp-for="OrderActions[i].Address.StreetLine" class="form-control" placeholder="Street and number" />
+                                <span asp-validation-for="OrderActions[i].Address.StreetLine" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-5 ml-1">
+                            <div class="form-group">
+                                <label class="control-label">Due datetime</label>
+                                <input asp-for="OrderActions[i].Until" class="form-control col-9" />
+                                <span asp-validation-for="OrderActions[i].Until" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Details</label>
+                                <textarea asp-for="OrderActions[i].Details" class="form-control" rows="5"></textarea>
+                                <span asp-validation-for="OrderActions[i].Details" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(m => m.OrderActions[i].Id)
+            }
+        </div>
+        <div class="form-row pb-2 pl-2 text-right"><a class="btn btn-primary text-white" id="addAction"><i class="fas fa-plus"></i></a></div>
+        <div class="form-group border border-dark rounded bg-gray-light col p-2">
+            <h5 class="text-muted text-bold ml-2">Cargo</h5>
+            <div class="form-row">
+                <div class="form-group col-lg-6 col-md-10 col-sm-12 m-0">
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label class="control-label">Load type</label>
+                            <select asp-for="Cargo.TypeId" class="form-control" asp-items="cargoTypeItems">
+                                <option hidden>Select</option>
+                            </select>
+                            <span asp-validation-for="Cargo.TypeId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Cargo.Quantity" class="control-label"></label>
+                            <input asp-for="Cargo.Quantity" class="form-control col-4" />
+                            <span asp-validation-for="Cargo.Quantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cargo.LoadingBodyId" class="control-label">Trailer type</label>
+                        <select asp-for="Cargo.LoadingBodyId" class="form-control col-6" asp-items="loadingBodyItems">
+                            <option hidden>Select</option>
+                        </select>
+                        <span asp-validation-for="Cargo.LoadingBodyId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input asp-for="Cargo.Name" class="form-control col-10" placeholder="Cargo name" />
+                        <span asp-validation-for="Cargo.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cargo.Details" class="control-label"></label>
+                        <textarea asp-for="Cargo.Details" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="Cargo.Details" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group p-2 border rounded">
+                    <label class="text-muted">Specifications</label>
+                    <div class="form-group col-10">
+                        <label class="control-label">Gross weight</label>
+                        <input asp-for="Cargo.WeightGross" class="form-control" />
+                        <span asp-validation-for="Cargo.WeightGross" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-10">
+                        <label class="control-label">Net weight</label>
+                        <input asp-for="Cargo.WeightNet" class="form-control" />
+                        <span asp-validation-for="Cargo.WeightNet" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-10">
+                        <label asp-for="Cargo.Cubature" class="control-label"></label>
+                        <input asp-for="Cargo.Cubature" class="form-control" />
+                        <span asp-validation-for="Cargo.Cubature" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group ml-2 p-2 border rounded">
+                    <label class="text-muted">Dimentions</label>
+                    <div class="form-group col-10">
+                        <label asp-for="Cargo.Lenght" class="control-label"></label>
+                        <input asp-for="Cargo.Lenght" class="form-control" />
+                        <span asp-validation-for="Cargo.Lenght" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-10">
+                        <label asp-for="Cargo.Width" class="control-label"></label>
+                        <input asp-for="Cargo.Width" class="form-control" />
+                        <span asp-validation-for="Cargo.Width" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-10">
+                        <label asp-for="Cargo.Height" class="control-label"></label>
+                        <input asp-for="Cargo.Height" class="form-control" />
+                        <span asp-validation-for="Cargo.Height" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group border border-dark rounded bg-gray-light p-2">
+            <h5 class="text-muted text-bold ml-2">Requaired documentation</h5>
+            <div class="d-flex justify-content-around">
+                <div class="col">
+                    <div><input asp-for="Documentation.CMR" type="checkbox"><label>&nbsp;CMR</label></div>
+                    <div><input asp-for="Documentation.BillOfLading" type="checkbox"><label>&nbsp;Bill of lading</label></div>
+                    <div><input asp-for="Documentation.AOA" type="checkbox"><label>&nbsp;Act of acceptance</label></div>
+                </div>
+                <div class="col">
+                    <div><input asp-for="Documentation.DeliveryNote" type="checkbox"><label>&nbsp;Delivery note</label></div>
+                    <div><input asp-for="Documentation.PackingList" type="checkbox"><label>&nbsp;Packing list</label></div>
+                    <div><input asp-for="Documentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
+                </div>
+                <div class="col">
+                    <div><input asp-for="Documentation.Invoice" type="checkbox"><label>&nbsp;Invoice</label></div>
+                    <div><input asp-for="Documentation.BillOfGoods" type="checkbox"><label>&nbsp;Bill of goods</label></div>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.OrderToDriverId)
+        @Html.HiddenFor(m => m.OrderToVehicleId)
+        <div class="form-group">
+            <button type="submit" title="Edit" class="btn btn-primary mr-1">Edit and send</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(SetContacts($("#OrderToCompanyId").val()));
+        $(function () {
+            $("#OrderToCompanyId").change(SetContacts($("#OrderToCompanyId").val()))
+        })
+        function SetContacts(id) {
+            $.getJSON("/Orders/GetContacts", { companyId: id }, function (d) {
+                var row = "";
+                $("#contactFrom").empty();
+                $.each(d, function (i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $("#contactFrom").html(row);
+                //var item = new Option("Select", null, true, true);
+                //$(item).html("Select");
+                //$("#contactFrom").append(item);
+            })
+        }
+        document.getElementById("addAction").addEventListener("click", function () {
+            var index = document.getElementsByClassName("card").length;
+            var action = document.getElementById("action").innerHTML.replace(/_0_/g, "_" + index + "_").replace(/\[0\]/g, "[" + index + "]");
+            
+            $("#actionsWrapper").append('<div class="card p-2"><div class="row"><div class="col-11 p-2">' + action + '</div><div class="align-self-center"><a href="#" class="delete"><i class="fas fa-trash-alt"></i></a></div></div></div>');
+            console.log("add");
+        })
+        $("#actionsWrapper").on("click", ".delete", function (e) {
+            e.preventDefault();
+            $(this).parent('div').parent('div').parent('div').remove();
+        })
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                evt.preventDefault();
+                $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
+                    $.each($('#company_input input'), function () {
+                        let index = $("#company_input input").index(this);
+                        let input = this.getAttribute('name');
+                        console.log(input);
+                        $('#company_input input').eq(index).val(data[Object.keys(data)
+                            .find(k => k.toLowerCase() === input.toLowerCase())]);
+                    });
+                });
+            });
+        });
+    </script>
+}

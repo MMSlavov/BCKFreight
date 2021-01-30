@@ -7,15 +7,13 @@
     public class OrderAcceptInputModel : IValidatableObject
     {
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
+        [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetIn { get; set; }
 
         public int CurrencyInId { get; set; }
 
         public int DueDaysFrom { get; set; }
-
-        public string FromReferenceNum { get; set; }
 
         [Required]
         public string CompanyFromId { get; set; }

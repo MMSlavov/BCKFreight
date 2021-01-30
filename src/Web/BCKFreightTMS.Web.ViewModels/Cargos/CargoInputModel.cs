@@ -8,22 +8,22 @@
         [MaxLength(200)]
         public string Name { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public double Lenght { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public double Width { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public double Height { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public decimal WeightGross { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public decimal WeightNet { get; set; }
 
-        [Range(0.0, double.MaxValue)]
+        [Range(0.0, 9999999999.99)]
         public decimal Cubature { get; set; }
 
         [Range(0, int.MaxValue)]

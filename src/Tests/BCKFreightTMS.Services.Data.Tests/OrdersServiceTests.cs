@@ -9,6 +9,7 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Data.Repositories;
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
@@ -206,6 +207,7 @@
             userMan.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(Task.FromResult(new ApplicationUser { AdminId = string.Empty }));
             var mapper = new Mock<IMapper>();
+            var emailSender = new Mock<IEmailSender>();
 
             return new OrdersService(
                 this.companies,
@@ -222,7 +224,8 @@
                 this.vehicleTypes,
                 this.currencies,
                 this.documentations,
-                mapper.Object);
+                mapper.Object,
+                emailSender.Object);
         }
     }
 }

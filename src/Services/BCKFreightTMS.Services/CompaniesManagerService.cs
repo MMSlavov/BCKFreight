@@ -10,6 +10,7 @@
 
     using AngleSharp;
     using AngleSharp.Dom;
+    using AngleSharp.Io;
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Web.ViewModels.Contacts;
 
@@ -22,7 +23,7 @@
         public CompaniesManagerService()
         {
             this.companies = new List<CompanyInfo>();
-            var config = Configuration.Default.WithDefaultLoader();
+            var config = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
             this.context = BrowsingContext.New(config);
         }
 
@@ -65,7 +66,6 @@
         public async Task<CompanyInputModel> GetCompanyAsync(string searchStr)
         {
             var urlSearch = string.Format(BaseUrlSearch, searchStr);
-
             var document = await this.context.OpenAsync(urlSearch);
             if (document.StatusCode == System.Net.HttpStatusCode.NotFound ||
                 document.DocumentElement.OuterHtml.Contains("Няма намерени резултати"))
@@ -103,5 +103,33 @@
 
             return company;
         }
+
+        //public async Task<string> SpeditorNetGetCompanyAsync(string searchStr)
+        //{
+        //    var cookieValue = "SpeditorLogin=%D1%E2%2E%CF%E5%ED%F7%E5%E2!1611760753; sess=1611760753.706223567839362707";
+        //    var request = new DocumentRequest(new Url("https://www3.speditor.net/cgi-bin/info.pl?firm=%27%27%C0%EB%ED%E8%EC%E0%F0%27%27%20%C5%CE%CE%C4"));
+        //    request.Headers.Add("Cookie", cookieValue);
+        //    var document = await this.context.OpenAsync(request, new System.Threading.CancellationToken());
+
+        //    //this.context.SetCookie(new Url("https://www3.speditor.net"), cookieValue);
+        //    //var document = await this.context.OpenAsync("https://www3.speditor.net/cgi-bin/info.pl?firm=%27%27%C0%EB%ED%E8%EC%E0%F0%27%27%20%C5%CE%CE%C4");
+        //    //var urlSearch = string.Format(BaseUrlSearch, searchStr);
+        //    //Console.WriteLine(document.Body.InnerHtml);
+        //    return document.Body.InnerHtml;
+        //    //var cookieValue = SetCookie(, "sess=1611750746.280510157839486967");
+        //    //var document = await this.context.OpenAsync(urlSearch).
+        //    //if (document.StatusCode == System.Net.HttpStatusCode.NotFound ||
+        //    //    document.DocumentElement.OuterHtml.Contains("Няма намерени резултати"))
+        //    //{
+        //    //    throw new InvalidOperationException("Not found");
+        //    //}
+
+        //    //var company = new CompanyInputModel();
+
+        //    //var companyPath = document.QuerySelectorAll("table > tbody > tr > td > a").FirstOrDefault().GetAttribute("href");
+        //    //var url = string.Format(GlobalConstants.RegistryAgencyUrl, companyPath);
+
+        //    //document = await this.context.OpenAsync(url);
+        //}
     }
 }

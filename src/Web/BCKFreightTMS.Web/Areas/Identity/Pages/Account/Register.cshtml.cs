@@ -143,6 +143,7 @@
                             City = this.Input.City,
                         },
                     },
+                    Comunicators = new Comunicators(),
                 };
 
                 var taxCoutry = this.dbContext.TaxCountries.FirstOrDefault(c => c.Name == this.Input.TaxCountry);
@@ -166,6 +167,7 @@
                 company.Address.Address.AdminId = company.AdminId;
                 company.TaxCountry.AdminId = company.AdminId;
                 company.TaxCurrency.AdminId = company.AdminId;
+                company.Comunicators.AdminId = company.AdminId;
 
                 await this.financeService.AddNewCompanyCurrencyRatesAsync(company.AdminId, company.TaxCurrency.Name);
                 await this.dbContext.Companies.AddAsync(company);

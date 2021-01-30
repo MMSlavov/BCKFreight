@@ -6,7 +6,7 @@
 
     using BCKFreightTMS.Web.ViewModels.Cargos;
 
-    public class OrderEditInputModel : IValidatableObject
+    public class OrderEditInputModel
     {
         public OrderEditInputModel()
         {
@@ -16,8 +16,8 @@
 
         public string Id { get; set; }
 
+        // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal OrderFromPriceNetIn { get; set; }
 
@@ -26,7 +26,6 @@
         public string OrderFromReferenceNum { get; set; }
 
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+\.\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
         [Range(0, 9999999999.99)]
         public decimal OrderToPriceNetOut { get; set; }
 
@@ -51,12 +50,5 @@
         public IEnumerable<KeyValuePair<string, string>> CurrencyItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ActionTypeItems { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-
-            return errors;
-        }
     }
 }

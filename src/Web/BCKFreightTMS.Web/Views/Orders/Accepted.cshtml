@@ -1,9 +1,9 @@
-﻿@using BCKFreightTMS.Common.Enums;
-@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+﻿@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListAcceptedOrderViewModel>
 
 <div class="p-2">
-    <a asp-action="Accept" class="btn btn-primary">Create new order</a>
+    <a asp-action="Accept" class="btn btn-primary">@localizer["Accept new order"]</a>
 </div>
 <hr class="mt-1" />
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -60,7 +60,7 @@
                                 break;
                         }
                     }
-                    <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor">@order.StatusName</a>
+                    <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     @*<a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>*@

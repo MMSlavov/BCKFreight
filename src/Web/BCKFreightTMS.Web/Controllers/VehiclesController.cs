@@ -30,6 +30,12 @@
             return this.View(model);
         }
 
+        public IActionResult AddVehicleModal()
+        {
+            var model = this.vehiclesService.LoadVehicleInputModel();
+            return this.View(model);
+        }
+
         public JsonResult GetDrivers(string companyId)
         {
             var drivers = this.vehiclesService.GetDrivers(companyId);
@@ -54,6 +60,20 @@
             await this.vehiclesService.AddVehicleAsync(input);
 
             return this.RedirectToAction(GlobalConstants.Index);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddVehicleModal(VehicleInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input = this.vehiclesService.LoadVehicleInputModel(input);
+                return this.View(input);
+            }
+
+            await this.vehiclesService.AddVehicleAsync(input);
+
+            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
         }
 
         public async Task<IActionResult> Delete(string id)

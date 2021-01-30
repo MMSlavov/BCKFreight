@@ -12,6 +12,7 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -33,6 +34,7 @@
         private readonly IDeletableEntityRepository<Currency> currencies;
         private readonly IDeletableEntityRepository<Documentation> documentations;
         private readonly IMapper mapper;
+        private readonly IEmailSender emailSender;
 
         public OrdersService(
             IDeletableEntityRepository<Company> companies,
@@ -49,7 +51,8 @@
             IDeletableEntityRepository<VehicleType> vehicleTypes,
             IDeletableEntityRepository<Currency> currencies,
             IDeletableEntityRepository<Documentation> documentations,
-            IMapper mapper)
+            IMapper mapper,
+            IEmailSender emailSender)
         {
             this.companies = companies;
             this.orders = orders;
@@ -66,6 +69,7 @@
             this.currencies = currencies;
             this.documentations = documentations;
             this.mapper = mapper;
+            this.emailSender = emailSender;
         }
 
         public IEnumerable<T> GetAll<T>(Expression<Func<Order, bool>> whereFilter)
@@ -156,6 +160,8 @@
                                                  .Distinct()
                                                  .Select(a => new SelectListItem { Text = a, Value = a })
                                                  .ToList();
+            model.AreasItems = model.AreasItems.Append(new SelectListItem("Any area", string.Empty));
+
             return model;
         }
 
@@ -163,7 +169,11 @@
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
             var model = this.mapper.Map<OrderApplicationModel>(order);
-            model.RefNumber = this.GenerateOrderNumber();
+            if (model.OrderToReferenceNum == null)
+            {
+                model.OrderToReferenceNum = this.GenerateOrderNumber();
+            }
+
             return model;
         }
 
@@ -200,14 +210,17 @@
 
         public IEnumerable<SelectListItem> GetCarriersByArea(string area)
         {
-            var carriers = this.companies.All().Where(c => c.OrderTos.Any(o =>
+            var carriers = this.companies.All();
+            if (!string.IsNullOrWhiteSpace(area))
+            {
+                carriers = carriers.Where(c => c.OrderTos.Any(o =>
                                                             o.Order.OrderActions.Any(oa =>
                                                               oa.Address.Area == area)))
-                                                .OrderBy(c => c.OrderTos.Count())
-                                                .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = $"{c.Name} - {c.TaxNumber}" })
-                                                .ToList();
+                                                .OrderBy(c => c.OrderTos.Count());
+            }
 
-            return carriers;
+            return carriers.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = $"{c.Name} - {c.TaxNumber}" })
+                           .ToList();
         }
 
         public async Task<string> AcceptAsync(OrderAcceptInputModel input, ClaimsPrincipal user)
@@ -292,7 +305,75 @@
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
 
-            // order = this.mapper.Map<OrderEditInputModel, Order>(input, order);
+            var orderTo = order.OrderTo;
+            orderTo.CompanyId = input.OrderToCompanyId;
+            orderTo.PriceNetOut = input.OrderToPriceNetOut;
+            orderTo.CurrencyId = input.OrderToCurrencyId;
+            orderTo.ContactId = input.OrderToContactId;
+            orderTo.VehicleId = input.OrderToVehicleId;
+
+            order.OrderFrom.ReferenceNum = input.OrderFromReferenceNum;
+            order.OrderFrom.PriceNetIn = input.OrderFromPriceNetIn;
+            order.OrderFrom.CurrencyId = input.OrderFromCurrencyId;
+
+            var actions = order.OrderActions;
+            var notDeletedIds = new List<int>();
+            foreach (var inputAction in input.OrderActions)
+            {
+                var orderAction = actions.FirstOrDefault(a => a.Id == inputAction.Id);
+                if (orderAction is null)
+                {
+                    orderAction = new OrderAction();
+                    orderAction.Address = new Address();
+                    orderAction.AdminId = order.AdminId;
+                    orderAction.Address.AdminId = order.AdminId;
+                    actions.Add(orderAction);
+                }
+
+                orderAction.TypeId = inputAction.TypeId;
+                orderAction.Address.City = inputAction.Address.City;
+                orderAction.Address.Postcode = inputAction.Address.Postcode;
+                orderAction.Address.Area = inputAction.Address.Area;
+                orderAction.Address.State = inputAction.Address.State;
+                orderAction.Address.StreetLine = inputAction.Address.StreetLine;
+                orderAction.Until = inputAction.Until;
+                orderAction.Details = inputAction.Details;
+                notDeletedIds.Add(orderAction.Id);
+            }
+            foreach (var action in actions)
+            {
+                if (!notDeletedIds.Contains(action.Id))
+                {
+                    action.IsDeleted = true;
+                }
+            }
+
+            var cargo = order.Cargo;
+            cargo.TypeId = input.Cargo.TypeId;
+            cargo.VehicleType = this.vehicleTypes.All().FirstOrDefault(vt => vt.Name == VehicleTypeNames.Truck.ToString());
+            cargo.LoadingBodyId = input.Cargo.LoadingBodyId;
+            cargo.Name = input.Cargo.Name;
+            cargo.Lenght = input.Cargo.Lenght;
+            cargo.Width = input.Cargo.Width;
+            cargo.Height = input.Cargo.Height;
+            cargo.WeightGross = input.Cargo.WeightGross;
+            cargo.WeightNet = input.Cargo.WeightNet;
+            cargo.Cubature = input.Cargo.Cubature;
+            cargo.Quantity = input.Cargo.Quantity;
+            cargo.Details = input.Cargo.Details;
+
+            var inputDocumentation = input.Documentation;
+            var documentation = order.Documentation;
+            documentation.CMR = inputDocumentation.CMR;
+            documentation.BillOfLading = inputDocumentation.BillOfLading;
+            documentation.AOA = inputDocumentation.AOA;
+            documentation.DeliveryNote = inputDocumentation.DeliveryNote;
+            documentation.PackingList = inputDocumentation.PackingList;
+            documentation.ListItems = inputDocumentation.ListItems;
+            documentation.Invoice = inputDocumentation.Invoice;
+            documentation.BillOfGoods = inputDocumentation.BillOfGoods;
+            await this.documentations.SaveChangesAsync();
+
             await this.orders.SaveChangesAsync();
             return order.Id;
         }
@@ -350,9 +431,6 @@
                                              .To<ActionStatusInputModel>()
                                              .ToList();
 
-            // var documentation = this.documentations.All()
-            //                                         .FirstOrDefault(d => d.OrderId == model.Id);
-            // model.Documentation = this.mapper.Map<DocumentationInputModel>(documentation);
             return model;
         }
 
@@ -376,18 +454,17 @@
                 this.orderActions.Update(action);
             }
 
-            var inputDocumentation = input.Documentation;
-            var documentation = this.documentations.All().FirstOrDefault(d => d.OrderId == input.Id);
-            documentation.CMR = inputDocumentation.CMR;
-            documentation.BillOfLading = inputDocumentation.BillOfLading;
-            documentation.AOA = inputDocumentation.AOA;
-            documentation.DeliveryNote = inputDocumentation.DeliveryNote;
-            documentation.PackingList = inputDocumentation.PackingList;
-            documentation.ListItems = inputDocumentation.ListItems;
-            documentation.Invoice = inputDocumentation.Invoice;
-            documentation.BillOfGoods = inputDocumentation.BillOfGoods;
-            await this.documentations.SaveChangesAsync();
-
+            // var inputDocumentation = input.Documentation;
+            // var documentation = this.documentations.All().FirstOrDefault(d => d.OrderId == input.Id);
+            // documentation.CMR = inputDocumentation.CMR;
+            // documentation.BillOfLading = inputDocumentation.BillOfLading;
+            // documentation.AOA = inputDocumentation.AOA;
+            // documentation.DeliveryNote = inputDocumentation.DeliveryNote;
+            // documentation.PackingList = inputDocumentation.PackingList;
+            // documentation.ListItems = inputDocumentation.ListItems;
+            // documentation.Invoice = inputDocumentation.Invoice;
+            // documentation.BillOfGoods = inputDocumentation.BillOfGoods;
+            // await this.documentations.SaveChangesAsync();
             await this.orderActions.SaveChangesAsync();
         }
 

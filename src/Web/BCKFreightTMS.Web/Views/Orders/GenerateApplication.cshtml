@@ -1,9 +1,11 @@
 ﻿@model BCKFreightTMS.Web.ViewModels.Shared.ApplicationModel
 
-@Html.Raw(Model.ApplicationHtml)
+<div class="my-3 p-5 bg-white shadow" style=" width: 22cm; margin: auto;">
+    @Html.Raw(Model.ApplicationHtml)
+</div>
 
 <div class="p-2">
     <a asp-action="BeginOrder" asp-route-id="@Model.OrderId" class="btn btn-primary">Send and begin</a>
-    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" class="btn btn-warning">Download</a>
+    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" class="btn btn-primary" title="Download"><i class="fas fa-download"></i></a>
     <a asp-action="Accepted" class="btn btn-secondary">Close</a>
 </div>

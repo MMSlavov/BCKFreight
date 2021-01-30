@@ -12,5 +12,7 @@
         public Task AddJsonCompaniesAsync(string pathJson);
 
         public Task<CompanyInputModel> GetCompanyAsync(string searchStr);
+
+        public Task<string> SpeditorNetGetCompanyAsync(string searchStr);
     }
 }

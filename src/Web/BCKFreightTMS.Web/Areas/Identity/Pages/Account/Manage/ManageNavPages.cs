@@ -8,6 +8,8 @@
     {
         public static string Index => "Index";
 
+        public static string Company => "Company";
+
         public static string Email => "Email";
 
         public static string ChangePassword => "ChangePassword";
@@ -23,6 +25,8 @@
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string CompanyNavClass(ViewContext viewContext) => PageNavClass(viewContext, Company);
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
 

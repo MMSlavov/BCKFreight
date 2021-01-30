@@ -1,6 +1,7 @@
 ﻿@using BCKFreightTMS.Common.Enums;
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @inject UserManager<ApplicationUser> userManager
 @inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListOrderViewModel>
@@ -106,7 +107,7 @@
                                 btnColor = "primary";
                                 break;
                         }
-                        <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor @btnState">@order.StatusName</a>
+                        <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor @btnState">@localizer[order.StatusName]</a>
                     }
                     else
                     {

@@ -3,6 +3,7 @@
     using System;
     using System.IO;
 
+    using SelectPdf;
     using TheArtOfDev.HtmlRenderer.PdfSharp;
 
     public class PdfService : IPdfService
@@ -13,6 +14,25 @@
             using (MemoryStream ms = new MemoryStream())
             {
                 var pdf = PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
+                pdf.Save(ms);
+                res = ms.ToArray();
+            }
+
+            return res;
+        }
+
+        public byte[] SelectPdfConvert(string html)
+        {
+            HtmlToPdf converter = new HtmlToPdf();
+            converter.Options.MarginBottom = 50;
+            converter.Options.MarginTop = 50;
+            converter.Options.MarginLeft = 50;
+            converter.Options.MarginRight = 50;
+
+            byte[] res = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                var pdf = converter.ConvertHtmlString(html);
                 pdf.Save(ms);
                 res = ms.ToArray();
             }

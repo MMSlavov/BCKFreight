@@ -5,6 +5,7 @@
     using BCKFreightTMS.Web.ViewModels.Cargos;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
+    using BCKFreightTMS.Web.ViewModels.Contacts;
 
     public class MappingProfile : Profile
     {
@@ -24,6 +25,10 @@
             this.CreateMap<Order, OrderEditInputModel>();
             this.CreateMap<CargoInputModel, Cargo>();
             this.CreateMap<Cargo, CargoInputModel>();
+            this.CreateMap<OrderAction, ActionApplicationModel>();
+            this.CreateMap<ActionApplicationModel, OrderAction>();
+            this.CreateMap<CompanyViewModel, Company>();
+            this.CreateMap<Company, CompanyViewModel>();
         }
     }
 }

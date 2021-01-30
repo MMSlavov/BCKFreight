@@ -97,7 +97,7 @@
 
         public async Task<string> AddPersonAsync(PersonInputModel input)
         {
-            if (this.peopleRepository.All().Any(p => p.FirstName == input.FirstName && p.LastName == input.LastName))
+            if (this.peopleRepository.All().Any(p => p.CompanyId == input.CompanyId && p.FirstName == input.FirstName && p.LastName == input.LastName))
             {
                 return null;
             }

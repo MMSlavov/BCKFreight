@@ -1,0 +1,76 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Contacts.CompanyInputModel
+@{
+    this.Layout = null;
+}
+
+<form class="form-inline p-2" id="search">
+    <div class="form-row">
+        <input class="form-control" type="search" name="searchStr" placeholder="Search by Name or UIC" aria-label="Search">
+        <div class="form-inline pl-2">
+            <button class="btn btn-primary" id="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</form>
+<form asp-action="AddCompanyModal" onsubmit="return jQueryAjaxPost(this);" id="company_input">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label>Company name <span class="text-danger">*</span></label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Enter company name" required>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-5">
+            <label>Tax country</label>
+            <input asp-for="TaxCountry" type="text" class="form-control" placeholder="Enter Tax country">
+        </div>
+        <div class="form-group col-7">
+            <label>Tax number</label>
+            <input asp-for="TaxNumber" type="text" id="uicInput" class="form-control" placeholder="Enter Tax number">
+        </div>
+    </div>
+    <div class="form-group p-2 border rounded">
+        <label class="text-muted">Company address</label>
+        <div class="form-group">
+            <label asp-for="StreetLine">Street line</label>
+            <input asp-for="StreetLine" type="text" class="form-control" placeholder="Enter Street line">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label asp-for="MOLFirstName">MOL First name</label>
+                <input asp-for="MOLFirstName" type="text" class="form-control" placeholder="Enter MOL First name">
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="MOLLastName">MOL Last name</label>
+                <input asp-for="MOLLastName" type="text" class="form-control" placeholder="Enter MOL Last name">
+            </div>
+        </div>
+        <div class="form-group col-md-7">
+            <label asp-for="Mobile1">Mobile <span class="text-danger">*</span></label>
+            <input asp-for="Mobile1" type="text" class="form-control" placeholder="Mobile">
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Details">Details</label>
+        <textarea asp-for="Details" type="text" class="form-control" placeholder="Enter Details" rows="5"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<script>
+    $(function () {
+        $('#submit').on('click', function (evt) {
+            evt.preventDefault();
+            $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
+                $.each($('#company_input :input[name!=Mobile1]'), function () {
+                    let index = $("#company_input :input").index(this);
+                    let input = this.getAttribute('name');
+                    if (input == null) {
+                        return true;
+                    }
+                    $('#company_input :input').eq(index).val(data[Object.keys(data)
+                        .find(k => k.toLowerCase() === input.toLowerCase())]);
+                });
+            });
+        });
+    });
+</script>

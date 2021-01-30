@@ -47,7 +47,12 @@ jQueryAjaxPost = form => {
             processData: false,
             success: function (res) {
                 if (res.isValid) {
-                    window.location = res.redirectToUrl;
+                    if (res.redirectToUrl == "") {
+                        $('#form-modal').modal('hide');
+                    }
+                    else {
+                        window.location = res.redirectToUrl;
+                    }
                 }
                 else {
                     $('#form-modal .modal-body').html(res.html);

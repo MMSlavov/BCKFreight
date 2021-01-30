@@ -43,13 +43,13 @@
             }
         }
 
-        public IActionResult AddCompany(bool popUp = false)
+        public IActionResult AddCompany()
         {
-            if (popUp)
-            {
-                this.ViewData["Layout"] = null;
-            }
+            return this.View();
+        }
 
+        public IActionResult AddCompanyModal()
+        {
             return this.View();
         }
 
@@ -62,11 +62,31 @@
             }
             catch (InvalidOperationException)
             {
+                return this.Json(new { });
+            }
+        }
+
+        public async Task<IActionResult> GetCompanySN()
+        {
+            try
+            {
+                var html = await this.companiesManager.SpeditorNetGetCompanyAsync("");
+                var model = new CompanySNModel { Html = html };
+                return this.View(model);
+            }
+            catch (InvalidOperationException)
+            {
                 return this.Problem();
             }
         }
 
         public IActionResult AddPerson()
+        {
+            var viewModel = this.contactsService.GetPersonInputModel();
+            return this.View(viewModel);
+        }
+
+        public IActionResult AddPersonModal()
         {
             var viewModel = this.contactsService.GetPersonInputModel();
             return this.View(viewModel);
@@ -87,7 +107,25 @@
                 return this.View(input);
             }
 
-            return this.Redirect("/Contacts");
+            return this.Redirect(GlobalConstants.Index);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPersonModal(PersonInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(this.contactsService.GetPersonInputModel(input));
+            }
+
+            var res = await this.contactsService.AddPersonAsync(input);
+            if (res == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Person allready exists.");
+                return this.View(this.contactsService.GetPersonInputModel());
+            }
+
+            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -119,7 +157,25 @@
                 return this.View(model);
             }
 
-            return this.Redirect("/Contacts");
+            return this.Redirect(GlobalConstants.Index);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCompanyModal(CompanyInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var res = await this.contactsService.AddCompanyAsync(model);
+            if (res == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Company allready exists.");
+                return this.View(model);
+            }
+
+            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
         }
     }
 }

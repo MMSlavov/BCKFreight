@@ -5,13 +5,12 @@
     var roleItems = this.Model.RoleItems.Select(r => new SelectListItem(r.Value, r.Key));
 }
 
-<hr />
 <div class="row">
     <div class="col-md-5 p-2 border rounded">
         <form method="post" asp-action="AddPerson">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Company</label>
+                <label class="control-label">Company</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>
                 <select asp-for="CompanyId" class ="form-control" asp-items="companyItems"></select>
             </div>
             <div class="form-group">
@@ -30,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control col-5" value="@DateTime.Now.Date"/>
+                <input asp-for="BirthDate" class="form-control col-5" value="@null"/>
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group p-2 border rounded">
@@ -42,7 +41,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-primary">Cancel</a>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

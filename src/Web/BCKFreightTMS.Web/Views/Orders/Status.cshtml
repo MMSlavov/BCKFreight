@@ -88,7 +88,7 @@
     <div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <form method="post" class="p-2">
-            <div class="form-group border rounded bg-gray-light p-2">
+            @*<div class="form-group border rounded bg-gray-light p-2">
                 <h5 class="text-muted text-bold ml-2">Requaired documentation</h5>
                 <div class="d-flex justify-content-around">
                     <div class="col">
@@ -106,7 +106,7 @@
                         <div><input asp-for="Documentation.BillOfGoods" type="checkbox"><label>&nbsp;Bill of goods</label></div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             @for (int i = 0; i < actions.Count; i++)
             {
                 <div class="form-group border rounded bg-gray-light row p-2" disabled>
@@ -183,6 +183,7 @@
             <div class="form-group">
                 <input asp-action="Status" type="submit" class="btn btn-primary" value="Update" />
                 <input asp-action="Finish" type="submit" class="btn btn-success" value="Finish" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

@@ -9,6 +9,7 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,7 @@
         private readonly IFinanceService financeService;
         private readonly IPdfService pdfService;
         private readonly IViewRenderService viewRenderService;
+        private readonly IEmailSender emailSender;
 
         public OrdersController(
             IDeletableEntityRepository<Order> orders,
@@ -32,7 +34,8 @@
             IOrdersService ordersService,
             IFinanceService financeService,
             IPdfService pdfService,
-            IViewRenderService viewRenderService)
+            IViewRenderService viewRenderService,
+            IEmailSender emailSender)
         {
             this.orders = orders;
             this.currencies = currencies;
@@ -41,6 +44,7 @@
             this.financeService = financeService;
             this.pdfService = pdfService;
             this.viewRenderService = viewRenderService;
+            this.emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -77,9 +81,13 @@
 
         public async Task<IActionResult> GenerateApplication(string id)
         {
-            var model = this.ordersService.GenerateApplicationModel(id);
-            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
-            var appModel = new ApplicationModel { ApplicationHtml = html, OrderId = id };
+            var appModel = await this.LoadApplicationModel(id);
+            return this.View(appModel);
+        }
+
+        public async Task<IActionResult> CorrectApplication(string id)
+        {
+            var appModel = await this.LoadApplicationModel(id);
             return this.View(appModel);
         }
 
@@ -87,8 +95,8 @@
         {
             var model = this.ordersService.GenerateApplicationModel(id);
             var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
-            var pdfData = this.pdfService.PdfSharpConvert(html);
-            return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderApplication{model.RefNumber}.pdf");
+            var pdfData = this.pdfService.SelectPdfConvert(html);
+            return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderContract{model.OrderToReferenceNum}.pdf");
         }
 
         public async Task<IActionResult> BeginOrder(string id)
@@ -212,8 +220,30 @@
 
             await this.ordersService.EditAsync(input);
 
+            // await this.SendContractToCompany(input.Id);
             // send or download application
-            return this.RedirectToAction(GlobalConstants.Index);
+            return this.Redirect(@$"/Orders/CorrectApplication/{input.Id}");
+        }
+
+        private async Task SendContractToCompany(string companyId)
+        {
+            var model = this.ordersService.GenerateApplicationModel(companyId);
+            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
+            var pdfData = this.pdfService.PdfSharpConvert(html);
+            var pdf = new EmailAttachment
+            {
+                Content = pdfData,
+                FileName = $"OrderApplication{model.OrderToReferenceNum}.pdf",
+                MimeType = GlobalConstants.PdfMimeType,
+            };
+            var email = System.IO.File.ReadAllText(@"wwwroot\data\Email.html");
+            await this.emailSender.SendEmailAsync(
+                    GlobalConstants.SystemEmail,
+                    GlobalConstants.SystemName,
+                    "mariobanya66@gmail.com",
+                    "Order Contract",
+                    email,
+                    new[] { pdf });
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -240,7 +270,7 @@
 
         public IActionResult Status(string id)
         {
-            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name == OrderStatusNames.Finished.ToString())
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.InProgress.ToString())
             {
                 return this.RedirectToAction(GlobalConstants.Index);
             }
@@ -316,6 +346,14 @@
             await this.ordersService.ApproveOrder(input);
 
             return this.RedirectToAction("Finish", "Orders", new { id = input.OrderStatus.Id });
+        }
+
+        private async Task<ApplicationModel> LoadApplicationModel(string orderId)
+        {
+            var model = this.ordersService.GenerateApplicationModel(orderId);
+            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
+            var appModel = new ApplicationModel { ApplicationHtml = html, OrderId = orderId };
+            return appModel;
         }
     }
 }

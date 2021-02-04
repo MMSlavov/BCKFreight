@@ -117,136 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accept" xml:space="preserve">
-    <value>Приеми</value>
+  <data name="Accepted" xml:space="preserve">
+    <value>Приети от клиенти</value>
   </data>
-  <data name="Act of acceptance" xml:space="preserve">
-    <value>ППП</value>
+  <data name="Active" xml:space="preserve">
+    <value>В изпълнение</value>
   </data>
-  <data name="Address" xml:space="preserve">
-    <value>Адрес</value>
+  <data name="Cargos" xml:space="preserve">
+    <value>Товари</value>
   </data>
-  <data name="Area" xml:space="preserve">
-    <value>Район</value>
+  <data name="Check" xml:space="preserve">
+    <value>Чака насрещни док.</value>
   </data>
-  <data name="Bill of goods" xml:space="preserve">
-    <value>Стокова</value>
+  <data name="Configuration" xml:space="preserve">
+    <value>Конфигурация</value>
   </data>
-  <data name="Bill of lading" xml:space="preserve">
-    <value>Товарителница</value>
+  <data name="Contacts" xml:space="preserve">
+    <value>Контакти</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отказ</value>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Работен плот</value>
   </data>
-  <data name="Cargo" xml:space="preserve">
-    <value>Товар</value>
+  <data name="Finished" xml:space="preserve">
+    <value>За фактуриране</value>
   </data>
-  <data name="City" xml:space="preserve">
-    <value>Град</value>
+  <data name="Orders" xml:space="preserve">
+    <value>Заявки</value>
   </data>
-  <data name="Client" xml:space="preserve">
-    <value>Клиент</value>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
   </data>
-  <data name="Client company" xml:space="preserve">
-    <value>Фирма клиент</value>
+  <data name="Users" xml:space="preserve">
+    <value>Потребители</value>
   </data>
-  <data name="CMR" xml:space="preserve">
-    <value>ЧМР</value>
+  <data name="Vehicles" xml:space="preserve">
+    <value>Камиони</value>
   </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Контакт</value>
-  </data>
-  <data name="Cubature" xml:space="preserve">
-    <value>Кубатура</value>
-  </data>
-  <data name="Currency" xml:space="preserve">
-    <value>Валута</value>
-  </data>
-  <data name="Delivery note" xml:space="preserve">
-    <value>Delivery note</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Детайли</value>
-  </data>
-  <data name="Dimentions" xml:space="preserve">
-    <value>Размери</value>
-  </data>
-  <data name="Due datetime" xml:space="preserve">
-    <value>Краен срок</value>
-  </data>
-  <data name="Gondola" xml:space="preserve">
-    <value>Гондола</value>
-  </data>
-  <data name="Gross weight" xml:space="preserve">
-    <value>Тегло бруто</value>
-  </data>
-  <data name="Hanger" xml:space="preserve">
-    <value>Хенгер</value>
-  </data>
-  <data name="Invoice" xml:space="preserve">
-    <value>Фактура</value>
-  </data>
-  <data name="Lenght" xml:space="preserve">
-    <value>Дължина</value>
-  </data>
-  <data name="List items" xml:space="preserve">
-    <value>List items</value>
-  </data>
-  <data name="Load type" xml:space="preserve">
-    <value>Вид товар</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Товарене</value>
-  </data>
-  <data name="Mega" xml:space="preserve">
-    <value>Мега</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Име</value>
-  </data>
-  <data name="Net weight" xml:space="preserve">
-    <value>Тегло нето</value>
-  </data>
-  <data name="Onboard" xml:space="preserve">
-    <value>Бордови</value>
-  </data>
-  <data name="Packing list" xml:space="preserve">
-    <value>Packing list</value>
-  </data>
-  <data name="Post code" xml:space="preserve">
-    <value>Пощенски код</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Цена</value>
-  </data>
-  <data name="Quantity" xml:space="preserve">
-    <value>Количество</value>
-  </data>
-  <data name="Refrigeration" xml:space="preserve">
-    <value>Хладилен</value>
-  </data>
-  <data name="Requaired documentation" xml:space="preserve">
-    <value>Необходима документация</value>
-  </data>
-  <data name="Specifications" xml:space="preserve">
-    <value>Характеристики</value>
-  </data>
-  <data name="State" xml:space="preserve">
-    <value>Област</value>
-  </data>
-  <data name="Street line" xml:space="preserve">
-    <value>Улица</value>
-  </data>
-  <data name="Tarpaulin" xml:space="preserve">
-    <value>Брезент</value>
-  </data>
-  <data name="Trailer type" xml:space="preserve">
-    <value>Вид ремарке</value>
-  </data>
-  <data name="Unloading" xml:space="preserve">
-    <value>Разтоварване</value>
-  </data>
-  <data name="Width" xml:space="preserve">
-    <value>Широчина</value>
+  <data name="WaitingConfirm" xml:space="preserve">
+    <value>За потвърждение от п-ч</value>
   </data>
 </root>

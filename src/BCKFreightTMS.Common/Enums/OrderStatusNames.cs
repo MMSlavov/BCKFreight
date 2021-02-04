@@ -10,5 +10,6 @@
         AwaitingApproval,
         Approved,
         Ready,
+        AwaitingApplication,
     }
 }

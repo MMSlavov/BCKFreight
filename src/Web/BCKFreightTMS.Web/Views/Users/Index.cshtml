@@ -30,7 +30,7 @@
                 <td>@user.Email</td>
                 <td>@(user.Roles.Any()?string.Join(" | ", user.Roles.ToList()):"No roles")</td>
                 <td>
-                    <a class="btn btn-primary text-white" onclick="showInPopup('/Users/Manage?userId=@user.UserId', 'Manage Roles')">Roles</a>
+                    <a class="btn btn-primary text-white" onclick="showInPopup('/Users/Manage?userId=@user.UserId', 'Manage roles')">Roles</a>
                     <a id="removeBtn" data-id="@user.UserId" class="btn btn-danger text-white" data-toggle="modal" data-target="#modalConfirm">Remove</a>
                 </td>
             </tr>

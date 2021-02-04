@@ -5,6 +5,15 @@
 </div>
 
 <div class="p-2">
-    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" class="btn btn-primary">Download</a>
+    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" id="downloadBtn" class="btn btn-primary">Download</a>
     <a asp-action="Index" class="btn btn-secondary">Close</a>
 </div>
+@section Scripts{
+    <script>
+        document.getElementById("downloadBtn").addEventListener("click", function () {
+            setTimeout(function () {
+                $(".loading").hide()
+            }, 2000);
+        })
+    </script>
+}

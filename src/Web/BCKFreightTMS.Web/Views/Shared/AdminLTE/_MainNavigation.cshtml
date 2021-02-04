@@ -1,23 +1,22 @@
 ﻿@using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> userManager
-@{ 
-    var user = await this.userManager.GetUserAsync(this.User);
-    string picSrc;
-    if (user.ProfilePicture is null)
-    {
-        picSrc = "/img/default-user-icon-4.jpg";
-    }
-    else
-    {
-        picSrc = $"data:image/*;base64,{(Convert.ToBase64String(user.ProfilePicture))}";
-    }
-}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{ var user = await this.userManager.GetUserAsync(this.User);
+                string picSrc;
+                if (user.ProfilePicture is null)
+                {
+                    picSrc = "/img/default-user-icon-4.jpg";
+                }
+                else
+                {
+                    picSrc = $"data:image/*;base64,{(Convert.ToBase64String(user.ProfilePicture))}";
+                } }
 
-<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4">
+<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4" style="z-index: 20">
     <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
         <img src="~/img/logo_full2.svg" class="img-fluid"
-        style="max-width: 75%">
+             style="max-width: 75%">
         @*<span class="brand-text font-weight-light">BCK Freight</span>*@
     </a>
 
@@ -33,7 +32,7 @@
                     <p class="text-bold m-0">@user.Company.Name</p>
                 </div>
                 <div class="info pl-4 ml-auto align-middle">
-                        <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user-cog"></i></a>
+                    <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user-cog"></i></a>
                 </div>
             }
             else
@@ -50,36 +49,44 @@
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="nav-link @Url.MakeActiveClass("dashboard", null, "active")">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>Dashboard</p>
+                            <p>@localizer["Dashboard"]</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Contacts" asp-action="Index" class="nav-link @Url.MakeActiveClass("contacts", null, "active")">
                             <i class="nav-icon fas fa-address-book"></i>
-                            <p>Contacts</p>
+                            <p>@localizer["Contacts"]</p>
                         </a>
                     </li>
                     <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "orders" }, "menu-open")">
                         <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "orders" }, "active")">
                             <i class="nav-icon fab fa-buffer"></i>
                             <p>
-                            Orders
-                            <i class="fas fa-angle-left right"></i>
+                                @localizer["Orders"]
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item pl-3">
+                            <li class="nav-item pl-2">
                                 <a asp-area="" asp-controller="Orders" asp-action="Accepted" class="nav-link @Url.MakeActiveClass("orders", "accepted", "active")">
                                     <i class="nav-icon fas fa-check-circle"></i>
-                                    <p>Accepted</p>
+                                    <p>@localizer["Accepted"]</p>
+                                </a>
+                                <a asp-area="" asp-controller="Orders" asp-action="WaitingConfirm" class="nav-link @Url.MakeActiveClass("orders", "waitingconfirm", "active")">
+                                    <i class="nav-icon fas fa-pause-circle"></i>
+                                    <p>@localizer["WaitingConfirm"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders", "index", "active")">
                                     <i class="nav-icon fas fa-flag-checkered"></i>
-                                    <p>Active</p>
+                                    <p>@localizer["Active"]</p>
+                                </a>
+                                <a asp-area="" asp-controller="Orders" asp-action="Check" class="nav-link @Url.MakeActiveClass("orders", "check", "active")">
+                                    <i class="nav-icon fas fa-tasks"></i>
+                                    <p>@localizer["Check"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="Finished" class="nav-link @Url.MakeActiveClass("orders", "finished", "active")">
                                     <i class="nav-icon fas fa-archive"></i>
-                                    <p>Finished</p>
+                                    <p>@localizer["Finished"]</p>
                                 </a>
                             </li>
                         </ul>
@@ -87,13 +94,13 @@
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Cargos" asp-action="Index" class="nav-link @Url.MakeActiveClass("cargos", null, "active")">
                             <i class="nav-icon fas fa-truck-loading"></i>
-                            <p>Cargos</p>
+                            <p>@localizer["Cargos"]</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Vehicles" asp-action="Index" class="nav-link @Url.MakeActiveClass("vehicles", null, "active")">
                             <i class="nav-icon fas fa-truck"></i>
-                            <p>Vehicles</p>
+                            <p>@localizer["Vehicles"]</p>
                         </a>
                     </li>
                     @if (this.User.IsInRole("SuperUser"))
@@ -102,25 +109,24 @@
                             <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "users", "settings" }, "active")">
                                 <i class="nav-icon fas fa-cog"></i>
                                 <p>
-                                Setings
-                                <i class="fas fa-angle-left right"></i>
+                                    @localizer["Settings"]
+                                    <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item pl-3">
                                     <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link @Url.MakeActiveClass("users", null, "active")">
                                         <i class="nav-icon fas fa-users"></i>
-                                        <p>Users</p>
+                                        <p>@localizer["Users"]</p>
                                     </a>
                                     <a asp-area="" asp-controller="Settings" asp-action="Index" class="nav-link @Url.MakeActiveClass("settings", null, "active")">
                                         <i class="nav-icon fas fa-clipboard-check"></i>
-                                        <p>Configuration</p>
+                                        <p>@localizer["Configuration"]</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                    }
-                }
+                    }}
             </ul>
         </nav>
     </div>

@@ -1,13 +1,16 @@
-﻿$(function () {
+﻿$(function () { $('.selectpicker').selectpicker(); });
+
+$(function () {
     $("#areaFilter").change(function () {
         $.getJSON("/Orders/GetCarriersByArea", { area: $("#areaFilter").val() }, function (d) {
-            var row = "";
+            let row = "";
             $("#CompanyToId").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
             });
             $("#CompanyToId").html(row);
             RefreshDropdowns();
+            $('.selectpicker').selectpicker('refresh');
         })
     })
     $("#CompanyToId").change(function () {
@@ -18,37 +21,37 @@
     });
     function RefreshDropdowns() {
         $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyToId").val() }, function (d) {
-            var row = "";
+            let row = "";
             $("#contactTo").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
             });
             $("#contactTo").html(row);
-            var item = new Option("Select", null, true, true);
+            let item = new Option("Select", null, true, true);
             $(item).html("Select");
             item.setAttribute("disabled", "disabled");
             $("#contactTo").append(item);
         })
         $.getJSON("/Orders/GetDrivers", { companyId: $("#CompanyToId").val() }, function (d) {
-            var row = "";
+            let row = "";
             $("#driver").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
             });
             $("#driver").html(row);
-            var item = new Option("Select", null, true, true);
+            let item = new Option("Select", null, true, true);
             $(item).html("Select");
             item.setAttribute("disabled", "disabled");
             $("#driver").append(item);
         })
         $.getJSON("/Orders/GetVehicles", { companyId: $("#CompanyToId").val() }, function (d) {
-            var row = "";
+            let row = "";
             $("#vehicle").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
             });
             $("#vehicle").html(row);
-            var item = new Option("Select", null, true, true);
+            let item = new Option("Select", null, true, true);
             $(item).html("Select");
             item.setAttribute("disabled", "disabled");
             $("#vehicle").append(item);

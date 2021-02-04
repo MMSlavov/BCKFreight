@@ -1,0 +1,14 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Orders.ConfirmApplicationModel
+@{ 
+    this.Layout = null;
+}
+
+<p class="text-bold text-center">
+    @localizer["Confirm application"]
+</p>
+<hr class="m-2" />
+<div class="p-2 text-center">
+    <button class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>
+    <a class="btn btn-success" asp-action="ConfirmOrderApplication" asp-route-id="@Model.OrderId">@localizer["Confirm"]</a>
+</div>

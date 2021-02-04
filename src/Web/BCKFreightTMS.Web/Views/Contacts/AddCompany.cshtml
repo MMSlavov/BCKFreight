@@ -46,9 +46,15 @@
                     <input asp-for="MOLLastName" type="text" class="form-control" placeholder="Enter MOL Last name">
                 </div>
             </div>
-            <div class="form-group col-md-7">
-                <label asp-for="Mobile1">Mobile <span class="text-danger">*</span></label>
-                <input asp-for="Mobile1" type="text" class="form-control" placeholder="Mobile">
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label asp-for="Mobile1">Mobile <span class="text-danger">*</span></label>
+                    <input asp-for="Mobile1" type="text" class="form-control" placeholder="Mobile">
+                </div>
+                <div class="form-group col-6">
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input asp-for="Email1" type="text" class="form-control" placeholder="Email">
+                </div>
             </div>
         </div>
         <div class="form-group">

@@ -1,10 +1,25 @@
-﻿(function () {
+﻿$(document).on('submit', 'form', function () {
+    displayBusyIndicator();
+    setTimeout(function () {
+        $(".loading").hide()
+    }, 3000);
+});
+
+$(window).on('beforeunload', function () {
+    displayBusyIndicator();
+});
+
+function displayBusyIndicator() {
+    $('.loading').show();
+}
+
+(function () {
     $("#selectLanguage select").change(function () {
         $(this).parent().submit();
     });
 }());
 
-var instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
+let instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
 
 showInPopup = (url, title) => {
     $.ajax({
@@ -17,8 +32,8 @@ showInPopup = (url, title) => {
 
             // to make popup draggable
             $(".modal-header").on("mousedown", function (mousedownEvt) {
-                var $draggable = $(this);
-                var x = mousedownEvt.pageX - $draggable.offset().left,
+                let $draggable = $(this);
+                let x = mousedownEvt.pageX - $draggable.offset().left,
                     y = mousedownEvt.pageY - $draggable.offset().top;
                 $("body").on("mousemove.draggable", function (mousemoveEvt) {
                     $draggable.closest(".modal-dialog").offset({
@@ -49,6 +64,9 @@ jQueryAjaxPost = form => {
                 if (res.isValid) {
                     if (res.redirectToUrl == "") {
                         $('#form-modal').modal('hide');
+                    }
+                    else if (res.redirectToUrl == "reload") {
+                        location.reload();
                     }
                     else {
                         window.location = res.redirectToUrl;
@@ -97,7 +115,7 @@ jQueryAjaxBtnGet = (url) => {
 
 function AddSelectOption ()
 {
-    var item = new Option("Select", "", true, true);
+    let item = new Option("Select", "", true, true);
     $(item).html("Select");
     $('select').append(item);
 };

@@ -14,7 +14,8 @@
         public int OrderFromCurrencyId { get; set; }
 
         [DataType(DataType.Currency)]
-        [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
+
+        // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
         [Range(0, 9999999999.99)]
         public decimal PriceNetOut { get; set; }
 

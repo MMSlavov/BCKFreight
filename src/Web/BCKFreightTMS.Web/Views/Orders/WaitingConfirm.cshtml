@@ -79,26 +79,6 @@
                         string btnState = string.Empty;
                         switch (order.StatusName)
                         {
-                            case "InProgress":
-                                action = "Status";
-                                btnColor = "primary";
-                                break;
-                            case "DocumentationCheck":
-                                action = "Finish";
-                                btnColor = "primary";
-                                break;
-                            case "AwaitingApproval":
-                                action = "Finish";
-                                btnColor = "warning";
-                                if (!this.User.IsInRole(RoleNames.SuperUser.ToString()))
-                                {
-                                    btnState = "disabled";
-                                }
-                                break;
-                            case "Approved":
-                                action = "Finish";
-                                btnColor = "success";
-                                break;
                             case "AwaitingApplication":
                                 action = "ConfirmApplication";
                                 btnColor = "warning";
@@ -110,7 +90,7 @@
                         }
                         if (action == "ConfirmApplication")
                         {
-                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', 'Confirm application')" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
+                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', '@localizer["Confirm application"]')" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
                         }
                         else
                         {

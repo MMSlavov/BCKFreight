@@ -66,20 +66,19 @@
             }
         }
 
-        public async Task<IActionResult> GetCompanySN()
-        {
-            try
-            {
-                var html = await this.companiesManager.SpeditorNetGetCompanyAsync("");
-                var model = new CompanySNModel { Html = html };
-                return this.View(model);
-            }
-            catch (InvalidOperationException)
-            {
-                return this.Problem();
-            }
-        }
-
+        // public async Task<IActionResult> GetCompanySN()
+        // {
+        //    try
+        //    {
+        //        var html = await this.companiesManager.SpeditorNetGetCompanyAsync("");
+        //        var model = new CompanySNModel { Html = html };
+        //        return this.View(model);
+        //    }
+        //    catch (InvalidOperationException)
+        //    {
+        //        return this.Problem();
+        //    }
+        // }
         public IActionResult AddPerson()
         {
             var viewModel = this.contactsService.GetPersonInputModel();
@@ -165,17 +164,17 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model);
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
             }
 
             var res = await this.contactsService.AddCompanyAsync(model);
             if (res == null)
             {
                 this.ModelState.AddModelError(string.Empty, "Company allready exists.");
-                return this.View(model);
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
             }
 
-            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
+            return this.Json(new { isValid = true, redirectToUrl = "reload" });
         }
     }
 }

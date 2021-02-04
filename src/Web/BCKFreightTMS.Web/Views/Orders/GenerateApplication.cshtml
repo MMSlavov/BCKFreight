@@ -1,11 +1,22 @@
-﻿@model BCKFreightTMS.Web.ViewModels.Shared.ApplicationModel
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Shared.ApplicationModel
+
+<div class="p-2">
+    <a asp-action="BeginOrder" asp-route-id="@Model.OrderId" class="btn btn-primary">@localizer["Send and begin"]</a>
+    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" id="downloadBtn" class="btn btn-primary" title="Download"><i class="fas fa-download"></i></a>
+    <a asp-action="Accepted" class="btn btn-secondary float-right">@localizer["Close"]</a>
+</div>
 
 <div class="my-3 p-5 bg-white shadow" style=" width: 22cm; margin: auto;">
     @Html.Raw(Model.ApplicationHtml)
 </div>
 
-<div class="p-2">
-    <a asp-action="BeginOrder" asp-route-id="@Model.OrderId" class="btn btn-primary">Send and begin</a>
-    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" class="btn btn-primary" title="Download"><i class="fas fa-download"></i></a>
-    <a asp-action="Accepted" class="btn btn-secondary">Close</a>
-</div>
+@section Scripts{
+    <script>
+        document.getElementById("downloadBtn").addEventListener("click", function () {
+            setTimeout(function () {
+                $(".loading").hide()
+            }, 2000);
+        })
+    </script>
+}

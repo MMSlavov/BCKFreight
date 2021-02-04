@@ -155,7 +155,7 @@
                 data.Add("Name", company.Name);
                 data.Add("Tax country", company.TaxCountry?.Name);
                 data.Add("Tax number", company.TaxNumber);
-                data.Add("Address", company.Address?.Address.StreetLine);
+                data.Add("MOL", $"{company.Address?.MOLFirstName} {company.Address?.MOLLastName}");
                 data.Add("Mobile", company.Comunicators?.Mobile1);
                 data.Add("Details", company.Comunicators?.Details);
             }

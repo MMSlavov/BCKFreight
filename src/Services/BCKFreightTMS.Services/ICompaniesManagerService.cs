@@ -13,6 +13,6 @@
 
         public Task<CompanyInputModel> GetCompanyAsync(string searchStr);
 
-        public Task<string> SpeditorNetGetCompanyAsync(string searchStr);
+        // public Task<string> SpeditorNetGetCompanyAsync(string searchStr);
     }
 }

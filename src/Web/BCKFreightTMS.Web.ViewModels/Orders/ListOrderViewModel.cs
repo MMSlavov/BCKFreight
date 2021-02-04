@@ -23,6 +23,8 @@
 
         public int OrderToCurrencyId { get; set; }
 
+        public string OrderToReferenceNum { get; set; }
+
         public string OrderFromContactFirstName { get; set; }
 
         public string OrderFromContactLastName { get; set; }
@@ -43,7 +45,7 @@
         {
             configuration.CreateMap<Order, ListOrderViewModel>()
                 .ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => string.Join(" -> ", x.OrderActions.Select(oa => oa.Address.City))));
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.Select(oa => oa.Address.City))}</p>"));
         }
     }
 }

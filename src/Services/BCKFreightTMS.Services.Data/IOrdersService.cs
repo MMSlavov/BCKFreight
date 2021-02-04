@@ -38,6 +38,8 @@
 
         public Task<string> BeginAsync(string orderId);
 
+        public Task<string> ConfirmApplicationAsync(string orderId);
+
         public Task<bool> DeleteAsync(string id);
 
         public OrderStatusViewModel LoadOrderStatusModel(string id);

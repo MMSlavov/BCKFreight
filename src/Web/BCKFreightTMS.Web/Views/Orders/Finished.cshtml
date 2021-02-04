@@ -74,7 +74,7 @@
                     <p>@($"{order.OrderToContactFirstName} {order.OrderToContactLastName}")</p>
                 </td>
                 <td class="align-middle text-center">
-                    <p class="text-bold">@Html.DisplayFor(modelItem => order.Voyage)</p>
+                    @Html.Raw(order.Voyage)
                 </td>
                 <td class="text-green text-bold align-middle">
                     @($"{profit:f2} %")

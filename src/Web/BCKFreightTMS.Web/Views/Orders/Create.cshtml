@@ -1,4 +1,5 @@
-﻿@model BCKFreightTMS.Web.ViewModels.Orders.OrderCreateInputModel
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Orders.OrderCreateInputModel
 @{
     var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
     var currencyItems = this.Model.CurrencyItems.Select(c => new SelectListItem(c.Value, c.Key));
@@ -7,45 +8,45 @@
 <div class="col p-2">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group border border-dark rounded bg-gray-light p-2">
-            <h5 class="text-muted text-bold text-center">Carrier</h5>
-            <div class="form-group">
-                <label class="control-label">Carrier company</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>
-                <div class="form-row">
-                    <select asp-for="CompanyToId" class="form-control col-7" asp-items="companyItems" required>
+        <div class="form-group border border-dark rounded bg-white p-2">
+            <h5 class="text-muted text-bold text-center">@localizer["Carrier"]</h5>
+            <div class="form-group pl-2">
+                <label class="control-label">@localizer["Carrier company"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>
+                <div class="row pl-2">
+                    <select asp-for="CompanyToId" class="form-control col-5 selectpicker" data-live-search="true" asp-items="companyItems" required>
                         <option disabled selected hidden>Select</option>
                     </select>
-                    <select id="areaFilter" class="form-control col-4 ml-2" asp-items="@Model.AreasItems">
-                        <option hidden>Filter by area</option>
+                    <select id="areaFilter" class="form-control col-3 ml-2" asp-items="@Model.AreasItems">
+                        <option hidden disabled selected>@localizer["Filter by area"]</option>
                     </select>
                 </div>
                 <span asp-validation-for="CompanyToId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Price</label>
-                <div class="form-row">
-                    <input asp-for="PriceNetOut" class="form-control col-3" data-val="false"/>
-                    <select asp-for="CurrencyOutId" class="form-control col-2 ml-2" asp-items="currencyItems"></select>
-                    <label class="text-bold text-black-50 ml-2 mt-1">Client price: @Model.OrderFromPriceNetIn</label>
+            <div class="form-group pl-2">
+                <label class="control-label">@localizer["Price"]</label>
+                <div class="row pl-2">
+                    <input asp-for="PriceNetOut" class="form-control col-3" data-val="false" />
+                    <select asp-for="CurrencyOutId" class="form-control col-1 ml-2" asp-items="currencyItems"></select>
+                    <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Client price"]: @Model.OrderFromPriceNetIn</label>
                 </div>
                 <span asp-validation-for="PriceNetOut" class="text-danger"></span>
             </div>
-            <div class="form-group col-6">
-                <label asp-for="ContactToId" class="control-label">Contact</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Contact')"><i class="fas fa-plus"></i></a>
+            <div class="form-group col-5">
+                <label asp-for="ContactToId" class="control-label">@localizer["Contact"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Contact')"><i class="fas fa-plus"></i></a>
                 <select asp-for="ContactToId" id="contactTo" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
                     <option disabled selected hidden>Select carrier first</option>
                 </select>
                 <span asp-validation-for="ContactToId" class="text-danger"></span>
             </div>
-            <div class="form-group col-6">
-                <label asp-for="VehicleId" class="control-label">Vehicle</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
+            <div class="form-group col-5">
+                <label asp-for="VehicleId" class="control-label">@localizer["Vehicle"]</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
                 <select asp-for="VehicleId" id="vehicle" class="form-control" asp-items="@(new SelectList(string.Empty, "VehicleId", "VehicleNumber"))">
                     <option disabled selected hidden>Select carrier first</option>
                 </select>
                 <span asp-validation-for="VehicleId" class="text-danger"></span>
             </div>
-            <div class="form-group col-6">
-                <label asp-for="DriverId" class="control-label">Driver</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
+            <div class="form-group col-5">
+                <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
                 <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))">
                     <option disabled selected hidden>Select carrier first</option>
                 </select>
@@ -56,13 +57,14 @@
         @Html.HiddenFor(m => m.OrderFromCurrencyId)
         @Html.HiddenFor(m => m.Id)
         <div class="form-group">
-            <button type="submit" title="Create" class="btn btn-primary mr-1" style="width:8em">Create</button>
-            <a asp-action="Accepted" class="btn btn-secondary">Cancel</a>
+            <button type="submit" title="Create" class="btn btn-primary mr-1" style="width:8em">@localizer["Create"]</button>
+            <a asp-action="Accepted" class="btn btn-secondary">@localizer["Cancel"]</a>
         </div>
     </form>
 </div>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
     <script src="~/js/createOrder.js"></script>
 }
 

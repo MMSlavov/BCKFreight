@@ -216,7 +216,7 @@
                 carriers = carriers.Where(c => c.OrderTos.Any(o =>
                                                             o.Order.OrderActions.Any(oa =>
                                                               oa.Address.Area == area)))
-                                                .OrderBy(c => c.OrderTos.Count());
+                                                .OrderByDescending(c => c.OrderTos.Count());
             }
 
             return carriers.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = $"{c.Name} - {c.TaxNumber}" })
@@ -248,6 +248,8 @@
             };
 
             var documentation = this.mapper.Map<Documentation>(input.Documentation);
+            documentation.RecievedDocumentation = new Documentation();
+            documentation.OrderId = order.Id;
 
             var orderFrom = new OrderFrom
             {
@@ -265,9 +267,11 @@
             orderFrom.AdminId = order.AdminId;
             order.OrderFrom = orderFrom;
             documentation.AdminId = order.AdminId;
+            documentation.RecievedDocumentation.AdminId = order.AdminId;
             order.Documentation = documentation;
 
-            foreach (var actionIM in input.Actions)
+            var actions = input.Actions.OrderBy(a => a.TypeId);
+            foreach (var actionIM in actions)
             {
                 var action = this.mapper.Map<OrderAction>(actionIM);
                 action.AdminId = order.AdminId;
@@ -340,6 +344,7 @@
                 orderAction.Details = inputAction.Details;
                 notDeletedIds.Add(orderAction.Id);
             }
+
             foreach (var action in actions)
             {
                 if (!notDeletedIds.Contains(action.Id))
@@ -386,8 +391,14 @@
 
             // TODO: Send application
             await this.orders.SaveChangesAsync();
-            await this.UpdateOrderStatus(order.Id, OrderStatusNames.InProgress.ToString());
+            await this.UpdateOrderStatus(order.Id, OrderStatusNames.AwaitingApplication.ToString());
             return order.Id;
+        }
+
+        public async Task<string> ConfirmApplicationAsync(string orderId)
+        {
+            await this.UpdateOrderStatus(orderId, OrderStatusNames.InProgress.ToString());
+            return orderId;
         }
 
         public async Task<bool> DeleteAsync(string id)
@@ -439,32 +450,17 @@
             foreach (var actionInput in input.Actions)
             {
                 var action = this.orderActions.All().FirstOrDefault(oa => oa.Id == actionInput.Id);
-                action.IsFinished = actionInput.IsFinnished;
-                if (actionInput.NotFinishedReasonId == 0)
-                {
-                    action.NotFinishedReason = null;
-                }
-                else
-                {
-                    action.NotFinishedReasonId = actionInput.NotFinishedReasonId;
-                }
-
+                action.NotFinishedReasonId = actionInput.NotFinishedReasonId == 0 ? null : actionInput.NotFinishedReasonId;
                 action.NoNotes = actionInput.NoNotes;
                 action.Notes = actionInput.Notes;
+                if (action.NoNotes || !string.IsNullOrWhiteSpace(actionInput.Notes))
+                {
+                    action.IsFinished = true;
+                }
+
                 this.orderActions.Update(action);
             }
 
-            // var inputDocumentation = input.Documentation;
-            // var documentation = this.documentations.All().FirstOrDefault(d => d.OrderId == input.Id);
-            // documentation.CMR = inputDocumentation.CMR;
-            // documentation.BillOfLading = inputDocumentation.BillOfLading;
-            // documentation.AOA = inputDocumentation.AOA;
-            // documentation.DeliveryNote = inputDocumentation.DeliveryNote;
-            // documentation.PackingList = inputDocumentation.PackingList;
-            // documentation.ListItems = inputDocumentation.ListItems;
-            // documentation.Invoice = inputDocumentation.Invoice;
-            // documentation.BillOfGoods = inputDocumentation.BillOfGoods;
-            // await this.documentations.SaveChangesAsync();
             await this.orderActions.SaveChangesAsync();
         }
 
@@ -496,7 +492,7 @@
             var model = new OrderFinishViewModel();
 
             model.OrderStatus = this.LoadOrderStatusModel(orderId);
-            var receivedDoc = this.documentations.All().FirstOrDefault(d => d.OrderId == orderId).RecievedDocumentation;
+            var receivedDoc = this.orders.All().FirstOrDefault(o => o.Id == orderId).Documentation.RecievedDocumentation;
             model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);
             return model;
         }
@@ -516,16 +512,16 @@
         private string GenerateOrderNumber()
         {
             var year = DateTime.UtcNow.Year;
-            var month = DateTime.UtcNow.Month;
+            var month = DateTime.UtcNow.Month.ToString().PadLeft(2, '0');
             var ordersCount = this.orders.AllAsNoTracking()
                                          .Where(o =>
-                                         o.CreatedOn.Month == month &&
                                          o.Status.Name != OrderStatusNames.Accepted.ToString() &&
-                                         o.Status.Name != OrderStatusNames.Ready.ToString())
+                                         o.Status.Name != OrderStatusNames.Ready.ToString() &&
+                                         o.OrderTo.ReferenceNum.Substring(4, 2) == month)
                                          .Count()
                                          .ToString()
                                          .PadLeft(4, '0');
-            return $"{year}{month.ToString().PadLeft(2, '0')}{ordersCount}";
+            return $"{year}{month}{ordersCount}";
         }
 
         private async Task UpdateOrderStatus(string orderId, string status)

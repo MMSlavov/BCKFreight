@@ -49,9 +49,22 @@
 
         public IActionResult Index()
         {
-            var orders = this.ordersService.GetAll<ListOrderViewModel>(o => o.Status.Name != OrderStatusNames.Accepted.ToString() &&
-                                                                            o.Status.Name != OrderStatusNames.Ready.ToString() &&
-                                                                            o.Status.Name != OrderStatusNames.Finished.ToString())
+            var orders = this.ordersService.GetAll<ListOrderViewModel>(o =>
+                                            o.Status.Name != OrderStatusNames.Accepted.ToString() &&
+                                            o.Status.Name != OrderStatusNames.Ready.ToString() &&
+                                            o.Status.Name != OrderStatusNames.Finished.ToString() &&
+                                            o.Status.Name != OrderStatusNames.DocumentationCheck.ToString() &&
+                                            o.Status.Name != OrderStatusNames.AwaitingApproval.ToString() &&
+                                            o.Status.Name != OrderStatusNames.Approved.ToString() &&
+                                            o.Status.Name != OrderStatusNames.AwaitingApplication.ToString())
+                                           .ToList();
+            return this.View(orders);
+        }
+
+        public IActionResult WaitingConfirm()
+        {
+            var orders = this.ordersService.GetAll<ListOrderViewModel>(o =>
+                                            o.Status.Name == OrderStatusNames.AwaitingApplication.ToString())
                                            .ToList();
             return this.View(orders);
         }
@@ -61,6 +74,16 @@
             var orders = this.ordersService.GetAll<ListAcceptedOrderViewModel>(o =>
                                             o.Status.Name == OrderStatusNames.Accepted.ToString() ||
                                             o.Status.Name == OrderStatusNames.Ready.ToString())
+                                           .ToList();
+            return this.View(orders);
+        }
+
+        public IActionResult Check()
+        {
+            var orders = this.ordersService.GetAll<ListOrderViewModel>(o =>
+                                            o.Status.Name == OrderStatusNames.DocumentationCheck.ToString() ||
+                                            o.Status.Name == OrderStatusNames.AwaitingApproval.ToString() ||
+                                            o.Status.Name == OrderStatusNames.Approved.ToString())
                                            .ToList();
             return this.View(orders);
         }
@@ -107,6 +130,18 @@
             }
 
             await this.ordersService.BeginAsync(id);
+
+            return this.RedirectToAction("WaitingConfirm");
+        }
+
+        public async Task<IActionResult> ConfirmOrderApplication(string id)
+        {
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.AwaitingApplication.ToString())
+            {
+                return this.NotFound();
+            }
+
+            await this.ordersService.ConfirmApplicationAsync(id);
 
             return this.RedirectToAction(GlobalConstants.Index);
         }
@@ -300,7 +335,9 @@
                 return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
             }
 
-            if (input.Actions.Any(a => !a.IsFinnished))
+            await this.ordersService.UpdateOrderStatusAsync(input);
+
+            if (this.orders.All().FirstOrDefault(o => o.Id == input.Id).OrderActions.Any(a => !a.IsFinished))
             {
                 this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
                 return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
@@ -310,7 +347,7 @@
             order.StatusId = this.orderStatuses.AllAsNoTracking()
                                    .FirstOrDefault(s => s.Name == OrderStatusNames.DocumentationCheck.ToString())
                                    .Id;
-            await this.ordersService.UpdateOrderStatusAsync(input);
+            await this.orders.SaveChangesAsync();
             var model = this.ordersService.LoadOrderFinishModel(input.Id);
 
             return this.View(model);
@@ -321,6 +358,16 @@
             var model = this.ordersService.LoadOrderFinishModel(id);
 
             return this.View(model);
+        }
+
+        public IActionResult ConfirmApplication(string id)
+        {
+            if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.AwaitingApplication.ToString())
+            {
+                return this.NotFound();
+            }
+
+            return this.View(new ConfirmApplicationModel { OrderId = id });
         }
 
         [HttpPost]

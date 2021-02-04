@@ -43,9 +43,9 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Order, ListOrderViewModel>()
+            configuration.CreateMap<Order, ListFinishedOrderViewModel>()
                 .ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => string.Join(" -> ", x.OrderActions.Select(oa => oa.Address.City))));
+                    opt.MapFrom(x => $"<p class='m-0'>{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.Select(oa => oa.Address.City))}</p>"));
         }
     }
 }

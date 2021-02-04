@@ -120,7 +120,10 @@
   <data name="Approved" xml:space="preserve">
     <value>Потвърдено</value>
   </data>
+  <data name="AwaitingApplication" xml:space="preserve">
+    <value>Изчаква потвърждение</value>
+  </data>
   <data name="InProgress" xml:space="preserve">
-    <value>В движение</value>
+    <value>Изпълнява се</value>
   </data>
 </root>

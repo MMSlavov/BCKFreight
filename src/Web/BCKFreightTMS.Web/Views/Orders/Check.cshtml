@@ -79,10 +79,6 @@
                         string btnState = string.Empty;
                         switch (order.StatusName)
                         {
-                            case "InProgress":
-                                action = "Status";
-                                btnColor = "primary";
-                                break;
                             case "DocumentationCheck":
                                 action = "Finish";
                                 btnColor = "primary";
@@ -98,10 +94,6 @@
                             case "Approved":
                                 action = "Finish";
                                 btnColor = "success";
-                                break;
-                            case "AwaitingApplication":
-                                action = "ConfirmApplication";
-                                btnColor = "warning";
                                 break;
                             default:
                                 action = null;

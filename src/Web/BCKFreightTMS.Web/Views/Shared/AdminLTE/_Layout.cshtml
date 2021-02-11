@@ -1,62 +1,63 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>BCKFreightTMS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>BCKFreightTMS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <partial name="AdminLTE/_Styles" />
-</head>
-<body class="hold-transition sidebar-mini">
-    <partial name="_BusyIndicatorPartial" />
-    <div class="wrapper">
+        <partial name="AdminLTE/_Styles" />
+    </head>
+    <body class="hold-transition sidebar-mini">
+        <partial name="_BusyIndicatorPartial" />
+        <div class="wrapper">
 
-        <partial name="AdminLTE/_TopNavigation" />
+            <partial name="AdminLTE/_TopNavigation" />
 
-        <partial name="AdminLTE/_MainNavigation" />
+            <partial name="AdminLTE/_MainNavigation" />
 
-        <div class="content-wrapper">
-            @*<div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0 text-dark">Starter Page</h1>
-                            </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">Starter Page</li>
-                                </ol>
+            <div class="content-wrapper">
+                @*<div class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <h1 class="m-0 text-dark">Starter Page</h1>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                        <li class="breadcrumb-item active">Starter Page</li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
+                    </div>*@
+                <div class="content">
+                    <div id="layout_content" class="container-fluid">
+                        <partial name="_CookieConsentPartial" />
+                        @RenderBody()
                     </div>
-                </div>*@
-            <div class="content">
-                <div id="layout_content" class="container-fluid">
-                    <partial name="_CookieConsentPartial" />
-                    @RenderBody()
                 </div>
+                <a id="back-to-top" href="#" class="btn btn-primary back-to-top" style="display: none" role="button" aria-label="Scroll to top">
+                    <i class="fas fa-chevron-up"></i>
+                </a>
             </div>
-            <a id="back-to-top" href="#" class="btn btn-primary back-to-top" style="display: none" role="button" aria-label="Scroll to top">
-                <i class="fas fa-chevron-up"></i>
-            </a>
+
+            <partial name="AdminLTE/_Modal">
+
+                <aside class="control-sidebar control-sidebar-dark">
+                    <div class="p-3">
+                        <h5>Title</h5>
+                        <p>Sidebar content</p>
+                    </div>
+                </aside>
+
+                <partial name="AdminLTE/_Footer" />
         </div>
-
-        <partial name="AdminLTE/_Modal">
-
-            <aside class="control-sidebar control-sidebar-dark">
-                <div class="p-3">
-                    <h5>Title</h5>
-                    <p>Sidebar content</p>
-                </div>
-            </aside>
-
-            <partial name="AdminLTE/_Footer" />
-    </div>
-    <partial name="AdminLTE/_Scripts" />
-    @await this.RenderSectionAsync("Scripts", required: false)
-</body>
+        <partial name="AdminLTE/_Scripts" />
+        @await Component.InvokeAsync("Notyf")
+        @await this.RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>

@@ -18,7 +18,7 @@
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public ComunicatorsInputModel Comunicators { get; set; }
 

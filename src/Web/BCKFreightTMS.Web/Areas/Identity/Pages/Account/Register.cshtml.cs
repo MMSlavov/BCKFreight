@@ -61,12 +61,12 @@
         {
             [Required]
             [MinLength(2)]
-            [RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid First name.")]
+            //[RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid First name.")]
             public string FirstName { get; set; }
 
             [Required]
             [MinLength(2)]
-            [RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid Last name.")]
+            //[RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid Last name.")]
             public string LastName { get; set; }
 
             [Required]
@@ -156,7 +156,7 @@
                 {
                     FirstName = this.Input.FirstName,
                     LastName = this.Input.LastName,
-                    UserName = this.Input.FirstName,
+                    UserName = this.Input.FirstName + this.Input.LastName,
                     Email = this.Input.Email,
                     CompanyId = company.Id,
                 };

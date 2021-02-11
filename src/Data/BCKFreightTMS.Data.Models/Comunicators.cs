@@ -7,7 +7,6 @@
 
     public class Comunicators : BaseDeletableModel<int>
     {
-        [Required]
         [Column(TypeName ="varchar(10)")]
         public string Mobile1 { get; set; }
 

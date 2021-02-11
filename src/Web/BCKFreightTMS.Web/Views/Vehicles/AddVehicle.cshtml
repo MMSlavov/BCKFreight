@@ -57,12 +57,18 @@
     <script>
         $(document).ready(AddSelectOption);
         $("#TypeId").change(function () {
-            let trailer = document.getElementById("trailer");
+            let trailer = document.querySelector("#trailer");
+            let driver = document.querySelector("#driver");
+
             if ($("#TypeId").val() == 2) {
                 trailer.setAttribute("disabled", "disabled");
+                trailer.value = "null";
+                driver.setAttribute("disabled", "disabled");
+                driver.value = "null";
             }
             else {
-                trailer.removeAttribute("disabled")
+                trailer.removeAttribute("disabled");
+                driver.removeAttribute("disabled");
             }
         })
         $(function () {

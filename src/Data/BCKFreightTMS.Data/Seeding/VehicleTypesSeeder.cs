@@ -11,13 +11,15 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.VehicleTypes.Any())
+            foreach (var name in (VehicleTypeNames[])Enum.GetValues(typeof(VehicleTypeNames)))
             {
-                return;
-            }
+                if (dbContext.VehicleTypes.Any(s => s.Name == name.ToString()))
+                {
+                    continue;
+                }
 
-            await dbContext.VehicleTypes.AddAsync(new VehicleType { Name = VehicleTypeNames.Truck.ToString() });
-            await dbContext.VehicleTypes.AddAsync(new VehicleType { Name = VehicleTypeNames.Trailer.ToString() });
+                await dbContext.VehicleTypes.AddAsync(new VehicleType { Name = name.ToString() });
+            }
 
             await dbContext.SaveChangesAsync();
         }

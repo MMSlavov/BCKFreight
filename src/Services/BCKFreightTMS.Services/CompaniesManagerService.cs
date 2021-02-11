@@ -94,7 +94,7 @@
             company.Name = elements["Наименование"];
             company.TaxCountry = address[0];
             company.StreetLine = string.Join(", ", address.Skip(1));
-            company.TaxNumber = elements["ЕИК/ПИК"];
+            company.TaxNumber = $"BG{elements["ЕИК/ПИК"]}";
             company.Details = elements["Предмет на дейност"].Split("\n", StringSplitOptions.RemoveEmptyEntries)[2]
                                                             .TrimStart();
             company.MOLFirstName = Regex.Match(mol, @"(?<=: )([А-Яа-я]+)").Value;
@@ -103,14 +103,14 @@
             return company;
         }
 
-        //public async Task<string> SpeditorNetGetCompanyAsync(string searchStr)
-        //{
+        // public async Task<string> SpeditorNetGetCompanyAsync(string searchStr)
+        // {
         //    var cookieValue = "SpeditorLogin=%D1%E2%2E%CF%E5%ED%F7%E5%E2!1611760753; sess=1611760753.706223567839362707";
         //    var request = new DocumentRequest(new Url("https://www3.speditor.net/cgi-bin/info.pl?firm=%27%27%C0%EB%ED%E8%EC%E0%F0%27%27%20%C5%CE%CE%C4"));
         //    request.Headers.Add("Cookie", cookieValue);
         //    var document = await this.context.OpenAsync(request, new System.Threading.CancellationToken());
 
-        //    //this.context.SetCookie(new Url("https://www3.speditor.net"), cookieValue);
+        // //this.context.SetCookie(new Url("https://www3.speditor.net"), cookieValue);
         //    //var document = await this.context.OpenAsync("https://www3.speditor.net/cgi-bin/info.pl?firm=%27%27%C0%EB%ED%E8%EC%E0%F0%27%27%20%C5%CE%CE%C4");
         //    //var urlSearch = string.Format(BaseUrlSearch, searchStr);
         //    //Console.WriteLine(document.Body.InnerHtml);
@@ -123,12 +123,12 @@
         //    //    throw new InvalidOperationException("Not found");
         //    //}
 
-        //    //var company = new CompanyInputModel();
+        // //var company = new CompanyInputModel();
 
-        //    //var companyPath = document.QuerySelectorAll("table > tbody > tr > td > a").FirstOrDefault().GetAttribute("href");
+        // //var companyPath = document.QuerySelectorAll("table > tbody > tr > td > a").FirstOrDefault().GetAttribute("href");
         //    //var url = string.Format(GlobalConstants.RegistryAgencyUrl, companyPath);
 
-        //    //document = await this.context.OpenAsync(url);
-        //}
+        // //document = await this.context.OpenAsync(url);
+        // }
     }
 }

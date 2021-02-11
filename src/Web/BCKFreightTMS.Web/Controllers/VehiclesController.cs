@@ -1,21 +1,33 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Common;
+    using BCKFreightTMS.Common.Enums;
+    using BCKFreightTMS.Data.Common.Repositories;
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Vehicles;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Localization;
 
     [Authorize(Roles = "User")]
     public class VehiclesController : Controller
     {
         private readonly IVehiclesService vehiclesService;
+        private readonly IStringLocalizer<VehiclesController> localizer;
+        private readonly IDeletableEntityRepository<VehicleType> types;
 
-        public VehiclesController(IVehiclesService vehiclesService)
+        public VehiclesController(
+            IVehiclesService vehiclesService,
+            IStringLocalizer<VehiclesController> localizer,
+            IDeletableEntityRepository<VehicleType> types)
         {
             this.vehiclesService = vehiclesService;
+            this.localizer = localizer;
+            this.types = types;
         }
 
         public IActionResult Index()
@@ -33,6 +45,23 @@
         public IActionResult AddVehicleModal()
         {
             var model = this.vehiclesService.LoadVehicleInputModel();
+            return this.View(model);
+        }
+
+        public IActionResult AddTruckModal(string id)
+        {
+            var model = this.vehiclesService.LoadVehicleInputModel();
+            this.ViewBag.TrailerItems = this.vehiclesService.GetTrailers(id);
+            model.TypeId = this.types.AllAsNoTracking().FirstOrDefault(t => t.Name == VehicleTypeNames.Truck.ToString()).Id;
+            model.CompanyId = id;
+            return this.View(model);
+        }
+
+        public IActionResult AddTrailerModal(string id)
+        {
+            var model = this.vehiclesService.LoadVehicleInputModel();
+            model.TypeId = this.types.AllAsNoTracking().FirstOrDefault(t => t.Name == VehicleTypeNames.Trailer.ToString()).Id;
+            model.CompanyId = id;
             return this.View(model);
         }
 
@@ -64,6 +93,22 @@
 
         [HttpPost]
         public async Task<IActionResult> AddVehicleModal(VehicleInputModel input)
+        {
+            // something wrong with validation
+
+            //if (!this.ModelState.IsValid)
+            //{
+            //    input = this.vehiclesService.LoadVehicleInputModel(input);
+            //    return this.View(input);
+            //}
+
+            await this.vehiclesService.AddVehicleAsync(input);
+
+            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTruckModal(VehicleInputModel input)
         {
             if (!this.ModelState.IsValid)
             {

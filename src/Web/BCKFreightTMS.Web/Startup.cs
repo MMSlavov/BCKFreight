@@ -4,6 +4,8 @@
     using System.Globalization;
     using System.Reflection;
 
+    using AspNetCoreHero.ToastNotification;
+    using AspNetCoreHero.ToastNotification.Extensions;
     using AutoMapper;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common;
@@ -88,6 +90,14 @@
                 options.SupportedUICultures = cultures;
             });
 
+            // Notifications
+            services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 5;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.BottomCenter;
+            });
+
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -150,6 +160,8 @@
             app.UseCookiePolicy();
 
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
+            app.UseNotyf();
 
             app.UseRouting();
 

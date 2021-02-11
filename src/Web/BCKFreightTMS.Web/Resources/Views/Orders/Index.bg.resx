@@ -126,4 +126,7 @@
   <data name="InProgress" xml:space="preserve">
     <value>Изпълнява се</value>
   </data>
+  <data name="Order failure" xml:space="preserve">
+    <value>Провалена заявка</value>
+  </data>
 </root>

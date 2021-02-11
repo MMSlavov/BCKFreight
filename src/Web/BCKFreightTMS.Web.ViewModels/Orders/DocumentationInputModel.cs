@@ -20,5 +20,7 @@
         public bool Invoice { get; set; }
 
         public bool BillOfGoods { get; set; }
+
+        public bool WeighingNote { get; set; }
     }
 }

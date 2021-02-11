@@ -50,11 +50,11 @@
                                                .Select(c => new System.Collections.Generic.KeyValuePair<string, string>(c.Id.ToString(), c.Name))
                                                .ToList();
             model.TypeItems = this.types.AllAsNoTracking()
-                                   .Select(t => new System.Collections.Generic.KeyValuePair<string, string>(t.Id.ToString(), t.Name))
-                                   .ToList();
+                                       .Select(t => new System.Collections.Generic.KeyValuePair<string, string>(t.Id.ToString(), t.Name))
+                                       .ToList();
             model.LoadingBodyItems = this.loadingBodies.AllAsNoTracking()
-                                   .Select(lb => new System.Collections.Generic.KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
-                                   .ToList();
+                                                       .Select(lb => new System.Collections.Generic.KeyValuePair<string, string>(lb.Id.ToString(), lb.Name))
+                                                       .ToList();
             return model;
         }
 
@@ -81,7 +81,7 @@
             var vehicle = new Vehicle
             {
                 TypeId = input.TypeId,
-                LoadingBodyId = input.LoadingBodyId,
+                LoadingBodyId = input.LoadingBodyId == 0 ? null : input.LoadingBodyId,
                 CompanyId = input.CompanyId,
                 DriverId = input.DriverId == "null" ? null : input.DriverId,
                 TrailerId = input.TrailerId == "null" ? null : input.TrailerId,

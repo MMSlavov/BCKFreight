@@ -6,8 +6,10 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Http;
 
@@ -17,17 +19,20 @@
         private readonly IDeletableEntityRepository<Person> peopleRepository;
         private readonly IDeletableEntityRepository<TaxCountry> taxCtrRepo;
         private readonly IDeletableEntityRepository<PersonRole> rolesRepo;
+        private readonly IEmailSender emailSender;
 
         public ContactsService(
             IDeletableEntityRepository<Company> compRepo,
             IDeletableEntityRepository<Person> peopRepo,
             IDeletableEntityRepository<TaxCountry> taxCtrRepo,
-            IDeletableEntityRepository<PersonRole> rolesRepo)
+            IDeletableEntityRepository<PersonRole> rolesRepo,
+            IEmailSender emailSender)
         {
             this.companiesRepository = compRepo;
             this.peopleRepository = peopRepo;
             this.taxCtrRepo = taxCtrRepo;
             this.rolesRepo = rolesRepo;
+            this.emailSender = emailSender;
         }
 
         public async Task<string> AddCompanyAsync(CompanyInputModel input)
@@ -108,7 +113,7 @@
                 RoleId = input.RoleId,
                 FirstName = input.FirstName,
                 LastName = input.LastName,
-                BirthDate = input.BirthDate.ToUniversalTime(),
+                BirthDate = input.BirthDate?.ToUniversalTime(),
                 Comunicators = new Comunicators
                 {
                     Mobile1 = input.Comunicators is null ? "-" : input.Comunicators.Mobile1,
@@ -157,6 +162,7 @@
                 data.Add("Tax number", company.TaxNumber);
                 data.Add("MOL", $"{company.Address?.MOLFirstName} {company.Address?.MOLLastName}");
                 data.Add("Mobile", company.Comunicators?.Mobile1);
+                data.Add("Email", company.Comunicators?.Email1);
                 data.Add("Details", company.Comunicators?.Details);
             }
             else if (this.peopleRepository.AllAsNoTracking().Any(p => p.Id == id))
@@ -165,7 +171,7 @@
                 data.Add("Id", person.Id);
                 data.Add("First name", person.FirstName);
                 data.Add("Last name", person.LastName);
-                data.Add("Birthday", person.BirthDate == default ? null : person.BirthDate.ToLocalTime().ToShortDateString());
+                data.Add("Birthday", person.BirthDate == default ? null : person.BirthDate?.ToLocalTime().ToShortDateString());
                 data.Add("Mobile", person.Comunicators?.Mobile1);
             }
             else
@@ -224,6 +230,23 @@
             var data = contactsData.Skip(skip).Take(pageSize).ToList();
             var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return jsonData;
+        }
+
+        public async Task SendEmailToCompanyAsync(
+            string companyId,
+            string subject,
+            string htmlContent,
+            IEnumerable<EmailAttachment> attachments = null)
+        {
+            var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == companyId);
+
+            await this.emailSender.SendEmailAsync(
+                GlobalConstants.SystemEmail,
+                GlobalConstants.SystemName,
+                company.Comunicators.Email1,
+                subject,
+                htmlContent,
+                attachments);
         }
     }
 }

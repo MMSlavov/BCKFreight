@@ -71,6 +71,7 @@ jQueryAjaxPost = form => {
                     else {
                         window.location = res.redirectToUrl;
                     }
+                    $(".loading").hide()
                 }
                 else {
                     $('#form-modal .modal-body').html(res.html);

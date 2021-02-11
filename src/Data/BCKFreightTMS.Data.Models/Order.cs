@@ -45,6 +45,9 @@
         [ForeignKey(nameof(DocumentationId))]
         public virtual Documentation Documentation { get; set; }
 
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string FailReason { get; set; }
+
         public virtual ICollection<OrderAction> OrderActions { get; set; }
     }
 }

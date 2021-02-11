@@ -1,6 +1,13 @@
-﻿$(function () {
+﻿let companyId = document.getElementById("CompanyFromId");
+let addContactBtn = document.getElementById("addContact");
+addContactBtn.addEventListener("click", function (ev) {
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+});
+ 
+$(function () {
     $("#CompanyFromId").change(function () {
         refreshContact();
+        addContactBtn.style.display = "";
     });
     $('#form-modal').on('hidden.bs.modal', function () {
         refreshContact();
@@ -16,6 +23,7 @@
             $("#contactFrom").html(row);
             let item = new Option("Select", null, true, true);
             $(item).html("Select");
+            item.setAttribute("disabled", "disabled");
             $("#contactFrom").append(item);
         })
     }

@@ -1,100 +1,112 @@
-﻿@model BCKFreightTMS.Web.ViewModels.Vehicles.VehicleInputModel
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Vehicles.VehicleInputModel
 @{
     this.Layout = null;
     var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
-    var loadingBodyItems = this.Model.LoadingBodyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
-    var typeItems = this.Model.TypeItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var loadingBodyItems = this.Model.LoadingBodyItems.Select(lb => new SelectListItem(localizer[lb.Value].Value, lb.Key));
+    var typeItems = this.Model.TypeItems.Select(ti => new SelectListItem(localizer[ti.Value].Value, ti.Key));
 }
 
 <div>
-    <form asp-action="AddVehicleModal" onsubmit="return jQueryAjaxPost(this);" class="p-2">
+    <form asp-action="AddVehicleModal" onsubmit="return jQueryAjaxPost(this);" class="p-1">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="TypeId" class="control-label">Type</label>
+            <label asp-for="TypeId" class="control-label">@localizer["Type"]</label>
             <select asp-for="TypeId" class="form-control col-6" asp-items="typeItems">
                 <option disabled selected hidden>Select</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="LoadingBodyId" class="control-label">Loading body</label>
+            <label asp-for="LoadingBodyId" class="control-label">@localizer["Loading body"]</label>
             <select asp-for="LoadingBodyId" class="form-control col-6" asp-items="loadingBodyItems">
                 <option disabled selected hidden>Select</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="CompanyId" class="control-label">Company</label>
+            <label asp-for="CompanyId" class="control-label">@localizer["Company"]</label>
             <select asp-for="CompanyId" class="form-control col-7" asp-items="companyItems">
                 <option disabled selected hidden>Select</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="DriverId" class="control-label">Driver</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
+            <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
             <select asp-for="DriverId" id="vehicle_driver" class="form-control col-5" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))">
                 <option disabled selected hidden>Select</option>
             </select>
         </div>
         <div class="form-group">
-            <label asp-for="TrailerId" class="control-label">Trailer</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
+            <label asp-for="TrailerId" class="control-label">@localizer["Trailer"]</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
             <select asp-for="TrailerId" id="trailer" class="form-control col-6" asp-items="@(new SelectList(string.Empty, "TrailerId", "TrailerName"))">
                 <option disabled selected hidden>Select</option>
             </select>
         </div>
         <div class="form-row">
             <div class="form-group col-6">
-                <label asp-for="RegNumber" class="control-label">Registration number <span class="text-danger">*</span></label>
+                <label asp-for="RegNumber" class="control-label">@localizer["Registration number"] <span class="text-danger">*</span></label>
                 <input asp-for="RegNumber" class="form-control col-8" placeholder="(AA1234BB)" />
                 <span asp-validation-for="RegNumber" class="text-danger"></span>
             </div>
             <div class="form-group col-6">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">@localizer["Name"]</label>
                 <input asp-for="Name" class="form-control" placeholder="Vehicle name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Details" class="control-label"></label>
+            <label asp-for="Details" class="control-label">@localizer["Details"]</label>
             <textarea asp-for="Details" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Details" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="@localizer["Create"]" class="btn btn-primary" />
         </div>
     </form>
 </div>
 
 <script>
     $(function () {
-        $("#TypeId").change(function () {
-            let trailer = document.getElementById("trailer");
-            if ($("#TypeId").val() == 2) {
+        $(".modal-body #TypeId").change(function () {
+            let trailer = document.querySelector(".modal-body #trailer");
+            let driver = document.querySelector(".modal-body #vehicle_driver");
+
+            if ($(".modal-body #TypeId").val() == 2) {
                 trailer.setAttribute("disabled", "disabled");
+                trailer.value = "null";
+                driver.setAttribute("disabled", "disabled");
+                driver.value = "null";
+            }
+            else if ($(".modal-body #TypeId").val() == 3) {
+                trailer.setAttribute("disabled", "disabled");
+                trailer.value = "null";
+                driver.removeAttribute("disabled");
             }
             else {
-                trailer.removeAttribute("disabled")
+                trailer.removeAttribute("disabled");
+                driver.removeAttribute("disabled");
             }
         })
-        $("#CompanyId").change(function () {
-            $.getJSON("/Vehicles/GetDrivers", { companyId: $("#CompanyId").val() }, function (d) {
-                var row = "";
-                $("#vehicle_driver").empty();
+        $(".modal-body #CompanyId").change(function () {
+            $.getJSON("/Vehicles/GetDrivers", { companyId: $(".modal-body #CompanyId").val() }, function (d) {
+                let row = "";
+                $(".modal-body #vehicle_driver").empty();
                 $.each(d, function (i, v) {
                     row += "<option value=" + v.value + ">" + v.text + "</option>";
                 });
-                $("#vehicle_driver").html(row);
-                var item = new Option("Select", null, true, true);
+                $(".modal-body #vehicle_driver").html(row);
+                let item = new Option("Select", null, true, true);
                 $(item).html("Select");
                 $("#vehicle_driver").append(item);
             })
-            $.getJSON("/Vehicles/GetTrailers", { companyId: $("#CompanyId").val() }, function (d) {
-                var row = "";
-                $("#trailer").empty();
+            $.getJSON("/Vehicles/GetTrailers", { companyId: $(".modal-body #CompanyId").val() }, function (d) {
+                let row = "";
+                $(".modal-body #trailer").empty();
                 $.each(d, function (i, v) {
                     row += "<option value=" + v.value + ">" + v.text + "</option>";
                 });
-                $("#trailer").html(row);
-                var item = new Option("Select", null, true, true);
+                $(".modal-body #trailer").html(row);
+                let item = new Option("Select", null, true, true);
                 $(item).html("Select");
-                $("#trailer").append(item);
+                $(".modal-body #trailer").append(item);
             })
         })
     })

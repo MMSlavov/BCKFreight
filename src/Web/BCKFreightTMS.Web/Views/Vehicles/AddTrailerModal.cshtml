@@ -1,0 +1,84 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Vehicles.VehicleInputModel
+@{
+    this.Layout = null;
+    var loadingBodyItems = this.Model.LoadingBodyItems.Select(lb => new SelectListItem(localizer[lb.Value].Value, lb.Key));
+}
+
+<div>
+    <form asp-action="AddVehicleModal" onsubmit="return jQueryAjaxPost(this);" class="p-1">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label asp-for="RegNumber" class="control-label">@localizer["Registration number"] <span class="text-danger">*</span></label>
+                <input asp-for="RegNumber" class="form-control col-8" placeholder="(AA1234BB)" />
+                <span asp-validation-for="RegNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Name" class="control-label">@localizer["Name"]</label>
+                <input asp-for="Name" class="form-control" placeholder="Vehicle name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LoadingBodyId" class="control-label">@localizer["Loading body"]</label>
+            <select asp-for="LoadingBodyId" class="form-control col-6" asp-items="loadingBodyItems">
+                <option disabled selected hidden>Select</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Details" class="control-label">@localizer["Details"]</label>
+            <textarea asp-for="Details" class="form-control" rows="2"></textarea>
+            <span asp-validation-for="Details" class="text-danger"></span>
+        </div>
+        @Html.HiddenFor(m => m.TypeId)
+        @Html.HiddenFor(m => m.CompanyId)
+        <div class="form-group">
+            <input type="submit" value="@localizer["Create"]" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+        $(".modal-body #TypeId").change(function () {
+            let trailer = document.querySelector(".modal-body #trailer");
+            let driver = document.querySelector(".modal-body #vehicle_driver");
+
+            if ($(".modal-body #TypeId").val() == 2) {
+                trailer.setAttribute("disabled", "disabled");
+                trailer.value = "null";
+                driver.setAttribute("disabled", "disabled");
+                driver.value = "null";
+            }
+            else {
+                trailer.removeAttribute("disabled");
+                driver.removeAttribute("disabled");
+            }
+        })
+        //$.getJSON("/Vehicles/GetDrivers", { companyId: $(".modal-body #CompanyId").val() }, function (d) {
+        //    let row = "";
+        //    $(".modal-body #vehicle_driver").empty();
+        //    $.each(d, function (i, v) {
+        //        row += "<option value=" + v.value + ">" + v.text + "</option>";
+        //    });
+        //    $(".modal-body #vehicle_driver").html(row);
+        //    let item = new Option("Select", null, true, true);
+        //    $(item).html("Select");
+        //    $("#vehicle_driver").append(item);
+        //})
+        //    $.getJSON("/Vehicles/GetTrailers", { companyId: $(".modal-body #CompanyId").val() }, function (d) {
+        //        let row = "";
+        //        $(".modal-body #trailer").empty();
+        //        $.each(d, function (i, v) {
+        //            row += "<option value=" + v.value + ">" + v.text + "</option>";
+        //        });
+        //        $(".modal-body #trailer").html(row);
+        //        let item = new Option("Select", null, true, true);
+        //        $(item).html("Select");
+        //        $(".modal-body #trailer").append(item);
+        //    })
+        //})
+    })
+</script>
+

@@ -35,7 +35,7 @@
         [MaxLength(80)]
         public string LastName { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public int? ComunicatorsId { get; set; }
 

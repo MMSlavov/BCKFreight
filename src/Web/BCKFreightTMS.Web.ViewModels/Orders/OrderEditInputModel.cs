@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using BCKFreightTMS.Web.ViewModels.Cargos;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class OrderEditInputModel
     {
@@ -13,6 +14,8 @@
             this.Cargo = new CargoInputModel();
             this.Documentation = new DocumentationInputModel();
         }
+
+        public string ReturnUrl { get; set; }
 
         public string Id { get; set; }
 
@@ -50,5 +53,11 @@
         public IEnumerable<KeyValuePair<string, string>> CurrencyItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ActionTypeItems { get; set; }
+
+        public IEnumerable<SelectListItem> ContactItems { get; set; }
+
+        public IEnumerable<SelectListItem> DriverItems { get; set; }
+
+        public IEnumerable<SelectListItem> VehicleItems { get; set; }
     }
 }

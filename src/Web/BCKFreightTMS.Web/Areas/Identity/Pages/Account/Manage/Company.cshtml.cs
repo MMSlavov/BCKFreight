@@ -157,19 +157,25 @@
 
         private void LoadAsync(Company company)
         {
-            this.Input = new InputModel
+            try
             {
-                Name = company.Name,
-                TaxCountry = company.TaxCountry.Name,
-                TaxNumber = company.TaxNumber,
-                TaxCurrency = company.TaxCurrency.Name,
-                StreetLine = company.Address.Address.StreetLine,
-                MOLFirstName = company.Address.MOLFirstName,
-                MOLLastName = company.Address.MOLLastName,
-                Mobile1 = company.Comunicators.Mobile1,
-                Email1 = company.Comunicators.Email1,
-                Details = company.Comunicators.Details,
-            };
+                this.Input = new InputModel
+                {
+                    Name = company.Name,
+                    TaxCountry = company.TaxCountry.Name,
+                    TaxNumber = company.TaxNumber,
+                    TaxCurrency = company.TaxCurrency.Name,
+                    StreetLine = company.Address.Address.StreetLine,
+                    MOLFirstName = company.Address.MOLFirstName,
+                    MOLLastName = company.Address.MOLLastName,
+                    Mobile1 = company.Comunicators.Mobile1,
+                    Email1 = company.Comunicators.Email1,
+                    Details = company.Comunicators.Details,
+                };
+            }
+            catch (System.Exception)
+            {
+            }
         }
     }
 }

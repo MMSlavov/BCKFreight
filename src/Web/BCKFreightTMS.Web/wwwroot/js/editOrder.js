@@ -1,4 +1,19 @@
-﻿$(document).ready(GetData($("#OrderToCompanyId").val()));
+﻿//$(document).ready(GetData($("#OrderToCompanyId").val()));
+let companyId = document.getElementById("OrderToCompanyId");
+let addContactBtn = document.getElementById("addContact");
+let addDriverBtn = document.getElementById("addDriver");
+//document.getElementById("addTruck").addEventListener("click", function (ev) {
+//    showInPopup('/Vehicles/AddTruckModal/' + companyId.value, 'Add truck');
+//});
+//document.getElementById("addTrailer").addEventListener("click", function (ev) {
+//    showInPopup('/Vehicles/AddTrailerModal/' + companyId.value, 'Add trailer');
+//});
+addContactBtn.addEventListener("click", function (ev) {
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+});
+addDriverBtn.addEventListener("click", function (ev) {
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
+});
 
 [...document.querySelectorAll("#OrderToCompanyId option")].forEach((v) => {
     v.setAttribute("data-tokens", v.textContent.toLowerCase())
@@ -19,9 +34,10 @@ function GetData(id) {
             row += "<option value=" + v.value + ">" + v.text + "</option>";
         });
         $("#contactFrom").html(row);
-        //let item = new Option("Select", null, true, true);
-        //$(item).html("Select");
-        //$("#contactFrom").append(item);
+        let item = new Option("Select", null, true, true);
+        $(item).html("Select");
+        item.setAttribute("disabled", "disabled");
+        $("#contactFrom").append(item);
     })
     $.getJSON("/Orders/GetDrivers", { companyId: id }, function (d) {
         let row = "";
@@ -30,10 +46,10 @@ function GetData(id) {
             row += "<option value=" + v.value + ">" + v.text + "</option>";
         });
         $("#driver").html(row);
-        //let item = new Option("Select", null, true, true);
-        //$(item).html("Select");
-        //item.setAttribute("disabled", "disabled");
-        //$("#driver").append(item);
+        let item = new Option("Select", null, true, true);
+        $(item).html("Select");
+        item.setAttribute("disabled", "disabled");
+        $("#driver").append(item);
     })
     $.getJSON("/Orders/GetVehicles", { companyId: id }, function (d) {
         let row = "";
@@ -42,10 +58,10 @@ function GetData(id) {
             row += "<option value=" + v.value + ">" + v.text + "</option>";
         });
         $("#vehicle").html(row);
-        //let item = new Option("Select", null, true, true);
-        //$(item).html("Select");
-        //item.setAttribute("disabled", "disabled");
-        //$("#vehicle").append(item);
+        let item = new Option("Select", null, true, true);
+        $(item).html("Select");
+        item.setAttribute("disabled", "disabled");
+        $("#vehicle").append(item);
     })
 }
 
@@ -93,9 +109,10 @@ $("#actions").on("click", ".delete", function (e) {
 
 function addAction(evt, type) {
     let index = document.getElementsByClassName("tabcontent").length;
-    let action = document.querySelector(".tabcontent[id=" + type + "]").innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
-
-    $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + action + '</div>');
+    let action = document.querySelector(".tabcontent[id=" + type + "]");
+    action.querySelector("input[id*=__Id]").value = '-1';
+    let actionHtml = action.innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
+    $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + actionHtml + '</div>');
     let btn = document.querySelector(".tablinks[id=" + type + "]").cloneNode();
     btn.id += index;
     btnIndex = document.querySelectorAll(".tablinks[id^=" + type + "]").length + 1;

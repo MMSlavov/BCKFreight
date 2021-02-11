@@ -24,8 +24,8 @@
         public byte[] SelectPdfConvert(string html)
         {
             HtmlToPdf converter = new HtmlToPdf();
-            converter.Options.MarginBottom = 50;
-            converter.Options.MarginTop = 50;
+            converter.Options.MarginBottom = 70;
+            converter.Options.MarginTop = 40;
             converter.Options.MarginLeft = 50;
             converter.Options.MarginRight = 50;
 

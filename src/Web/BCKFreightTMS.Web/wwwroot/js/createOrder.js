@@ -1,4 +1,23 @@
-﻿$(function () { $('.selectpicker').selectpicker(); });
+﻿let companyId = document.getElementById("CompanyToId");
+let addContactBtn = document.getElementById("addContact");
+let addDriverBtn = document.getElementById("addDriver");
+let addTruckBtn = document.getElementById("addTruck");
+let addTrailerBtn = document.getElementById("addTrailer");
+
+addTruckBtn.addEventListener("click", function (ev) {
+    showInPopup('/Vehicles/AddTruckModal/' + companyId.value, 'Add truck');
+});
+addTrailerBtn.addEventListener("click", function (ev) {
+    showInPopup('/Vehicles/AddTrailerModal/' + companyId.value, 'Add trailer');
+});
+addContactBtn.addEventListener("click", function (ev) {
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+});
+addDriverBtn.addEventListener("click", function (ev) {
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
+});
+
+$(function () { $('.selectpicker').selectpicker(); });
 
 $(function () {
     $("#areaFilter").change(function () {
@@ -22,18 +41,20 @@ $(function () {
     function RefreshDropdowns() {
         $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyToId").val() }, function (d) {
             let row = "";
+            addContactBtn.style.display = "";
             $("#contactTo").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
             });
             $("#contactTo").html(row);
-            let item = new Option("Select", null, true, true);
+            let item = new Option("Select", '', true, true);
             $(item).html("Select");
             item.setAttribute("disabled", "disabled");
             $("#contactTo").append(item);
         })
         $.getJSON("/Orders/GetDrivers", { companyId: $("#CompanyToId").val() }, function (d) {
             let row = "";
+            addDriverBtn.style.display = "";
             $("#driver").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
@@ -46,6 +67,7 @@ $(function () {
         })
         $.getJSON("/Orders/GetVehicles", { companyId: $("#CompanyToId").val() }, function (d) {
             let row = "";
+            addTruckBtn.style.display = "";
             $("#vehicle").empty();
             $.each(d, function (i, v) {
                 row += "<option value=" + v.value + ">" + v.text + "</option>";
@@ -55,6 +77,19 @@ $(function () {
             $(item).html("Select");
             item.setAttribute("disabled", "disabled");
             $("#vehicle").append(item);
+        })
+        $.getJSON("/Orders/GetTrailers", { companyId: $("#CompanyToId").val() }, function (d) {
+            let row = "";
+            addTrailerBtn.style.display = "";
+            $("#trailer").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#trailer").html(row);
+            let item = new Option("Select", null, true, true);
+            $(item).html("Select");
+            item.setAttribute("disabled", "disabled");
+            $("#trailer").append(item);
         })
     }
 })

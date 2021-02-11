@@ -1,0 +1,18 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Orders.OrderFailModel
+@{ 
+    this.Layout = null;
+}
+
+<form asp-action="Fail">
+    <p class="form-group text-center">
+        <label>@localizer["Reason?"]</label>
+        <textarea asp-for="FailReason" type="text" class="form-control" placeholder="Reason"></textarea>
+    </p>
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ReturnUrl)
+    <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>
+        <button type="submit" class="btn btn-danger">@localizer["Confirm"]</button>
+    </div>
+</form>

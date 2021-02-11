@@ -138,8 +138,11 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Работен плот</value>
   </data>
+  <data name="Failed" xml:space="preserve">
+    <value>Провалени</value>
+  </data>
   <data name="Finished" xml:space="preserve">
-    <value>За фактуриране</value>
+    <value>Готови за фактуриране</value>
   </data>
   <data name="Orders" xml:space="preserve">
     <value>Заявки</value>

@@ -1,9 +1,13 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using AspNetCoreHero.ToastNotification.Abstractions;
     using BCKFreightTMS.Common;
+    using BCKFreightTMS.Data.Common.Repositories;
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Web.ViewModels.Contacts;
@@ -15,13 +19,19 @@
     {
         private readonly IContactsService contactsService;
         private readonly ICompaniesManagerService companiesManager;
+        private readonly IDeletableEntityRepository<PersonRole> personRoles;
+        private readonly INotyfService notyfService;
 
         public ContactsController(
             IContactsService contactsService,
-            ICompaniesManagerService companiesManager)
+            ICompaniesManagerService companiesManager,
+            IDeletableEntityRepository<PersonRole> personRoles,
+            INotyfService notyfService)
         {
             this.contactsService = contactsService;
             this.companiesManager = companiesManager;
+            this.personRoles = personRoles;
+            this.notyfService = notyfService;
         }
 
         public IActionResult Index()
@@ -60,8 +70,9 @@
                 var model = searchStr != null ? await this.companiesManager.GetCompanyAsync(searchStr) : null;
                 return this.Json(model);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                this.notyfService.Error(ex.Message);
                 return this.Json(new { });
             }
         }
@@ -85,9 +96,13 @@
             return this.View(viewModel);
         }
 
-        public IActionResult AddPersonModal()
+        public IActionResult AddPersonModal(string id, string role)
         {
             var viewModel = this.contactsService.GetPersonInputModel();
+            var roleId = this.personRoles.AllAsNoTracking().FirstOrDefault(r => r.Name == role).Id;
+            viewModel.CompanyId = id;
+            viewModel.RoleId = roleId;
+            viewModel.BirthDate = null;
             return this.View(viewModel);
         }
 

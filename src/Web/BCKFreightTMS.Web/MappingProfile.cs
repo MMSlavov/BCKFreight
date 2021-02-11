@@ -3,9 +3,9 @@
     using AutoMapper;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Cargos;
+    using BCKFreightTMS.Web.ViewModels.Contacts;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
-    using BCKFreightTMS.Web.ViewModels.Contacts;
 
     public class MappingProfile : Profile
     {
@@ -29,6 +29,8 @@
             this.CreateMap<ActionApplicationModel, OrderAction>();
             this.CreateMap<CompanyViewModel, Company>();
             this.CreateMap<Company, CompanyViewModel>();
+            this.CreateMap<Order, OrderFailModel>();
+            this.CreateMap<OrderFailModel, Order>();
         }
     }
 }

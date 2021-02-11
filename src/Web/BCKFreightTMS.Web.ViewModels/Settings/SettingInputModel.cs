@@ -7,7 +7,8 @@
         public string Action { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z][a-z]{1,40}$", ErrorMessage = "Invalid name.")]
+
+        // [RegularExpression(@"^[A-Z][a-z]{1,40}$", ErrorMessage = "Invalid name.")]
         public string Name { get; set; }
     }
 }

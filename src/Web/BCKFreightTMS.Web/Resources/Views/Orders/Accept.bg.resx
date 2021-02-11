@@ -123,6 +123,15 @@
   <data name="Act of acceptance" xml:space="preserve">
     <value>ППП</value>
   </data>
+  <data name="Add client" xml:space="preserve">
+    <value>Добави клиент</value>
+  </data>
+  <data name="Add contact" xml:space="preserve">
+    <value>Добави контакт</value>
+  </data>
+  <data name="Additional details" xml:space="preserve">
+    <value>Допълнителни условия</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Адрес</value>
   </data>
@@ -182,6 +191,9 @@
   </data>
   <data name="Hanger" xml:space="preserve">
     <value>Хенгер</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Височина</value>
   </data>
   <data name="Invoice" xml:space="preserve">
     <value>Фактура</value>
@@ -245,6 +257,9 @@
   </data>
   <data name="Unloading" xml:space="preserve">
     <value>Разтоварване</value>
+  </data>
+  <data name="Weighing note" xml:space="preserve">
+    <value>Кантарна бележка</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Широчина</value>

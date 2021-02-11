@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Http;
 
@@ -21,5 +22,11 @@
         public Dictionary<string, string> GetContactDetails(string id);
 
         public Task<bool> DeleteAsync(string id);
+
+        public Task SendEmailToCompanyAsync(
+            string companyId,
+            string subject,
+            string htmlContent,
+            IEnumerable<EmailAttachment> attachments = null);
     }
 }

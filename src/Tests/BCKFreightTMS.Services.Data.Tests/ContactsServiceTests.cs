@@ -5,9 +5,10 @@
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.EntityFrameworkCore;
-
+    using Moq;
     using Xunit;
 
     public class ContactsServiceTests
@@ -172,8 +173,9 @@
             this.peopleRepository = repoFactory.GetEfDeletableEntityRepository<Person>(dbContext);
             this.taxCtrRepo = repoFactory.GetEfDeletableEntityRepository<TaxCountry>(dbContext);
             this.personRolesRepo = repoFactory.GetEfDeletableEntityRepository<PersonRole>(dbContext);
+            var emailSender = new Mock<IEmailSender>();
 
-            return new ContactsService(this.companiesRepository, this.peopleRepository, this.taxCtrRepo, this.personRolesRepo);
+            return new ContactsService(this.companiesRepository, this.peopleRepository, this.taxCtrRepo, this.personRolesRepo, emailSender.Object);
         }
     }
 }

@@ -4,5 +4,6 @@
     {
         Truck,
         Trailer,
+        Solo,
     }
 }

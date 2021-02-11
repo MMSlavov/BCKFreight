@@ -3,20 +3,21 @@
 @inject UserManager<ApplicationUser> userManager
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{ var user = await this.userManager.GetUserAsync(this.User);
-                string picSrc;
-                if (user.ProfilePicture is null)
-                {
-                    picSrc = "/img/default-user-icon-4.jpg";
-                }
-                else
-                {
-                    picSrc = $"data:image/*;base64,{(Convert.ToBase64String(user.ProfilePicture))}";
-                } }
+    string picSrc;
+    if (user.ProfilePicture is null)
+    {
+        picSrc = "/img/default-user-icon-4.jpg";
+    }
+    else
+    {
+        picSrc = $"data:image/*;base64,{(Convert.ToBase64String(user.ProfilePicture))}";
+    } 
+}
 
-<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4" style="z-index: 20">
+<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4" style="z-index: 20;">
     <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
-        <img src="~/img/logo_full2.svg" class="img-fluid"
-             style="max-width: 75%">
+        <cache enabled="true"><img src="~/img/logo_full2.svg" class="img-fluid"
+                    style="max-width: 75%"></cache> 
         @*<span class="brand-text font-weight-light">BCK Freight</span>*@
     </a>
 
@@ -25,11 +26,11 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <div class="image pl-2">
-                    <img src="@picSrc" class="img-circle elevation-2 align-middle" alt="User Image">
+                    <cache vary-by-user="true" expires-sliding="@TimeSpan.FromDays(1)"><img src="@picSrc" class="img-circle elevation-2 align-middle" alt="User Image"></cache>
                 </div>
                 <div class="info mr-2 pr-2 text-white align-middle">
                     @this.User.Identity.Name
-                    <p class="text-bold m-0">@user.Company.Name</p>
+                    <p class="text-bold m-0" style="max-width:150px">@user.Company.Name</p>
                 </div>
                 <div class="info pl-4 ml-auto align-middle">
                     <a class="d-block" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user-cog"></i></a>
@@ -87,6 +88,10 @@
                                 <a asp-area="" asp-controller="Orders" asp-action="Finished" class="nav-link @Url.MakeActiveClass("orders", "finished", "active")">
                                     <i class="nav-icon fas fa-archive"></i>
                                     <p>@localizer["Finished"]</p>
+                                </a>
+                                <a asp-area="" asp-controller="Orders" asp-action="Failed" class="nav-link @Url.MakeActiveClass("orders", "failed", "active")">
+                                    <i class="nav-icon fas fa-ban"></i>
+                                    <p>@localizer["Failed"]</p>
                                 </a>
                             </li>
                         </ul>

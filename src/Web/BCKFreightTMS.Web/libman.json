@@ -35,6 +35,16 @@
         "dist/jquery.validate.unobtrusive.js",
         "dist/jquery.validate.unobtrusive.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "overlayscrollbars@1.13.1",
+      "destination": "wwwroot/plugins/overlayscrollbars"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "overlayscrollbars@1.13.1",
+      "destination": "wwwroot/lib/overlayscrollbars"
     }
   ]
 }

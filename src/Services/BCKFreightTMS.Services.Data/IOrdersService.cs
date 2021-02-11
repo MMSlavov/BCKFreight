@@ -20,6 +20,8 @@
 
         public OrderCreateInputModel LoadOrderCreateInputModel(string orderId);
 
+        public OrderFailModel LoadOrderFailModel(string orderId);
+
         public OrderApplicationModel GenerateApplicationModel(string orderId);
 
         public IEnumerable<SelectListItem> GetContacts(string companyId);
@@ -27,6 +29,8 @@
         public IEnumerable<SelectListItem> GetDrivers(string companyId);
 
         public IEnumerable<SelectListItem> GetVehicles(string companyId);
+
+        public IEnumerable<SelectListItem> GetTrailers(string companyId);
 
         public IEnumerable<SelectListItem> GetCarriersByArea(string area);
 
@@ -39,6 +43,8 @@
         public Task<string> BeginAsync(string orderId);
 
         public Task<string> ConfirmApplicationAsync(string orderId);
+
+        public Task<string> SetOrderFailAsync(OrderFailModel input);
 
         public Task<bool> DeleteAsync(string id);
 

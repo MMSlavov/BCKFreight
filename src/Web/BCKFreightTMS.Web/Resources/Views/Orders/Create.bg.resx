@@ -127,10 +127,10 @@
     <value>Фирма превозвач</value>
   </data>
   <data name="Client price" xml:space="preserve">
-    <value>Цена клиент</value>
+    <value>Цена от клиент</value>
   </data>
   <data name="Contact" xml:space="preserve">
-    <value>Контакт</value>
+    <value>Лице за контакт</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Създай</value>
@@ -141,8 +141,35 @@
   <data name="Filter by area" xml:space="preserve">
     <value>&lt;span class="text-black-50"&gt;Филтрирай по район&lt;/span&gt;</value>
   </data>
+  <data name="Gondola" xml:space="preserve">
+    <value>Гондола</value>
+  </data>
+  <data name="Hanger" xml:space="preserve">
+    <value>Хенгер</value>
+  </data>
+  <data name="Mega" xml:space="preserve">
+    <value>Мега</value>
+  </data>
+  <data name="Onboard" xml:space="preserve">
+    <value>Бордови</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Цена</value>
+  </data>
+  <data name="Refrigeration" xml:space="preserve">
+    <value>Хладилен</value>
+  </data>
+  <data name="Requaired type" xml:space="preserve">
+    <value>Необходим тип</value>
+  </data>
+  <data name="Tarpaulin" xml:space="preserve">
+    <value>Брезент</value>
+  </data>
+  <data name="Trailer" xml:space="preserve">
+    <value>Ремарке</value>
+  </data>
+  <data name="Truck" xml:space="preserve">
+    <value>Влекач</value>
   </data>
   <data name="Vehicle" xml:space="preserve">
     <value>Камион</value>

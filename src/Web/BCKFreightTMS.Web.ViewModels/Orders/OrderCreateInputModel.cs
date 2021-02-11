@@ -13,6 +13,8 @@
 
         public int OrderFromCurrencyId { get; set; }
 
+        public string CargoLoadingBodyName { get; set; }
+
         [DataType(DataType.Currency)]
 
         // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
@@ -27,6 +29,8 @@
         public string CompanyToId { get; set; }
 
         public string VehicleId { get; set; }
+
+        public string TrailerId { get; set; }
 
         public string DriverId { get; set; }
 

@@ -72,8 +72,7 @@
                     </td>
                 }
                 <td class="align-middle text-center">
-                    @if (order.StatusName != OrderStatusNames.Finished.ToString())
-                    {
+                    @{
                         string action;
                         string btnColor;
                         string btnState = string.Empty;
@@ -105,7 +104,7 @@
                                 break;
                             default:
                                 action = null;
-                                btnColor = "primary";
+                                btnColor = "danger";
                                 break;
                         }
                         if (action == "ConfirmApplication")
@@ -117,11 +116,6 @@
                             <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor @btnState">@localizer[order.StatusName]</a>
                         }
                     }
-                    else
-                    {
-                        <a class="btn btn-success disabled">@order.StatusName</a>
-
-                    }
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="p-1 fas fa-edit"></i></a>
@@ -130,7 +124,7 @@
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
                         </a>*@
-                    <a asp-action="Delete" asp-route-id="@order.Id" title="Delete"><i class="p-1 fas fa-trash-alt"></i></a>
+                    <a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>
                 </td>
             </tr>
         }

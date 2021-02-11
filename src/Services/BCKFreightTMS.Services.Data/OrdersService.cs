@@ -133,6 +133,10 @@
             model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
                                                     .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
                                                     .ToList();
+            model.ContactItems = this.GetContacts(order.OrderTo.Company.Id);
+            model.DriverItems = this.GetDrivers(order.OrderTo.Company.Id);
+            model.VehicleItems = this.GetVehicles(order.OrderTo.Company.Id);
+
             return model;
         }
 
@@ -165,9 +169,27 @@
             return model;
         }
 
+        public OrderFailModel LoadOrderFailModel(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            if (order is null)
+            {
+                return null;
+            }
+
+            var model = this.mapper.Map<OrderFailModel>(order);
+
+            return model;
+        }
+
         public OrderApplicationModel GenerateApplicationModel(string orderId)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            if (order is null)
+            {
+                throw new ArgumentException("Company do not exist.");
+            }
+
             var model = this.mapper.Map<OrderApplicationModel>(order);
             if (model.OrderToReferenceNum == null)
             {
@@ -198,10 +220,23 @@
         public IEnumerable<SelectListItem> GetVehicles(string companyId)
         {
             var vehicles = this.vehicles.AllAsNoTracking()
-                         .Where(v => v.CompanyId == companyId)
+                         .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypeNames.Truck.ToString())
                          .Select(v => new SelectListItem
                          {
-                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber}/{v.Trailer.RegNumber}",
+                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber} ({v.Trailer.RegNumber})",
+                             Value = v.Id,
+                         })
+                         .ToList();
+            return vehicles;
+        }
+
+        public IEnumerable<SelectListItem> GetTrailers(string companyId)
+        {
+            var vehicles = this.vehicles.AllAsNoTracking()
+                         .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypeNames.Trailer.ToString())
+                         .Select(v => new SelectListItem
+                         {
+                             Text = v.RegNumber,
                              Value = v.Id,
                          })
                          .ToList();
@@ -286,6 +321,13 @@
         public async Task<string> CreateAsync(OrderCreateInputModel input)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            var vehicle = this.vehicles.All().FirstOrDefault(v => v.Id == input.VehicleId);
+            if (!string.IsNullOrWhiteSpace(input.TrailerId))
+            {
+                vehicle.TrailerId = input.TrailerId;
+                await this.vehicles.SaveChangesAsync();
+            }
+
             var orderTo = new OrderTo
             {
                 PriceNetOut = input.PriceNetOut,
@@ -401,6 +443,20 @@
             return orderId;
         }
 
+        public async Task<string> SetOrderFailAsync(OrderFailModel input)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            if (order is null)
+            {
+                return null;
+            }
+
+            order.FailReason = input.FailReason;
+
+            await this.UpdateOrderStatus(input.Id, OrderStatusNames.Fail.ToString());
+            return order.Id;
+        }
+
         public async Task<bool> DeleteAsync(string id)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == id);
@@ -439,6 +495,7 @@
                .ToList();
             model.Actions = this.orderActions.All()
                                              .Where(oa => oa.OrderId == model.Id)
+                                             .OrderBy(oa => oa.TypeId)
                                              .To<ActionStatusInputModel>()
                                              .ToList();
 
@@ -518,10 +575,8 @@
                                          o.Status.Name != OrderStatusNames.Accepted.ToString() &&
                                          o.Status.Name != OrderStatusNames.Ready.ToString() &&
                                          o.OrderTo.ReferenceNum.Substring(4, 2) == month)
-                                         .Count()
-                                         .ToString()
-                                         .PadLeft(4, '0');
-            return $"{year}{month}{ordersCount}";
+                                         .Count() + 1;
+            return $"{year}{month}{ordersCount.ToString().PadLeft(4, '0')}";
         }
 
         private async Task UpdateOrderStatus(string orderId, string status)

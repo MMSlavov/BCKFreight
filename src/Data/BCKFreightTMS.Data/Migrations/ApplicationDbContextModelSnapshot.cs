@@ -600,7 +600,6 @@ namespace BCKFreightTMS.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile1")
-                        .IsRequired()
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("Mobile2")
@@ -710,6 +709,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int?>("RecievedDocumentationId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("WeighingNote")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
@@ -775,6 +777,9 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.Property<int?>("DocumentationId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FailReason")
+                        .HasColumnType("nvarchar(MAX)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1016,7 +1021,8 @@ namespace BCKFreightTMS.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ReferenceNum")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int?>("TypeId")
                         .HasColumnType("int");
@@ -1085,7 +1091,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CompanyId")

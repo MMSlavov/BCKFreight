@@ -2,24 +2,24 @@
 
 @{
     this.Layout = null;
-    var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
-    var roleItems = this.Model.RoleItems.Select(r => new SelectListItem(r.Value, r.Key));
+    //var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    //var roleItems = this.Model.RoleItems.Select(r => new SelectListItem(r.Value, r.Key));
 }
 
 <form asp-action="AddPersonModal" onsubmit="return jQueryAjaxPost(this);">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label class="control-label">Company</label>
-        <select asp-for="CompanyId" class="form-control col-6" asp-items="companyItems">
-            <option disabled selected hidden>Select</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label class="control-label">Role</label>
-        <select asp-for="RoleId" class="form-control col-5" asp-items="roleItems">
-            <option disabled selected hidden>Select</option>
-        </select>
-    </div>
+    @*<div class="form-group">
+            <label class="control-label">Company</label>
+            <select asp-for="CompanyId" class="form-control col-6" asp-items="companyItems">
+                <option disabled selected hidden>Select</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Role</label>
+            <select asp-for="RoleId" class="form-control col-5" asp-items="roleItems">
+                <option disabled selected hidden>Select</option>
+            </select>
+        </div>*@
     <div class="form-group">
         <label class="control-label">First name <span class="text-danger">*</span></label>
         <input asp-for="FirstName" class="form-control col-8" />
@@ -30,18 +30,21 @@
         <input asp-for="LastName" class="form-control col-8" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="BirthDate" class="control-label"></label>
-        <input asp-for="BirthDate" class="form-control col-5" value="@null"/>
-        <span asp-validation-for="BirthDate" class="text-danger"></span>
-    </div>
+    @*<div class="form-group">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control col-5" value="@null"/>
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>*@
     <div class="form-group col-6 p-2 border rounded">
-            <label asp-for="Comunicators" class="text-muted"></label>
-            <div class="form-group">
-                <label class="control-label">Mobile</label>
-                <input asp-for="Comunicators.Mobile1" class="form-control" />
-            </div>
+        <label asp-for="Comunicators" class="text-muted"></label>
+        <div class="form-group">
+            <label class="control-label">Mobile</label>
+            <input asp-for="Comunicators.Mobile1" class="form-control" />
+        </div>
     </div>
+    @Html.HiddenFor(m => m.CompanyId)
+    @Html.HiddenFor(m => m.RoleId)
+    @Html.HiddenFor(m => m.BirthDate)
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>

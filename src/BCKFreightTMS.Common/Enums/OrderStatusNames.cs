@@ -11,5 +11,6 @@
         Approved,
         Ready,
         AwaitingApplication,
+        Fail,
     }
 }

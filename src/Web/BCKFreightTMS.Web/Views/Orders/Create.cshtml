@@ -27,30 +27,44 @@
                 <div class="row pl-2">
                     <input asp-for="PriceNetOut" class="form-control col-3" data-val="false" />
                     <select asp-for="CurrencyOutId" class="form-control col-1 ml-2" asp-items="currencyItems"></select>
-                    <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Client price"]: @Model.OrderFromPriceNetIn</label>
+                    <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Client price"]: <b class="text-dark">@Model.OrderFromPriceNetIn</b></label>
                 </div>
                 <span asp-validation-for="PriceNetOut" class="text-danger"></span>
             </div>
-            <div class="form-group col-5">
-                <label asp-for="ContactToId" class="control-label">@localizer["Contact"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Contact')"><i class="fas fa-plus"></i></a>
-                <select asp-for="ContactToId" id="contactTo" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
-                    <option disabled selected hidden>Select carrier first</option>
-                </select>
-                <span asp-validation-for="ContactToId" class="text-danger"></span>
+            <div class="form-group pl-2">
+                <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Requaired type"]: <b class="text-dark">@localizer[Model.CargoLoadingBodyName]</b></label>
             </div>
-            <div class="form-group col-5">
-                <label asp-for="VehicleId" class="control-label">@localizer["Vehicle"]</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
-                <select asp-for="VehicleId" id="vehicle" class="form-control" asp-items="@(new SelectList(string.Empty, "VehicleId", "VehicleNumber"))">
-                    <option disabled selected hidden>Select carrier first</option>
-                </select>
-                <span asp-validation-for="VehicleId" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group col-4">
+                    <label asp-for="VehicleId" class="control-label">@localizer["Truck"]</label><a href="#" class="pl-2" style="display:none" id="addTruck"><i class="fas fa-plus"></i></a>
+                    <select asp-for="VehicleId" id="vehicle" class="form-control" asp-items="@(new SelectList(string.Empty, "VehicleId", "VehicleNumber"))">
+                        <option disabled selected hidden>Select carrier first</option>
+                    </select>
+                    <span asp-validation-for="VehicleId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3">
+                    <label asp-for="TrailerId" class="control-label">@localizer["Trailer"]</label><a href="#" class="pl-2" style="display:none" id="addTrailer"><i class="fas fa-plus"></i></a>
+                    <select asp-for="TrailerId" id="trailer" class="form-control" asp-items="@(new SelectList(string.Empty, "TrailerId", "TrailerNumber"))">
+                        <option disabled selected hidden>Select carrier first</option>
+                    </select>
+                    <span asp-validation-for="TrailerId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-5">
-                <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
-                <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))">
-                    <option disabled selected hidden>Select carrier first</option>
-                </select>
-                <span asp-validation-for="DriverId" class="text-danger"></span>
+            <div class="form-row pl-2">
+                <div class="form-group col-4">
+                    <label asp-for="ContactToId" class="control-label">@localizer["Contact"]</label><a href="#" class="pl-2" style="display:none" id="addContact"><i class="fas fa-plus"></i></a>
+                    <select asp-for="ContactToId" id="contactTo" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
+                        <option disabled selected hidden>Select carrier first</option>
+                    </select>
+                    <span asp-validation-for="ContactToId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-4">
+                    <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" style="display:none" id="addDriver"><i class="fas fa-plus"></i></a>
+                    <select asp-for="DriverId" id="driver" class="form-control" asp-items="@(new SelectList(string.Empty, "DriverId", "DriverName"))">
+                        <option disabled selected hidden>Select carrier first</option>
+                    </select>
+                    <span asp-validation-for="DriverId" class="text-danger"></span>
+                </div>
             </div>
         </div>
         @Html.HiddenFor(m => m.OrderFromPriceNetIn)

@@ -22,6 +22,8 @@
 
         public bool BillOfGoods { get; set; }
 
+        public bool WeighingNote { get; set; }
+
         [ForeignKey(nameof(RecievedDocumentation))]
         public int? RecievedDocumentationId { get; set; }
 

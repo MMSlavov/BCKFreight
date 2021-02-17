@@ -144,8 +144,26 @@
   <data name="Order status" xml:space="preserve">
     <value>Състояние</value>
   </data>
+  <data name="problems with road accident involved" xml:space="preserve">
+    <value>проблеми с ПТП с участие</value>
+  </data>
+  <data name="problems with road accident without participation" xml:space="preserve">
+    <value>проблеми с ПТП без участие</value>
+  </data>
+  <data name="problems with the POLICE" xml:space="preserve">
+    <value>проблеми с ПОЛИЦИЯ</value>
+  </data>
+  <data name="problems with traffic police" xml:space="preserve">
+    <value>проблеми с ДАИ</value>
+  </data>
   <data name="Reason" xml:space="preserve">
     <value>Причина</value>
+  </data>
+  <data name="the driver has not yet arrived" xml:space="preserve">
+    <value>шофьорът все още не е пристигнал</value>
+  </data>
+  <data name="the enterprise is off time" xml:space="preserve">
+    <value>предприятието е off time</value>
   </data>
   <data name="Unloading" xml:space="preserve">
     <value>Разтоварване</value>
@@ -155,6 +173,21 @@
   </data>
   <data name="Update" xml:space="preserve">
     <value>Обнови</value>
+  </data>
+  <data name="will be at the address by the end of the day" xml:space="preserve">
+    <value>ще бъде на адрес до края на деня</value>
+  </data>
+  <data name="will be at the address within 1 hour" xml:space="preserve">
+    <value>ще бъде на адрес до 1 час</value>
+  </data>
+  <data name="will be at the address within 2 hour" xml:space="preserve">
+    <value>ще бъде на адрес до 2 часа</value>
+  </data>
+  <data name="will be at the address within 3 hour" xml:space="preserve">
+    <value>ще бъде на адрес до 3 часа</value>
+  </data>
+  <data name="will be at the address within 4 hour" xml:space="preserve">
+    <value>ще бъде на адрес до 4 часа</value>
   </data>
   <data name="With comments" xml:space="preserve">
     <value>Със забележки</value>

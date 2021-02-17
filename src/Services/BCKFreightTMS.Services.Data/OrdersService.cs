@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -191,9 +192,11 @@
             }
 
             var model = this.mapper.Map<OrderApplicationModel>(order);
+            var companyTaxCountry = model.CreatorCompany.TaxCountryName;
             if (model.OrderToReferenceNum == null)
             {
-                model.OrderToReferenceNum = this.GenerateOrderNumber();
+                model.OrderToReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
+                                                                     companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
             }
 
             return model;
@@ -220,10 +223,10 @@
         public IEnumerable<SelectListItem> GetVehicles(string companyId)
         {
             var vehicles = this.vehicles.AllAsNoTracking()
-                         .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypeNames.Truck.ToString())
+                         .Where(v => v.CompanyId == companyId && v.Type.Name != VehicleTypeNames.Trailer.ToString())
                          .Select(v => new SelectListItem
                          {
-                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber} ({v.Trailer.RegNumber})",
+                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber} / {v.Trailer.RegNumber}",
                              Value = v.Id,
                          })
                          .ToList();
@@ -271,6 +274,7 @@
                 TypeId = input.CargoTypeId,
                 VehicleType = this.vehicleTypes.All().FirstOrDefault(vt => vt.Name == VehicleTypeNames.Truck.ToString()),
                 LoadingBodyId = input.LoadingBodyId,
+                VehicleRequirements = input.VehicleRequirements,
                 Name = input.CargoName,
                 Lenght = input.Lenght,
                 Width = input.Width,
@@ -428,8 +432,9 @@
         public async Task<string> BeginAsync(string orderId)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
-
-            order.OrderTo.ReferenceNum = this.GenerateOrderNumber();
+            var companyTaxCountry = order.Creator.Company.TaxCountry.Name;
+            order.OrderTo.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
+                                                                     companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
 
             // TODO: Send application
             await this.orders.SaveChangesAsync();
@@ -566,7 +571,7 @@
             await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Approved.ToString());
         }
 
-        private string GenerateOrderNumber()
+        private string GenerateOrderNumber(bool isBG)
         {
             var year = DateTime.UtcNow.Year;
             var month = DateTime.UtcNow.Month.ToString().PadLeft(2, '0');
@@ -576,7 +581,15 @@
                                          o.Status.Name != OrderStatusNames.Ready.ToString() &&
                                          o.OrderTo.ReferenceNum.Substring(4, 2) == month)
                                          .Count() + 1;
-            return $"{year}{month}{ordersCount.ToString().PadLeft(4, '0')}";
+            var number = ordersCount.ToString().PadLeft(4, '0');
+            if (isBG)
+            {
+                return string.Format(GlobalConstants.BGOrderNumberFormat, year, month, number);
+            }
+            else
+            {
+                return string.Format(GlobalConstants.NonBGOrderNumberFormat, year, month, number);
+            }
         }
 
         private async Task UpdateOrderStatus(string orderId, string status)

@@ -25,5 +25,9 @@
         public const decimal SmallOrderMaxAmount = 500;
 
         public const decimal SmallOrderMinMargin = 25;
+
+        public const string BGOrderNumberFormat = "{0}{1}{2}";
+
+        public const string NonBGOrderNumberFormat = "{1}-{0}{2}";
     }
 }

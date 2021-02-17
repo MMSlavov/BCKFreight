@@ -99,8 +99,11 @@
 
     <p>Изпълнител: </p>
     <div style="padding-left: 3rem;">
-        <p><b>· @Model.OrderToVehicleRegNumber @(Model.OrderToVehicleTrailerRegNumber is null ? "": $"/{Model.OrderToVehicleTrailerRegNumber}")</b></p>
-
+        <p><b>· @Model.OrderToVehicleRegNumber @(Model.OrderToVehicleTrailerRegNumber is null ? "": $"/ {Model.OrderToVehicleTrailerRegNumber}")</b></p>
+        @if (!string.IsNullOrWhiteSpace(Model.Cargo.VehicleRequirements))
+        {
+            <p><b><u>Model.Cargo.VehicleRequirements</u></b></p>
+        }
         <span>@Model.OrderToCompanyName</span>
         @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
 
@@ -134,10 +137,12 @@
         {
             <tr>
                 <td>@localizer[action.TypeName]</td>
-                <td>@(action.Address.City is null?"":$"{action.Address.City}, ")
+                <td>
+                    @(action.Address.City is null?"":$"{action.Address.City}, ")
                     @(action.Address.Area is null || action.Address.City == action.Address.Area? "":$"{action.Address.Area}, ")
                     @(action.Address.Postcode is null?"":$"{action.Address.Postcode}, ")
-                    @action.Address.StreetLine</td>
+                    @action.Address.StreetLine
+                </td>
                 <td>@action.Until.ToLocalTime().ToShortDateString()</td>
                 <td>@action.Details</td>
             </tr>
@@ -157,7 +162,7 @@
 
     <p>Данни за товара:</p>
 
-    <p>· Стока: <b>@Model.Cargo.Name - @Model.Cargo.WeightGross т.@(Model.Cargo.Details is null?"":$"; {Model.Cargo.Details}")</b></p>
+    <p>· Стока: <b>@Model.Cargo.Name@(Model.Cargo.Quantity <= 1?"":$" - {Model.Cargo.Quantity}") - @Model.Cargo.WeightGross т.@Html.Raw(Model.Cargo.Details is null?"":$"; {Html.Raw(Model.Cargo.Details)}")</b></p>
 
     <p>· Придружаващи документи: </p>
     <div class="pl-5">

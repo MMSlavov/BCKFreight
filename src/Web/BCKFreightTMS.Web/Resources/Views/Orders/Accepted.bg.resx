@@ -121,7 +121,7 @@
     <value>Приеми нова заявка</value>
   </data>
   <data name="Accepted" xml:space="preserve">
-    <value>Приета</value>
+    <value> приета от клиент &lt;p class="m-0 text-bold"&gt;да се ТЪРСИ превозвач&lt;/p&gt;</value>
   </data>
   <data name="Ready" xml:space="preserve">
     <value>Намерен е превозвач</value>

@@ -7,7 +7,9 @@
     var currencyItems = this.Model.CurrencyItems.Select(c => new SelectListItem(c.Value, c.Key));
     var actionTypeItems = this.Model.ActionTypeItems.Select(at => new SelectListItem(at.Value, at.Key));
 }
-
+<head>
+    <link href="~/lib/summernote/summernote.min.css" rel="stylesheet" asp-append-version="true" />
+</head>
 <div class="col p-2">
     @using (Html.BeginForm("Accept", "Orders", FormMethod.Post))
     {
@@ -153,7 +155,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group border border-dark rounded bg-white col p-2">
             <h5 class="text-muted text-bold ml-2">@localizer["Cargo"]</h5>
             <div class="form-row">
@@ -172,12 +173,19 @@
                             <span asp-validation-for="Quantity" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="LoadingBodyId" class="control-label">@localizer["Trailer type"]</label>
-                        <select asp-for="LoadingBodyId" class="form-control col-6" asp-items="loadingBodyItems">
-                            <option hidden>Select</option>
-                        </select>
-                        <span asp-validation-for="LoadingBodyId" class="text-danger"></span>
+                    <div class="form-row">
+                        <div class="form-group p-2 col-5">
+                            <label asp-for="LoadingBodyId" class="control-label">@localizer["Trailer type"]</label>
+                            <select asp-for="LoadingBodyId" class="form-control" asp-items="loadingBodyItems">
+                                <option hidden>Select</option>
+                            </select>
+                            <span asp-validation-for="LoadingBodyId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group p-2 col-6">
+                            <label asp-for="VehicleRequirements" class="control-label">@localizer["Vehicle requirements"]</label>
+                            <textarea asp-for="VehicleRequirements" class="form-control" rows="2"></textarea>
+                            <span asp-validation-for="VehicleRequirements" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label">@localizer["Name"]</label>
@@ -186,11 +194,11 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Details" class="control-label">@localizer["Details"]</label>
-                        <textarea asp-for="Details" class="form-control" rows="2"></textarea>
+                        <textarea asp-for="Details" class="form-control summernote" rows="2"></textarea>
                         <span asp-validation-for="Details" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group p-2 border rounded">
+                <div class="form-group p-2 border rounded" style="max-height:19em">
                     <label class="text-muted">@localizer["Specifications"]</label>
                     <div class="form-group col-10">
                         <label class="control-label">@localizer["Gross weight"]</label>
@@ -208,7 +216,7 @@
                         <span asp-validation-for="Cubature" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group ml-2 p-2 border rounded">
+                <div class="form-group ml-2 p-2 border rounded" style="max-height:19em">
                     <label class="text-muted">@localizer["Dimentions"]</label>
                     <div class="form-group col-10">
                         <label asp-for="Lenght" class="control-label">@localizer["Lenght"]</label>
@@ -257,5 +265,6 @@
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src="/lib/summernote/summernote.min.js"></script>
     <script src="~/js/acceptOrder.js"></script>
 }

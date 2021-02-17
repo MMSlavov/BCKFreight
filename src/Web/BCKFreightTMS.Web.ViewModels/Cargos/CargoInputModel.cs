@@ -36,6 +36,8 @@
 
         public int LoadingBodyId { get; set; }
 
+        public string VehicleRequirements { get; set; }
+
         public IEnumerable<KeyValuePair<string, string>> TypeItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> LoadingBodyItems { get; set; }

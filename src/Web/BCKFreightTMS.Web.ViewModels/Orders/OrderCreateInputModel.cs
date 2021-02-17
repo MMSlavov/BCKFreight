@@ -15,6 +15,8 @@
 
         public string CargoLoadingBodyName { get; set; }
 
+        public string CargoVehicleRequirements { get; set; }
+
         [DataType(DataType.Currency)]
 
         // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]

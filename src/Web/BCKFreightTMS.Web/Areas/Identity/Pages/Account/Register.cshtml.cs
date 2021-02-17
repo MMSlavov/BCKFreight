@@ -59,14 +59,13 @@
 
         public class InputModel
         {
+            // [RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid First name.")]
             [Required]
             [MinLength(2)]
-            //[RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid First name.")]
             public string FirstName { get; set; }
 
             [Required]
             [MinLength(2)]
-            //[RegularExpression(@"^[A-Za-z ,.'-]+$", ErrorMessage = "Invalid Last name.")]
             public string LastName { get; set; }
 
             [Required]

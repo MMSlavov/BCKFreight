@@ -21,7 +21,9 @@
 
         public string ContactFromId { get; set; }
 
-        public int LoadingBodyId { get; set; }
+        public int? LoadingBodyId { get; set; }
+
+        public string VehicleRequirements { get; set; }
 
         [MaxLength(200)]
         public string CargoName { get; set; }

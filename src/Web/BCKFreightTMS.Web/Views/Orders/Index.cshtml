@@ -119,11 +119,11 @@
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="p-1 fas fa-edit"></i></a>
-                    @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
+                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@order.Id', 'Details')" title="Details">
                             <span>
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
-                        </a>*@
+                    </a>
                     <a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>
                 </td>
             </tr>

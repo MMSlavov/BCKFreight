@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +8,7 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -95,6 +97,8 @@
             [MaxLength(10)]
             public string Email2 { get; set; }
 
+            public ICollection<CurrencyModel> ExchangeRates { get; set; }
+
             public string Details { get; set; }
         }
 
@@ -171,6 +175,7 @@
                     Mobile1 = company.Comunicators.Mobile1,
                     Email1 = company.Comunicators.Email1,
                     Details = company.Comunicators.Details,
+                    ExchangeRates = this.financeService.GetCurrencyRates(),
                 };
             }
             catch (System.Exception)

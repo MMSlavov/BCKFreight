@@ -1,10 +1,15 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Web.ViewModels.Shared;
+
     public interface IFinanceService
     {
+        public ICollection<CurrencyModel> GetCurrencyRates();
+
         public Task UpdateCurrencyRatesAsync(string companyId);
 
         public decimal GetAmount(int currencyId, decimal amount);

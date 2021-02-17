@@ -121,19 +121,22 @@
 
             var order = this.orders.All().FirstOrDefault(c => c.Id == id);
             data.Add("Id", order.Id);
-            data.Add("Reference number to", order.OrderTo.ReferenceNum);
+            data.Add("Reference number to", order.OrderTo?.ReferenceNum);
             data.Add("Reference number from", order.OrderFrom?.ReferenceNum);
-            data.Add("Carrier vehicle", order.OrderTo.Vehicle.RegNumber);
-            data.Add("Carrier company", order.OrderTo.Company.Name);
-            data.Add("Carrier price", order.OrderTo.PriceNetOut.ToString());
-            data.Add("Carrier currency", order.OrderTo.Currency.Name);
-            data.Add("Carrier contact", order.OrderTo.Contact.FirstName);
-            data.Add("Carrier driver", order.OrderTo.Drivers.First().Driver.FirstName);
+            data.Add("Carrier vehicle", order.OrderTo?.Vehicle.RegNumber);
+            data.Add("Carrier company", order.OrderTo?.Company.Name);
+            data.Add("Carrier price", order.OrderTo?.PriceNetOut.ToString());
+            data.Add("Carrier currency", order.OrderTo?.Currency.Name);
+            data.Add("Carrier contact", order.OrderTo?.Contact?.FirstName);
+            data.Add("Carrier driver", order.OrderTo?.Drivers.FirstOrDefault()?.Driver.FirstName);
             data.Add("Client company", order.OrderFrom?.Company.Name);
             data.Add("Client price", order.OrderFrom?.PriceNetIn.ToString());
             data.Add("Client currency", order.OrderFrom?.Currency.Name);
-            data.Add("Client contact", order.OrderFrom?.Contact.FirstName);
+            data.Add("Client contact", order.OrderFrom?.Contact?.FirstName);
             data.Add("Cargo name", order.Cargo.Name);
+            data.Add("Cargo weight", order.Cargo.WeightGross.ToString());
+            data.Add("Cargo quantity", order.Cargo.Quantity.ToString());
+            data.Add("Cargo requaired loading body", order.Cargo.LoadingBody?.Name);
 
             data = data.Where(kv => kv.Value != null).ToDictionary(x => x.Key, y => y.Value);
 
@@ -175,13 +178,14 @@
         {
             if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.Ready.ToString())
             {
-                this.notyfService.Error("Invalid order!");
+                this.notyfService.Error(this.localizer["Invalid order!"]);
                 return this.Redirect("/Orders/Accepted");
             }
 
             await this.ordersService.BeginAsync(id);
 
             // send
+            this.notyfService.Success(this.localizer["Order contract sent."]);
             return this.RedirectToAction("WaitingConfirm");
         }
 
@@ -189,7 +193,7 @@
         {
             if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.AwaitingApplication.ToString())
             {
-                this.notyfService.Error("Invalid order!");
+                this.notyfService.Error(this.localizer["Invalid order!"]);
                 return this.RedirectToAction("/Orders/WaitingConfirm");
             }
 
@@ -279,6 +283,7 @@
             }
 
             await this.ordersService.CreateAsync(input);
+            this.notyfService.Success(this.localizer["Order carrier found."]);
             return this.Redirect(@$"/Orders/GenerateApplication/{input.Id}");
         }
 
@@ -314,8 +319,7 @@
 
             await this.ordersService.EditAsync(input);
 
-            //await this.SendContractToCompanyAsync(input.Id);
-
+            // await this.SendContractToCompanyAsync(input.Id);
             this.notyfService.Success(this.localizer["Order contract sent."]);
             return this.Redirect(@$"/Orders/CorrectApplication/{input.Id}{(input.ReturnUrl is not null ? $"?returnUrl={input.ReturnUrl}" : string.Empty)}");
         }
@@ -493,7 +497,7 @@
 
             var model = this.ordersService.GenerateApplicationModel(order.Id);
             var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
-            var pdfData = this.pdfService.PdfSharpConvert(html);
+            var pdfData = this.pdfService.SelectPdfConvert(html);
             var pdf = new EmailAttachment
             {
                 Content = pdfData,

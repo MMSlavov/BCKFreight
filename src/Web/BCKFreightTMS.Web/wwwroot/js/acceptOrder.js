@@ -1,4 +1,18 @@
-﻿let companyId = document.getElementById("CompanyFromId");
+﻿$(document).ready(function () {
+    $('.summernote').summernote({
+        tabsize: 2,
+        height: 100,
+        toolbar: [
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']]
+        ]
+    });
+});
+
+let companyId = document.getElementById("CompanyFromId");
 let addContactBtn = document.getElementById("addContact");
 addContactBtn.addEventListener("click", function (ev) {
     showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
@@ -35,6 +49,7 @@ document.getElementById("tabs")
             open(ev.target.id);
         }
         else if (ev.target && ev.target.id.includes("add")) {
+            ev.preventDefault();
             addAction(ev, ev.target.id.substring(3).toLowerCase());
         }
     });
@@ -74,10 +89,17 @@ $("#actions").on("click", ".delete", function (e) {
 });
 
 function addAction(evt, type) {
-    let index = document.getElementsByClassName("tabcontent").length;
-    let action = document.querySelector(".tabcontent[id=" + type + "]").innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
 
-    $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + action + '</div>');
+    let index = document.getElementsByClassName("tabcontent").length;
+    let action = document.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
+    [...action.querySelectorAll("input, textarea")].forEach((v) => {
+        v.value = '';
+        v.defaultValue = '';
+    })
+    action.querySelector("input[id*=__Id]").value = '-1';
+    let actionHtml = action.innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
+
+    $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + actionHtml + '</div>');
     let btn = document.querySelector(".tablinks[id=" + type + "]").cloneNode();
     btn.id += index;
     btnIndex = document.querySelectorAll(".tablinks[id^=" + type + "]").length + 1;

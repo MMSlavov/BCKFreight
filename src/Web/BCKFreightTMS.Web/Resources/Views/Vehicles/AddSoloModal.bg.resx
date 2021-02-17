@@ -117,41 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add solo" xml:space="preserve">
-    <value>Добави соло</value>
-  </data>
-  <data name="Add trailer" xml:space="preserve">
-    <value>Добави ремарке</value>
-  </data>
-  <data name="Add truck" xml:space="preserve">
-    <value>Добави влекач</value>
-  </data>
-  <data name="Additional requirements" xml:space="preserve">
-    <value>Доп. изисквания</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отказ</value>
-  </data>
-  <data name="Carrier" xml:space="preserve">
-    <value>Превозвач</value>
-  </data>
-  <data name="Carrier company" xml:space="preserve">
-    <value>Фирма превозвач</value>
-  </data>
-  <data name="Client price" xml:space="preserve">
-    <value>Цена от клиент</value>
-  </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Лице за контакт</value>
+  <data name="Company" xml:space="preserve">
+    <value>Фирма</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Създай</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детайли</value>
+  </data>
   <data name="Driver" xml:space="preserve">
     <value>Шофьор</value>
-  </data>
-  <data name="Filter by area" xml:space="preserve">
-    <value>&lt;span class="text-black-50"&gt;Филтрирай по район&lt;/span&gt;</value>
   </data>
   <data name="Gondola" xml:space="preserve">
     <value>Гондола</value>
@@ -159,20 +135,23 @@
   <data name="Hanger" xml:space="preserve">
     <value>Хенгер</value>
   </data>
+  <data name="Loading body" xml:space="preserve">
+    <value>Вид товарно пространство</value>
+  </data>
   <data name="Mega" xml:space="preserve">
     <value>Мега</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Име</value>
   </data>
   <data name="Onboard" xml:space="preserve">
     <value>Бордови</value>
   </data>
-  <data name="Price" xml:space="preserve">
-    <value>Цена</value>
-  </data>
   <data name="Refrigeration" xml:space="preserve">
     <value>Хладилен</value>
   </data>
-  <data name="Requaired type" xml:space="preserve">
-    <value>Необходим тип</value>
+  <data name="Registration number" xml:space="preserve">
+    <value>Регистрационен номер</value>
   </data>
   <data name="Solo" xml:space="preserve">
     <value>Соло</value>
@@ -186,7 +165,7 @@
   <data name="Truck" xml:space="preserve">
     <value>Влекач</value>
   </data>
-  <data name="Vehicle" xml:space="preserve">
-    <value>Камион</value>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
   </data>
 </root>

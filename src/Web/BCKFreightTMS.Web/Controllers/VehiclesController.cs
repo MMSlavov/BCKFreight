@@ -57,6 +57,15 @@
             return this.View(model);
         }
 
+        public IActionResult AddSoloModal(string id)
+        {
+            var model = this.vehiclesService.LoadVehicleInputModel();
+            this.ViewBag.DriverItems = this.vehiclesService.GetDrivers(id);
+            model.TypeId = this.types.AllAsNoTracking().FirstOrDefault(t => t.Name == VehicleTypeNames.Solo.ToString()).Id;
+            model.CompanyId = id;
+            return this.View(model);
+        }
+
         public IActionResult AddTrailerModal(string id)
         {
             var model = this.vehiclesService.LoadVehicleInputModel();
@@ -94,13 +103,11 @@
         [HttpPost]
         public async Task<IActionResult> AddVehicleModal(VehicleInputModel input)
         {
-            // something wrong with validation
-
-            //if (!this.ModelState.IsValid)
-            //{
-            //    input = this.vehiclesService.LoadVehicleInputModel(input);
-            //    return this.View(input);
-            //}
+            if (!this.ModelState.IsValid)
+            {
+                input = this.vehiclesService.LoadVehicleInputModel(input);
+                return this.View(input);
+            }
 
             await this.vehiclesService.AddVehicleAsync(input);
 

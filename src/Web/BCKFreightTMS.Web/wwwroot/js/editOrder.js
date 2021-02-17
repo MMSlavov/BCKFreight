@@ -109,7 +109,11 @@ $("#actions").on("click", ".delete", function (e) {
 
 function addAction(evt, type) {
     let index = document.getElementsByClassName("tabcontent").length;
-    let action = document.querySelector(".tabcontent[id=" + type + "]");
+    let action = document.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
+    [...action.querySelectorAll("input, textarea")].forEach((v) => {
+        v.value = '';
+        v.defaultValue = '';
+    })
     action.querySelector("input[id*=__Id]").value = '-1';
     let actionHtml = action.innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
     $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + actionHtml + '</div>');

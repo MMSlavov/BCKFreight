@@ -17,14 +17,13 @@
         public string TrailerId { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z]{1,2}[\d]{4}[A-Z]{2}$", ErrorMessage = "Invalid registration number format.")]
+
+        // [RegularExpression(@"^[A-Z]{1,2}[\d]{4}[A-Z]{2}$", ErrorMessage = "Invalid registration number format.")]
         public string RegNumber { get; set; }
 
         [MaxLength(100)]
-        [MinLength(3)]
         public string Name { get; set; }
 
-        [MinLength(5)]
         public string Details { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> TypeItems { get; set; }

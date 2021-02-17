@@ -4,23 +4,21 @@
     using System.IO;
 
     using SelectPdf;
-    using TheArtOfDev.HtmlRenderer.PdfSharp;
 
     public class PdfService : IPdfService
     {
-        public byte[] PdfSharpConvert(string html)
-        {
-            byte[] res = null;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                var pdf = PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
-                pdf.Save(ms);
-                res = ms.ToArray();
-            }
+        // public byte[] PdfSharpConvert(string html)
+        // {
+        //    byte[] res = null;
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        var pdf = PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
+        //        pdf.Save(ms);
+        //        res = ms.ToArray();
+        //    }
 
-            return res;
-        }
-
+        // return res;
+        // }
         public byte[] SelectPdfConvert(string html)
         {
             HtmlToPdf converter = new HtmlToPdf();

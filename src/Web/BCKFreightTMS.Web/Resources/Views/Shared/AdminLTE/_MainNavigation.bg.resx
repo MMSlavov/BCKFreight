@@ -127,7 +127,7 @@
     <value>Товари</value>
   </data>
   <data name="Check" xml:space="preserve">
-    <value>Чака насрещни док.</value>
+    <value>Чака насрещна ф-ра с док.</value>
   </data>
   <data name="Configuration" xml:space="preserve">
     <value>Конфигурация</value>
@@ -142,7 +142,7 @@
     <value>Провалени</value>
   </data>
   <data name="Finished" xml:space="preserve">
-    <value>Готови за фактуриране</value>
+    <value>Заведени вх. ф-ри</value>
   </data>
   <data name="Orders" xml:space="preserve">
     <value>Заявки</value>

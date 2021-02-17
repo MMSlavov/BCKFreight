@@ -117,12 +117,12 @@
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="Edit" asp-route-id="@order.Id" asp-route-returnUrl="@Url.Action("Check", "Orders", new { area = "" })" title="Edit"><i class="p-1 fas fa-edit"></i></a>
-                    @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>*@
-                    <a asp-action="Delete" asp-route-id="@order.Id" title="Delete"><i class="p-1 fas fa-trash-alt"></i></a>
+                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@order.Id', 'Details')" title="Details">
+                        <span>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                    <a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>
                 </td>
             </tr>
         }

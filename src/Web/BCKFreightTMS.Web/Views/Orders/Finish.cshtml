@@ -28,6 +28,8 @@
                 {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Invoice"]</label></div>}
                 @if (@documentation.BillOfGoods)
                 {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Bill of goods"]</label></div>}
+                @if (@documentation.WeighingNote)
+                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Weighing note"]</label></div>}
             </div>
         </div>
         <div class="form-group border border-dark rounded bg-gray-light p-2 ml-2">
@@ -41,6 +43,7 @@
                 <div><input asp-for="RecievedDocumentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
                 <div><input asp-for="RecievedDocumentation.Invoice" type="checkbox"><label>&nbsp;@localizer["Invoice"]</label></div>
                 <div><input asp-for="RecievedDocumentation.BillOfGoods" type="checkbox"><label>&nbsp;@localizer["Bill of goods"]</label></div>
+                <div><input asp-for="RecievedDocumentation.WeighingNote" type="checkbox"><label>&nbsp;@localizer["Weighing note"]</label></div>
             </div>
         </div>
     </div>

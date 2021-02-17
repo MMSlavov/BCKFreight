@@ -1,6 +1,7 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Security.Claims;
@@ -11,6 +12,8 @@
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
+    using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Identity;
     using Newtonsoft.Json.Linq;
 
@@ -76,6 +79,13 @@
             }
 
             await this.currencies.SaveChangesAsync();
+        }
+
+        public ICollection<CurrencyModel> GetCurrencyRates()
+        {
+            var currencies = this.currencies.All().To<CurrencyModel>().ToList();
+
+            return currencies;
         }
 
         private decimal GetCurrencyExRate(string fromCurrency, string toCurrency)

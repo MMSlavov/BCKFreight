@@ -6,7 +6,7 @@
     var loadingActions = Model.Actions.Where(a => a.TypeId == 1).ToList();
     var unloadingActions = Model.Actions.Where(a => a.TypeId == 2).ToList();
     var actionTypeItems = this.Model.ActionTypeItems.ToDictionary(x => x.Key, y => y.Value);
-    var actionNFResItems = this.Model.ActionNotFinishedItems.Select(anf => new SelectListItem(anf.Value, anf.Key));
+    var actionNFResItems = this.Model.ActionNotFinishedItems.Select(anf => new SelectListItem(this.localizer[anf.Value].Value, anf.Key));
     var currActionIndex = -1;
     var isCurrAction = false;
 }
@@ -98,8 +98,8 @@
                     @for (int i = 0; i < actions.Count; i++)
                     {
                         var action = actions[i];
-                        if (!action.IsFinnished && 
-                            ((i < 1 || actions[i - 1].IsFinnished) && (i + 1 >= actions.Count || !actions[i + 1].IsFinnished)) && 
+                        if (!action.IsFinnished &&
+                            ((i < 1 || actions[i - 1].IsFinnished) && (i + 1 >= actions.Count || !actions[i + 1].IsFinnished)) &&
                             !isCurrAction)
                         {
                             currActionIndex = i;
@@ -121,17 +121,17 @@
                             @if (!string.IsNullOrWhiteSpace(actions[i].Details))
                             {
                                 <div class="ml-3" style=" max-width: 600px; min-width: 100px;">
-                                <b>@localizer["Details"]:</b>
-                                    <span class="text-danger">@actions[i].Details</span> 
+                                    <b>@localizer["Details"]:</b>
+                                    <span class="text-danger">@actions[i].Details</span>
                                 </div>
                             }
                         </div>
                         <div class="form-group text-center">
                             <b style="font-size:18px">@localizer[$"{actionTypeItems[actions[i].TypeId.ToString()]}-q"]</b>
-                            <hr class="m-3"/>
+                            <hr class="m-3" />
                             <div class="form-row isFinishedRadios">
-                                <div class="form-check col-6 text-center"><label class="ml-4"><input class="form-check-input" type="radio" name="isFinishedRadios@(i)" id="yes@(i)" @(actions[i].IsFinnished?"checked=checked":"") />@localizer["Yes"]</label></div>
-                                <div class="form-check col-6 text-center"><label class="ml-4"><input class="form-check-input" type="radio" name="isFinishedRadios@(i)" id="no@(i)" @(!actions[i].IsFinnished?"checked=checked":"") />@localizer["No"]</label></div>
+                                <div class="form-check col-6 text-center"><label class="ml-4"><input class="form-check-input" type="radio" name="isFinishedRadios@(i)" id="yes@(i)" @(actions[i].IsFinnished ? "checked=checked" : "") />@localizer["Yes"]</label></div>
+                                <div class="form-check col-6 text-center"><label class="ml-4"><input class="form-check-input" type="radio" name="isFinishedRadios@(i)" id="no@(i)" @(!actions[i].IsFinnished ? "checked=checked" : "") />@localizer["No"]</label></div>
                             </div>
                         </div>
                         <div class="form-row noteChecks" id="@(i)">
@@ -203,98 +203,7 @@
                     </div>
                 }
             </div>
-            @*<div class="form-group border rounded bg-gray-light p-2">
-                    <h5 class="text-muted text-bold ml-2">Requaired documentation</h5>
-                    <div class="d-flex justify-content-around">
-                        <div class="col">
-                            <div><input asp-for="Documentation.CMR" type="checkbox"><label>&nbsp;CMR</label></div>
-                            <div><input asp-for="Documentation.BillOfLading" type="checkbox"><label>&nbsp;Bill of lading</label></div>
-                            <div><input asp-for="Documentation.AOA" type="checkbox"><label>&nbsp;Act of acceptance</label></div>
-                        </div>
-                        <div class="col">
-                            <div><input asp-for="Documentation.DeliveryNote" type="checkbox"><label>&nbsp;Delivery note</label></div>
-                            <div><input asp-for="Documentation.PackingList" type="checkbox"><label>&nbsp;Packing list</label></div>
-                            <div><input asp-for="Documentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
-                        </div>
-                        <div class="col">
-                            <div><input asp-for="Documentation.Invoice" type="checkbox"><label>&nbsp;Invoice</label></div>
-                            <div><input asp-for="Documentation.BillOfGoods" type="checkbox"><label>&nbsp;Bill of goods</label></div>
-                        </div>
-                    </div>
-                </div>*@
-            @*@for (int i = 0; i < actions.Count; i++)
-                {
-                    <div class="form-group border rounded bg-gray-light row p-2" disabled>
-                        <div class="col-6">
-                            <h5 class="control-label text-muted text-bold mr-3">@actionTypeItems[actions[i].TypeId.ToString()]</h5>
-                            <div>
-                                <dl>
-                                    <dt class="text-right">
-                                        Address:&nbsp;&nbsp;
-                                    </dt>
-                                    <dd>
-                                        @actions[i].AddressCity, @actions[i].AddressStreetLine
-                                    </dd>
-                                    <dt class="text-right">
-                                        Details:&nbsp;&nbsp;
-                                    </dt>
-                                    <dd class="col-10">
-                                        @actions[i].Details
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div>
-                                @if (i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished)
-                                {
-                                    <input asp-for="@actions[i].IsFinnished" type="checkbox" onchange='DisableReason(this, @i)' disabled>
-                                }
-                                else
-                                {
-                                    <input asp-for="@actions[i].IsFinnished" type="checkbox" onchange='DisableReason(this, @i)'>
-                                }
-                                <label>
-                                    &nbsp;Finished
-                                </label>
-                            </div>
-                            <input asp-for="@actions[i].Id" hidden />
-                            <input asp-for="@Model.Id" hidden />
-                            <label class="control-label">Not finished reasons</label>
-                            @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
-                            {
-                                <select asp-for="@actions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems" disabled></select>
-                            }
-                            else
-                            {
-                                <select asp-for="@actions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems"></select>
-                            }
-                        </div>
-                        <div class="col-6 mt-4">
-                            @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
-                            {
-                                <input asp-for="@actions[i].NoNotes" type="checkbox" disabled>
-                            }
-                            else
-                            {
-                                <input asp-for="@actions[i].NoNotes" type="checkbox">
-                            }
-                            <label>
-                                &nbsp;No notes
-                            </label>
-                            <div class="form-group">
-                                <label asp-for="@actions[i].Notes" class="control-label"></label>
-                                @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
-                                {
-                                    <textarea asp-for="@actions[i].Notes" class="form-control" rows="2" disabled></textarea>
-                                }
-                                else
-                                {
-                                    <textarea asp-for="@actions[i].Notes" class="form-control" rows="2"></textarea>
-                                }
-                                <span asp-validation-for="@actions[i].Notes" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                }*@
+
             <div class="form-group">
                 <input asp-action="Status" type="submit" class="btn btn-primary" value="@localizer["Update"]" />
                 <a asp-action="Index" class="btn btn-secondary">@localizer["Cancel"]</a>
@@ -306,3 +215,96 @@
 @section Scripts{
     <script src="~/js/orderStatus.js"></script>
 }
+
+@*<div class="form-group border rounded bg-gray-light p-2">
+        <h5 class="text-muted text-bold ml-2">Requaired documentation</h5>
+        <div class="d-flex justify-content-around">
+            <div class="col">
+                <div><input asp-for="Documentation.CMR" type="checkbox"><label>&nbsp;CMR</label></div>
+                <div><input asp-for="Documentation.BillOfLading" type="checkbox"><label>&nbsp;Bill of lading</label></div>
+                <div><input asp-for="Documentation.AOA" type="checkbox"><label>&nbsp;Act of acceptance</label></div>
+            </div>
+            <div class="col">
+                <div><input asp-for="Documentation.DeliveryNote" type="checkbox"><label>&nbsp;Delivery note</label></div>
+                <div><input asp-for="Documentation.PackingList" type="checkbox"><label>&nbsp;Packing list</label></div>
+                <div><input asp-for="Documentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
+            </div>
+            <div class="col">
+                <div><input asp-for="Documentation.Invoice" type="checkbox"><label>&nbsp;Invoice</label></div>
+                <div><input asp-for="Documentation.BillOfGoods" type="checkbox"><label>&nbsp;Bill of goods</label></div>
+            </div>
+        </div>
+    </div>*@
+@*@for (int i = 0; i < actions.Count; i++)
+    {
+        <div class="form-group border rounded bg-gray-light row p-2" disabled>
+            <div class="col-6">
+                <h5 class="control-label text-muted text-bold mr-3">@actionTypeItems[actions[i].TypeId.ToString()]</h5>
+                <div>
+                    <dl>
+                        <dt class="text-right">
+                            Address:&nbsp;&nbsp;
+                        </dt>
+                        <dd>
+                            @actions[i].AddressCity, @actions[i].AddressStreetLine
+                        </dd>
+                        <dt class="text-right">
+                            Details:&nbsp;&nbsp;
+                        </dt>
+                        <dd class="col-10">
+                            @actions[i].Details
+                        </dd>
+                    </dl>
+                </div>
+                <div>
+                    @if (i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished)
+                    {
+                        <input asp-for="@actions[i].IsFinnished" type="checkbox" onchange='DisableReason(this, @i)' disabled>
+                    }
+                    else
+                    {
+                        <input asp-for="@actions[i].IsFinnished" type="checkbox" onchange='DisableReason(this, @i)'>
+                    }
+                    <label>
+                        &nbsp;Finished
+                    </label>
+                </div>
+                <input asp-for="@actions[i].Id" hidden />
+                <input asp-for="@Model.Id" hidden />
+                <label class="control-label">Not finished reasons</label>
+                @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
+                {
+                    <select asp-for="@actions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems" disabled></select>
+                }
+                else
+                {
+                    <select asp-for="@actions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems"></select>
+                }
+            </div>
+            <div class="col-6 mt-4">
+                @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
+                {
+                    <input asp-for="@actions[i].NoNotes" type="checkbox" disabled>
+                }
+                else
+                {
+                    <input asp-for="@actions[i].NoNotes" type="checkbox">
+                }
+                <label>
+                    &nbsp;No notes
+                </label>
+                <div class="form-group">
+                    <label asp-for="@actions[i].Notes" class="control-label"></label>
+                    @if ((i > 0 && !actions[i - 1].IsFinnished && !actions[i].IsFinnished) || actions[i].IsFinnished)
+                    {
+                        <textarea asp-for="@actions[i].Notes" class="form-control" rows="2" disabled></textarea>
+                    }
+                    else
+                    {
+                        <textarea asp-for="@actions[i].Notes" class="form-control" rows="2"></textarea>
+                    }
+                    <span asp-validation-for="@actions[i].Notes" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    }*@

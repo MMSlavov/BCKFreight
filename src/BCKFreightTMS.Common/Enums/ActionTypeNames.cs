@@ -2,7 +2,7 @@
 {
     public enum ActionTypeNames
     {
-        Loading,
         Unloading,
+        Loading,
     }
 }

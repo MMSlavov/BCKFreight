@@ -6,10 +6,9 @@
     var cargoTypeItems = this.Model.CargoTypeItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
     var currencyItems = this.Model.CurrencyItems.Select(c => new SelectListItem(c.Value, c.Key));
     var actionTypeItems = this.Model.ActionTypeItems.Select(at => new SelectListItem(at.Value, at.Key));
+    var orderTos = this.Model.OrderTos;
 }
-<head>
-    <link href="~/lib/summernote/summernote.min.css" rel="stylesheet" asp-append-version="true" />
-</head>
+
 <div class="col p-2">
     @using (Html.BeginForm("Accept", "Orders", FormMethod.Post))
     {
@@ -45,214 +44,219 @@
             </div>
         </div>
 
-        <div class="form-group" id="actions">
-            <div class="tab rounded" id="tabs">
-                <a class="btn tablinks active-tab" id="loading">@localizer["Loading"]</a>
-                <a id="addLoading" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
-                <a class="btn tablinks" id="unloading">@localizer["Unloading"]</a>
-                <a id="addUnloading" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
+        <div class="form-group" id="courses">
+            <div class="tab rounded" id="cTabs">
+                <a class="btn tablinks active-tab" id="course">@localizer["Course"]</a>
+                <a id="addCourse" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
             </div>
+            <div id="course" class="tabcontent rounded-bottom" style="display:block">
+                <div class="form-group actions">
+                    <div class="tab rounded" id="aTabs">
+                        <a class="btn tablinks active-tab" id="loading">@localizer["Loading"]</a>
+                        <a id="addLoading" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
+                        <a class="btn tablinks" id="unloading">@localizer["Unloading"]</a>
+                        <a id="addUnloading" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
+                    </div>
 
-            <div id="loading" class="tabcontent rounded-bottom bg-white" style="display:block">
-                @Html.Hidden("Actions[0].TypeId", "1")
-                <div class="form-row">
-                    <div class="form-group border rounded col-6 p-2 m-0 ml-2">
-                        <label class="text-muted">@localizer["Address"]</label>
+                    <div id="loading" class="tabcontent rounded-bottom bg-white" style="display:block">
+                        @Html.Hidden("OrderTos[0].OrderActions[0].TypeId", "1")
                         <div class="form-row">
-                            <div class="form-group col-7">
-                                <label class="control-label">@localizer["City"]</label>
-                                <input asp-for="Actions[0].Address.City" class="form-control" placeholder="City name" />
-                                <span asp-validation-for="Actions[0].Address.City" class="text-danger"></span>
+                            <div class="form-group border rounded col-6 p-2 m-0 ml-2">
+                                <label class="text-muted">@localizer["Address"]</label>
+                                <div class="form-row">
+                                    <div class="form-group col-7">
+                                        <label class="control-label">@localizer["City"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.City" class="form-control" placeholder="City name" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.City" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label class="control-label">@localizer["Post code"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.Postcode" class="form-control" placeholder="Code" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.Postcode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        <label class="control-label">@localizer["State"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.State" class="form-control" placeholder="State name" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.State" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label class="control-label">@localizer["Area"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.Area" class="form-control" placeholder="Area name" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.Area" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Street line"]</label>
+                                    <input asp-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="form-control" placeholder="Street and number" />
+                                    <span asp-validation-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group col-4">
-                                <label class="control-label">@localizer["Post code"]</label>
-                                <input asp-for="Actions[0].Address.Postcode" class="form-control" placeholder="Code" />
-                                <span asp-validation-for="Actions[0].Address.Postcode" class="text-danger"></span>
+                            <div class="form-group col-5 ml-1">
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Due datetime"]</label>
+                                    <input asp-for="OrderTos[0].OrderActions[0].Until" class="form-control col-8" value="@null" />
+                                    <span asp-validation-for="OrderTos[0].OrderActions[0].Until" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Details"]</label>
+                                    <textarea asp-for="OrderTos[0].OrderActions[0].Details" class="form-control" rows="5"></textarea>
+                                    <span asp-validation-for="OrderTos[0].OrderActions[0].Details" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <label class="control-label">@localizer["State"]</label>
-                                <input asp-for="Actions[0].Address.State" class="form-control" placeholder="State name" />
-                                <span asp-validation-for="Actions[0].Address.State" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-6">
-                                <label class="control-label">@localizer["Area"]</label>
-                                <input asp-for="Actions[0].Address.Area" class="form-control" placeholder="Area name" />
-                                <span asp-validation-for="Actions[0].Address.Area" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Street line"]</label>
-                            <input asp-for="Actions[0].Address.StreetLine" class="form-control" placeholder="Street and number" />
-                            <span asp-validation-for="Actions[0].Address.StreetLine" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-5 ml-1">
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Due datetime"]</label>
-                            <input asp-for="Actions[0].Until" class="form-control col-8" value="@null" />
-                            <span asp-validation-for="Actions[0].Until" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Details"]</label>
-                            <textarea asp-for="Actions[0].Details" class="form-control" rows="5"></textarea>
-                            <span asp-validation-for="Actions[0].Details" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="unloading" class="tabcontent rounded-bottom bg-white">
-                @*<div class="form-group col-4">
-                        <select asp-for="Actions[0].TypeId" class="form-control" asp-items="actionTypeItems"></select>
-                    </div>*@
-                @Html.Hidden("Actions[1].TypeId", "2")
-                <div class="form-row">
-                    <div class="form-group border rounded col-6 p-2 m-0 ml-2">
-                        <label class="text-muted">@localizer["Address"]</label>
+                    <div id="unloading" class="tabcontent rounded-bottom bg-white">
+                        @Html.Hidden("OrderTos[0].OrderActions[1].TypeId", "2")
                         <div class="form-row">
-                            <div class="form-group col-7">
-                                <label class="control-label">@localizer["City"]</label>
-                                <input asp-for="Actions[1].Address.City" class="form-control" placeholder="City name" />
-                                <span asp-validation-for="Actions[1].Address.City" class="text-danger"></span>
+                            <div class="form-group border rounded col-6 p-2 m-0 ml-2">
+                                <label class="text-muted">@localizer["Address"]</label>
+                                <div class="form-row">
+                                    <div class="form-group col-7">
+                                        <label class="control-label">@localizer["City"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.City" class="form-control" placeholder="City name" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.City" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label class="control-label">@localizer["Post code"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.Postcode" class="form-control" placeholder="Code" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.Postcode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-6">
+                                        <label class="control-label">@localizer["State"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.State" class="form-control" placeholder="State name" />
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label class="control-label">@localizer["Area"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.Area" class="form-control" placeholder="Area name" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.Area" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Street line"]</label>
+                                    <input asp-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="form-control" placeholder="Street and number" />
+                                    <span asp-validation-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="form-group col-4">
-                                <label class="control-label">@localizer["Post code"]</label>
-                                <input asp-for="Actions[1].Address.Postcode" class="form-control" placeholder="Code" />
-                                <span asp-validation-for="Actions[1].Address.Postcode" class="text-danger"></span>
+                            <div class="form-group col-5 ml-1">
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Due datetime"]</label>
+                                    <input asp-for="OrderTos[0].OrderActions[1].Until" class="form-control col-8" value="@null" />
+                                    <span asp-validation-for="OrderTos[0].OrderActions[1].Until" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">@localizer["Details"]</label>
+                                    <textarea asp-for="OrderTos[0].OrderActions[1].Details" class="form-control" rows="5"></textarea>
+                                    <span asp-validation-for="OrderTos[0].OrderActions[1].Details" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <label class="control-label">@localizer["State"]</label>
-                                <input asp-for="Actions[1].Address.State" class="form-control" placeholder="State name" />
-                                <span asp-validation-for="Actions[1].Address.State" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-6">
-                                <label class="control-label">@localizer["Area"]</label>
-                                <input asp-for="Actions[1].Address.Area" class="form-control" placeholder="Area name" />
-                                <span asp-validation-for="Actions[1].Address.Area" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Street line"]</label>
-                            <input asp-for="Actions[1].Address.StreetLine" class="form-control" placeholder="Street and number" />
-                            <span asp-validation-for="Actions[1].Address.StreetLine" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group col-5 ml-1">
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Due datetime"]</label>
-                            <input asp-for="Actions[1].Until" class="form-control col-8" value="@null" />
-                            <span asp-validation-for="Actions[1].Until" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">@localizer["Details"]</label>
-                            <textarea asp-for="Actions[1].Details" class="form-control" rows="5"></textarea>
-                            <span asp-validation-for="Actions[1].Details" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group border border-dark rounded bg-white col p-2">
-            <h5 class="text-muted text-bold ml-2">@localizer["Cargo"]</h5>
-            <div class="form-row">
-                <div class="form-group col-lg-6 col-md-10 col-sm-12 m-0">
+
+                <div class="form-group border border-dark rounded bg-white col p-2">
+                    <h5 class="text-muted text-bold ml-2">@localizer["Cargo"]</h5>
                     <div class="form-row">
-                        <div class="form-group col-5">
-                            <label class="control-label">@localizer["Load type"]</label>@*<a href="javascript:" class="pl-2" onclick="showInPopup('/CargoTypes/AddCargoType', 'Add cargo type')"><i class="fas fa-plus"></i></a>*@
-                            <select asp-for="CargoTypeId" class="form-control" asp-items="cargoTypeItems">
-                                <option hidden>Select</option>
-                            </select>
-                            <span asp-validation-for="CargoTypeId" class="text-danger"></span>
+                        <div class="form-group col-lg-6 col-md-10 col-sm-12 m-0">
+                            <div class="form-row">
+                                <div class="form-group col-5">
+                                    <label class="control-label">@localizer["Load type"]</label>@*<a href="javascript:" class="pl-2" onclick="showInPopup('/CargoTypes/AddCargoType', 'Add cargo type')"><i class="fas fa-plus"></i></a>*@
+                                    <select asp-for="OrderTos[0].Cargo.TypeId" class="form-control" asp-items="cargoTypeItems">
+                                        <option hidden>Select</option>
+                                    </select>
+                                    <span asp-validation-for="OrderTos[0].Cargo.TypeId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col">
+                                    <label asp-for="OrderTos[0].Cargo.Quantity" class="control-label">@localizer["Quantity"]</label>
+                                    <input asp-for="OrderTos[0].Cargo.Quantity" class="form-control col-4" />
+                                    <span asp-validation-for="OrderTos[0].Cargo.Quantity" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group p-2 col-5">
+                                    <label asp-for="OrderTos[0].Cargo.LoadingBodyId" class="control-label">@localizer["Trailer type"]</label>
+                                    <select asp-for="OrderTos[0].Cargo.LoadingBodyId" class="form-control" asp-items="loadingBodyItems">
+                                        <option hidden>Select</option>
+                                    </select>
+                                    <span asp-validation-for="OrderTos[0].Cargo.LoadingBodyId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group p-2 col-6">
+                                    <label asp-for="OrderTos[0].Cargo.VehicleRequirements" class="control-label">@localizer["Vehicle requirements"]</label>
+                                    <textarea asp-for="OrderTos[0].Cargo.VehicleRequirements" class="form-control" rows="2"></textarea>
+                                    <span asp-validation-for="OrderTos[0].Cargo.VehicleRequirements" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">@localizer["Name"]</label>
+                                <input asp-for="OrderTos[0].Cargo.Name" class="form-control col-10" placeholder="Cargo name" />
+                                <span asp-validation-for="OrderTos[0].Cargo.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrderTos[0].Cargo.Details" class="control-label">@localizer["Details"]</label>
+                                <textarea asp-for="OrderTos[0].Cargo.Details" class="form-control summernote" rows="2"></textarea>
+                                <span asp-validation-for="OrderTos[0].Cargo.Details" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group col">
-                            <label asp-for="Quantity" class="control-label">@localizer["Quantity"]</label>
-                            <input asp-for="Quantity" class="form-control col-4" />
-                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        <div class="form-group p-2 border rounded" style="max-height:19em">
+                            <label class="text-muted">@localizer["Specifications"]</label>
+                            <div class="form-group col-10">
+                                <label class="control-label">@localizer["Gross weight"]</label>
+                                <input asp-for="OrderTos[0].Cargo.WeightGross" class="form-control" data-val="false" />
+                                <span asp-validation-for="OrderTos[0].Cargo.WeightGross" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-10">
+                                <label class="control-label">@localizer["Net weight"]</label>
+                                <input asp-for="OrderTos[0].Cargo.WeightNet" class="form-control" data-val="false" />
+                                <span asp-validation-for="OrderTos[0].Cargo.WeightNet" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-10">
+                                <label asp-for="OrderTos[0].Cargo.Cubature" class="control-label">@localizer["Cubature"]</label>
+                                <input asp-for="OrderTos[0].Cargo.Cubature" class="form-control" data-val="false" />
+                                <span asp-validation-for="OrderTos[0].Cargo.Cubature" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ml-2 p-2 border rounded" style="max-height:19em">
+                            <label class="text-muted">@localizer["Dimentions"]</label>
+                            <div class="form-group col-10">
+                                <label asp-for="OrderTos[0].Cargo.Lenght" class="control-label">@localizer["Lenght"]</label>
+                                <input asp-for="OrderTos[0].Cargo.Lenght" class="form-control" />
+                                <span asp-validation-for="OrderTos[0].Cargo.Lenght" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-10">
+                                <label asp-for="OrderTos[0].Cargo.Width" class="control-label">@localizer["Width"]</label>
+                                <input asp-for="OrderTos[0].Cargo.Width" class="form-control" />
+                                <span asp-validation-for="OrderTos[0].Cargo.Width" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-10">
+                                <label asp-for="OrderTos[0].Cargo.Height" class="control-label">@localizer["Height"]</label>
+                                <input asp-for="OrderTos[0].Cargo.Height" class="form-control" />
+                                <span asp-validation-for="OrderTos[0].Cargo.Height" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group p-2 col-5">
-                            <label asp-for="LoadingBodyId" class="control-label">@localizer["Trailer type"]</label>
-                            <select asp-for="LoadingBodyId" class="form-control" asp-items="loadingBodyItems">
-                                <option hidden>Select</option>
-                            </select>
-                            <span asp-validation-for="LoadingBodyId" class="text-danger"></span>
+                </div>
+                <div class="form-group border border-dark rounded bg-white p-2">
+                    <h5 class="text-muted text-bold ml-2">@localizer["Requaired documentation"]</h5>
+                    <div class="d-flex justify-content-around">
+                        <div class="col">
+                            <div><input asp-for="OrderTos[0].Documentation.CMR" type="checkbox"><label>&nbsp;@localizer["CMR"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.BillOfLading" type="checkbox"><label>&nbsp;@localizer["Bill of lading"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.AOA" type="checkbox"><label>&nbsp;@localizer["Act of acceptance"]</label></div>
                         </div>
-                        <div class="form-group p-2 col-6">
-                            <label asp-for="VehicleRequirements" class="control-label">@localizer["Vehicle requirements"]</label>
-                            <textarea asp-for="VehicleRequirements" class="form-control" rows="2"></textarea>
-                            <span asp-validation-for="VehicleRequirements" class="text-danger"></span>
+                        <div class="col">
+                            <div><input asp-for="OrderTos[0].Documentation.DeliveryNote" type="checkbox"><label>&nbsp;@localizer["Delivery note"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.PackingList" type="checkbox"><label>&nbsp;@localizer["Packing list"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.ListItems" type="checkbox"><label>&nbsp;@localizer["List items"]</label></div>
+                        </div>
+                        <div class="col">
+                            <div><input asp-for="OrderTos[0].Documentation.Invoice" type="checkbox"><label>&nbsp;@localizer["Invoice"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.BillOfGoods" type="checkbox"><label>&nbsp;@localizer["Bill of goods"]</label></div>
+                            <div><input asp-for="OrderTos[0].Documentation.WeighingNote" type="checkbox"><label>&nbsp;@localizer["Weighing note"]</label></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">@localizer["Name"]</label>
-                        <input asp-for="CargoName" class="form-control col-10" placeholder="Cargo name" />
-                        <span asp-validation-for="CargoName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Details" class="control-label">@localizer["Details"]</label>
-                        <textarea asp-for="Details" class="form-control summernote" rows="2"></textarea>
-                        <span asp-validation-for="Details" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group p-2 border rounded" style="max-height:19em">
-                    <label class="text-muted">@localizer["Specifications"]</label>
-                    <div class="form-group col-10">
-                        <label class="control-label">@localizer["Gross weight"]</label>
-                        <input asp-for="WeightGross" class="form-control" data-val="false" />
-                        <span asp-validation-for="WeightGross" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-10">
-                        <label class="control-label">@localizer["Net weight"]</label>
-                        <input asp-for="WeightNet" class="form-control" data-val="false" />
-                        <span asp-validation-for="WeightNet" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-10">
-                        <label asp-for="Cubature" class="control-label">@localizer["Cubature"]</label>
-                        <input asp-for="Cubature" class="form-control" data-val="false" />
-                        <span asp-validation-for="Cubature" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group ml-2 p-2 border rounded" style="max-height:19em">
-                    <label class="text-muted">@localizer["Dimentions"]</label>
-                    <div class="form-group col-10">
-                        <label asp-for="Lenght" class="control-label">@localizer["Lenght"]</label>
-                        <input asp-for="Lenght" class="form-control" />
-                        <span asp-validation-for="Lenght" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-10">
-                        <label asp-for="Width" class="control-label">@localizer["Width"]</label>
-                        <input asp-for="Width" class="form-control" />
-                        <span asp-validation-for="Width" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-10">
-                        <label asp-for="Height" class="control-label">@localizer["Height"]</label>
-                        <input asp-for="Height" class="form-control" />
-                        <span asp-validation-for="Height" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group border border-dark rounded bg-white p-2">
-            <h5 class="text-muted text-bold ml-2">@localizer["Requaired documentation"]</h5>
-            <div class="d-flex justify-content-around">
-                <div class="col">
-                    <div><input asp-for="Documentation.CMR" type="checkbox"><label>&nbsp;@localizer["CMR"]</label></div>
-                    <div><input asp-for="Documentation.BillOfLading" type="checkbox"><label>&nbsp;@localizer["Bill of lading"]</label></div>
-                    <div><input asp-for="Documentation.AOA" type="checkbox"><label>&nbsp;@localizer["Act of acceptance"]</label></div>
-                </div>
-                <div class="col">
-                    <div><input asp-for="Documentation.DeliveryNote" type="checkbox"><label>&nbsp;@localizer["Delivery note"]</label></div>
-                    <div><input asp-for="Documentation.PackingList" type="checkbox"><label>&nbsp;@localizer["Packing list"]</label></div>
-                    <div><input asp-for="Documentation.ListItems" type="checkbox"><label>&nbsp;@localizer["List items"]</label></div>
-                </div>
-                <div class="col">
-                    <div><input asp-for="Documentation.Invoice" type="checkbox"><label>&nbsp;@localizer["Invoice"]</label></div>
-                    <div><input asp-for="Documentation.BillOfGoods" type="checkbox"><label>&nbsp;@localizer["Bill of goods"]</label></div>
-                    <div><input asp-for="Documentation.WeighingNote" type="checkbox"><label>&nbsp;@localizer["Weighing note"]</label></div>
                 </div>
             </div>
         </div>

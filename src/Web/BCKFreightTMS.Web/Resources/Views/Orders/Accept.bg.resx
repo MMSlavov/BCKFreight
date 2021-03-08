@@ -165,6 +165,9 @@
   <data name="Contact" xml:space="preserve">
     <value>Контакт</value>
   </data>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
+  </data>
   <data name="Cubature" xml:space="preserve">
     <value>Кубатура</value>
   </data>

@@ -1,7 +1,6 @@
 ﻿namespace BCKFreightTMS.Data.Models
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using BCKFreightTMS.Data.Common.Models;
@@ -11,10 +10,8 @@
         public OrderTo()
         {
             this.Drivers = new HashSet<DriverOrder>();
+            this.OrderActions = new HashSet<OrderAction>();
         }
-
-        [MaxLength(10)]
-        public string ReferenceNum { get; set; }
 
         public decimal PriceNetOut { get; set; }
 
@@ -25,7 +22,6 @@
 
         public int DueDays { get; set; }
 
-        [Required]
         [ForeignKey(nameof(Company))]
         public string CompanyId { get; set; }
 
@@ -41,6 +37,18 @@
 
         public virtual OrderType Type { get; set; }
 
+        public string CargoId { get; set; }
+
+        public virtual Cargo Cargo { get; set; }
+
+        public int? DocumentationId { get; set; }
+
+        [ForeignKey(nameof(DocumentationId))]
+        public virtual Documentation Documentation { get; set; }
+
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string FailReason { get; set; }
+
         public string ContactId { get; set; }
 
         public virtual Person Contact { get; set; }
@@ -48,5 +56,7 @@
         public virtual Order Order { get; set; }
 
         public virtual ICollection<DriverOrder> Drivers { get; set; }
+
+        public virtual ICollection<OrderAction> OrderActions { get; set; }
     }
 }

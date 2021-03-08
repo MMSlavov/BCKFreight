@@ -102,9 +102,12 @@
 
         public async Task<string> AddPersonAsync(PersonInputModel input)
         {
-            if (this.peopleRepository.All().Any(p => p.CompanyId == input.CompanyId && p.FirstName == input.FirstName && p.LastName == input.LastName))
+            if (this.peopleRepository.All().Any(p => p.CompanyId == input.CompanyId &&
+                                                p.FirstName == input.FirstName &&
+                                                p.LastName == input.LastName &&
+                                                p.RoleId == input.RoleId))
             {
-                return null;
+                throw new ArgumentException("Person already exists.");
             }
 
             var person = new Person

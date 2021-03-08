@@ -1,141 +1,153 @@
-﻿//$(document).ready(GetData($("#OrderToCompanyId").val()));
-let companyId = document.getElementById("OrderToCompanyId");
-let addContactBtn = document.getElementById("addContact");
-let addDriverBtn = document.getElementById("addDriver");
-//document.getElementById("addTruck").addEventListener("click", function (ev) {
-//    showInPopup('/Vehicles/AddTruckModal/' + companyId.value, 'Add truck');
-//});
-//document.getElementById("addTrailer").addEventListener("click", function (ev) {
-//    showInPopup('/Vehicles/AddTrailerModal/' + companyId.value, 'Add trailer');
-//});
-addContactBtn.addEventListener("click", function (ev) {
-    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+﻿[...document.querySelectorAll(".tabcontent[id*=course]")].forEach(tc => {
+    let companyId = tc.querySelector("select[id*=CompanyId]");
+    let addContactBtn = tc.querySelector("#addContact");
+    let addDriverBtn = tc.querySelector("#addDriver");
+
+    addContactBtn.addEventListener("click", function (ev) {
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+    });
+    addDriverBtn.addEventListener("click", function (ev) {
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
+    });
+
+    $(function () { $('.selectpicker').selectpicker(); });
+
+    tc.querySelector("select[id*=CompanyId]").addEventListener("change", onChange)
+    function onChange(ev) {
+        GetData(ev.target.value);
+    }
+
+    function GetData(id) {
+        $.getJSON("/Orders/GetContacts", { companyId: id }, function (d) {
+            let row = "";
+            $(tc).find("#contactTo").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $(tc).find("#contactTo").html(row);
+            let item = new Option("Select", null, true, true);
+            $(item).html("Select");
+            item.setAttribute("disabled", "disabled");
+            $(tc).find("#contactTo").append(item);
+        })
+        $.getJSON("/Orders/GetDrivers", { companyId: id }, function (d) {
+            let row = "";
+            $(tc).find("#driver").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $(tc).find("#driver").html(row);
+            let item = new Option("Select", null, true, true);
+            $(tc).find(item).html("Select");
+            item.setAttribute("disabled", "disabled");
+            $(tc).find("#driver").append(item);
+        })
+        $.getJSON("/Orders/GetVehicles", { companyId: id }, function (d) {
+            let row = "";
+            $(tc).find("#vehicle").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $(tc).find("#vehicle").html(row);
+            let item = new Option("Select", null, true, true);
+            $(item).html("Select");
+            item.setAttribute("disabled", "disabled");
+            $(tc).find("#vehicle").append(item);
+        })
+    }
+
+    tc.querySelector("#aTabs")
+        .addEventListener("click", (ev) => {
+            if (ev.target && ev.target.classList.contains("tablinks")) {
+                open(ev.target.id);
+            }
+            else if (ev.target && ev.target.id.includes("add")) {
+                addAction(ev, ev.target.id.substring(3).toLowerCase());
+            }
+        });
+
+    $(tc).find("#actions").on("click", ".delete", function (e) {
+        e.preventDefault();
+        open(this.parentNode.id.slice(0, -1));
+        $(tc).find("#aTabs a[id=" + this.parentNode.id + "]").remove();
+        $(this).parent('div').remove();
+        [...tc.querySelectorAll(".tabcontent")].forEach((t, i) => {
+            t.innerHTML = t.innerHTML.replace(/_\d_/g, "_" + i + "_").replace(/\[\d\]/g, "[" + i + "]");
+        });
+        tc.querySelectorAll(".tabcontent[id^=loading]").forEach((t, i) => {
+            if (i != 0) {
+                t.id = `loading${i + 1}`;
+            }
+        });
+        tc.querySelectorAll(".tabcontent[id^=unloading]").forEach((t, i) => {
+            if (i != 0) {
+                t.id = `unloading${i + 1}`;
+            }
+        });
+        tc.querySelectorAll(".tablinks[id^=loading]").forEach((t, i) => {
+            if (i != 0) {
+                t.id = `loading${i + 1}`;
+                t.textContent = `#${i + 1}`;
+            }
+        });
+        tc.querySelectorAll(".tablinks[id^=unloading]").forEach((t, i) => {
+            if (i != 0) {
+                t.id = `unloading${i + 1}`;
+                t.textContent = `#${i + 1}`;
+            }
+        });
+    });
+
+    function addAction(evt, type) {
+        let index = tc.querySelectorAll(".tabcontent").length;
+        let action = tc.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
+        [...action.querySelectorAll("input, textarea")].forEach((v) => {
+            v.value = '';
+            v.defaultValue = '';
+        })
+        action.querySelector("input[id*=__Id]").value = '-1';
+        let actionHtml = action.innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
+        $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + actionHtml + '</div>');
+        let btn = tc.querySelector(".tablinks[id=" + type + "]").cloneNode();
+        btn.id += index;
+        btnIndex = tc.querySelectorAll(".tablinks[id^=" + type + "]").length + 1;
+        btn.textContent = "#" + btnIndex;
+        btn.classList.remove("active-tab");
+        evt.target.parentNode.insertBefore(btn, evt.target);
+    }
+
+    function open(id) {
+        let tabcontent = [...tc.querySelectorAll(".tabcontent")];
+        for (const t of tabcontent) {
+            t.style.display = "none";
+        }
+        [...tc.querySelectorAll(".tablinks")].forEach((t) => {
+            t.className = t.className.replace(" active-tab", "");
+        });
+        tc.querySelector(".tabcontent[id=" + id + "]").style.display = "block";
+        tc.querySelector(".tablinks[id=" + id + "]").className += " active-tab";
+    }
 });
-addDriverBtn.addEventListener("click", function (ev) {
-    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
-});
-
-[...document.querySelectorAll("#OrderToCompanyId option")].forEach((v) => {
-    v.setAttribute("data-tokens", v.textContent.toLowerCase())
-})
-
-$(function () {$('.selectpicker').selectpicker();});
-
-document.getElementById("OrderToCompanyId").addEventListener("change", onChange)
-function onChange(ev) {
-    GetData(ev.target.value);
-}
-
-function GetData(id) {
-    $.getJSON("/Orders/GetContacts", { companyId: id }, function (d) {
-        let row = "";
-        $("#contactFrom").empty();
-        $.each(d, function (i, v) {
-            row += "<option value=" + v.value + ">" + v.text + "</option>";
-        });
-        $("#contactFrom").html(row);
-        let item = new Option("Select", null, true, true);
-        $(item).html("Select");
-        item.setAttribute("disabled", "disabled");
-        $("#contactFrom").append(item);
-    })
-    $.getJSON("/Orders/GetDrivers", { companyId: id }, function (d) {
-        let row = "";
-        $("#driver").empty();
-        $.each(d, function (i, v) {
-            row += "<option value=" + v.value + ">" + v.text + "</option>";
-        });
-        $("#driver").html(row);
-        let item = new Option("Select", null, true, true);
-        $(item).html("Select");
-        item.setAttribute("disabled", "disabled");
-        $("#driver").append(item);
-    })
-    $.getJSON("/Orders/GetVehicles", { companyId: id }, function (d) {
-        let row = "";
-        $("#vehicle").empty();
-        $.each(d, function (i, v) {
-            row += "<option value=" + v.value + ">" + v.text + "</option>";
-        });
-        $("#vehicle").html(row);
-        let item = new Option("Select", null, true, true);
-        $(item).html("Select");
-        item.setAttribute("disabled", "disabled");
-        $("#vehicle").append(item);
-    })
-}
-
-document.getElementById("tabs")
+document.getElementById("cTabs")
     .addEventListener("click", (ev) => {
+        console.log("click");
         if (ev.target && ev.target.classList.contains("tablinks")) {
-            open(ev.target.id);
-        }
-        else if (ev.target && ev.target.id.includes("add")) {
-            addAction(ev, ev.target.id.substring(3).toLowerCase());
+            openCourse(ev.target.id);
         }
     });
 
-$("#actions").on("click", ".delete", function (e) {
-    e.preventDefault();
-    open(this.parentNode.id.slice(0, -1));
-    $("#tabs a[id=" + this.parentNode.id + "]").remove();
-    $(this).parent('div').remove();
-    [...document.getElementsByClassName("tabcontent")].forEach((t, i) => {
-        t.innerHTML = t.innerHTML.replace(/_\d_/g, "_" + i + "_").replace(/\[\d\]/g, "[" + i + "]");
-    });
-    document.querySelectorAll(".tabcontent[id^=loading]").forEach((t, i) => {
-        if (i != 0) {
-            t.id = `loading${i + 1}`;
-        }
-    });
-    document.querySelectorAll(".tabcontent[id^=unloading]").forEach((t, i) => {
-        if (i != 0) {
-            t.id = `unloading${i + 1}`;
-        }
-    });
-    document.querySelectorAll(".tablinks[id^=loading]").forEach((t, i) => {
-        if (i != 0) {
-            t.id = `loading${i + 1}`;
-            t.textContent = `#${i + 1}`;
-        }
-    });
-    document.querySelectorAll(".tablinks[id^=unloading]").forEach((t, i) => {
-        if (i != 0) {
-            t.id = `unloading${i + 1}`;
-            t.textContent = `#${i + 1}`;
-        }
-    });
-});
-
-function addAction(evt, type) {
-    let index = document.getElementsByClassName("tabcontent").length;
-    let action = document.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
-    [...action.querySelectorAll("input, textarea")].forEach((v) => {
-        v.value = '';
-        v.defaultValue = '';
-    })
-    action.querySelector("input[id*=__Id]").value = '-1';
-    let actionHtml = action.innerHTML.replace(/_\d_/g, "_" + index + "_").replace(/\[\d\]/g, "[" + index + "]");
-    $("#actions").append("<div id='" + type + "" + index + "' class='tabcontent rounded-bottom bg-white'><a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>" + actionHtml + '</div>');
-    let btn = document.querySelector(".tablinks[id=" + type + "]").cloneNode();
-    btn.id += index;
-    btnIndex = document.querySelectorAll(".tablinks[id^=" + type + "]").length + 1;
-    btn.textContent = "#" + btnIndex;
-    btn.classList.remove("active-tab");
-    evt.target.parentNode.insertBefore(btn, evt.target);
-}
-
-function open(id) {
-    let tabcontent = document.getElementsByClassName("tabcontent");
+function openCourse(id) {
+    let tabcontent = document.querySelectorAll(".tabcontent[id*=course]");
     for (const t of tabcontent) {
         t.style.display = "none";
     }
-    [...document.getElementsByClassName("tablinks")].forEach((t) => {
+    [...document.querySelectorAll(".tablinks[id*=course]")].forEach((t) => {
         t.className = t.className.replace(" active-tab", "");
     });
     document.querySelector(".tabcontent[id=" + id + "]").style.display = "block";
     document.querySelector(".tablinks[id=" + id + "]").className += " active-tab";
 }
+
 
 //document.getElementById("addAction").addEventListener("click", function () {
 //    let index = document.getElementsByClassName("card").length;

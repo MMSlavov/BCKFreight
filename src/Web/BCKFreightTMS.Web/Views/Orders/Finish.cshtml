@@ -2,66 +2,144 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model BCKFreightTMS.Web.ViewModels.Orders.OrderFinishViewModel
 @{
-    var documentation = Model.OrderStatus.Documentation;
+    var orderTos = this.Model.OrderStatus.OrderTos;
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <h4><b>@localizer["Documentation check"]</b></h4>
 <hr />
 <form method="post" class="p-2" id="documentation_form">
-    <div class="form-row">
-        <div class="form-group border border-dark rounded bg-gray-light p-2">
-            <h5 class="text-muted text-bold ml-2">@localizer["Requaired documentation"]</h5>
-            <div class="col" id="reqDoc">
-                @if (@documentation.CMR)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["CMR"]</label></div>}
-                @if (@documentation.BillOfLading)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Bill of lading"]</label></div>}
-                @if (@documentation.AOA)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Act of acceptance"]</label></div>}
-                @if (@documentation.DeliveryNote)
-                {<div><i class="fas fa-check"></i><label>&nbsp;Delivery note</label></div>}
-                @if (@documentation.PackingList)
-                {<div><i class="fas fa-check"></i><label>&nbsp;Packing list</label></div>}
-                @if (@documentation.ListItems)
-                {<div><i class="fas fa-check"></i><label>&nbsp;List items</label></div>}
-                @if (@documentation.Invoice)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Invoice"]</label></div>}
-                @if (@documentation.BillOfGoods)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Bill of goods"]</label></div>}
-                @if (@documentation.WeighingNote)
-                {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Weighing note"]</label></div>}
-            </div>
-        </div>
-        <div class="form-group border border-dark rounded bg-gray-light p-2 ml-2">
-            <h5 class="text-muted text-bold ml-2">@localizer["Recieved documentation"]</h5>
-            <div class="col">
-                <div><input asp-for="RecievedDocumentation.CMR" type="checkbox"><label>&nbsp;@localizer["CMR"]</label></div>
-                <div><input asp-for="RecievedDocumentation.BillOfLading" type="checkbox"><label>&nbsp;@localizer["Bill of lading"]</label></div>
-                <div><input asp-for="RecievedDocumentation.AOA" type="checkbox"><label>&nbsp;@localizer["Act of acceptance"]</label></div>
-                <div><input asp-for="RecievedDocumentation.DeliveryNote" type="checkbox"><label>&nbsp;Delivery note</label></div>
-                <div><input asp-for="RecievedDocumentation.PackingList" type="checkbox"><label>&nbsp;Packing list</label></div>
-                <div><input asp-for="RecievedDocumentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
-                <div><input asp-for="RecievedDocumentation.Invoice" type="checkbox"><label>&nbsp;@localizer["Invoice"]</label></div>
-                <div><input asp-for="RecievedDocumentation.BillOfGoods" type="checkbox"><label>&nbsp;@localizer["Bill of goods"]</label></div>
-                <div><input asp-for="RecievedDocumentation.WeighingNote" type="checkbox"><label>&nbsp;@localizer["Weighing note"]</label></div>
-            </div>
-        </div>
+    <div class="tab rounded" id="tabs">
+        @for (int i = 0; i < orderTos.Count; i++)
+        {
+            <a class="btn tablinks @(i == 0 ? "active-tab" : "")" id="course@(i)">
+                @(i > 0 ? $" #{i + 1}" : @localizer["Course"])
+            </a>
+        }
     </div>
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.CMR)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.BillOfLading)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.AOA)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.DeliveryNote)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.PackingList)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.ListItems)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.Invoice)
-    @Html.HiddenFor(m => m.OrderStatus.Documentation.BillOfGoods)
-    @Html.HiddenFor(m => m.OrderStatus.Id)
-    @Html.HiddenFor(m => m.OrderStatus.StatusName)
+    @for (int oi = 0; oi < orderTos.Count; oi++)
+    {
+        var documentation = orderTos[oi].Documentation;
+        <div id="course@(oi)" class="tabcontent rounded-bottom mb-2 bg-white" @(oi == 0 ? "style=display:block" : "")>
+            <div class="form-group border bg-white p-2">
+                <div class="form-row justify-content-around">
+                    <div class="form-group border rounded bg-gray-light col-5 p-2">
+                        <p>Получател: @Model.InvoiceInModel.CreatorCompany.Name</p>
+                        <p>ДДС №: @Model.InvoiceInModel.CreatorCompany.TaxNumber</p>
+                        <p>Адрес: @Model.InvoiceInModel.CreatorCompany.AddressAddressStreetLine</p>
+                        <p>Град: @Model.InvoiceInModel.CreatorCompany.AddressAddressCity</p>
+                        <p>МОЛ: @Model.InvoiceInModel.CreatorCompany.AddressMOLFirstName @Model.InvoiceInModel.CreatorCompany.AddressMOLLastName</p>
+                        <p>Телефон: @Model.InvoiceInModel.CreatorCompany.ComunicatorsMobile1</p>
+                    </div>
+                    <div class="form-group border rounded bg-gray-light col-5 p-2">
+                        <p>Доставчик: @Model.InvoiceInModel.OrderTos[oi].Company.Name</p>
+                        <p>ДДС №: @Model.InvoiceInModel.OrderTos[oi].Company.TaxNumber</p>
+                        <p>Адрес: @Model.InvoiceInModel.OrderTos[oi].Company.AddressAddressStreetLine</p>
+                        <p>Град: @Model.InvoiceInModel.OrderTos[oi].Company.AddressAddressCity</p>
+                        <p>МОЛ: @Model.InvoiceInModel.OrderTos[oi].Company.AddressMOLFirstName @Model.InvoiceInModel.OrderTos[oi].Company.AddressMOLLastName</p>
+                        <p>Телефон: @Model.InvoiceInModel.OrderTos[oi].Company.ComunicatorsMobile1</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <table class="table">
+                            <thead class="bg-gray-light text-center">
+                                <tr>
+                                    <th>
+                                        <b>№</b>
+                                    </th>
+                                    <th>
+                                        Наименование на стоката/услугата
+                                    </th>
+                                    <th>
+                                        Мярка
+                                    </th>
+                                    <th>
+                                        Количество
+                                    </th>
+                                    <th>
+                                        Цена
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>1</b>
+                                    </td>
+                                    <td>
+                                        Транспортна услуга<b>@Html.Raw(Model.InvoiceInModel.OrderTos[oi].Voyage)</b>
+                                        с автомобил <b>@Model.InvoiceInModel.OrderTos[oi].VehicleRegNumber/@Model.InvoiceInModel.OrderTos[oi].VehicleTrailerRegNumber</b> 
+                                    </td>
+                                    <td>
+                                        курс
+                                    </td>
+                                    <td>
+                                        1.00
+                                    </td>
+                                    <td>
+                                        @Model.InvoiceInModel.OrderTos[oi].PriceNetOut
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group border border-dark rounded bg-gray-light p-2">
+                    <h5 class="text-muted text-bold ml-2">@localizer["Requaired documentation"]</h5>
+                    <div class="col" id="reqDoc">
+                        @if (@documentation.CMR)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["CMR"]</label></div>}
+                        @if (@documentation.BillOfLading)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Bill of lading"]</label></div>}
+                        @if (@documentation.AOA)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Act of acceptance"]</label></div>}
+                        @if (@documentation.DeliveryNote)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;Delivery note</label></div>}
+                        @if (@documentation.PackingList)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;Packing list</label></div>}
+                        @if (@documentation.ListItems)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;List items</label></div>}
+                        @if (@documentation.Invoice)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Invoice"]</label></div>}
+                        @if (@documentation.BillOfGoods)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Bill of goods"]</label></div>}
+                        @if (@documentation.WeighingNote)
+                        {<div><i class="fas fa-check"></i><label>&nbsp;@localizer["Weighing note"]</label></div>}
+                    </div>
+                </div>
+                <div class="form-group border border-dark rounded bg-gray-light p-2 ml-2">
+                    <h5 class="text-muted text-bold ml-2">@localizer["Recieved documentation"]</h5>
+                    <div class="col">
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.CMR" type="checkbox"><label>&nbsp;@localizer["CMR"]</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.BillOfLading" type="checkbox"><label>&nbsp;@localizer["Bill of lading"]</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.AOA" type="checkbox"><label>&nbsp;@localizer["Act of acceptance"]</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.DeliveryNote" type="checkbox"><label>&nbsp;Delivery note</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.PackingList" type="checkbox"><label>&nbsp;Packing list</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.ListItems" type="checkbox"><label>&nbsp;List items</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.Invoice" type="checkbox"><label>&nbsp;@localizer["Invoice"]</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.BillOfGoods" type="checkbox"><label>&nbsp;@localizer["Bill of goods"]</label></div>
+                        <div><input asp-for="OrderStatus.OrderTos[oi].DocumentationRecievedDocumentation.WeighingNote" type="checkbox"><label>&nbsp;@localizer["Weighing note"]</label></div>
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.CMR)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.BillOfLading)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.AOA)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.DeliveryNote)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.PackingList)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.ListItems)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.Invoice)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.BillOfGoods)
+            @Html.HiddenFor(m => m.OrderStatus.OrderTos[oi].Documentation.WeighingNote)
+            @Html.HiddenFor(m => m.OrderStatus.Id)
+            @Html.HiddenFor(m => m.OrderStatus.StatusName)
 
+        </div>
+    }
     <div class="form-group">
         @if (Model.OrderStatus.StatusName != OrderStatusNames.Approved.ToString())
         {
-            <a onclick="CheckDoc()" class="btn btn-success text-white @(Model.OrderStatus.StatusName == OrderStatusNames.AwaitingApproval.ToString()?"disabled":null)" value="Finish">@localizer["Finish"]</a>
+            <a onclick="CheckDoc()" class="btn btn-success text-white @(Model.OrderStatus.StatusName == OrderStatusNames.AwaitingApproval.ToString() ? "disabled" : null)" value="Finish">@localizer["Finish"]</a>
             <div class="modal" id="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -112,6 +190,25 @@
             let form = document.getElementById("documentation_form");
             form.action = "/Orders/FinishOrder";
             form.submit();
+        }
+        document.getElementById("tabs")
+            .addEventListener("click", (ev) => {
+                console.log("click");
+                if (ev.target && ev.target.classList.contains("tablinks")) {
+                    openCourse(ev.target.id);
+                }
+            });
+
+        function openCourse(id) {
+            let tabcontent = document.querySelectorAll(".tabcontent[id*=course]");
+            for (const t of tabcontent) {
+                t.style.display = "none";
+            }
+            [...document.querySelectorAll(".tablinks[id*=course]")].forEach((t) => {
+                t.className = t.className.replace(" active-tab", "");
+            });
+            document.querySelector(".tabcontent[id=" + id + "]").style.display = "block";
+            document.querySelector(".tablinks[id=" + id + "]").className += " active-tab";
         }
     </script>
 }

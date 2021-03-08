@@ -114,11 +114,18 @@
                 return this.View(this.contactsService.GetPersonInputModel(input));
             }
 
-            var res = await this.contactsService.AddPersonAsync(input);
-            if (res == null)
+            try
             {
-                this.ModelState.AddModelError(string.Empty, "Person allready exists.");
-                return this.View(input);
+                var res = await this.contactsService.AddPersonAsync(input);
+                if (res == null)
+                {
+                    this.ModelState.AddModelError(string.Empty, "Person allready exists.");
+                    return this.View(input);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.notyfService.Error(ex.Message);
             }
 
             return this.Redirect(GlobalConstants.Index);

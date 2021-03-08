@@ -132,6 +132,9 @@
   <data name="Loading" xml:space="preserve">
     <value>Товарене</value>
   </data>
+  <data name="Pallet" xml:space="preserve">
+    <value>палета</value>
+  </data>
   <data name="Unloading" xml:space="preserve">
     <value>Разтоварване</value>
   </data>

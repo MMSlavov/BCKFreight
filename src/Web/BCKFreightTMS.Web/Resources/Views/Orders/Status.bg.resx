@@ -126,6 +126,9 @@
   <data name="Comments" xml:space="preserve">
     <value>Забележки</value>
   </data>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Доп. инструкции</value>
   </data>

@@ -15,16 +15,16 @@ namespace BCKFreightTMS.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.3")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.ActionNotFinishedReason", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -58,7 +58,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -92,7 +92,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -284,7 +284,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -402,7 +402,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -495,7 +495,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -537,7 +537,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AddressId")
                         .HasColumnType("int");
@@ -579,7 +579,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -603,19 +603,19 @@ namespace BCKFreightTMS.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile1")
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Mobile2")
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone1")
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Phone2")
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
 
@@ -629,7 +629,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -665,7 +665,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("AOA")
                         .HasColumnType("bit");
@@ -703,8 +703,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("OrderToId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("PackingList")
                         .HasColumnType("bit");
@@ -729,8 +729,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<string>("DriverId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -744,16 +744,62 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderId1")
-                        .HasColumnType("int");
-
                     b.HasKey("DriverId", "OrderId");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("OrderId1");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("DriverOrders");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceIn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BankDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DueDays")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReceiveDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankDetailsId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("InvoiceIns");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
@@ -763,10 +809,6 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CargoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -778,11 +820,11 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DocumentationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FailReason")
                         .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int?>("InvoiceInId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -793,31 +835,26 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int?>("OrderFromId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderToId")
-                        .HasColumnType("int");
+                    b.Property<string>("ReferenceNum")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CargoId");
-
                     b.HasIndex("CreatorId");
 
-                    b.HasIndex("DocumentationId")
+                    b.HasIndex("InvoiceInId")
                         .IsUnique()
-                        .HasFilter("[DocumentationId] IS NOT NULL");
+                        .HasFilter("[InvoiceInId] IS NOT NULL");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("OrderFromId")
                         .IsUnique()
                         .HasFilter("[OrderFromId] IS NOT NULL");
-
-                    b.HasIndex("OrderToId")
-                        .IsUnique()
-                        .HasFilter("[OrderToId] IS NOT NULL");
 
                     b.HasIndex("StatusId");
 
@@ -829,7 +866,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -864,9 +901,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(MAX)");
 
-                    b.Property<string>("OrderId")
+                    b.Property<int?>("OrderToId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
@@ -882,7 +919,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("NotFinishedReasonId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderToId");
 
                     b.HasIndex("TypeId");
 
@@ -894,7 +931,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -953,7 +990,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -987,13 +1024,15 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CargoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CompanyId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContactId")
@@ -1008,8 +1047,14 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DocumentationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DueDays")
                         .HasColumnType("int");
+
+                    b.Property<string>("FailReason")
+                        .HasColumnType("nvarchar(MAX)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1017,15 +1062,11 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PersonId")
+                    b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("PriceNetOut")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ReferenceNum")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int?>("TypeId")
                         .HasColumnType("int");
@@ -1035,15 +1076,23 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CargoId")
+                        .IsUnique()
+                        .HasFilter("[CargoId] IS NOT NULL");
+
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("ContactId");
 
                     b.HasIndex("CurrencyId");
 
+                    b.HasIndex("DocumentationId")
+                        .IsUnique()
+                        .HasFilter("[DocumentationId] IS NOT NULL");
+
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("TypeId");
 
@@ -1057,7 +1106,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -1148,7 +1197,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -1182,7 +1231,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -1281,7 +1330,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -1315,7 +1364,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
@@ -1352,7 +1401,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -1376,7 +1425,7 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -1557,59 +1606,58 @@ namespace BCKFreightTMS.Data.Migrations
             modelBuilder.Entity("BCKFreightTMS.Data.Models.DriverOrder", b =>
                 {
                     b.HasOne("BCKFreightTMS.Data.Models.Person", "Driver")
-                        .WithMany()
+                        .WithMany("DriverOrders")
                         .HasForeignKey("DriverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderTo", "Order")
                         .WithMany("Drivers")
-                        .HasForeignKey("OrderId1");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Driver");
 
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceIn", b =>
                 {
-                    b.HasOne("BCKFreightTMS.Data.Models.Cargo", "Cargo")
-                        .WithMany("Orders")
-                        .HasForeignKey("CargoId")
+                    b.HasOne("BCKFreightTMS.Data.Models.BankDetails", "BankDetails")
+                        .WithMany()
+                        .HasForeignKey("BankDetailsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("BankDetails");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
+                {
                     b.HasOne("BCKFreightTMS.Data.Models.ApplicationUser", "Creator")
                         .WithMany("Orders")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BCKFreightTMS.Data.Models.Documentation", "Documentation")
+                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceIn", "InvoiceIn")
                         .WithOne("Order")
-                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "DocumentationId");
+                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "InvoiceInId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderFrom", "OrderFrom")
                         .WithOne("Order")
                         .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderFromId");
 
-                    b.HasOne("BCKFreightTMS.Data.Models.OrderTo", "OrderTo")
-                        .WithOne("Order")
-                        .HasForeignKey("BCKFreightTMS.Data.Models.Order", "OrderToId");
-
                     b.HasOne("BCKFreightTMS.Data.Models.OrderStatus", "Status")
                         .WithMany("Orders")
                         .HasForeignKey("StatusId");
 
-                    b.Navigation("Cargo");
-
                     b.Navigation("Creator");
 
-                    b.Navigation("Documentation");
+                    b.Navigation("InvoiceIn");
 
                     b.Navigation("OrderFrom");
-
-                    b.Navigation("OrderTo");
 
                     b.Navigation("Status");
                 });
@@ -1626,9 +1674,9 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("OrderActions")
                         .HasForeignKey("NotFinishedReasonId");
 
-                    b.HasOne("BCKFreightTMS.Data.Models.Order", "Order")
+                    b.HasOne("BCKFreightTMS.Data.Models.OrderTo", "OrderTo")
                         .WithMany("OrderActions")
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("OrderToId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1642,7 +1690,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.Navigation("NotFinishedReason");
 
-                    b.Navigation("Order");
+                    b.Navigation("OrderTo");
 
                     b.Navigation("Type");
                 });
@@ -1678,11 +1726,13 @@ namespace BCKFreightTMS.Data.Migrations
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderTo", b =>
                 {
+                    b.HasOne("BCKFreightTMS.Data.Models.Cargo", "Cargo")
+                        .WithOne("OrderTo")
+                        .HasForeignKey("BCKFreightTMS.Data.Models.OrderTo", "CargoId");
+
                     b.HasOne("BCKFreightTMS.Data.Models.Company", "Company")
                         .WithMany("OrderTos")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.Person", "Contact")
                         .WithMany("ContactOrdersTo")
@@ -1692,9 +1742,13 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("OrderTos")
                         .HasForeignKey("CurrencyId");
 
-                    b.HasOne("BCKFreightTMS.Data.Models.Person", null)
-                        .WithMany("DriverOrders")
-                        .HasForeignKey("PersonId");
+                    b.HasOne("BCKFreightTMS.Data.Models.Documentation", "Documentation")
+                        .WithOne("Order")
+                        .HasForeignKey("BCKFreightTMS.Data.Models.OrderTo", "DocumentationId");
+
+                    b.HasOne("BCKFreightTMS.Data.Models.Order", "Order")
+                        .WithMany("OrderTos")
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.OrderType", "Type")
                         .WithMany("OrdersTo")
@@ -1704,11 +1758,17 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("VehicleId");
 
+                    b.Navigation("Cargo");
+
                     b.Navigation("Company");
 
                     b.Navigation("Contact");
 
                     b.Navigation("Currency");
+
+                    b.Navigation("Documentation");
+
+                    b.Navigation("Order");
 
                     b.Navigation("Type");
 
@@ -1854,7 +1914,7 @@ namespace BCKFreightTMS.Data.Migrations
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Cargo", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("OrderTo");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.CargoType", b =>
@@ -1899,9 +1959,14 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceIn", b =>
+                {
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
                 {
-                    b.Navigation("OrderActions");
+                    b.Navigation("OrderTos");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderFrom", b =>
@@ -1918,7 +1983,7 @@ namespace BCKFreightTMS.Data.Migrations
                 {
                     b.Navigation("Drivers");
 
-                    b.Navigation("Order");
+                    b.Navigation("OrderActions");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderType", b =>

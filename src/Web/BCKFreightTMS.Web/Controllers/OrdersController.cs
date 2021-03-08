@@ -120,23 +120,28 @@
             var data = new Dictionary<string, string>();
 
             var order = this.orders.All().FirstOrDefault(c => c.Id == id);
+            var orderTos = order.OrderTos.ToList();
             data.Add("Id", order.Id);
-            data.Add("Reference number to", order.OrderTo?.ReferenceNum);
+            data.Add("Reference number to", order.ReferenceNum);
             data.Add("Reference number from", order.OrderFrom?.ReferenceNum);
-            data.Add("Carrier vehicle", order.OrderTo?.Vehicle.RegNumber);
-            data.Add("Carrier company", order.OrderTo?.Company.Name);
-            data.Add("Carrier price", order.OrderTo?.PriceNetOut.ToString());
-            data.Add("Carrier currency", order.OrderTo?.Currency.Name);
-            data.Add("Carrier contact", order.OrderTo?.Contact?.FirstName);
-            data.Add("Carrier driver", order.OrderTo?.Drivers.FirstOrDefault()?.Driver.FirstName);
             data.Add("Client company", order.OrderFrom?.Company.Name);
             data.Add("Client price", order.OrderFrom?.PriceNetIn.ToString());
             data.Add("Client currency", order.OrderFrom?.Currency.Name);
             data.Add("Client contact", order.OrderFrom?.Contact?.FirstName);
-            data.Add("Cargo name", order.Cargo.Name);
-            data.Add("Cargo weight", order.Cargo.WeightGross.ToString());
-            data.Add("Cargo quantity", order.Cargo.Quantity.ToString());
-            data.Add("Cargo requaired loading body", order.Cargo.LoadingBody?.Name);
+
+            for (int i = 0; i < orderTos.Count; i++)
+            {
+                data.Add($"C{i + 1} Carrier vehicle", orderTos[i].Vehicle.RegNumber);
+                data.Add($"C{i + 1} Carrier company", orderTos[i].Company.Name);
+                data.Add($"C{i + 1} Carrier price", orderTos[i].PriceNetOut.ToString());
+                data.Add($"C{i + 1} Carrier currency", orderTos[i].Currency.Name);
+                data.Add($"C{i + 1} Carrier contact", orderTos[i].Contact?.FirstName);
+                data.Add($"C{i + 1} Carrier driver", orderTos[i].Drivers.FirstOrDefault()?.Driver.FirstName);
+                data.Add($"C{i + 1} Cargo name", orderTos[i].Cargo.Name);
+                data.Add($"C{i + 1} Cargo weight", orderTos[i].Cargo.WeightGross.ToString());
+                data.Add($"C{i + 1} Cargo quantity", orderTos[i].Cargo.Quantity.ToString());
+                data.Add($"C{i + 1} Cargo requaired loading body", orderTos[i].Cargo.LoadingBody?.Name);
+            }
 
             data = data.Where(kv => kv.Value != null).ToDictionary(x => x.Key, y => y.Value);
 
@@ -171,7 +176,7 @@
             var model = this.ordersService.GenerateApplicationModel(id);
             var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
             var pdfData = this.pdfService.SelectPdfConvert(html);
-            return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderContract{model.OrderToReferenceNum}.pdf");
+            return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderContract{model.ReferenceNum}.pdf");
         }
 
         public async Task<IActionResult> BeginOrder(string id)
@@ -243,6 +248,14 @@
         {
             if (!this.ModelState.IsValid)
             {
+                foreach (var modelState in this.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        this.notyfService.Error(this.localizer[error.ErrorMessage]);
+                    }
+                }
+
                 input = this.ordersService.LoadOrderAcceptInputModel(input);
                 return this.View(input);
             }
@@ -261,27 +274,26 @@
                 return this.View(input);
             }
 
-            var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
-            var priceOut = this.financeService.GetAmount(input.CurrencyOutId, input.PriceNetOut);
-            var margin = priceIn - priceOut;
-            var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
-            if (priceIn < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMaxAmount) &&
-                margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
-            {
-                this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
-                input = this.ordersService.LoadOrderCreateInputModel(input.Id);
-                return this.View(input);
-            }
+            // var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
+            // var priceOut = this.financeService.GetAmount(input.CurrencyOutId, input.PriceNetOut);
+            // var margin = priceIn - priceOut;
+            // var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
 
-            var minMarginPer = priceIn * GlobalConstants.MinOrderMargin;
+            //// if (priceIn < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMaxAmount) &&
+            ////    margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
+            //// {
+            ////    this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
+            ////    input = this.ordersService.LoadOrderCreateInputModel(input.Id);
+            ////    return this.View(input);
+            //// }
+            // var minMarginPer = priceIn * GlobalConstants.MinOrderMargin;
 
-            if (margin < minMarginPer)
-            {
-                this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
-                input = this.ordersService.LoadOrderCreateInputModel(input.Id);
-                return this.View(input);
-            }
-
+            // if (margin < minMarginPer)
+            // {
+            //    this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
+            //    input = this.ordersService.LoadOrderCreateInputModel(input.Id);
+            //    return this.View(input);
+            // }
             await this.ordersService.CreateAsync(input);
             this.notyfService.Success(this.localizer["Order carrier found."]);
             return this.Redirect(@$"/Orders/GenerateApplication/{input.Id}");
@@ -296,27 +308,26 @@
                 return this.View(input);
             }
 
-            var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
-            var priceOut = this.financeService.GetAmount(input.OrderToCurrencyId, input.OrderToPriceNetOut);
-            var margin = priceIn - priceOut;
-            var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
-            if (priceIn < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMaxAmount) &&
-                margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
-            {
-                this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
-                input = this.ordersService.LoadOrderEditInputModel(input.Id);
-                return this.View(input);
-            }
+            // var priceIn = this.financeService.GetAmount(input.OrderFromCurrencyId, input.OrderFromPriceNetIn);
+            // var priceOut = this.financeService.GetAmount(input.OrderToCurrencyId, input.OrderToPriceNetOut);
+            // var margin = priceIn - priceOut;
+            // var fromCurrencyId = this.currencies.AllAsNoTracking().FirstOrDefault(c => c.Name == CurrencyCodes.EUR.ToString()).Id;
+            //// if (priceIn < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMaxAmount) &&
+            ////    margin < this.financeService.GetAmount(fromCurrencyId, GlobalConstants.SmallOrderMinMargin))
+            //// {
+            ////    this.ModelState.AddModelError(string.Empty, "The order margin for order under 500€ cannot be less than 25€.");
+            ////    input = this.ordersService.LoadOrderEditInputModel(input.Id);
+            ////    return this.View(input);
+            //// }
 
-            var minMarginPer = priceIn * GlobalConstants.MinOrderMargin;
+            // var minMarginPer = priceIn * GlobalConstants.MinOrderMargin;
 
-            if (margin < minMarginPer)
-            {
-                this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
-                input = this.ordersService.LoadOrderEditInputModel(input.Id);
-                return this.View(input);
-            }
-
+            // if (margin < minMarginPer)
+            // {
+            //    this.ModelState.AddModelError(string.Empty, "The order margin cannot be less than 5%.");
+            //    input = this.ordersService.LoadOrderEditInputModel(input.Id);
+            //    return this.View(input);
+            // }
             await this.ordersService.EditAsync(input);
 
             // await this.SendContractToCompanyAsync(input.Id);
@@ -418,7 +429,9 @@
 
             await this.ordersService.UpdateOrderStatusAsync(input);
 
-            if (this.orders.All().FirstOrDefault(o => o.Id == input.Id).OrderActions.Any(a => !a.IsFinished))
+            if (this.orders.All().FirstOrDefault(o => o.Id == input.Id).OrderTos
+                                 .SelectMany(o => o.OrderActions)
+                                 .Any(a => !a.IsFinished))
             {
                 this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
                 return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
@@ -487,29 +500,29 @@
             return appModel;
         }
 
-        private async Task SendContractToCompanyAsync(string orderId)
-        {
-            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
-            if (order is null || order.Status.Name == OrderStatusNames.Finished.ToString())
-            {
-                throw new ArgumentException("Order do not exist");
-            }
+        //private async Task SendContractToCompanyAsync(string orderId)
+        //{
+        //    var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+        //    if (order is null || order.Status.Name == OrderStatusNames.Finished.ToString())
+        //    {
+        //        throw new ArgumentException("Order do not exist");
+        //    }
 
-            var model = this.ordersService.GenerateApplicationModel(order.Id);
-            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
-            var pdfData = this.pdfService.SelectPdfConvert(html);
-            var pdf = new EmailAttachment
-            {
-                Content = pdfData,
-                FileName = $"OrderApplication{model.OrderToReferenceNum}.pdf",
-                MimeType = GlobalConstants.PdfMimeType,
-            };
-            var emailHtml = System.IO.File.ReadAllText(@"wwwroot\data\Email.html");
-            await this.contactsService.SendEmailToCompanyAsync(
-                    order.OrderTo.Company.Id,
-                    "Order contract",
-                    emailHtml,
-                    new[] { pdf });
-        }
+        //    var model = this.ordersService.GenerateApplicationModel(order.Id);
+        //    var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
+        //    var pdfData = this.pdfService.SelectPdfConvert(html);
+        //    var pdf = new EmailAttachment
+        //    {
+        //        Content = pdfData,
+        //        FileName = $"OrderApplication{model.OrderToReferenceNum}.pdf",
+        //        MimeType = GlobalConstants.PdfMimeType,
+        //    };
+        //    var emailHtml = System.IO.File.ReadAllText(@"wwwroot\data\Email.html");
+        //    await this.contactsService.SendEmailToCompanyAsync(
+        //            order.OrderTo.Company.Id,
+        //            "Order contract",
+        //            emailHtml,
+        //            new[] { pdf });
+        //}
     }
 }

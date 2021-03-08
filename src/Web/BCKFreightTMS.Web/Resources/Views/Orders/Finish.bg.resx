@@ -141,6 +141,9 @@
   <data name="CMR" xml:space="preserve">
     <value>CMR</value>
   </data>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
+  </data>
   <data name="Documentation check" xml:space="preserve">
     <value>Проверка на документация</value>
   </data>

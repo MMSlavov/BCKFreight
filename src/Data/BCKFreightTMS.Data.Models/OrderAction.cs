@@ -9,10 +9,10 @@
     public class OrderAction : BaseDeletableModel<int>
     {
         [Required]
-        [ForeignKey(nameof(Order))]
-        public string OrderId { get; set; }
+        [ForeignKey(nameof(OrderTo))]
+        public int? OrderToId { get; set; }
 
-        public virtual Order Order { get; set; }
+        public virtual OrderTo OrderTo { get; set; }
 
         [Required]
         [ForeignKey(nameof(Address))]

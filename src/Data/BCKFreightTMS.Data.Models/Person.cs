@@ -14,7 +14,7 @@
             this.Id = Guid.NewGuid().ToString();
             this.ContactOrdersTo = new HashSet<OrderTo>();
             this.ContactOrdersFrom = new HashSet<OrderFrom>();
-            this.DriverOrders = new HashSet<OrderTo>();
+            this.DriverOrders = new HashSet<DriverOrder>();
         }
 
         [ForeignKey(nameof(Company))]
@@ -45,6 +45,6 @@
 
         public virtual ICollection<OrderFrom> ContactOrdersFrom { get; set; }
 
-        public virtual ICollection<OrderTo> DriverOrders { get; set; }
+        public virtual ICollection<DriverOrder> DriverOrders { get; set; }
     }
 }

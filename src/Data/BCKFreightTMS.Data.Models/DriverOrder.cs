@@ -13,7 +13,7 @@
         public virtual Person Driver { get; set; }
 
         [Required]
-        public string OrderId { get; set; }
+        public int OrderId { get; set; }
 
         public virtual OrderTo Order { get; set; }
 

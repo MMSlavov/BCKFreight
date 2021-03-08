@@ -88,7 +88,7 @@
                 <div class="dropdown-divider"></div>
                 @if (awaitingOrders > 0)
                 {
-                    <a asp-controller="Orders" asp-action="Index" class="dropdown-item">
+                    <a asp-controller="Orders" asp-action="Check" class="dropdown-item">
                         You have @awaitingOrders orders for approval.
                     </a>
                 }

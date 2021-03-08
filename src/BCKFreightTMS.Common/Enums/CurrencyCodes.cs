@@ -5,7 +5,7 @@
         BGN,
         EUR,
         RON,
-        TRL,
+        TRY,
         SRD,
     }
 }

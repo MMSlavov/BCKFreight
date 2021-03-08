@@ -9,14 +9,14 @@
         public void Configure(EntityTypeBuilder<Order> order)
         {
             order
-                .HasOne(o => o.OrderTo)
-                .WithOne(ot => ot.Order)
-                .HasForeignKey<Order>(o => o.OrderToId);
-
-            order
                 .HasOne(o => o.OrderFrom)
                 .WithOne(ot => ot.Order)
                 .HasForeignKey<Order>(o => o.OrderFromId);
+
+            order
+                .HasOne(o => o.InvoiceIn)
+                .WithOne(i => i.Order)
+                .HasForeignKey<Order>(o => o.InvoiceInId);
         }
     }
 }

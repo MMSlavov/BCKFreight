@@ -24,12 +24,38 @@
                 LastName = "Slavov",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
+                ProfilePicture = null,
+                Company = new Company
+                {
+                    Name = "AdminCompany",
+                    TaxNumber = "00000000000",
+                    TaxCurrency = new Currency { Name = "BGN" },
+                    TaxCountry = new TaxCountry { Name = "Admin country" },
+                    Address = new CompanyAddress
+                    {
+                        MOLFirstName = "Admin",
+                        MOLLastName = "Admin",
+                        Address = new Address
+                        {
+                            StreetLine = "Admin street",
+                            City = "Admin city",
+                        },
+                    },
+                    Comunicators = new Comunicators(),
+                },
             };
             if (userManager.Users.All(u => u.Id != defaultUser.Id))
             {
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
+                    defaultUser.Company.AdminId = defaultUser.Id;
+                    defaultUser.Company.Address.AdminId = defaultUser.Id;
+                    defaultUser.Company.Address.Address.AdminId = defaultUser.Id;
+                    defaultUser.Company.TaxCountry.AdminId = defaultUser.Id;
+                    defaultUser.Company.TaxCurrency.AdminId = defaultUser.Id;
+                    defaultUser.Company.Comunicators.AdminId = defaultUser.Id;
+                    defaultUser.Company.AdminId = defaultUser.Id;
                     defaultUser.AdminId = defaultUser.Id;
                     await userManager.CreateAsync(defaultUser, "22XfMYvQunLU8sWD");
                     await userManager.AddToRoleAsync(defaultUser, RoleNames.User.ToString());

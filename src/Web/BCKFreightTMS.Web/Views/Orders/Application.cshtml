@@ -1,50 +1,10 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model BCKFreightTMS.Web.ViewModels.Orders.OrderApplicationModel
 @{
-    var documentation = this.Model.Documentation;
+    var orderTos = this.Model.OrderTos;
     var companyName = this.Model.CreatorCompany.Name;
 }
 <head>
-    @*<style>
-            body {
-                background: rgb(204,204,204);
-            }
-
-            page {
-                background: white;
-                display: block;
-                margin: 0 auto;
-                margin-bottom: 0.5cm;
-                box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-            }
-
-                page p {
-                    margin-bottom: 6px;
-                }
-
-                page[size="A4"] {
-                    width: 21cm;
-                    height: 29.7cm;
-                    padding: 1cm;
-                    font-size: 12px;
-                }
-
-                    page[size="A4"][layout="landscape"] {
-                        width: 29.7cm;
-                        height: 21cm;
-                    }
-
-            .table-bordered {
-                border: 1px solid #dee2e6;
-            }
-
-            .table {
-                width: 100%;
-                margin-bottom: 1rem;
-                color: #212529;
-                background-color: transparent;
-            }
-        </style>*@
     <style>
         .head {
             margin-bottom: 0px;
@@ -77,7 +37,7 @@
             <p class="head">@Model.CreatorCompany.Name</p>
             @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
 
-            <p class="head">@Model.CreatorCompany.AddressAddressStreetLine</p>
+        <p class="head">@Model.CreatorCompany.AddressAddressStreetLine, @Model.CreatorCompany.AddressAddressCity, @Model.CreatorCompany.TaxCountryName</p>@*, City name, Country name*@
 
             <p class="head">ИД. Код: @(Model.CreatorCompany.TaxNumber)</p>
 
@@ -94,98 +54,91 @@
 
         <p>за международен/вътреобщностен автомобилен транспорт</p>
 
-        <p>№ @Model.OrderToReferenceNum / @DateTime.Now.ToString("dd.MM.yyyyг.")</p>
+        <p>№ @Model.ReferenceNum / @DateTime.Now.ToString("dd.MM.yyyyг.")</p>
     </div>
 
-    <p>Изпълнител: </p>
-    <div style="padding-left: 3rem;">
-        <p><b>· @Model.OrderToVehicleRegNumber @(Model.OrderToVehicleTrailerRegNumber is null ? "": $"/ {Model.OrderToVehicleTrailerRegNumber}")</b></p>
-        @if (!string.IsNullOrWhiteSpace(Model.Cargo.VehicleRequirements))
-        {
-            <p><b><u>Model.Cargo.VehicleRequirements</u></b></p>
-        }
-        <span>@Model.OrderToCompanyName</span>
-        @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
+    @foreach (var orderTo in orderTos)
+    {
+        var documentation = orderTo.Documentation;
 
-        <p>@Model.OrderToCompanyAddressAddressStreetLine</p>
+        <p>Изпълнител: </p>
+        <div style="padding-left: 3rem;">
+            <p><b>· @orderTo.VehicleRegNumber @(orderTo.VehicleTrailerRegNumber is null ? "": $"/ {orderTo.VehicleTrailerRegNumber}")</b></p>
+            @if (!string.IsNullOrWhiteSpace(orderTo.CargoVehicleRequirements))
+            {
+                <p><b><u>Model.Cargo.VehicleRequirements</u></b></p>
+            }
+            <span>@orderTo.CompanyName</span>
+            @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
 
-        <p>ИН по ЗДДС: @(Model.OrderToCompanyTaxNumber.Length <= 10?"BG":"")@(Model.OrderToCompanyTaxNumber)</p>
+            <p>@orderTo.CompanyAddressAddressStreetLine</p>
 
-        <p>МОЛ: @Model.OrderToCompanyAddressMOLFirstName @Model.OrderToCompanyAddressMOLLastName</p>
+            <p>ИН по ЗДДС: @(orderTo.CompanyTaxNumber.Length <= 10?"BG":"")@(orderTo.CompanyTaxNumber)</p>
 
-        <p>Тел: @Model.OrderToCompanyComunicatorsMobile1</p>
-    </div>
+            <p>МОЛ: @orderTo.CompanyAddressMOLFirstName @orderTo.CompanyAddressMOLLastName</p>
 
-    <table class="table table-bordered">
-        @*<thead style="margin-bottom: 0px;">
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Contacts
-                </th>
-            </tr>
-        </thead>*@
-        @foreach (var action in Model.OrderActions)
-        {
-            <tr>
-                <td>@localizer[action.TypeName]</td>
-                <td>
-                    @(action.Address.City is null?"":$"{action.Address.City}, ")
-                    @(action.Address.Area is null || action.Address.City == action.Address.Area? "":$"{action.Address.Area}, ")
-                    @(action.Address.Postcode is null?"":$"{action.Address.Postcode}, ")
-                    @action.Address.StreetLine
-                </td>
-                <td>@action.Until.ToLocalTime().ToShortDateString()</td>
-                <td>@action.Details</td>
-            </tr>
-        }
-    </table>
-    @*<p>2. Дестинация: </p>
+            <p>Тел: @orderTo.CompanyComunicatorsMobile1</p>
+        </div>
 
-        <p>· Адрес на товарене:</p>
+        <table class="table table-bordered">
+            @*<thead style="margin-bottom: 0px;">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Contacts
+                    </th>
+                </tr>
+            </thead>*@
+            @foreach (var action in orderTo.OrderActions)
+            {
+                <tr>
+                    <td>@localizer[action.TypeName]</td>
+                    <td>
+                        @(action.Address.City is null?"":$"{action.Address.City}, ")
+                        @(action.Address.Area is null || action.Address.City == action.Address.Area? "":$"{action.Address.Area}, ")
+                        @(action.Address.Postcode is null?"":$"{action.Address.Postcode}, ")
+                        @action.Address.StreetLine
+                    </td>
+                    <td>@action.Until.ToLocalTime().ToShortDateString()</td>
+                    <td>@action.Details</td>
+                </tr>
+            }
+        </table>
 
-        <p>· Адрес на разтоварване: </p>*@
+        <p>Данни за товара:</p>
 
-    @*<p>3. Дата на извършване на услугата:</p>
+        <p>· Стока: <b>@orderTo.Cargo.Name@(orderTo.Cargo.Quantity <= 1?"":$" - {orderTo.Cargo.Quantity} {this.localizer[orderTo.Cargo.TypeName].Value}") - @orderTo.Cargo.WeightGross т.@Html.Raw(orderTo.Cargo.Details is null?"":$"; {Html.Raw(orderTo.Cargo.Details)}")</b></p>
 
-        <p>· Дата на товарене:</p>
+        <p>· Придружаващи документи: </p>
+        <div class="pl-5">
+            @if (@documentation.CMR)
+            {<div><i class="fas fa-check"></i><b>&nbsp;CMR</b></div>}
+            @if (@documentation.BillOfLading)
+            {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of lading"]</b></div>}
+            @if (@documentation.AOA)
+            {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Act of acceptance"]</b></div>}
+            @if (@documentation.DeliveryNote)
+            {<div><i class="fas fa-check"></i><b>&nbsp;Delivery note</b></div>}
+            @if (@documentation.PackingList)
+            {<div><i class="fas fa-check"></i><b>&nbsp;Packing list</b></div>}
+            @if (@documentation.ListItems)
+            {<div><i class="fas fa-check"></i><b>&nbsp;List items</b></div>}
+            @if (@documentation.Invoice)
+            {<div><i class="fas fa-check"></i><b>&nbsp;Invoice</b></div>}
+            @if (@documentation.BillOfGoods)
+            {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of goods"]</b></div>}
+        </div>
 
-        <p>· Дата на разтоварване: </p>*@
-
-    <p>Данни за товара:</p>
-
-    <p>· Стока: <b>@Model.Cargo.Name@(Model.Cargo.Quantity <= 1?"":$" - {Model.Cargo.Quantity}") - @Model.Cargo.WeightGross т.@Html.Raw(Model.Cargo.Details is null?"":$"; {Html.Raw(Model.Cargo.Details)}")</b></p>
-
-    <p>· Придружаващи документи: </p>
-    <div class="pl-5">
-        @if (@documentation.CMR)
-        {<div><i class="fas fa-check"></i><b>&nbsp;CMR</b></div>}
-        @if (@documentation.BillOfLading)
-        {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of lading"]</b></div>}
-        @if (@documentation.AOA)
-        {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Act of acceptance"]</b></div>}
-        @if (@documentation.DeliveryNote)
-        {<div><i class="fas fa-check"></i><b>&nbsp;Delivery note</b></div>}
-        @if (@documentation.PackingList)
-        {<div><i class="fas fa-check"></i><b>&nbsp;Packing list</b></div>}
-        @if (@documentation.ListItems)
-        {<div><i class="fas fa-check"></i><b>&nbsp;List items</b></div>}
-        @if (@documentation.Invoice)
-        {<div><i class="fas fa-check"></i><b>&nbsp;Invoice</b></div>}
-        @if (@documentation.BillOfGoods)
-        {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of goods"]</b></div>}
-    </div>
-
-    <p>Цена и начин на плащане: <b>@Model.OrderToPriceNetOut</b> @Model.OrderToCurrencyName @(Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
-
+        <p>Цена и начин на плащане: <b>@orderTo.PriceNetOut</b> @orderTo.CurrencyName @(Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
+    }
     <p>· Платец на навлото: @companyName</p>
 
     <p>· Начин и срок на плащане: В 30 дневен срок, след получаване на Ваша фактура и оригинал на заверени – подписани и/или подпечатани 3бр. CMR-товарителници, без забележки, за действително превозваният товар, на <b>адреса за кореспонденция: <b style=" text-decoration: underline;">ул. „Хаджи Димитър“№10, гр. Търговище.</b></b></p>

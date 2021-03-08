@@ -12,7 +12,6 @@
         public Order()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.OrderActions = new HashSet<OrderAction>();
         }
 
         [Required]
@@ -21,15 +20,8 @@
 
         public virtual ApplicationUser Creator { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(Cargo))]
-        public string CargoId { get; set; }
-
-        public virtual Cargo Cargo { get; set; }
-
-        public int? OrderToId { get; set; }
-
-        public virtual OrderTo OrderTo { get; set; }
+        [MaxLength(15)]
+        public string ReferenceNum { get; set; }
 
         public int? OrderFromId { get; set; }
 
@@ -40,14 +32,13 @@
 
         public virtual OrderStatus Status { get; set; }
 
-        public int? DocumentationId { get; set; }
+        public int? InvoiceInId { get; set; }
 
-        [ForeignKey(nameof(DocumentationId))]
-        public virtual Documentation Documentation { get; set; }
+        public virtual InvoiceIn InvoiceIn { get; set; }
 
         [Column(TypeName = "nvarchar(MAX)")]
         public string FailReason { get; set; }
 
-        public virtual ICollection<OrderAction> OrderActions { get; set; }
+        public virtual ICollection<OrderTo> OrderTos { get; set; }
     }
 }

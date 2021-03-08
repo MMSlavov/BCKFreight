@@ -13,30 +13,32 @@
 
         public int OrderFromCurrencyId { get; set; }
 
-        public string CargoLoadingBodyName { get; set; }
+        // public string CargoLoadingBodyName { get; set; }
 
-        public string CargoVehicleRequirements { get; set; }
+        // public string CargoVehicleRequirements { get; set; }
 
-        [DataType(DataType.Currency)]
+        // [DataType(DataType.Currency)]
 
-        // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
-        [Range(0, 9999999999.99)]
-        public decimal PriceNetOut { get; set; }
+        //// [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.")]
+        // [Range(0, 9999999999.99)]
+        // public decimal PriceNetOut { get; set; }
 
-        public int CurrencyOutId { get; set; }
+        // public int CurrencyOutId { get; set; }
 
-        public int DueDaysTo { get; set; }
+        // public int DueDaysTo { get; set; }
 
-        [Required]
-        public string CompanyToId { get; set; }
+        // [Required]
+        // public string CompanyToId { get; set; }
 
-        public string VehicleId { get; set; }
+        // public string VehicleId { get; set; }
 
-        public string TrailerId { get; set; }
+        // public string TrailerId { get; set; }
 
-        public string DriverId { get; set; }
+        // public string DriverId { get; set; }
 
-        public string ContactToId { get; set; }
+        // public string ContactToId { get; set; }
+
+        public List<OrderToModel> OrderTos { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> CompanyItems { get; set; }
 

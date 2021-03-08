@@ -7,16 +7,16 @@
 
     public class Comunicators : BaseDeletableModel<int>
     {
-        [Column(TypeName ="varchar(10)")]
+        [Column(TypeName ="varchar(20)")]
         public string Mobile1 { get; set; }
 
-        [Column(TypeName = "varchar(10)")]
+        [Column(TypeName = "varchar(20)")]
         public string Mobile2 { get; set; }
 
-        [Column(TypeName = "varchar(10)")]
+        [Column(TypeName = "varchar(20)")]
         public string Phone1 { get; set; }
 
-        [Column(TypeName = "varchar(10)")]
+        [Column(TypeName = "varchar(20)")]
         public string Phone2 { get; set; }
 
         [Column(TypeName = "varchar(50)")]

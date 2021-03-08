@@ -1,7 +1,6 @@
 ﻿namespace BCKFreightTMS.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +11,6 @@
         public Cargo()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Orders = new HashSet<Order>();
         }
 
         [ForeignKey(nameof(Type))]
@@ -59,6 +57,6 @@
         [Column(TypeName = "nvarchar(MAX)")]
         public string Details { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual OrderTo OrderTo { get; set; }
     }
 }

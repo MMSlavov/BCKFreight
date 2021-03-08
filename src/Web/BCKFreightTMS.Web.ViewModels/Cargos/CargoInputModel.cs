@@ -3,7 +3,10 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class CargoInputModel
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
+
+    public class CargoInputModel : IMapFrom<Cargo>
     {
         [MaxLength(200)]
         public string Name { get; set; }
@@ -34,7 +37,11 @@
 
         public int TypeId { get; set; }
 
+        public string TypeName { get; set; }
+
         public int LoadingBodyId { get; set; }
+
+        public string LoadingBodyName { get; set; }
 
         public string VehicleRequirements { get; set; }
 

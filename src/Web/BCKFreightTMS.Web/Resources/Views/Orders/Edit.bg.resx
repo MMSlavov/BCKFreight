@@ -153,6 +153,9 @@
   <data name="Client" xml:space="preserve">
     <value>Клиент</value>
   </data>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
+  </data>
   <data name="Currency" xml:space="preserve">
     <value>Валута</value>
   </data>

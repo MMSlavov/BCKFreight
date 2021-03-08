@@ -2,7 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddressInputModel
+    using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
+
+    public class AddressInputModel : IMapFrom<Address>
     {
         [MaxLength(100)]
         public string StreetLine { get; set; }

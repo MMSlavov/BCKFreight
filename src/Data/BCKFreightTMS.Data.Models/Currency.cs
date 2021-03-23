@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using BCKFreightTMS.Data.Common.Models;
 
@@ -10,10 +11,8 @@
         public Currency()
         {
             this.Companies = new HashSet<Company>();
-
-            this.OrderTos = new HashSet<OrderTo>();
-
-            this.OrderFroms = new HashSet<OrderFrom>();
+            this.OrderTosIn = new HashSet<OrderTo>();
+            this.OrderTosOut = new HashSet<OrderTo>();
         }
 
         [Required]
@@ -23,8 +22,10 @@
 
         public virtual ICollection<Company> Companies { get; set; }
 
-        public virtual ICollection<OrderTo> OrderTos { get; set; }
+        [InverseProperty("CurrencyIn")]
+        public virtual ICollection<OrderTo> OrderTosIn { get; set; }
 
-        public virtual ICollection<OrderFrom> OrderFroms { get; set; }
+        [InverseProperty("CurrencyOut")]
+        public virtual ICollection<OrderTo> OrderTosOut { get; set; }
     }
 }

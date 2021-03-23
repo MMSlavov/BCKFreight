@@ -1,0 +1,42 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Invoices.OrderToInvoiceModel>
+@{
+    this.Layout = null;
+}
+
+<table class="table table-striped table-bordered" id="orderTos">
+    <thead>
+        <tr>
+            <th>
+                @localizer["Заявка"]
+            </th>
+            <th>
+                @localizer["Автомобил"]
+            </th>
+            <th>
+                @localizer["Курс"]
+            </th>
+            <th style="visibility: hidden;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderTo in Model)
+        {
+            <tr>
+                <td>
+                    @orderTo.CarrierOrderReferenceNum
+                </td>
+                <td>
+                    @orderTo.VehicleRegNumber/@orderTo.VehicleTrailerRegNumber
+                </td>
+                <td>
+                    @Html.Raw(orderTo.Voyage)
+                </td>
+                <td>
+                    <a href="javascript:" class="btn btn-primary addRow" data-orderTo="@System.Text.Json.JsonSerializer.Serialize(orderTo)">@localizer["Добави"]</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*<script type="module" src="~/js/addInvoiceRow.js"></script>*@

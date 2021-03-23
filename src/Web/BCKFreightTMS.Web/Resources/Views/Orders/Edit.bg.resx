@@ -217,10 +217,10 @@
     <value>Пощенски код</value>
   </data>
   <data name="Price in" xml:space="preserve">
-    <value>Цена</value>
+    <value>Цена клиент</value>
   </data>
   <data name="Price out" xml:space="preserve">
-    <value>Цена</value>
+    <value>Цена превозвач</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>Количество</value>

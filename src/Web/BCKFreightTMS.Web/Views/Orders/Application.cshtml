@@ -1,8 +1,8 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-@model BCKFreightTMS.Web.ViewModels.Orders.OrderApplicationModel
+@model BCKFreightTMS.Web.ViewModels.Orders.CarrierOrderApplicationModel
 @{
     var orderTos = this.Model.OrderTos;
-    var companyName = this.Model.CreatorCompany.Name;
+    var companyName = this.Model.OrderCreatorCompany.Name;
 }
 <head>
     <style>
@@ -34,18 +34,18 @@
              width="290" />
         <div style="text-align: right">
             <p class="head"><b>ВЪЗЛОЖИТЕЛ</b></p>
-            <p class="head">@Model.CreatorCompany.Name</p>
+            <p class="head">@Model.OrderCreatorCompany.Name</p>
             @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
 
-        <p class="head">@Model.CreatorCompany.AddressAddressStreetLine, @Model.CreatorCompany.AddressAddressCity, @Model.CreatorCompany.TaxCountryName</p>@*, City name, Country name*@
+        <p class="head">@Model.OrderCreatorCompany.AddressAddressStreetLine, @Model.OrderCreatorCompany.AddressAddressCity, @Model.OrderCreatorCompany.TaxCountryName</p>@*, City name, Country name*@
 
-            <p class="head">ИД. Код: @(Model.CreatorCompany.TaxNumber)</p>
+            <p class="head">ИД. Код: @(Model.OrderCreatorCompany.TaxNumber)</p>
 
             @*<p class="head">ИН по ЗДДС: @($"BG{Model.CreatorCompany.TaxNumber}")</p>*@
 
-            <p class="head">МОЛ: @Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</p>
+            <p class="head">МОЛ: @Model.OrderCreatorCompany.AddressMOLFirstName @Model.OrderCreatorCompany.AddressMOLLastName</p>
 
-            <p class="head">Тел: @Model.CreatorCompany.ComunicatorsMobile1</p>
+            <p class="head">Тел: @Model.OrderCreatorCompany.ComunicatorsMobile1</p>
         </div>
     </div>
 
@@ -54,31 +54,31 @@
 
         <p>за международен/вътреобщностен автомобилен транспорт</p>
 
-        <p>№ @Model.ReferenceNum / @DateTime.Now.ToString("dd.MM.yyyyг.")</p>
+        <p>№ <span class="refNum">@Model.ReferenceNum</span> / @DateTime.Now.ToString("dd.MM.yyyyг.")</p>
+    </div>
+
+    <p>Изпълнител: </p>
+    <div style="padding-left: 3rem;">
+        <span>@Model.Company.Name</span>
+        @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
+
+        <p>@Model.Company.AddressAddressStreetLine</p>
+
+        <p>ИН по ЗДДС: @(Model.Company.TaxNumber.Length <= 10?"BG":"")@(Model.Company.TaxNumber)</p>
+
+        <p>МОЛ: @Model.Company.AddressMOLFirstName @Model.Company.AddressMOLLastName</p>
+
+        <p>Тел: @Model.Company.ComunicatorsMobile1</p>
     </div>
 
     @foreach (var orderTo in orderTos)
     {
         var documentation = orderTo.Documentation;
-
-        <p>Изпълнител: </p>
-        <div style="padding-left: 3rem;">
-            <p><b>· @orderTo.VehicleRegNumber @(orderTo.VehicleTrailerRegNumber is null ? "": $"/ {orderTo.VehicleTrailerRegNumber}")</b></p>
-            @if (!string.IsNullOrWhiteSpace(orderTo.CargoVehicleRequirements))
-            {
-                <p><b><u>Model.Cargo.VehicleRequirements</u></b></p>
-            }
-            <span>@orderTo.CompanyName</span>
-            @*<p>@Model.OrderToCompanyAddressAddressCity</p>*@
-
-            <p>@orderTo.CompanyAddressAddressStreetLine</p>
-
-            <p>ИН по ЗДДС: @(orderTo.CompanyTaxNumber.Length <= 10?"BG":"")@(orderTo.CompanyTaxNumber)</p>
-
-            <p>МОЛ: @orderTo.CompanyAddressMOLFirstName @orderTo.CompanyAddressMOLLastName</p>
-
-            <p>Тел: @orderTo.CompanyComunicatorsMobile1</p>
-        </div>
+        <p><b>· @orderTo.VehicleRegNumber @(orderTo.VehicleTrailerRegNumber is null ? "": $"/ {orderTo.VehicleTrailerRegNumber}")</b></p>
+        @if (!string.IsNullOrWhiteSpace(orderTo.CargoVehicleRequirements))
+        {
+            <p><b><u>Model.Cargo.VehicleRequirements</u></b></p>
+        }
 
         <table class="table table-bordered">
             @*<thead style="margin-bottom: 0px;">
@@ -115,7 +115,7 @@
 
         <p>Данни за товара:</p>
 
-        <p>· Стока: <b>@orderTo.Cargo.Name@(orderTo.Cargo.Quantity <= 1?"":$" - {orderTo.Cargo.Quantity} {this.localizer[orderTo.Cargo.TypeName].Value}") - @orderTo.Cargo.WeightGross т.@Html.Raw(orderTo.Cargo.Details is null?"":$"; {Html.Raw(orderTo.Cargo.Details)}")</b></p>
+        <p>· Стока: <b>@orderTo.Cargo.Name@(orderTo.Cargo.Quantity <= 1?"":$" - {this.localizer[orderTo.Cargo.TypeName].Value}") - @orderTo.Cargo.WeightGross т.@Html.Raw(orderTo.Cargo.Details is null?"":$"; {Html.Raw(orderTo.Cargo.Details)}")</b></p>
 
         <p>· Придружаващи документи: </p>
         <div class="pl-5">
@@ -137,11 +137,12 @@
             {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of goods"]</b></div>}
         </div>
 
-        <p>Цена и начин на плащане: <b>@orderTo.PriceNetOut</b> @orderTo.CurrencyName @(Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
+        <p>Цена и начин на плащане: <b>@orderTo.PriceNetOut</b> @orderTo.CurrencyName @(Model.OrderCreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
+        <hr style="border: none; height: 2px; background-color: black;"/>
     }
     <p>· Платец на навлото: @companyName</p>
 
-    <p>· Начин и срок на плащане: В 30 дневен срок, след получаване на Ваша фактура и оригинал на заверени – подписани и/или подпечатани 3бр. CMR-товарителници, без забележки, за действително превозваният товар, на <b>адреса за кореспонденция: <b style=" text-decoration: underline;">ул. „Хаджи Димитър“№10, гр. Търговище.</b></b></p>
+    <p>· Начин и срок на плащане: В @this.Model.OrderDueDaysFrom дневен срок, след получаване на Ваша фактура и оригинал на заверени – подписани и/или подпечатани 3бр. CMR-товарителници, без забележки, за действително превозваният товар, на <b>адреса за кореспонденция: <b style=" text-decoration: underline;">ул. „Хаджи Димитър“№10, гр. Търговище.</b></b></p>
 
     <p>· <strong>ФАКТУРИ С НЕПРАВИЛНИ ДАННИ, НЕПЪЛНИ КОМПЛЕКТИ С ДОКУМЕНТИ, НЕ СЕ ОБРАБОТВАТ И ЩЕ БЪДАТ ВРЪЩАНИ ОБРАТНО С КУРИЕР ЗА СМЕТКА НА ПРЕВОЗВАЧА. ДАТАТА НА ПАДЕЖ ЗАПОЧВА ДА ТЕЧЕ ОТ ДАТАТА НА ПОЛУЧАВАНЕ НА ПЪЛНИЯ КОМПЛЕКТ ДОКУМЕНТИ. </strong></p>
 

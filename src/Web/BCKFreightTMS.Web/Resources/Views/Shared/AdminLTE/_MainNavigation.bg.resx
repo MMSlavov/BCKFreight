@@ -141,8 +141,17 @@
   <data name="Failed" xml:space="preserve">
     <value>Провалени</value>
   </data>
-  <data name="Finished" xml:space="preserve">
+  <data name="Filed" xml:space="preserve">
     <value>Заведени вх. ф-ри</value>
+  </data>
+  <data name="Incoming" xml:space="preserve">
+    <value>Входящи</value>
+  </data>
+  <data name="Incomplete" xml:space="preserve">
+    <value>Непълна док.</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>Фактури</value>
   </data>
   <data name="Orders" xml:space="preserve">
     <value>Заявки</value>

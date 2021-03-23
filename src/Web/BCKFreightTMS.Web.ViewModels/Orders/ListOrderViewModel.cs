@@ -8,13 +8,11 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
 
-    public class ListOrderViewModel : IMapFrom<Order>
+    public class ListOrderViewModel : IMapFrom<Order>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public string ReferenceNum { get; set; }
 
         public string OrderFromContactFirstName { get; set; }
 
@@ -22,13 +20,11 @@
 
         public string OrderFromCompanyName { get; set; }
 
-        public decimal OrderFromPriceNetIn { get; set; }
-
-        public int OrderFromCurrencyId { get; set; }
-
         public string StatusName { get; set; }
 
         public string Voyage { get; set; }
+
+        public List<CarrierOrderListModel> CarrierOrders { get; set; }
 
         public List<OrderToListModel> OrderTos { get; set; }
 
@@ -36,7 +32,7 @@
         {
             configuration.CreateMap<Order, ListOrderViewModel>()
                 .ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{string.Join("\n\r", x.OrderTos.Select(o => string.Join(" <i class='fas fa-angle-double-right'></i> ", o.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))}</p>"));
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{string.Join("<br>", x.OrderTos.Select(o => string.Join(" <i class='fas fa-angle-double-right'></i> ", o.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))}</p>"));
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Contacts.BankDetailsModel
+@{
+    this.Layout = null;
+}
+
+<form asp-action="AddBankDetailsModal" data-companyId="@Model.CompanyId" id="BDForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label">@localizer["IBAN"] <span class="text-danger">*</span></label>
+        <input asp-for="BankIban" class="form-control col-8" />
+        <span asp-validation-for="BankIban" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">@localizer["Swift code"] <span class="text-danger">*</span></label>
+        <input asp-for="BankCode" class="form-control col-8" />
+        <span asp-validation-for="BankCode" class="text-danger"></span>
+    </div>
+    @Html.HiddenFor(m => m.CompanyId)
+    <div class="form-group">
+        <input type="submit" value="@localizer["Save"]" class="btn btn-primary" />
+    </div>
+</form>

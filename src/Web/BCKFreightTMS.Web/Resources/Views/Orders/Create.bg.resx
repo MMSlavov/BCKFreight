@@ -144,11 +144,20 @@
   <data name="Contact" xml:space="preserve">
     <value>Лице за контакт</value>
   </data>
+  <data name="Course" xml:space="preserve">
+    <value>Курс</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Създай</value>
   </data>
+  <data name="days" xml:space="preserve">
+    <value>дни</value>
+  </data>
   <data name="Driver" xml:space="preserve">
     <value>Шофьор</value>
+  </data>
+  <data name="Due days" xml:space="preserve">
+    <value>Срок на плащане</value>
   </data>
   <data name="Filter by area" xml:space="preserve">
     <value>&lt;span class="text-black-50"&gt;Филтрирай по район&lt;/span&gt;</value>

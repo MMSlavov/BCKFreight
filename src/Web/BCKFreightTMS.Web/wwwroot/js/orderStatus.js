@@ -1,18 +1,4 @@
-﻿function UpdateBtns() {
-    console.log($("input:radio[id*='yes']:checked").length);
-    console.log($("input:radio[id*='yes']").length);
-
-    if ($("input:radio[id*='yes']:checked").length != $("input:radio[id*='yes']").length) {
-        $(".btn-primary").attr("disabled", null);
-        $(".btn-success").attr("disabled", "disabled");
-    }
-    else {
-        $(".btn-primary").attr("disabled", "disabled");
-        $(".btn-success").attr("disabled", null);
-    }
-}
-$(document).ready(UpdateBtns);
-
+﻿//$(document).ready(UpdateBtns);
 
 [...document.querySelectorAll(".course")].forEach(tc => {
     tc.querySelector("#aTabs")
@@ -21,6 +7,15 @@ $(document).ready(UpdateBtns);
                 openAddress(ev, ev.target.id);
             }
         });
+    let finishBtn = tc.querySelector(".btn-success");
+    function UpdateBtns() {
+        if (tc.querySelectorAll("input[id*=yes]:checked").length == tc.querySelectorAll("input[id*=yes]").length) {
+            finishBtn.removeAttribute("disabled");
+        }
+        else {
+            finishBtn.setAttribute("disabled", "disabled");
+        }
+    }
 
     function openAddress(evt, id) {
         let tabcontent = [...tc.querySelectorAll(".tabcontent")];

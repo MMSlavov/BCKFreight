@@ -106,6 +106,13 @@
             return this.View(viewModel);
         }
 
+        public IActionResult AddBankDetailsModal(string id)
+        {
+            var viewModel = new BankDetailsModel();
+            viewModel.CompanyId = id;
+            return this.View(viewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddPerson(PersonInputModel input)
         {
@@ -116,12 +123,7 @@
 
             try
             {
-                var res = await this.contactsService.AddPersonAsync(input);
-                if (res == null)
-                {
-                    this.ModelState.AddModelError(string.Empty, "Person allready exists.");
-                    return this.View(input);
-                }
+                await this.contactsService.AddPersonAsync(input);
             }
             catch (Exception ex)
             {
@@ -139,11 +141,13 @@
                 return this.View(this.contactsService.GetPersonInputModel(input));
             }
 
-            var res = await this.contactsService.AddPersonAsync(input);
-            if (res == null)
+            try
             {
-                this.ModelState.AddModelError(string.Empty, "Person allready exists.");
-                return this.View(this.contactsService.GetPersonInputModel());
+                await this.contactsService.AddPersonAsync(input);
+            }
+            catch (Exception ex)
+            {
+                this.notyfService.Error(ex.Message);
             }
 
             return this.Json(new { isValid = true, redirectToUrl = string.Empty });
@@ -197,6 +201,25 @@
             }
 
             return this.Json(new { isValid = true, redirectToUrl = "reload" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBankDetailsModal(BankDetailsModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
+            }
+
+            await this.contactsService.AddBankDetails(model);
+
+            return this.Json(new { isValid = true, redirectToUrl = string.Empty });
+        }
+
+        public JsonResult GetBankDetails(string companyId)
+        {
+            var bankDetails = this.contactsService.GetBankDetails(companyId);
+            return this.Json(bankDetails);
         }
     }
 }

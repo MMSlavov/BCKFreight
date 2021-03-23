@@ -10,7 +10,7 @@
     {
         [Required]
         [ForeignKey(nameof(OrderTo))]
-        public int? OrderToId { get; set; }
+        public string OrderToId { get; set; }
 
         public virtual OrderTo OrderTo { get; set; }
 

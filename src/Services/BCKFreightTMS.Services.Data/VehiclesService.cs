@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -78,6 +79,11 @@
 
         public async Task<string> AddVehicleAsync(VehicleInputModel input)
         {
+            if (this.vehicles.AllAsNoTracking().Any(v => v.RegNumber == input.RegNumber))
+            {
+                throw new ArgumentException("Vehicle already exist.");
+            }
+
             var vehicle = new Vehicle
             {
                 TypeId = input.TypeId,

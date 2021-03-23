@@ -2,14 +2,11 @@
 {
     using System.Collections.Generic;
 
-    using BCKFreightTMS.Web.ViewModels.Cargos;
     using BCKFreightTMS.Web.ViewModels.Contacts;
 
     public class OrderApplicationModel
     {
-        public string ReferenceNum { get; set; }
-
-        public List<OrderToApplicationModel> OrderTos { get; set; }
+        public List<CarrierOrderApplicationModel> CarrierOrders { get; set; }
 
         public CompanyViewModel CreatorCompany { get; set; }
 

@@ -1,4 +1,5 @@
-﻿@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+﻿@using System.Linq
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListAcceptedOrderViewModel>
 
@@ -36,8 +37,11 @@
                     <p class="m-0">@($"{order.OrderFromContactFirstName} {order.OrderFromContactLastName}")</p>
                 </td>
                 <td class="align-middle">
-                    <span class="text-bold">@order.OrderFromPriceNetIn </span>
-                    <p class="m-0">@order.OrderFromCurrencyName</p>
+                    @{ 
+                        var priceIn = order.OrderTos.Select(o => this.financeService.GetAmount(o.CurrencyInId, o.PriceNetIn)).Sum();
+                    }
+                    <span class="text-bold">@($"{priceIn:f2}") </span>
+                    <p class="m-0">@order.CreatorCompanyTaxCurrencyName</p>
                 </td>
                 <td class="align-middle text-center p-1" style="width:auto">
                     @{

@@ -72,9 +72,13 @@
 
         public DbSet<Documentation> Documentations { get; set; }
 
-        public DbSet<Currency> Currency { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
 
         public DbSet<InvoiceIn> InvoiceIns { get; set; }
+
+        public DbSet<CarrierOrder> CarrierOrders { get; set; }
+
+        public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

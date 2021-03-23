@@ -163,6 +163,10 @@ function addCourse(evt) {
     [...course.querySelectorAll("input:not([type=checkbox],[type=hidden]), textarea")].forEach((v) => {
         v.value = '';
         v.defaultValue = '';
+    });
+    [...course.querySelectorAll(".cargoSpec")].forEach((v) => {
+        v.value = 0;
+        v.defaultValue = 0;
     })
     let courseHtml = course.innerHTML.replace(/OrderTos_\d_/g, "OrderTos_" + index + "_").replace(/OrderTos\[\d\]/g, "OrderTos[" + index + "]");
 

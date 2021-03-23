@@ -55,13 +55,15 @@
         $(tc).find("select[id*=CompanyId]").change(function () {
             RefreshDropdowns();
         });
-        $('#form-modal').on('hidden.bs.modal', function (ev) {
+        $('#form-modal').on('submit', function () {
             RefreshDropdowns();
         });
+
         function RefreshDropdowns() {
             $.getJSON("/Orders/GetContacts", { companyId: $(tc).find("select[id*=CompanyId]").val() }, function (d) {
                 let row = "";
                 addContactBtn.style.display = "";
+                console.log(tc);
                 $(tc).find("#contactTo").empty();
                 $.each(d, function (i, v) {
                     row += "<option value=" + v.value + ">" + v.text + "</option>";

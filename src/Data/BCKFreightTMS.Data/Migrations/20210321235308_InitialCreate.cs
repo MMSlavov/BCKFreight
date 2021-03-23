@@ -128,7 +128,7 @@
                 });
 
             migrationBuilder.CreateTable(
-                name: "Currency",
+                name: "Currencies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -143,7 +143,7 @@
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,7 +162,7 @@
                     BillOfGoods = table.Column<bool>(type: "bit", nullable: false),
                     WeighingNote = table.Column<bool>(type: "bit", nullable: false),
                     RecievedDocumentationId = table.Column<int>(type: "int", nullable: true),
-                    OrderToId = table.Column<int>(type: "int", nullable: true),
+                    OrderToId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AdminId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -178,6 +178,24 @@
                         principalTable: "Documentations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoiceStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AdminId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -416,9 +434,9 @@
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Companies_Currency_TaxCurrencyId",
+                        name: "FK_Companies_Currencies_TaxCurrencyId",
                         column: x => x.TaxCurrencyId,
-                        principalTable: "Currency",
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -658,14 +676,14 @@
                 name: "InvoiceIns",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BankDetailsId = table.Column<int>(type: "int", nullable: false),
                     ReceiveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDays = table.Column<int>(type: "int", nullable: false),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AdminId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -681,6 +699,12 @@
                         principalTable: "BankDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InvoiceIns_InvoiceStatuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "InvoiceStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -690,9 +714,6 @@
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ReferenceNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PriceNetIn = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: true),
-                    DueDays = table.Column<int>(type: "int", nullable: false),
                     CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: true),
                     ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -709,12 +730,6 @@
                         name: "FK_OrderFroms_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderFroms_Currency_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currency",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -791,10 +806,10 @@
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReferenceNum = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    DueDaysFrom = table.Column<int>(type: "int", nullable: false),
+                    DueDaysTo = table.Column<int>(type: "int", nullable: false),
                     OrderFromId = table.Column<int>(type: "int", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: true),
-                    InvoiceInId = table.Column<int>(type: "int", nullable: true),
                     FailReason = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -812,12 +827,6 @@
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Orders_InvoiceIns_InvoiceInId",
-                        column: x => x.InvoiceInId,
-                        principalTable: "InvoiceIns",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Orders_OrderFroms_OrderFromId",
                         column: x => x.OrderFromId,
                         principalTable: "OrderFroms",
@@ -832,15 +841,46 @@
                 });
 
             migrationBuilder.CreateTable(
+                name: "CarrierOrders",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReferenceNum = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AdminId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarrierOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarrierOrders_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CarrierOrders_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderTos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CarrierOrderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PriceNetOut = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: true),
-                    DueDays = table.Column<int>(type: "int", nullable: false),
-                    CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CurrencyOutId = table.Column<int>(type: "int", nullable: true),
+                    PriceNetIn = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrencyInId = table.Column<int>(type: "int", nullable: true),
                     VehicleId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TypeId = table.Column<int>(type: "int", nullable: true),
                     CargoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
@@ -848,6 +888,9 @@
                     FailReason = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
                     ContactId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     OrderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsFinished = table.Column<bool>(type: "bit", nullable: false),
+                    InvoiceInId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CompanyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AdminId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -864,21 +907,39 @@
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_OrderTos_CarrierOrders_CarrierOrderId",
+                        column: x => x.CarrierOrderId,
+                        principalTable: "CarrierOrders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_OrderTos_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderTos_Currency_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currency",
+                        name: "FK_OrderTos_Currencies_CurrencyInId",
+                        column: x => x.CurrencyInId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderTos_Currencies_CurrencyOutId",
+                        column: x => x.CurrencyOutId,
+                        principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OrderTos_Documentations_DocumentationId",
                         column: x => x.DocumentationId,
                         principalTable: "Documentations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderTos_InvoiceIns_InvoiceInId",
+                        column: x => x.InvoiceInId,
+                        principalTable: "InvoiceIns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -912,7 +973,7 @@
                 columns: table => new
                 {
                     DriverId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -941,7 +1002,7 @@
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderToId = table.Column<int>(type: "int", nullable: false),
+                    OrderToId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: false),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     Until = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -1090,6 +1151,21 @@
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CarrierOrders_CompanyId",
+                table: "CarrierOrders",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarrierOrders_IsDeleted",
+                table: "CarrierOrders",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarrierOrders_OrderId",
+                table: "CarrierOrders",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Companies_CompanyAddressId",
                 table: "Companies",
                 column: "CompanyAddressId",
@@ -1149,8 +1225,8 @@
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Currency_IsDeleted",
-                table: "Currency",
+                name: "IX_Currencies_IsDeleted",
+                table: "Currencies",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -1181,6 +1257,16 @@
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceIns_IsDeleted",
                 table: "InvoiceIns",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceIns_StatusId",
+                table: "InvoiceIns",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceStatuses_IsDeleted",
+                table: "InvoiceStatuses",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -1219,11 +1305,6 @@
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderFroms_CurrencyId",
-                table: "OrderFroms",
-                column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderFroms_IsDeleted",
                 table: "OrderFroms",
                 column: "IsDeleted");
@@ -1237,13 +1318,6 @@
                 name: "IX_Orders_CreatorId",
                 table: "Orders",
                 column: "CreatorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_InvoiceInId",
-                table: "Orders",
-                column: "InvoiceInId",
-                unique: true,
-                filter: "[InvoiceInId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_IsDeleted",
@@ -1275,6 +1349,11 @@
                 filter: "[CargoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderTos_CarrierOrderId",
+                table: "OrderTos",
+                column: "CarrierOrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderTos_CompanyId",
                 table: "OrderTos",
                 column: "CompanyId");
@@ -1285,9 +1364,14 @@
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderTos_CurrencyId",
+                name: "IX_OrderTos_CurrencyInId",
                 table: "OrderTos",
-                column: "CurrencyId");
+                column: "CurrencyInId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderTos_CurrencyOutId",
+                table: "OrderTos",
+                column: "CurrencyOutId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderTos_DocumentationId",
@@ -1295,6 +1379,11 @@
                 column: "DocumentationId",
                 unique: true,
                 filter: "[DocumentationId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderTos_InvoiceInId",
+                table: "OrderTos",
+                column: "InvoiceInId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderTos_IsDeleted",
@@ -1436,10 +1525,13 @@
                 name: "Cargos");
 
             migrationBuilder.DropTable(
+                name: "CarrierOrders");
+
+            migrationBuilder.DropTable(
                 name: "Documentations");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "InvoiceIns");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
@@ -1448,16 +1540,13 @@
                 name: "CargoTypes");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "InvoiceIns");
+                name: "BankDetails");
 
             migrationBuilder.DropTable(
-                name: "OrderFroms");
-
-            migrationBuilder.DropTable(
-                name: "OrderStatuses");
+                name: "InvoiceStatuses");
 
             migrationBuilder.DropTable(
                 name: "VehicleLoadingBodies");
@@ -1466,7 +1555,13 @@
                 name: "VehicleTypes");
 
             migrationBuilder.DropTable(
-                name: "BankDetails");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "OrderFroms");
+
+            migrationBuilder.DropTable(
+                name: "OrderStatuses");
 
             migrationBuilder.DropTable(
                 name: "OrderTypes");
@@ -1487,7 +1582,7 @@
                 name: "Comunicators");
 
             migrationBuilder.DropTable(
-                name: "Currency");
+                name: "Currencies");
 
             migrationBuilder.DropTable(
                 name: "TaxCountries");

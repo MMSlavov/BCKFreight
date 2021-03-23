@@ -21,17 +21,6 @@
                     <input asp-for="OrderFromReferenceNum" class="form-control" placeholder="Reference number" />
                     <span asp-validation-for="OrderFromReferenceNum" class="text-danger"></span>
                 </div>
-                <div class="form-row ml-2">
-                    <div class="form-group col-2">
-                        <label class="control-label">@localizer["Price in"]</label>
-                        <input asp-for="OrderFromPriceNetIn" class="form-control" data-val="false" />
-                        <span asp-validation-for="OrderFromPriceNetIn" class="text-danger"></span>
-                    </div>
-                    <div class="form-group ml-2">
-                        <label class="control-label">@localizer["Currency"]</label>
-                        <select asp-for="OrderFromCurrencyId" class="form-control" asp-items="currencyItems"></select>
-                    </div>
-                </div>
         </div>
         <div class="tab rounded" id="cTabs">
             @for (int i = 0; i < orderTos.Count; i++)
@@ -54,9 +43,9 @@
                     <div class="form-group col-5">
                         <div class="form-group">
                             <label class="control-label">@localizer["Carrier company"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>
-                            <select asp-for="OrderTos[oi].CompanyId" class="form-control selectpicker" data-live-search="true" asp-items="companyItems">
+                            <select asp-for="OrderTos[oi].CarrierOrderCompanyId" class="form-control selectpicker" data-live-search="true" asp-items="companyItems">
                             </select>
-                            <span asp-validation-for="OrderTos[oi].CompanyId" class="text-danger"></span>
+                            <span asp-validation-for="OrderTos[oi].CarrierOrderCompanyId" class="text-danger"></span>
                         </div>
                         <div class="form-row ml-2">
                             <div class="form-group col-5">
@@ -66,7 +55,18 @@
                             </div>
                             <div class="form-group ml-2">
                                 <label class="control-label">@localizer["Currency"]</label>
-                                <select asp-for="OrderTos[oi].CurrencyId" class="form-control" asp-items="currencyItems"></select>
+                                <select asp-for="OrderTos[oi].CurrencyOutId" class="form-control" asp-items="currencyItems"></select>
+                            </div>
+                        </div>
+                        <div class="form-row ml-2">
+                            <div class="form-group col-5">
+                                <label class="control-label">@localizer["Price in"]</label>
+                                <input asp-for="OrderTos[oi].PriceNetIn" class="form-control" data-val="false" />
+                                <span asp-validation-for="OrderTos[oi].PriceNetIn" class="text-danger"></span>
+                            </div>
+                            <div class="form-group ml-2">
+                                <label class="control-label">@localizer["Currency"]</label>
+                                <select asp-for="OrderTos[oi].CurrencyInId" class="form-control" asp-items="currencyItems"></select>
                             </div>
                         </div>
                     </div>

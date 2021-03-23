@@ -47,6 +47,8 @@
 
         public virtual ICollection<CompanyContact> Contacts { get; set; }
 
+        public virtual ICollection<BankDetails> BankDetails { get; set; }
+
         public virtual ICollection<OrderTo> OrderTos { get; set; }
 
         public virtual ICollection<OrderFrom> OrderFroms { get; set; }

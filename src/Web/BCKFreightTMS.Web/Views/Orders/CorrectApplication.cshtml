@@ -1,13 +1,30 @@
 ﻿@model BCKFreightTMS.Web.ViewModels.Shared.ApplicationModel
+@{
+    var appPrev = this.Model.AppPreviews;
+}
 
 <div class="p-2">
-    <a asp-action="DownloadApplication" asp-route-id="@Model.OrderId" id="downloadBtn" class="btn btn-primary">Download</a>
-    <a href="@(Model.ReturnUrl??"/Orders/Index")" class="btn btn-secondary">Close</a>
+    <a href="@(Model.ReturnUrl??"/Orders/Index")" class="btn btn-secondary offset-10">Close</a>
 </div>
 
-<div class="mt-3 p-5 bg-white shadow" style=" width: 24cm; margin: auto;">
-    @Html.Raw(Model.ApplicationHtml)
+<div class="tab rounded" id="tabs">
+    @for (int i = 0; i < appPrev.Count; i++)
+    {
+        <a class="btn tablinks @(i == 0 ? "active-tab":"")" id="app@(i)">
+            @($" #{i + 1}")
+        </a>
+    }
 </div>
+
+@for (int i = 0; i < appPrev.Count; i++)
+{
+    <div class="tabcontent pb-4" id="app@(i)" @(i == 0 ? "style=display:block" : "")>
+        <a asp-action="DownloadApplication" asp-route-id="@appPrev[i].CarrierOrderId" id="downloadBtn" class="btn btn-primary float-right" title="Download"><i class="fas fa-download"></i></a>
+        <div class="mt-3 p-5 bg-white shadow" style=" width: 24cm; margin: auto;">
+            @Html.Raw(appPrev[i].Html)
+        </div>
+    </div>
+}
 
 @section Scripts{
     <script>
@@ -16,5 +33,21 @@
                 $(".loading").hide()
             }, 4000);
         })
+        document.getElementById("tabs")
+            .addEventListener("click", (ev) => {
+                open(ev.target.id);
+            });
+
+        function open(id) {
+            let tabcontent = document.querySelectorAll(".tabcontent");
+            for (const t of tabcontent) {
+                t.style.display = "none";
+            }
+            [...document.querySelectorAll(".tablinks")].forEach((t) => {
+                t.className = t.className.replace(" active-tab", "");
+            });
+            document.querySelector(".tabcontent[id=" + id + "]").style.display = "block";
+            document.querySelector(".tablinks[id=" + id + "]").className += " active-tab";
+        }
     </script>
 }

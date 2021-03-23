@@ -20,8 +20,9 @@
 
         public virtual ApplicationUser Creator { get; set; }
 
-        [MaxLength(15)]
-        public string ReferenceNum { get; set; }
+        public int DueDaysFrom { get; set; }
+
+        public int DueDaysTo { get; set; }
 
         public int? OrderFromId { get; set; }
 
@@ -32,12 +33,10 @@
 
         public virtual OrderStatus Status { get; set; }
 
-        public int? InvoiceInId { get; set; }
-
-        public virtual InvoiceIn InvoiceIn { get; set; }
-
         [Column(TypeName = "nvarchar(MAX)")]
         public string FailReason { get; set; }
+
+        public virtual ICollection<CarrierOrder> CarrierOrders { get; set; }
 
         public virtual ICollection<OrderTo> OrderTos { get; set; }
     }

@@ -43,7 +43,7 @@
                 var codeStr = code.ToString();
                 if (codeStr != companyCurrency)
                 {
-                    await this.dbContext.Currency.AddAsync(new Currency { Name = codeStr, AdminId = adminId });
+                    await this.dbContext.Currencies.AddAsync(new Currency { Name = codeStr, AdminId = adminId });
                 }
             }
         }

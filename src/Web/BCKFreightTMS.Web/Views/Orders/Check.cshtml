@@ -4,7 +4,7 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @inject UserManager<ApplicationUser> userManager
 @inject BCKFreightTMS.Services.Data.IFinanceService financeService
-@model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListOrderViewModel>
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListOrderToViewModel>
 @{
     var user = await this.userManager.GetUserAsync(this.User);
     var companyCurrency = user.Company.TaxCurrency.Name;
@@ -20,11 +20,14 @@
             <th>
                 Order
             </th>
-            <th>
+            @*<th>
                 Client
-            </th>
+            </th>*@
             <th>
                 Carrier
+            </th>
+            <th>
+                Voyage
             </th>
             <th>
                 Margin
@@ -36,31 +39,27 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var order in this.Model)
+        @foreach (var orderTo in this.Model)
         {
             <tr>
                 <td>
-                    <p class="m-0">@order.ReferenceNum</p>
-                    <span class="text-bold">@order.CreatedOn.ToLocalTime().ToShortDateString()</span>
-                    @Html.Raw(order.Voyage)
+                    <span>@orderTo.CreatedOn.ToLocalTime().ToShortDateString()</span>
+                    <p class="m-0 text-bold">@orderTo.CarrierOrderReferenceNum</p>
                 </td>
                 <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderFromCompanyName)</span>
-                    <p class="m-0">@($"{order.OrderFromContactFirstName} {order.OrderFromContactLastName}")</p>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CarrierOrderCompanyName)</span>
+                    <p class="m-0">@($"{orderTo.ContactFirstName} {orderTo.ContactLastName}")</p>
                 </td>
+                @*<td>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderOrderFromCompanyName)</span>
+                    <p class="m-0">@($"{orderTo1.ContactFirstName} {orderTo1.ContactLastName}")</p>
+                </td>*@
                 <td>
-                    @{
-                        var priceOut = 0m;
-                    }
-                    @foreach (var orderTo in order.OrderTos)
-                    {
-                        <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CompanyName)</span>
-                        <p class="m-0">@($"{orderTo.ContactFirstName} {orderTo.ContactLastName}")</p>
-                        priceOut += this.financeService.GetAmount(orderTo.CurrencyId, orderTo.PriceNetOut);
-                    }
+                    @Html.Raw(orderTo.Voyage)
                 </td>
                 @{
-                    var priceIn = this.financeService.GetAmount(order.OrderFromCurrencyId, order.OrderFromPriceNetIn);
+                    var priceOut = this.financeService.GetAmount(orderTo.CurrencyOutId, orderTo.PriceNetOut);
+                    var priceIn = this.financeService.GetAmount(orderTo.CurrencyInId, orderTo.PriceNetIn);
                     var margin = (priceIn - priceOut);
                 }
                 @if (margin > 0)
@@ -78,12 +77,12 @@
                     </td>
                 }
                 <td class="align-middle text-center">
-                    @if (order.StatusName != OrderStatusNames.Finished.ToString())
+                    @*@if (order.OrderStatusName != OrderStatusNames.Finished.ToString())
                     {
                         string action;
                         string btnColor;
                         string btnState = string.Empty;
-                        switch (order.StatusName)
+                        switch (order.OrderStatusName)
                         {
                             case "DocumentationCheck":
                                 action = "Finish";
@@ -108,27 +107,27 @@
                         }
                         if (action == "ConfirmApplication")
                         {
-                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', 'Confirm application')" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
+                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', 'Confirm application')" class="btn btn-@btnColor">@localizer[order.OrderStatusName]</a>
                         }
                         else
                         {
-                            <a asp-action="@action" asp-route-id="@order.Id" class="btn btn-@btnColor @btnState">@localizer[order.StatusName]</a>
                         }
                     }
                     else
                     {
-                        <a class="btn btn-success disabled">@order.StatusName</a>
+                        <a class="btn btn-success disabled">@order.OrderStatusName</a>
 
-                    }
+                    }*@
+                    <a asp-action="Finish" asp-route-id="@orderTo.Id" class="btn btn-primary">@localizer["Invoice in"]</a>
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
-                    <a asp-action="Edit" asp-route-id="@order.Id" asp-route-returnUrl="@Url.Action("Check", "Orders", new { area = "" })" title="Edit"><i class="p-1 fas fa-edit"></i></a>
-                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@order.Id', 'Details')" title="Details">
+                    @*<a asp-action="Edit" asp-route-id="@order.Id" asp-route-returnUrl="@Url.Action("Check", "Orders", new { area = "" })" title="Edit"><i class="p-1 fas fa-edit"></i></a>*@
+                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@orderTo.Id', 'Details')" title="Details">
                         <span>
                             <i class="p-1 fas fa-info-circle"></i>
                         </span>
                     </a>
-                    <a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>
+                    @*<a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>*@
                 </td>
             </tr>
         }

@@ -32,6 +32,10 @@
         private IDeletableEntityRepository<OrderStatus> orderStatuses;
         private IDeletableEntityRepository<VehicleType> vehicleTypes;
         private IDeletableEntityRepository<BankDetails> bankDetails;
+        private EfDeletableEntityRepository<CarrierOrder> carrierOrder;
+        private IDeletableEntityRepository<OrderTo> orderTos;
+        private IDeletableEntityRepository<InvoiceIn> invoiceIns;
+        private IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
 
         // [Fact]
         // public void GetAllTest()
@@ -50,17 +54,16 @@
         //    var res = service.GetAll<ListOrderViewModel>().ToList();
         //    Assert.Empty(res);
         // }
-        //[Fact]
-        //public void LoadOrderInputModelTest()
-        //{
+        // [Fact]
+        // public void LoadOrderInputModelTest()
+        // {
         //    using var dbContext = this.GetDbContext();
         //    dbContext.Orders.Add(new Order { CreatorId = "test", CargoId = "test" });
         //    dbContext.SaveChanges();
         //    var service = this.GetContactsService(dbContext);
         //    var res = service.LoadOrderAcceptInputModel();
         //    Assert.NotNull(res);
-        //}
-
+        // }
         [Fact]
         public void GetContactsTest()
         {
@@ -135,9 +138,9 @@
             Assert.NotNull(res);
         }
 
-        //[Fact]
-        //public async void DeleteOrderTest()
-        //{
+        // [Fact]
+        // public async void DeleteOrderTest()
+        // {
         //    using var dbContext = this.GetDbContext();
         //    var order = new Order { CreatorId = "test", CargoId = "test" };
         //    order.OrderActions.Add(new OrderAction { OrderId = order.Id });
@@ -146,8 +149,7 @@
         //    var service = this.GetContactsService(dbContext);
         //    var res = await service.DeleteAsync(dbContext.Orders.First().Id);
         //    Assert.True(res);
-        //}
-
+        // }
         [Fact]
         public async void DeleteOrderNullTest()
         {
@@ -203,6 +205,10 @@
             this.currencies = repoFactory.GetEfDeletableEntityRepository<Currency>(dbContext);
             this.documentations = repoFactory.GetEfDeletableEntityRepository<Documentation>(dbContext);
             this.bankDetails = repoFactory.GetEfDeletableEntityRepository<BankDetails>(dbContext);
+            this.carrierOrder = repoFactory.GetEfDeletableEntityRepository<CarrierOrder>(dbContext);
+            this.orderTos = repoFactory.GetEfDeletableEntityRepository<OrderTo>(dbContext);
+            this.invoiceIns = repoFactory.GetEfDeletableEntityRepository<InvoiceIn>(dbContext);
+            this.invoiceStatuses = repoFactory.GetEfDeletableEntityRepository<InvoiceStatus>(dbContext);
 
             var store = new Mock<IUserStore<ApplicationUser>>();
             var userMan = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
@@ -227,6 +233,10 @@
                 this.currencies,
                 this.documentations,
                 this.bankDetails,
+                this.carrierOrder,
+                this.orderTos,
+                this.invoiceIns,
+                this.invoiceStatuses,
                 mapper.Object,
                 emailSender.Object);
         }

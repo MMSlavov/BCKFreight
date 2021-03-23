@@ -6,12 +6,14 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ContactsService : IContactsService
     {
@@ -19,6 +21,8 @@
         private readonly IDeletableEntityRepository<Person> peopleRepository;
         private readonly IDeletableEntityRepository<TaxCountry> taxCtrRepo;
         private readonly IDeletableEntityRepository<PersonRole> rolesRepo;
+        private readonly IDeletableEntityRepository<BankDetails> bankDetails;
+        private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
         public ContactsService(
@@ -26,12 +30,16 @@
             IDeletableEntityRepository<Person> peopRepo,
             IDeletableEntityRepository<TaxCountry> taxCtrRepo,
             IDeletableEntityRepository<PersonRole> rolesRepo,
+            IDeletableEntityRepository<BankDetails> bankDetails,
+            IMapper mapper,
             IEmailSender emailSender)
         {
             this.companiesRepository = compRepo;
             this.peopleRepository = peopRepo;
             this.taxCtrRepo = taxCtrRepo;
             this.rolesRepo = rolesRepo;
+            this.bankDetails = bankDetails;
+            this.mapper = mapper;
             this.emailSender = emailSender;
         }
 
@@ -127,6 +135,30 @@
             person.Comunicators.AdminId = person.AdminId;
             await this.peopleRepository.SaveChangesAsync();
             return person.Id;
+        }
+
+        public async Task<int> AddBankDetails(BankDetailsModel input)
+        {
+            var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == input.CompanyId);
+            var details = this.mapper.Map<BankDetails>(input);
+
+            details.Company = company;
+            await this.bankDetails.AddAsync(details);
+            await this.bankDetails.SaveChangesAsync();
+            return details.Id;
+        }
+
+        public IEnumerable<SelectListItem> GetBankDetails(string companyId)
+        {
+            var bankDetails = this.bankDetails.AllAsNoTracking()
+                                        .Where(bd => bd.CompanyId == companyId)
+                                        .Select(bd => new SelectListItem
+                                        {
+                                            Text = bd.BankIban,
+                                            Value = bd.Id.ToString(),
+                                        })
+                                        .ToList();
+            return bankDetails;
         }
 
         public IEnumerable<AllContactsViewModel> GetAll()

@@ -65,4 +65,32 @@ public static class NavigationIndicatorHelper
             return null;
         }
     }
+
+    public static string MakeActiveClass(this IUrlHelper urlHelper, string result, string[] actions)
+    {
+        try
+        {
+            if (urlHelper.ActionContext.RouteData.Values.ContainsKey("page"))
+            {
+                return null;
+            }
+
+            string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
+            if (string.IsNullOrEmpty(methodName))
+            {
+                return null;
+            }
+
+            if (actions.Any(c => methodName.Equals(c, StringComparison.OrdinalIgnoreCase)))
+            {
+                return result;
+            }
+
+            return null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
 }

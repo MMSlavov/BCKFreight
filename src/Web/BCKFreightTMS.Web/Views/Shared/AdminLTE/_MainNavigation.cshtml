@@ -2,7 +2,8 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> userManager
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-@{ var user = await this.userManager.GetUserAsync(this.User);
+@{  
+    var user = await this.userManager.GetUserAsync(this.User);
     string picSrc;
     if (user.ProfilePicture is null)
     {
@@ -74,25 +75,55 @@
                                     <p>@localizer["Accepted"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="WaitingConfirm" class="nav-link @Url.MakeActiveClass("orders", "waitingconfirm", "active")">
-                                    <i class="nav-icon fas fa-pause-circle"></i>
-                                    <p>@localizer["WaitingConfirm"]</p>
+                                    <i class="nav-icon fas fa-pause-circle m-0"></i>
+                                    <p style="font-size:15px" class="align-self-center">@localizer["WaitingConfirm"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="Index" class="nav-link @Url.MakeActiveClass("orders", "index", "active")">
                                     <i class="nav-icon fas fa-flag-checkered"></i>
                                     <p>@localizer["Active"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="Check" class="nav-link @Url.MakeActiveClass("orders", "check", "active")">
-                                    <i class="nav-icon fas fa-tasks"></i>
-                                    <p>@localizer["Check"]</p>
-                                </a>
-                                <a asp-area="" asp-controller="Orders" asp-action="Finished" class="nav-link @Url.MakeActiveClass("orders", "finished", "active")">
-                                    <i class="nav-icon fas fa-archive"></i>
-                                    <p>@localizer["Finished"]</p>
+                                    <i class="nav-icon fas fa-tasks m-0"></i>
+                                    <p style="font-size:14px" class="align-self-center">@localizer["Check"]</p>
                                 </a>
                                 <a asp-area="" asp-controller="Orders" asp-action="Failed" class="nav-link @Url.MakeActiveClass("orders", "failed", "active")">
                                     <i class="nav-icon fas fa-ban"></i>
                                     <p>@localizer["Failed"]</p>
                                 </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "invoices" }, "menu-open")">
+                        <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "invoices" }, "active")">
+                            <i class="nav-icon fas fa-archive"></i>
+                            <p>
+                                @localizer["Invoices"]
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item has-treeview pl-2 @Url.MakeActiveClass( "menu-open", new[]{"filed", "incomplete"})">
+                                <a href="#" class="nav-link @Url.MakeActiveClass("active", new[]{"filed", "incomplete"})">
+                                    <i class="nav-icon fas fa-arrow-alt-circle-down"></i>
+                                    <p>
+                                        @localizer["Incoming"]
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item pl-2">
+                                        <a asp-area="" asp-controller="Invoices" asp-action="Incomplete" class="nav-link @Url.MakeActiveClass("invoices", "incomplete", "active")">
+                                            <i class="nav-icon fas fa-dot-circle"></i>
+                                            <p>@localizer["Incomplete"]</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item pl-2">
+                                        <a asp-area="" asp-controller="Invoices" asp-action="Filed" class="nav-link @Url.MakeActiveClass("invoices", "filed", "active")">
+                                            <i class="nav-icon fas fa-dot-circle"></i>
+                                            <p>@localizer["Filed"]</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

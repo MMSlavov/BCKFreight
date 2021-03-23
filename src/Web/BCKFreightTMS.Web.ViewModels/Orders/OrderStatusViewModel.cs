@@ -32,7 +32,6 @@
         // public ICollection<ActionStatusInputModel> Actions { get; set; }
 
         // public DocumentationInputModel Documentation { get; set; }
-
         public ICollection<KeyValuePair<string, string>> DriversMobiles { get; set; }
 
         public List<OrderToModel> OrderTos { get; set; }

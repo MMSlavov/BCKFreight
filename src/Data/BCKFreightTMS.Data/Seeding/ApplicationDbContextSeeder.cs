@@ -34,6 +34,7 @@
                               new ActionTypesSeeder(),
                               new ActionNotFinishedReasonsSeeder(),
                               new CurrencyCodesSeeder(),
+                              new InvoiceStatusesSeeder(),
                           };
 
             foreach (var seeder in seeders)

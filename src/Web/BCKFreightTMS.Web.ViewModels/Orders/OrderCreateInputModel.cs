@@ -9,9 +9,11 @@
     {
         public string Id { get; set; }
 
-        public decimal OrderFromPriceNetIn { get; set; }
+        public int DueDaysTo { get; set; }
 
-        public int OrderFromCurrencyId { get; set; }
+        //public decimal OrderFromPriceNetIn { get; set; }
+
+        //public int OrderFromCurrencyId { get; set; }
 
         // public string CargoLoadingBodyName { get; set; }
 
@@ -24,8 +26,6 @@
         // public decimal PriceNetOut { get; set; }
 
         // public int CurrencyOutId { get; set; }
-
-        // public int DueDaysTo { get; set; }
 
         // [Required]
         // public string CompanyToId { get; set; }

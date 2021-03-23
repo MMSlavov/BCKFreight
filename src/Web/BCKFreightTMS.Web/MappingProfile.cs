@@ -40,17 +40,21 @@
             this.CreateMap<Company, CompanyViewModel>();
             this.CreateMap<Order, OrderFailModel>();
             this.CreateMap<OrderFailModel, Order>();
-            this.CreateMap<Order, InvoiceInOrderModel>();
             this.CreateMap<Company, InvoiceCompanyModel>();
             this.CreateMap<InvoiceCompanyModel, Company>();
             this.CreateMap<InvoiceIn, InvoiceInModel>();
+            this.CreateMap<InvoiceInModel, InvoiceIn>().ForMember(x => x.Id, opt => opt.Ignore());
             this.CreateMap<OrderTo, OrderToModel>().ForMember(x => x.OrderStatusActions, opt =>
                     opt.MapFrom(x => x.OrderActions));
             this.CreateMap<OrderToModel, OrderTo>();
             this.CreateMap<OrderTo, OrderToApplicationModel>();
             this.CreateMap<OrderTo, OrderToListModel>();
             this.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => $"<p class='m-0'>{string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}</p>"));
+                    opt.MapFrom(x => string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))));
+            this.CreateMap<CarrierOrder, CarrierOrderApplicationModel>();
+            this.CreateMap<CarrierOrder, CarrierOrderListModel>();
+            this.CreateMap<OrderTo, InvoiceInInputModel>();
+            this.CreateMap<BankDetailsModel, BankDetails>();
         }
     }
 }

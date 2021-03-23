@@ -1,8 +1,10 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AspNetCoreHero.ToastNotification.Abstractions;
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -19,15 +21,18 @@
         private readonly IVehiclesService vehiclesService;
         private readonly IStringLocalizer<VehiclesController> localizer;
         private readonly IDeletableEntityRepository<VehicleType> types;
+        private readonly INotyfService notyfService;
 
         public VehiclesController(
             IVehiclesService vehiclesService,
             IStringLocalizer<VehiclesController> localizer,
-            IDeletableEntityRepository<VehicleType> types)
+            IDeletableEntityRepository<VehicleType> types,
+            INotyfService notyfService)
         {
             this.vehiclesService = vehiclesService;
             this.localizer = localizer;
             this.types = types;
+            this.notyfService = notyfService;
         }
 
         public IActionResult Index()
@@ -109,7 +114,16 @@
                 return this.View(input);
             }
 
-            await this.vehiclesService.AddVehicleAsync(input);
+            try
+            {
+                await this.vehiclesService.AddVehicleAsync(input);
+            }
+            catch (Exception ex)
+            {
+                this.notyfService.Error(this.localizer[ex.Message]);
+                input = this.vehiclesService.LoadVehicleInputModel(input);
+                return this.View(input);
+            }
 
             return this.Json(new { isValid = true, redirectToUrl = string.Empty });
         }

@@ -7,12 +7,15 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IOrdersService
     {
         public IEnumerable<T> GetAll<T>(Expression<Func<Order, bool>> whereFilter);
+
+        public IEnumerable<T> GetAllOrderTos<T>(Expression<Func<OrderTo, bool>> whereFilter);
 
         public OrderAcceptInputModel LoadOrderAcceptInputModel(OrderAcceptInputModel model = null);
 
@@ -23,6 +26,8 @@
         public OrderFailModel LoadOrderFailModel(string orderId);
 
         public OrderApplicationModel GenerateApplicationModel(string orderId);
+
+        public CarrierOrderApplicationModel GenerateCarrierApplicationModel(string carrierOrderId);
 
         public IEnumerable<SelectListItem> GetContacts(string companyId);
 
@@ -50,16 +55,18 @@
 
         public OrderStatusViewModel LoadOrderStatusModel(string id);
 
-        public OrderFinishViewModel LoadOrderFinishModel(string orderId);
+        public Task FinishOrderToAsync(string orderToId);
+
+        public InvoiceInInputModel LoadOrderFinishModel(string orderId);
 
         public Task UpdateOrderStatusAsync(OrderStatusViewModel input);
 
-        public Task<string> FinishOrderAsync(OrderFinishViewModel input);
+        public Task<string> FinishInvoiceInAsync(InvoiceInInputModel input);
 
-        public bool ValidateFinishModel(OrderFinishViewModel input);
+        public bool ValidateFinishModel(InvoiceInInputModel input);
 
-        public Task MarkOrderForApproval(OrderFinishViewModel input);
+        public Task MarkInvoiceInForApproval(string invoiceId);
 
-        public Task ApproveOrder(OrderFinishViewModel input);
+        public Task ApproveInvoice(InvoiceInInputModel input);
     }
 }

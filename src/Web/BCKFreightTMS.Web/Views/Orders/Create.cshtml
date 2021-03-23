@@ -17,7 +17,6 @@
                         @(i > 0 ? $" #{i + 1}" : @localizer["Course"])
                     </a>
                 }
-                @*<a id="addCourse" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>*@
             </div>
             @for (int i = 0; i < orderTos.Count; i++)
             {
@@ -26,21 +25,21 @@
                     <div class="form-group pl-2">
                         <label class="control-label">@localizer["Carrier company"]</label><a href="javascript:" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', '@localizer["Add company"]')"><i class="fas fa-plus"></i></a>
                         <div class="row pl-2">
-                            <select asp-for="OrderTos[i].CompanyId" class="form-control col-5 selectpicker" data-live-search="true" asp-items="companyItems" required>
+                            <select asp-for="OrderTos[i].CarrierOrderCompanyId" class="form-control col-5 selectpicker" data-live-search="true" asp-items="companyItems" required>
                                 <option disabled selected hidden>Select</option>
                             </select>
                             <select id="areaFilter" class="form-control col-3 ml-2" asp-items="@Model.AreasItems">
                                 <option hidden disabled selected>@localizer["Filter by area"]</option>
                             </select>
                         </div>
-                        <span asp-validation-for="OrderTos[i].CompanyId" class="text-danger"></span>
+                        <span asp-validation-for="OrderTos[i].CarrierOrderCompanyId" class="text-danger"></span>
                     </div>
                     <div class="form-group pl-2">
                         <label class="control-label">@localizer["Price"]</label>
                         <div class="row pl-2">
                             <input asp-for="OrderTos[i].PriceNetOut" class="form-control col-3" data-val="false" />
-                            <select asp-for="OrderTos[i].CurrencyId" class="form-control col-1 ml-2" asp-items="currencyItems"></select>
-                            <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Client price"]: <b class="text-dark">@Model.OrderFromPriceNetIn</b></label>
+                            <select asp-for="OrderTos[i].CurrencyOutId" class="form-control col-1 ml-2" asp-items="currencyItems"></select>
+                            <label class="text-bold text-black-50 ml-2 mt-1">@localizer["Client price"]: <b class="text-dark">@Model.OrderTos[i].PriceNetIn</b></label>
                         </div>
                         <span asp-validation-for="OrderTos[i].PriceNetOut" class="text-danger"></span>
                     </div>
@@ -54,7 +53,7 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <div class="row radios">
-                                <div class="form-check ml-2"><label><input class="form-check-input" type="radio" name="vehicleType@(i)" data-action="AddTruckModal" data-modal_title="@localizer["Add truck"]" checked/>@localizer["Truck"]</label></div>
+                                <div class="form-check ml-2"><label><input class="form-check-input" type="radio" name="vehicleType@(i)" data-action="AddTruckModal" data-modal_title="@localizer["Add truck"]" checked />@localizer["Truck"]</label></div>
                                 <div class="form-check ml-2"><label><input class="form-check-input" type="radio" name="vehicleType@(i)" data-action="AddSoloModal" id="radSolo" data-modal_title="@localizer["Add solo"]" />@localizer["Solo"]</label></div>
                                 <a href="javascript:" class="pl-2 addVehicle" style="display:none"><i class="fas fa-plus"></i></a>
                             </div>
@@ -89,10 +88,16 @@
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.OrderTos[i].Id)
+                @Html.HiddenFor(m => m.OrderTos[i].PriceNetIn)
+                @Html.HiddenFor(m => m.OrderTos[i].CurrencyInId)
             }
         </div>
-        @Html.HiddenFor(m => m.OrderFromPriceNetIn)
-        @Html.HiddenFor(m => m.OrderFromCurrencyId)
+        <div class="form-row ml-2">
+            <label>@localizer["Due days"]: </label>
+            <label class="ml-4"><input class="form-check-input" type="radio" asp-for="DueDaysTo" value="15" />15 @localizer["days"]</label>
+            <label class="ml-4"><input class="form-check-input" type="radio" asp-for="DueDaysTo" value="30" checked="" />30 @localizer["days"]</label>
+            <label class="ml-4"><input class="form-check-input" type="radio" asp-for="DueDaysTo" value="45" />45 @localizer["days"]</label>
+        </div>
         @Html.HiddenFor(m => m.Id)
         <div class="form-group">
             <button type="submit" title="Create" class="btn btn-primary mr-1" style="width:8em">@localizer["Create"]</button>

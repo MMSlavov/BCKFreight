@@ -2,9 +2,11 @@
 {
     using System.Linq;
 
+    using AutoMapper;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Data.Repositories;
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,7 @@
         private IDeletableEntityRepository<Person> peopleRepository;
         private IDeletableEntityRepository<TaxCountry> taxCtrRepo;
         private IDeletableEntityRepository<PersonRole> personRolesRepo;
+        private IDeletableEntityRepository<BankDetails> bankDetails;
 
         [Fact]
         public async void AddCompanyTest()
@@ -173,9 +176,11 @@
             this.peopleRepository = repoFactory.GetEfDeletableEntityRepository<Person>(dbContext);
             this.taxCtrRepo = repoFactory.GetEfDeletableEntityRepository<TaxCountry>(dbContext);
             this.personRolesRepo = repoFactory.GetEfDeletableEntityRepository<PersonRole>(dbContext);
+            this.bankDetails = repoFactory.GetEfDeletableEntityRepository<BankDetails>(dbContext);
             var emailSender = new Mock<IEmailSender>();
+            var mapper = new Mock<IMapper>();
 
-            return new ContactsService(this.companiesRepository, this.peopleRepository, this.taxCtrRepo, this.personRolesRepo, emailSender.Object);
+            return new ContactsService(this.companiesRepository, this.peopleRepository, this.taxCtrRepo, this.personRolesRepo, this.bankDetails, mapper.Object, emailSender.Object);
         }
     }
 }

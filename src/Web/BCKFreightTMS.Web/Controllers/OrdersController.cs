@@ -13,6 +13,7 @@
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Messaging;
+    using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Authorization;
@@ -91,18 +92,8 @@
 
         public IActionResult Check()
         {
-            var orders = this.ordersService.GetAll<ListOrderViewModel>(o =>
-                                            o.Status.Name == OrderStatusNames.DocumentationCheck.ToString() ||
-                                            o.Status.Name == OrderStatusNames.AwaitingApproval.ToString() ||
-                                            o.Status.Name == OrderStatusNames.Approved.ToString())
-                                           .ToList();
-            return this.View(orders);
-        }
-
-        public IActionResult Finished()
-        {
-            var orders = this.ordersService.GetAll<ListFinishedOrderViewModel>(o =>
-                                            o.Status.Name == OrderStatusNames.Finished.ToString())
+            var orders = this.ordersService.GetAllOrderTos<ListOrderToViewModel>(o => o.IsFinished &&
+                                                                                      o.InvoiceInId == null)
                                            .ToList();
             return this.View(orders);
         }
@@ -122,19 +113,20 @@
             var order = this.orders.All().FirstOrDefault(c => c.Id == id);
             var orderTos = order.OrderTos.ToList();
             data.Add("Id", order.Id);
-            data.Add("Reference number to", order.ReferenceNum);
             data.Add("Reference number from", order.OrderFrom?.ReferenceNum);
             data.Add("Client company", order.OrderFrom?.Company.Name);
-            data.Add("Client price", order.OrderFrom?.PriceNetIn.ToString());
-            data.Add("Client currency", order.OrderFrom?.Currency.Name);
+
             data.Add("Client contact", order.OrderFrom?.Contact?.FirstName);
 
             for (int i = 0; i < orderTos.Count; i++)
             {
-                data.Add($"C{i + 1} Carrier vehicle", orderTos[i].Vehicle.RegNumber);
-                data.Add($"C{i + 1} Carrier company", orderTos[i].Company.Name);
+                data.Add($"C{i + 1} Carrier vehicle", orderTos[i].Vehicle?.RegNumber);
+                data.Add($"C{i + 1} Carrier company", orderTos[i].CarrierOrder?.Company.Name);
+                data.Add($"C{i + 1} Reference number to", orderTos[i].CarrierOrder?.ReferenceNum);
                 data.Add($"C{i + 1} Carrier price", orderTos[i].PriceNetOut.ToString());
-                data.Add($"C{i + 1} Carrier currency", orderTos[i].Currency.Name);
+                data.Add($"C{i + 1} Carrier currency", orderTos[i].CurrencyOut?.Name);
+                data.Add($"C{i + 1} Client price", orderTos[i].PriceNetIn.ToString());
+                data.Add($"C{i + 1} Client currency", orderTos[i].CurrencyIn.Name);
                 data.Add($"C{i + 1} Carrier contact", orderTos[i].Contact?.FirstName);
                 data.Add($"C{i + 1} Carrier driver", orderTos[i].Drivers.FirstOrDefault()?.Driver.FirstName);
                 data.Add($"C{i + 1} Cargo name", orderTos[i].Cargo.Name);
@@ -173,7 +165,7 @@
 
         public async Task<IActionResult> DownloadApplication(string id)
         {
-            var model = this.ordersService.GenerateApplicationModel(id);
+            var model = this.ordersService.GenerateCarrierApplicationModel(id);
             var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
             var pdfData = this.pdfService.SelectPdfConvert(html);
             return this.File(pdfData, GlobalConstants.PdfMimeType, $"OrderContract{model.ReferenceNum}.pdf");
@@ -420,7 +412,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Finish(OrderStatusViewModel input)
+        public async Task<IActionResult> FinishOrderTo(string orderToId, OrderStatusViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -429,22 +421,25 @@
 
             await this.ordersService.UpdateOrderStatusAsync(input);
 
-            if (this.orders.All().FirstOrDefault(o => o.Id == input.Id).OrderTos
-                                 .SelectMany(o => o.OrderActions)
-                                 .Any(a => !a.IsFinished))
+            // if (this.orders.All().FirstOrDefault(o => o.Id == input.Id).OrderTos
+            //                      .SelectMany(o => o.OrderActions)
+            //                      .Any(a => !a.IsFinished))
+            // {
+            //     this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
+            //     return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
+            // }
+            try
             {
-                this.ModelState.AddModelError(string.Empty, "All actions must be completed to finish order.");
-                return this.RedirectToAction("Status", this.ordersService.LoadOrderStatusModel(input.Id));
+                await this.ordersService.FinishOrderToAsync(orderToId);
+            }
+            catch (Exception ex)
+            {
+                this.notyfService.Error(ex.Message);
             }
 
-            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
-            order.StatusId = this.orderStatuses.AllAsNoTracking()
-                                   .FirstOrDefault(s => s.Name == OrderStatusNames.DocumentationCheck.ToString())
-                                   .Id;
-            await this.orders.SaveChangesAsync();
-            var model = this.ordersService.LoadOrderFinishModel(input.Id);
+            await this.ordersService.UpdateOrderStatusAsync(input);
 
-            return this.View(model);
+            return this.Redirect(@$"/Orders/Status/{input.Id}");
         }
 
         public IActionResult Finish(string id)
@@ -464,18 +459,25 @@
             return this.View(new ConfirmApplicationModel { OrderId = id });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> FinishOrder(OrderFinishViewModel input)
+        public IActionResult GetOrderTo(string id)
         {
-            if (!this.ordersService.ValidateFinishModel(input) &&
-                input.OrderStatus.StatusName != OrderStatusNames.Approved.ToString())
+            var viewModel = this.ordersService.GetAllOrderTos<OrderToInvoiceModel>(o => o.CarrierOrder.CompanyId == id &&
+                                                                                        o.IsFinished &&
+                                                                                        o.InvoiceInId == null);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Finish(InvoiceInInputModel input)
+        {
+            var invoiceId = await this.ordersService.FinishInvoiceInAsync(input);
+            if (!this.ordersService.ValidateFinishModel(input))
             {
-                await this.ordersService.MarkOrderForApproval(input);
-                this.notyfService.Warning(this.localizer["Order marked for approval."]);
+                await this.ordersService.MarkInvoiceInForApproval(invoiceId);
+                this.notyfService.Warning(this.localizer["Invoice marked for approval."]);
             }
             else
             {
-                await this.ordersService.FinishOrderAsync(input);
                 this.notyfService.Success(this.localizer["Order finished."]);
             }
 
@@ -484,31 +486,36 @@
 
         [Authorize(Roles = "SuperUser")]
         [HttpPost]
-        public async Task<IActionResult> ApproveDocumentation(OrderFinishViewModel input)
+        public async Task<IActionResult> ApproveDocumentation(InvoiceInInputModel input)
         {
-            await this.ordersService.ApproveOrder(input);
+            await this.ordersService.ApproveInvoice(input);
             this.notyfService.Success(this.localizer["Order approved."]);
 
-            return this.RedirectToAction("Finish", "Orders", new { id = input.OrderStatus.Id });
+            return this.RedirectToAction("Finish", "Orders", new { id = input.InvoiceIn.Id });
         }
 
         private async Task<ApplicationModel> LoadApplicationModel(string orderId)
         {
             var model = this.ordersService.GenerateApplicationModel(orderId);
-            var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
-            var appModel = new ApplicationModel { ApplicationHtml = html, OrderId = orderId };
+            var appModel = new ApplicationModel { OrderId = orderId, AppPreviews = new List<ApplicationPreview>() };
+            foreach (var carrierOrder in model.CarrierOrders)
+            {
+                var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", carrierOrder);
+                appModel.AppPreviews.Add(new ApplicationPreview { Html = html, CarrierOrderId = carrierOrder.Id });
+            }
+
             return appModel;
         }
 
-        //private async Task SendContractToCompanyAsync(string orderId)
-        //{
+        // private async Task SendContractToCompanyAsync(string orderId)
+        // {
         //    var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
         //    if (order is null || order.Status.Name == OrderStatusNames.Finished.ToString())
         //    {
         //        throw new ArgumentException("Order do not exist");
         //    }
 
-        //    var model = this.ordersService.GenerateApplicationModel(order.Id);
+        // var model = this.ordersService.GenerateApplicationModel(order.Id);
         //    var html = await this.viewRenderService.RenderToStringAsync("Orders/Application", model);
         //    var pdfData = this.pdfService.SelectPdfConvert(html);
         //    var pdf = new EmailAttachment
@@ -523,6 +530,6 @@
         //            "Order contract",
         //            emailHtml,
         //            new[] { pdf });
-        //}
+        // }
     }
 }

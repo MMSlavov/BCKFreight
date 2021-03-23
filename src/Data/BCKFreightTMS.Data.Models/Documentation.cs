@@ -29,7 +29,7 @@
 
         public virtual Documentation RecievedDocumentation { get; set; }
 
-        public int? OrderToId { get; set; }
+        public string OrderToId { get; set; }
 
         public virtual OrderTo Order { get; set; }
     }

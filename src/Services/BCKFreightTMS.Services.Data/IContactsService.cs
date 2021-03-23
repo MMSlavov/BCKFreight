@@ -6,6 +6,7 @@
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IContactsService
     {
@@ -14,6 +15,10 @@
         Task<string> AddPersonAsync(PersonInputModel input);
 
         Task<string> AddCompanyAsync(CompanyInputModel input);
+
+        Task<int> AddBankDetails(BankDetailsModel input);
+
+        public IEnumerable<SelectListItem> GetBankDetails(string companyId);
 
         PersonInputModel GetPersonInputModel(PersonInputModel model = null);
 

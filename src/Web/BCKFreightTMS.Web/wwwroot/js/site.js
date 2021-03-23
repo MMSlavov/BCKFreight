@@ -21,7 +21,7 @@ function displayBusyIndicator() {
 
 let instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
 
-showInPopup = (url, title) => {
+showInPopup = (url, title, callback) => {
     $.ajax({
         type: 'GET',
         url: url,
@@ -29,7 +29,9 @@ showInPopup = (url, title) => {
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
-
+            if (callback) {
+                callback();
+            }
             // to make popup draggable
             $(".modal-header").on("mousedown", function (mousedownEvt) {
                 let $draggable = $(this);
@@ -52,7 +54,7 @@ showInPopup = (url, title) => {
     })
 }
 
-jQueryAjaxPost = form => {
+jQueryAjaxPost = (form, callback) => {
     try {
         $.ajax({
             type: 'POST',
@@ -75,6 +77,9 @@ jQueryAjaxPost = form => {
                 }
                 else {
                     $('#form-modal .modal-body').html(res.html);
+                }
+                if (callback) {
+                    callback(form);
                 }
             },
             error: function (err) {

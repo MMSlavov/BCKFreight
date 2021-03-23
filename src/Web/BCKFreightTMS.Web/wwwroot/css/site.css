@@ -162,6 +162,14 @@ for details on configuring this project to bundle and minify static web assets. 
             text-decoration: underline;
         }
 
+        .tab a.disabled-tab {
+            background-color: lightgreen;
+            color: white;
+            font-weight: bold;
+            text-decoration: underline;
+            pointer-events: none;
+        }
+
         .tab a.disabled {
             pointer-events: none
         }
@@ -204,7 +212,7 @@ dd {
     padding-top: 15px;
 }
 
-.table td, .table th {
+.dataTable td, .dataTable th {
     border-right: solid 1px #dee2e6;
     border-left: solid 1px #dee2e6;
     border-bottom: solid 1px #dee2e6;

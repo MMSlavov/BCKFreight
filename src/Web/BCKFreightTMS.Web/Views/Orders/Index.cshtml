@@ -40,7 +40,10 @@
         {
             <tr>
                 <td>
-                    <p class="m-0">@order.ReferenceNum</p>
+                    @foreach (var carrierOrder in order.CarrierOrders)
+                    {
+                        <p class="m-0">@carrierOrder.ReferenceNum</p>
+                    }
                     <span class="text-bold">@order.CreatedOn.ToLocalTime().ToShortDateString()</span>
                     @Html.Raw(order.Voyage)
                 </td>
@@ -51,16 +54,17 @@
                 <td>
                     @{
                         var priceOut = 0m;
+                        var priceIn = 0m;
                     }
                     @foreach (var orderTo in order.OrderTos)
                     {
-                        <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CompanyName)</span>
+                        <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CarrierOrderCompanyName)</span>
                         <p class="m-0">@($"{orderTo.ContactFirstName} {orderTo.ContactLastName}")</p>
-                        priceOut += this.financeService.GetAmount(orderTo.CurrencyId, orderTo.PriceNetOut);
+                        priceOut += this.financeService.GetAmount(orderTo.CurrencyOutId, orderTo.PriceNetOut);
+                        priceIn += this.financeService.GetAmount(orderTo.CurrencyInId, orderTo.PriceNetIn);
                     }
                 </td>
                 @{
-                    var priceIn = this.financeService.GetAmount(order.OrderFromCurrencyId, order.OrderFromPriceNetIn);
                     var margin = (priceIn - priceOut);
                 }
                 @if (margin > 0)

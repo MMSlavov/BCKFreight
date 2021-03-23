@@ -16,15 +16,21 @@
             this.Documentation = new DocumentationInputModel();
         }
 
-        public int? Id { get; set; }
+        public string Id { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Range(0, 9999999999.99)]
+        public decimal PriceNetIn { get; set; }
+
+        public int CurrencyInId { get; set; }
 
         [DataType(DataType.Currency)]
         [Range(0, 9999999999.99)]
         public decimal PriceNetOut { get; set; }
 
-        public int CurrencyId { get; set; }
+        public int? CurrencyOutId { get; set; }
 
-        public string CompanyId { get; set; }
+        public string CarrierOrderCompanyId { get; set; }
 
         public string VehicleId { get; set; }
 
@@ -34,7 +40,7 @@
 
         public string VehicleTrailerRegNumber { get; set; }
 
-        public string CompanyComunicatorsMobile1 { get; set; }
+        public string CarrierOrderCompanyComunicatorsMobile1 { get; set; }
 
         public string ContactComunicatorsMobile1 { get; set; }
 
@@ -42,11 +48,13 @@
 
         public string ContactFirstName { get; set; }
 
-        public string CompanyName { get; set; }
+        public string CarrierOrderCompanyName { get; set; }
 
         public string DriverId { get; set; }
 
         public string ContactId { get; set; }
+
+        public bool IsFinished { get; set; }
 
         public CargoInputModel Cargo { get; set; }
 

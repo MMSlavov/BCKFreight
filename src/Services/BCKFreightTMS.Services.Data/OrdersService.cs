@@ -36,6 +36,10 @@
         private readonly IDeletableEntityRepository<Currency> currencies;
         private readonly IDeletableEntityRepository<Documentation> documentations;
         private readonly IDeletableEntityRepository<BankDetails> bankDetails;
+        private readonly IDeletableEntityRepository<CarrierOrder> carrierOrders;
+        private readonly IDeletableEntityRepository<OrderTo> orderTos;
+        private readonly IDeletableEntityRepository<InvoiceIn> invoiceIns;
+        private readonly IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
@@ -55,6 +59,10 @@
             IDeletableEntityRepository<Currency> currencies,
             IDeletableEntityRepository<Documentation> documentations,
             IDeletableEntityRepository<BankDetails> bankDetails,
+            IDeletableEntityRepository<CarrierOrder> carrierOrders,
+            IDeletableEntityRepository<OrderTo> orderTos,
+            IDeletableEntityRepository<InvoiceIn> invoiceIns,
+            IDeletableEntityRepository<InvoiceStatus> invoiceStatuses,
             IMapper mapper,
             IEmailSender emailSender)
         {
@@ -73,6 +81,10 @@
             this.currencies = currencies;
             this.documentations = documentations;
             this.bankDetails = bankDetails;
+            this.carrierOrders = carrierOrders;
+            this.orderTos = orderTos;
+            this.invoiceIns = invoiceIns;
+            this.invoiceStatuses = invoiceStatuses;
             this.mapper = mapper;
             this.emailSender = emailSender;
         }
@@ -85,6 +97,17 @@
             }
 
             var orders = this.orders.All().Where(whereFilter).To<T>().ToList();
+            return orders;
+        }
+
+        public IEnumerable<T> GetAllOrderTos<T>(Expression<Func<OrderTo, bool>> whereFilter)
+        {
+            if (!this.orders.AllAsNoTracking().Any())
+            {
+                return new List<T>();
+            }
+
+            var orders = this.orderTos.All().Where(whereFilter).To<T>().ToList();
             return orders;
         }
 
@@ -140,9 +163,9 @@
                                                     .ToList();
             foreach (var orderTo in model.OrderTos)
             {
-                orderTo.ContactItems = this.GetContacts(orderTo.CompanyId);
-                orderTo.DriverItems = this.GetDrivers(orderTo.CompanyId);
-                orderTo.VehicleItems = this.GetVehicles(orderTo.CompanyId);
+                orderTo.ContactItems = this.GetContacts(orderTo.CarrierOrderCompanyId);
+                orderTo.DriverItems = this.GetDrivers(orderTo.CarrierOrderCompanyId);
+                orderTo.VehicleItems = this.GetVehicles(orderTo.CarrierOrderCompanyId);
             }
 
             return model;
@@ -201,11 +224,27 @@
 
             var model = this.mapper.Map<OrderApplicationModel>(order);
             var companyTaxCountry = model.CreatorCompany.TaxCountryName;
-            if (model.ReferenceNum == null)
+            foreach (var carrierOrder in model.CarrierOrders)
             {
-                model.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
-                                                                     companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
+                if (carrierOrder.ReferenceNum == null)
+                {
+                    carrierOrder.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
+                                                                         companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
+                }
             }
+
+            return model;
+        }
+
+        public CarrierOrderApplicationModel GenerateCarrierApplicationModel(string carrierOrderId)
+        {
+            var order = this.carrierOrders.All().FirstOrDefault(o => o.Id == carrierOrderId);
+            if (order is null)
+            {
+                throw new ArgumentException("Order do not exist.");
+            }
+
+            var model = this.mapper.Map<CarrierOrderApplicationModel>(order);
 
             return model;
         }
@@ -234,7 +273,8 @@
                          .Where(v => v.CompanyId == companyId && v.Type.Name != VehicleTypeNames.Trailer.ToString())
                          .Select(v => new SelectListItem
                          {
-                             Text = v.Trailer == null ? v.RegNumber : $"{v.RegNumber} / {v.Trailer.RegNumber}",
+                             Text = v.Trailer == null ? (v.Type.Name == VehicleTypeNames.Solo.ToString() ? $"{v.RegNumber}(c)" : v.RegNumber) :
+                                                        $"{v.RegNumber} / {v.Trailer.RegNumber}",
                              Value = v.Id,
                          })
                          .ToList();
@@ -274,14 +314,13 @@
             var order = new Order
             {
                 CreatorId = this.userManager.GetUserId(user),
+                DueDaysFrom = input.DueDaysFrom,
                 Status = this.orderStatuses.All().FirstOrDefault(s => s.Name == OrderStatusNames.Accepted.ToString()),
                 OrderTos = new List<OrderTo>(),
             };
 
             var orderFrom = new OrderFrom
             {
-                PriceNetIn = input.PriceNetIn,
-                CurrencyId = input.CurrencyInId,
                 CompanyId = input.CompanyFromId,
                 ContactId = input.ContactFromId,
                 TypeId = null,
@@ -293,7 +332,10 @@
             {
                 var orderTo = new OrderTo
                 {
+                    PriceNetIn = orderToInput.PriceNetIn,
+                    CurrencyInId = orderToInput.CurrencyInId,
                     PriceNetOut = orderToInput.PriceNetOut,
+                    CurrencyOutId = orderToInput.CurrencyOutId,
                     TypeId = null,
                 };
 
@@ -347,6 +389,15 @@
         public async Task<string> CreateAsync(OrderCreateInputModel input)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            order.DueDaysTo = input.DueDaysTo;
+            input.OrderTos.Select(ot => ot.CarrierOrderCompanyId)
+                            .Distinct()
+                            .ToList()
+                            .ForEach(id =>
+                            {
+                                order.CarrierOrders.Add(new CarrierOrder { CompanyId = id, OrderTos = new List<OrderTo>() });
+                            });
+
             foreach (var orderToInput in input.OrderTos)
             {
                 var vehicle = this.vehicles.All().FirstOrDefault(v => v.Id == orderToInput.VehicleId);
@@ -358,14 +409,17 @@
 
                 var orderTo = order.OrderTos.FirstOrDefault(o => o.Id == orderToInput.Id);
                 orderTo.PriceNetOut = orderToInput.PriceNetOut;
-                orderTo.CurrencyId = orderToInput.CurrencyId;
-                orderTo.CompanyId = orderToInput.CompanyId;
+                orderTo.CurrencyOutId = orderToInput.CurrencyOutId;
                 orderTo.ContactId = orderToInput.ContactId;
                 orderTo.VehicleId = orderToInput.VehicleId;
                 orderTo.TypeId = null;
 
                 orderTo.AdminId = order.AdminId;
                 orderTo.Drivers.Add(new DriverOrder { OrderId = orderTo.Id, DriverId = orderToInput.DriverId, });
+                var carrierOrder = order.CarrierOrders.FirstOrDefault(co => co.CompanyId == orderToInput.CarrierOrderCompanyId);
+                carrierOrder.OrderTos.Add(orderTo);
+                await this.carrierOrders.SaveChangesAsync();
+                carrierOrder.AdminId = order.AdminId;
             }
 
             await this.orders.SaveChangesAsync();
@@ -378,15 +432,15 @@
             var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
 
             order.OrderFrom.ReferenceNum = input.OrderFromReferenceNum;
-            order.OrderFrom.PriceNetIn = input.OrderFromPriceNetIn;
-            order.OrderFrom.CurrencyId = input.OrderFromCurrencyId;
 
             foreach (var orderTo in order.OrderTos)
             {
                 var orderToInput = input.OrderTos.FirstOrDefault(o => o.Id == orderTo.Id);
-                orderTo.CompanyId = orderToInput.CompanyId;
+                orderTo.CarrierOrder.CompanyId = orderToInput.CarrierOrderCompanyId;
                 orderTo.PriceNetOut = orderToInput.PriceNetOut;
-                orderTo.CurrencyId = orderToInput.CurrencyId;
+                orderTo.CurrencyOutId = orderToInput.CurrencyOutId;
+                orderTo.PriceNetIn = orderToInput.PriceNetIn;
+                orderTo.CurrencyInId = orderToInput.CurrencyInId;
                 orderTo.ContactId = orderToInput.ContactId;
                 orderTo.VehicleId = orderToInput.VehicleId;
 
@@ -458,8 +512,12 @@
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
             var companyTaxCountry = order.Creator.Company.TaxCountry.Name;
-            order.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
-                                                                     companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
+            foreach (var carrierOrder in order.CarrierOrders)
+            {
+                carrierOrder.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
+                                                            companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
+                await this.carrierOrders.SaveChangesAsync();
+            }
 
             // TODO: Send application
             await this.orders.SaveChangesAsync();
@@ -524,51 +582,82 @@
             model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
                .Select(ar => new System.Collections.Generic.KeyValuePair<string, string>(ar.Id.ToString(), ar.Name))
                .ToList();
-            //foreach (var orderTo in model.OrderTos)
-            //{
+
+            // foreach (var orderTo in model.OrderTos)
+            // {
             //    orderTo.OrderStatusActions = this.orderActions.All()
             //                                     .Where(oa => oa.OrderToId == orderTo.Id)
             //                                     .OrderBy(oa => oa.TypeId)
             //                                     .To<ActionStatusInputModel>()
             //                                     .ToList();
-            //}
-
+            // }
             return model;
         }
 
         public async Task UpdateOrderStatusAsync(OrderStatusViewModel input)
         {
-            foreach (var actionInput in input.OrderTos.SelectMany(o => o.OrderStatusActions))
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            foreach (var orderToInput in input.OrderTos)
             {
-                var action = this.orderActions.All().FirstOrDefault(oa => oa.Id == actionInput.Id);
-                action.NotFinishedReasonId = actionInput.NotFinishedReasonId == 0 ? null : actionInput.NotFinishedReasonId;
-                action.NoNotes = actionInput.NoNotes;
-                action.Notes = actionInput.Notes;
-                if (action.NoNotes || !string.IsNullOrWhiteSpace(actionInput.Notes))
+                var orderTo = order.OrderTos.FirstOrDefault(ot => ot.Id == orderToInput.Id);
+                foreach (var actionInput in orderToInput.OrderStatusActions)
                 {
-                    action.IsFinished = true;
+                    var action = orderTo.OrderActions.FirstOrDefault(oa => oa.Id == actionInput.Id);
+                    action.NotFinishedReasonId = actionInput.NotFinishedReasonId == 0 ? null : actionInput.NotFinishedReasonId;
+                    action.NoNotes = actionInput.NoNotes;
+                    action.Notes = actionInput.Notes;
+                    if (action.NoNotes || !string.IsNullOrWhiteSpace(actionInput.Notes))
+                    {
+                        action.IsFinished = true;
+                    }
+
+                    this.orderActions.Update(action);
                 }
-
-                this.orderActions.Update(action);
             }
 
-            await this.orderActions.SaveChangesAsync();
-        }
-
-        public async Task<string> FinishOrderAsync(OrderFinishViewModel input)
-        {
-            if (input.OrderStatus.StatusName != OrderStatusNames.Approved.ToString())
+            if (order.OrderTos.All(oa => oa.IsFinished))
             {
-                await this.SetOrderReceivedDocumentation(input);
+                order.Status = this.orderStatuses.AllAsNoTracking()
+                                                    .FirstOrDefault(s => s.Name == OrderStatusNames.Finished.ToString());
             }
 
-            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Finished.ToString());
-            return input.OrderStatus.Id;
+            await this.orderTos.SaveChangesAsync();
         }
 
-        public bool ValidateFinishModel(OrderFinishViewModel input)
+        public async Task FinishOrderToAsync(string orderToId)
         {
-            foreach (var orderTo in input.OrderStatus.OrderTos)
+            var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderToId);
+
+            if (!orderTo.OrderActions.All(a => a.IsFinished))
+            {
+                throw new InvalidOperationException("Not all actions are finished!");
+            }
+
+            orderTo.IsFinished = true;
+
+            await this.orderTos.SaveChangesAsync();
+        }
+
+        public async Task<string> FinishInvoiceInAsync(InvoiceInInputModel input)
+        {
+            await this.SetOrderReceivedDocumentation(input);
+
+            var invoiceIn = new InvoiceIn();
+            invoiceIn = this.mapper.Map<InvoiceInModel, InvoiceIn>(input.InvoiceIn, invoiceIn);
+            foreach (var orderToInput in input.OrderTos)
+            {
+                var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderToInput.Id);
+                orderTo.InvoiceIn = invoiceIn;
+            }
+
+            await this.invoiceIns.AddAsync(invoiceIn);
+            await this.invoiceIns.SaveChangesAsync();
+            return invoiceIn.Id;
+        }
+
+        public bool ValidateFinishModel(InvoiceInInputModel input)
+        {
+            foreach (var orderTo in input.OrderTos)
             {
                 if (orderTo.Documentation.CMR != orderTo.DocumentationRecievedDocumentation.CMR ||
                     orderTo.Documentation.AOA != orderTo.DocumentationRecievedDocumentation.AOA ||
@@ -587,45 +676,43 @@
             return true;
         }
 
-        public OrderFinishViewModel LoadOrderFinishModel(string orderId)
+        public InvoiceInInputModel LoadOrderFinishModel(string orderId)
         {
-            var model = new OrderFinishViewModel();
-            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
-            order.InvoiceIn = new InvoiceIn();
+            var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderId);
 
-            model.InvoiceInModel = this.mapper.Map<InvoiceInOrderModel>(order);
-            model.InvoiceInModel.InvoiceIn.BankDetailsItems = this.bankDetails.All()
-                                                                              .Select(bd => new SelectListItem { Value = bd.Id.ToString(), Text = $"{bd.BankIban} - {bd.BankName}" });
-            model.InvoiceInModel.InvoiceIn.PaymentMethodItems = Enum.GetValues(typeof(PaymentMethods)).Cast<PaymentMethods>().Select(
+            var invoiceInModel = this.mapper.Map<InvoiceInInputModel>(orderTo);
+            invoiceInModel.InvoiceIn = new InvoiceInModel();
+            invoiceInModel.InvoiceIn.BankDetailsItems = orderTo.CarrierOrder.Company.BankDetails
+                                                               .Select(bd => new SelectListItem { Value = bd.Id.ToString(), Text = bd.BankIban });
+            invoiceInModel.InvoiceIn.PaymentMethodItems = Enum.GetValues(typeof(PaymentMethods)).Cast<PaymentMethods>().Select(
                             enu => new SelectListItem() { Text = enu.ToString(), Value = enu.ToString() }).ToList();
-            model.OrderStatus = this.LoadOrderStatusModel(orderId);
+            invoiceInModel.OrderTos = new List<OrderToInvoiceModel>();
+            invoiceInModel.OrderTos.Add(this.mapper.Map<OrderToInvoiceModel>(orderTo));
 
             // var receivedDoc = order.Documentation.RecievedDocumentation;
             // model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);
-            return model;
+            return invoiceInModel;
         }
 
-        public async Task MarkOrderForApproval(OrderFinishViewModel input)
+        public async Task MarkInvoiceInForApproval(string invoiceId)
         {
-            await this.SetOrderReceivedDocumentation(input);
-            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.AwaitingApproval.ToString());
+            await this.UpdateInvoiceInStatus(invoiceId, OrderStatusNames.AwaitingApproval.ToString());
         }
 
-        public async Task ApproveOrder(OrderFinishViewModel input)
+        public async Task ApproveInvoice(InvoiceInInputModel input)
         {
             await this.SetOrderReceivedDocumentation(input);
-            await this.UpdateOrderStatus(input.OrderStatus.Id, OrderStatusNames.Approved.ToString());
+            await this.UpdateInvoiceInStatus(input.InvoiceIn.Id, OrderStatusNames.Approved.ToString());
         }
 
         private string GenerateOrderNumber(bool isBG)
         {
-            var year = DateTime.UtcNow.Year;
-            var month = DateTime.UtcNow.Month.ToString().PadLeft(2, '0');
-            var ordersCount = this.orders.AllAsNoTracking()
-                                         .Where(o =>
-                                         o.Status.Name != OrderStatusNames.Accepted.ToString() &&
-                                         o.Status.Name != OrderStatusNames.Ready.ToString() &&
-                                         this.IsNumberInSameMonth(o.ReferenceNum, month, isBG))
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var ordersCount = this.carrierOrders.AllAsNoTracking()
+                                         .Where(o => o.ReferenceNum != null)
+                                         .ToList()
+                                         .Where(co => this.IsNumberInSameMonth(co.ReferenceNum, month, isBG))
                                          .Count() + 1;
             var number = ordersCount.ToString().PadLeft(4, '0');
             if (isBG)
@@ -654,14 +741,23 @@
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
             order.Status = this.orderStatuses.AllAsNoTracking()
-                                               .FirstOrDefault(s => s.Name == status);
+                                             .FirstOrDefault(s => s.Name == status);
             this.orders.Update(order);
             await this.orders.SaveChangesAsync();
         }
 
-        private async Task SetOrderReceivedDocumentation(OrderFinishViewModel input)
+        private async Task UpdateInvoiceInStatus(string invoiceId, string status)
         {
-            foreach (var orderTo in input.OrderStatus.OrderTos)
+            var invoice = this.invoiceIns.All().FirstOrDefault(o => o.Id == invoiceId);
+            invoice.Status = this.invoiceStatuses.AllAsNoTracking()
+                                               .FirstOrDefault(s => s.Name == status);
+            this.invoiceIns.Update(invoice);
+            await this.invoiceIns.SaveChangesAsync();
+        }
+
+        private async Task SetOrderReceivedDocumentation(InvoiceInInputModel input)
+        {
+            foreach (var orderTo in input.OrderTos)
             {
                 var receivedDoc = this.mapper.Map<Documentation>(orderTo.DocumentationRecievedDocumentation);
                 this.documentations.All().FirstOrDefault(d => d.OrderToId == orderTo.Id).RecievedDocumentation = receivedDoc;

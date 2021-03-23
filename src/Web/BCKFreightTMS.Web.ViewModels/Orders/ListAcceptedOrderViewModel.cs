@@ -1,6 +1,7 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Orders
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
@@ -13,17 +14,13 @@
 
         public DateTime CreatedOn { get; set; }
 
+        public string CreatorCompanyTaxCurrencyName { get; set; }
+
         public string OrderFromContactFirstName { get; set; }
 
         public string OrderFromContactLastName { get; set; }
 
         public string OrderFromCompanyName { get; set; }
-
-        public decimal OrderFromPriceNetIn { get; set; }
-
-        public int OrderFromCurrencyId { get; set; }
-
-        public string OrderFromCurrencyName { get; set; }
 
         public string Voyage { get; set; }
 
@@ -31,11 +28,13 @@
 
         public string CargoName { get; set; }
 
+        public List<AcceptedOrderToModel> OrderTos { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Order, ListAcceptedOrderViewModel>()
                 .ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{string.Join("\n\r", x.OrderTos.Select(o => string.Join(" <i class='fas fa-angle-double-right'></i> ", o.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))}</p>"));
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{string.Join("<br>", x.OrderTos.Select(o => string.Join(" <i class='fas fa-angle-double-right'></i> ", o.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))}</p>"));
         }
     }
 }

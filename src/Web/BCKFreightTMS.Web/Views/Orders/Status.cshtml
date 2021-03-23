@@ -5,16 +5,25 @@
     var actionTypeItems = this.Model.ActionTypeItems.ToDictionary(x => x.Key, y => y.Value);
     var actionNFResItems = this.Model.ActionNotFinishedItems.Select(anf => new SelectListItem(this.localizer[anf.Value].Value, anf.Key));
     var orderTos = this.Model.OrderTos;
+    var currOrderToIndex = -1;
+    var isCurrOrderTo = false;
 }
 
 <h3 class="text-bold">@localizer["Order status"]</h3>
 <hr class="mb-1" />
 <div class="container-fluid p-2">
-    <form method="post" class="p-2">
+    <form method="post">
         <div class="tab rounded" id="cTabs">
             @for (int i = 0; i < orderTos.Count; i++)
             {
-                <a class="btn tablinks @(i == 0 ? "active-tab" : "")" id="course@(i)">
+                var orderTo = orderTos[i];
+                if (!orderTo.IsFinished &&
+                    !isCurrOrderTo)
+                {
+                    currOrderToIndex = i;
+                    isCurrOrderTo = true;
+                }
+                <a class="btn tablinks @(orderTos[i].IsFinished ? "disabled-tab" : "") @(i == currOrderToIndex ? "active-tab" : "")" id="course@(i)">
                     @(i > 0 ? $" #{i + 1}" : @localizer["Course"])
                 </a>
             }
@@ -26,7 +35,7 @@
             var unloadingActions = orderTos[oi].OrderActions.Where(a => a.TypeId == 2).ToList();
             var currActionIndex = -1;
             var isCurrAction = false;
-            <div id="course@(oi)" class="tabcontent course rounded-bottom bg-white mb-2" @(oi == 0 ? "style=display:block" : "")>
+            <div id="course@(oi)" class="tabcontent course rounded-bottom bg-white mb-2" @(oi == currOrderToIndex ? "style=display:block" : "")>
                 <div class="row d-flex">
                     <div class="col-3 p-1">
                         <dl>
@@ -56,13 +65,13 @@
                                 Carrier:&nbsp;&nbsp;
                             </dt>
                             <dd>
-                                @orderTos[oi].CompanyName
+                                @orderTos[oi].CarrierOrderCompanyName
                             </dd>
                             <dt class="text-right">
                                 Company mobile:&nbsp;&nbsp;
                             </dt>
                             <dd>
-                                @orderTos[oi].CompanyComunicatorsMobile1
+                                @orderTos[oi].CarrierOrderCompanyComunicatorsMobile1
                             </dd>
                         </dl>
                     </div>
@@ -82,7 +91,7 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="col-2 p-1">
+                    @*<div class="col-2 p-1">
                         <dl>
                             @foreach (var (name, mobile) in this.Model.DriversMobiles)
                             {
@@ -100,7 +109,7 @@
                                 </dd>
                             }
                         </dl>
-                    </div>
+                    </div>*@
                 </div>
                 <hr />
                 <div>
@@ -117,9 +126,9 @@
                                     currActionIndex = i;
                                     isCurrAction = true;
                                 }
-                                <a class="btn tablinks @(actions[i].IsFinnished ? "bg-green" : "") @(i > 0 && i > currActionIndex && currActionIndex != -1 ? "disabled" : "") @(i == currActionIndex ? "active-tab" : "")" id="action@(i)">
-                                    @localizer[actionTypeItems[actions[i].TypeId.ToString()]]<i class="fas fa-arrow-right green ml-3"></i>
-                                </a>
+                            <a class="btn tablinks @(actions[i].IsFinnished ? "bg-green" : "") @(i > 0 && i > currActionIndex && currActionIndex != -1 ? "disabled" : "") @(i == currActionIndex ? "active-tab" : "")" id="action@(i)">
+                                @localizer[actionTypeItems[actions[i].TypeId.ToString()]]<i class="fas fa-arrow-right green ml-3"></i>
+                            </a>
                             }
                         </div>
                         @for (int i = 0; i < actions.Count; i++)
@@ -131,12 +140,12 @@
                                         @actions[i].AddressCity, @actions[i].AddressStreetLine
                                     </div>
                                     @if (!string.IsNullOrWhiteSpace(actions[i].Details))
-                                    {
-                                        <div class="ml-3" style=" max-width: 600px; min-width: 100px;">
-                                            <b>@localizer["Details"]:</b>
-                                            <span class="text-danger">@actions[i].Details</span>
-                                        </div>
-                                    }
+                                        {
+                                    <div class="ml-3" style=" max-width: 600px; min-width: 100px;">
+                                        <b>@localizer["Details"]:</b>
+                                        <span class="text-danger">@actions[i].Details</span>
+                                    </div>
+                                        }
                                 </div>
                                 <div class="form-group text-center">
                                     <b style="font-size:18px">@localizer[$"{actionTypeItems[actions[i].TypeId.ToString()]}-q"]</b>
@@ -149,33 +158,33 @@
                                 <div class="form-row noteChecks" id="@(i)">
                                     <div class="col-2">
                                         @if (!actions[i].IsFinnished || !string.IsNullOrWhiteSpace(actions[i].Notes))
-                                        {
-                                            <input asp-for="OrderTos[oi].OrderStatusActions[i].NoNotes" type="checkbox" disabled>
-                                        }
-                                        else
-                                        {
-                                            <input asp-for="OrderTos[oi].OrderStatusActions[i].NoNotes" type="checkbox">
-                                        }
+                                            {
+                                        <input asp-for="OrderTos[oi].OrderStatusActions[i].NoNotes" type="checkbox" disabled>
+                                            }
+                                            else
+                                            {
+                                        <input asp-for="OrderTos[oi].OrderStatusActions[i].NoNotes" type="checkbox">
+                                            }
                                         <label>
                                             &nbsp;@localizer["Without comments"]
                                         </label>
                                     </div>
                                     <div>
                                         @if (!actions[i].IsFinnished || actions[i].NoNotes)
-                                        {
-                                            <input type="checkbox" id="withCom@(i)" disabled>
-                                        }
-                                        else
-                                        {
-                                            if (!string.IsNullOrWhiteSpace(actions[i].Notes))
                                             {
-                                                <input type="checkbox" id="withCom@(i)" checked>
+                                        <input type="checkbox" id="withCom@(i)" disabled>
                                             }
                                             else
                                             {
-                                                <input type="checkbox" id="withCom@(i)">
+                                                if (!string.IsNullOrWhiteSpace(actions[i].Notes))
+                                                {
+                                        <input type="checkbox" id="withCom@(i)" checked>
+                                                }
+                                                else
+                                                {
+                                        <input type="checkbox" id="withCom@(i)">
+                                                }
                                             }
-                                        }
                                         <label>
                                             &nbsp;@localizer["With comments"]
                                         </label>
@@ -186,43 +195,53 @@
                                     <div class="form-group col-6">
                                         <label class="control-label">@localizer["Comments"]</label>
                                         @if (!actions[i].IsFinnished || actions[i].NoNotes)
-                                        {
-                                            <textarea asp-for="OrderTos[oi].OrderStatusActions[i].Notes" class="form-control" rows="2" disabled></textarea>
-                                        }
-                                        else
-                                        {
-                                            <textarea asp-for="OrderTos[oi].OrderStatusActions[i].Notes" class="form-control" rows="2"></textarea>
-                                        }
+                                            {
+                                        <textarea asp-for="OrderTos[oi].OrderStatusActions[i].Notes" class="form-control" rows="2" disabled></textarea>
+                                            }
+                                            else
+                                            {
+                                        <textarea asp-for="OrderTos[oi].OrderStatusActions[i].Notes" class="form-control" rows="2"></textarea>
+                                            }
                                         <span asp-validation-for="OrderTos[oi].OrderStatusActions[i].Notes" class="text-danger"></span>
                                     </div>
                                     <div class="form-group ml-4">
                                         <label class="control-label">@localizer["Reason"]</label>
                                         @if (actions[i].IsFinnished)
-                                        {
-                                            <select asp-for="OrderTos[oi].OrderStatusActions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems" disabled>
-                                                <option disabled hidden selected>Select</option>
-                                            </select>
-                                        }
-                                        else
-                                        {
-                                            <select asp-for="OrderTos[oi].OrderStatusActions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems">
-                                                <option disabled hidden selected>Select</option>
-                                            </select>
-                                        }
+                                            {
+                                        <select asp-for="OrderTos[oi].OrderStatusActions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems" disabled>
+                                            <option disabled hidden selected>Select</option>
+                                        </select>
+                                            }
+                                            else
+                                            {
+                                        <select asp-for="OrderTos[oi].OrderStatusActions[i].NotFinishedReasonId" class="form-control" asp-items="actionNFResItems">
+                                            <option disabled hidden selected>Select</option>
+                                        </select>
+                                            }
                                     </div>
                                 </div>
                                 @Html.HiddenFor(m => m.OrderTos[oi].OrderStatusActions[i].Id)
                             </div>
                         }
+                        <div class="text-center mt-2">
+                            @if (orderTos[oi].OrderStatusActions.Any(a => !a.IsFinnished))
+                            {
+                                <input asp-action="FinishOrderTo" asp-route-orderToId="@Model.OrderTos[oi].Id" type="submit" class="btn btn-success" value="@localizer["Finish"]" disabled>
+                            }
+                            else
+                            {
+                                <input asp-action="FinishOrderTo" asp-route-orderToId="@Model.OrderTos[oi].Id" type="submit" class="btn btn-success" value="@localizer["Finish"]">
+                            }
+                        </div>
                     </div>
-                    @Html.HiddenFor(m => m.Id)
                 </div>
+                @Html.HiddenFor(m => m.OrderTos[oi].Id)
             </div>
         }
+        @Html.HiddenFor(m => m.Id)
         <div class="form-group">
             <input asp-action="Status" type="submit" class="btn btn-primary" value="@localizer["Update"]" />
             <a asp-action="Index" class="btn btn-secondary">@localizer["Cancel"]</a>
-            <input asp-action="Finish" type="submit" class="btn btn-success float-right" value="@localizer["Finish"]" />
         </div>
     </form>
 </div>

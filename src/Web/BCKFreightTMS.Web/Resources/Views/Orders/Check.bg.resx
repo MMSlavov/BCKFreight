@@ -126,4 +126,7 @@
   <data name="DocumentationCheck" xml:space="preserve">
     <value>Проверка на документация</value>
   </data>
+  <data name="Invoice in" xml:space="preserve">
+    <value>Проверка и завеждане</value>
+  </data>
 </root>

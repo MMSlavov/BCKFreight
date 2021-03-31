@@ -24,6 +24,9 @@
 
         public bool WeighingNote { get; set; }
 
+        [Column(TypeName = "nvarchar(MAX)")]
+        public string Problem { get; set; }
+
         [ForeignKey(nameof(RecievedDocumentation))]
         public int? RecievedDocumentationId { get; set; }
 

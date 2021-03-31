@@ -10,6 +10,8 @@
 
         public InvoiceCompanyModel CarrierOrderCompany { get; set; }
 
+        public int OrderDueDaysTo { get; set; }
+
         public List<OrderToInvoiceModel> OrderTos { get; set; }
     }
 }

@@ -540,6 +540,10 @@
             }
 
             order.FailReason = input.FailReason;
+            foreach (var orderTo in order.OrderTos)
+            {
+                orderTo.FailReason = input.FailReason;
+            }
 
             await this.UpdateOrderStatus(input.Id, OrderStatusNames.Fail.ToString());
             return order.Id;
@@ -655,9 +659,9 @@
             return invoiceIn.Id;
         }
 
-        public bool ValidateFinishModel(InvoiceInInputModel input)
+        public bool ValidateFinishModel(IEnumerable<OrderToInvoiceModel> input)
         {
-            foreach (var orderTo in input.OrderTos)
+            foreach (var orderTo in input)
             {
                 if (orderTo.Documentation.CMR != orderTo.DocumentationRecievedDocumentation.CMR ||
                     orderTo.Documentation.AOA != orderTo.DocumentationRecievedDocumentation.AOA ||
@@ -692,17 +696,6 @@
             // var receivedDoc = order.Documentation.RecievedDocumentation;
             // model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);
             return invoiceInModel;
-        }
-
-        public async Task MarkInvoiceInForApproval(string invoiceId)
-        {
-            await this.UpdateInvoiceInStatus(invoiceId, OrderStatusNames.AwaitingApproval.ToString());
-        }
-
-        public async Task ApproveInvoice(InvoiceInInputModel input)
-        {
-            await this.SetOrderReceivedDocumentation(input);
-            await this.UpdateInvoiceInStatus(input.InvoiceIn.Id, OrderStatusNames.Approved.ToString());
         }
 
         private string GenerateOrderNumber(bool isBG)
@@ -744,15 +737,6 @@
                                              .FirstOrDefault(s => s.Name == status);
             this.orders.Update(order);
             await this.orders.SaveChangesAsync();
-        }
-
-        private async Task UpdateInvoiceInStatus(string invoiceId, string status)
-        {
-            var invoice = this.invoiceIns.All().FirstOrDefault(o => o.Id == invoiceId);
-            invoice.Status = this.invoiceStatuses.AllAsNoTracking()
-                                               .FirstOrDefault(s => s.Name == status);
-            this.invoiceIns.Update(invoice);
-            await this.invoiceIns.SaveChangesAsync();
         }
 
         private async Task SetOrderReceivedDocumentation(InvoiceInInputModel input)

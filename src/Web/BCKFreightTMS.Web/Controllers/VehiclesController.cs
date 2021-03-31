@@ -111,7 +111,7 @@
             if (!this.ModelState.IsValid)
             {
                 input = this.vehiclesService.LoadVehicleInputModel(input);
-                return this.View(input);
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(input) });
             }
 
             try
@@ -122,7 +122,7 @@
             {
                 this.notyfService.Error(this.localizer[ex.Message]);
                 input = this.vehiclesService.LoadVehicleInputModel(input);
-                return this.View(input);
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(input) });
             }
 
             return this.Json(new { isValid = true, redirectToUrl = string.Empty });

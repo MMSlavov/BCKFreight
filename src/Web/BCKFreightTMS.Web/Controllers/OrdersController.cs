@@ -24,6 +24,7 @@
     public class OrdersController : BaseController
     {
         private readonly IDeletableEntityRepository<Order> orders;
+        private readonly IDeletableEntityRepository<OrderTo> orderTos;
         private readonly IDeletableEntityRepository<Currency> currencies;
         private readonly IDeletableEntityRepository<OrderStatus> orderStatuses;
         private readonly IOrdersService ordersService;
@@ -31,11 +32,13 @@
         private readonly IPdfService pdfService;
         private readonly IViewRenderService viewRenderService;
         private readonly IContactsService contactsService;
+        private readonly IInvoicesService invoicesService;
         private readonly INotyfService notyfService;
         private readonly IStringLocalizer<OrdersController> localizer;
 
         public OrdersController(
             IDeletableEntityRepository<Order> orders,
+            IDeletableEntityRepository<OrderTo> orderTos,
             IDeletableEntityRepository<Currency> currencies,
             IDeletableEntityRepository<OrderStatus> orderStatuses,
             IOrdersService ordersService,
@@ -43,10 +46,12 @@
             IPdfService pdfService,
             IViewRenderService viewRenderService,
             IContactsService contactsService,
+            IInvoicesService invoicesService,
             INotyfService notyfService,
             IStringLocalizer<OrdersController> localizer)
         {
             this.orders = orders;
+            this.orderTos = orderTos;
             this.currencies = currencies;
             this.orderStatuses = orderStatuses;
             this.ordersService = ordersService;
@@ -54,6 +59,7 @@
             this.pdfService = pdfService;
             this.viewRenderService = viewRenderService;
             this.contactsService = contactsService;
+            this.invoicesService = invoicesService;
             this.notyfService = notyfService;
             this.localizer = localizer;
         }
@@ -100,8 +106,8 @@
 
         public IActionResult Failed()
         {
-            var orders = this.ordersService.GetAll<ListFailedOrderViewModel>(o =>
-                                            o.Status.Name == OrderStatusNames.Fail.ToString())
+            var orders = this.ordersService.GetAllOrderTos<ListFailedOrderToViewModel>(o =>
+                                            o.Order.Status.Name == OrderStatusNames.Fail.ToString())
                                            .ToList();
             return this.View(orders);
         }
@@ -134,6 +140,31 @@
                 data.Add($"C{i + 1} Cargo quantity", orderTos[i].Cargo.Quantity.ToString());
                 data.Add($"C{i + 1} Cargo requaired loading body", orderTos[i].Cargo.LoadingBody?.Name);
             }
+
+            data = data.Where(kv => kv.Value != null).ToDictionary(x => x.Key, y => y.Value);
+
+            return this.View(data);
+        }
+
+        public IActionResult OrderToDetails(string id)
+        {
+            var data = new Dictionary<string, string>();
+
+            var orderTo = this.orderTos.All().FirstOrDefault(c => c.Id == id);
+
+            data.Add($"Carrier vehicle", orderTo.Vehicle?.RegNumber);
+            data.Add($"Carrier company", orderTo.CarrierOrder?.Company.Name);
+            data.Add($"Reference number to", orderTo.CarrierOrder?.ReferenceNum);
+            data.Add($"Carrier price", orderTo.PriceNetOut.ToString());
+            data.Add($"Carrier currency", orderTo.CurrencyOut?.Name);
+            data.Add($"Client price", orderTo.PriceNetIn.ToString());
+            data.Add($"Client currency", orderTo.CurrencyIn.Name);
+            data.Add($"Carrier contact", orderTo.Contact?.FirstName);
+            data.Add($"Carrier driver", orderTo.Drivers.FirstOrDefault()?.Driver.FirstName);
+            data.Add($"Cargo name", orderTo.Cargo.Name);
+            data.Add($"Cargo weight", orderTo.Cargo.WeightGross.ToString());
+            data.Add($"Cargo quantity", orderTo.Cargo.Quantity.ToString());
+            data.Add($"Cargo requaired loading body", orderTo.Cargo.LoadingBody?.Name);
 
             data = data.Where(kv => kv.Value != null).ToDictionary(x => x.Key, y => y.Value);
 
@@ -471,9 +502,9 @@
         public async Task<IActionResult> Finish(InvoiceInInputModel input)
         {
             var invoiceId = await this.ordersService.FinishInvoiceInAsync(input);
-            if (!this.ordersService.ValidateFinishModel(input))
+            if (!this.ordersService.ValidateFinishModel(input.OrderTos))
             {
-                await this.ordersService.MarkInvoiceInForApproval(invoiceId);
+                await this.invoicesService.MarkInvoiceInForApproval(invoiceId);
                 this.notyfService.Warning(this.localizer["Invoice marked for approval."]);
             }
             else
@@ -484,16 +515,15 @@
             return this.RedirectToAction("Check");
         }
 
-        [Authorize(Roles = "SuperUser")]
-        [HttpPost]
-        public async Task<IActionResult> ApproveDocumentation(InvoiceInInputModel input)
-        {
-            await this.ordersService.ApproveInvoice(input);
-            this.notyfService.Success(this.localizer["Order approved."]);
+        // [Authorize(Roles = "SuperUser")]
+        // [HttpPost]
+        // public async Task<IActionResult> ApproveDocumentation(InvoiceInInputModel input)
+        // {
+        //     await this.invoicesService.ApproveInvoice(input);
+        //     this.notyfService.Success(this.localizer["Order approved."]);
 
-            return this.RedirectToAction("Finish", "Orders", new { id = input.InvoiceIn.Id });
-        }
-
+        // return this.RedirectToAction("Finish", "Orders", new { id = input.InvoiceIn.Id });
+        // }
         private async Task<ApplicationModel> LoadApplicationModel(string orderId)
         {
             var model = this.ordersService.GenerateApplicationModel(orderId);

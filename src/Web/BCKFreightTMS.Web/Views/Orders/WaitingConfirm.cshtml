@@ -42,7 +42,7 @@
                 <td>
                     @foreach (var carrierOrder in order.CarrierOrders)
                     {
-                        <a asp-action="DownloadApplication" asp-route-id="@carrierOrder.Id" class="m-0">@carrierOrder.ReferenceNum</a><br />
+                        <a asp-action="DownloadApplication" asp-route-id="@carrierOrder.Id" onclick='setTimeout(function () { $(".loading").hide() }, 3000);' class="m-0" title="Download">@carrierOrder.ReferenceNum</a><br />
                     }
                     <span class="text-bold">@order.CreatedOn.ToLocalTime().ToShortDateString()</span>
                     @Html.Raw(order.Voyage)

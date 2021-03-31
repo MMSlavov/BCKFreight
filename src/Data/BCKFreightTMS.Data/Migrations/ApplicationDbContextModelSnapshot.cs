@@ -750,6 +750,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<bool>("PackingList")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Problem")
+                        .HasColumnType("nvarchar(MAX)");
+
                     b.Property<int?>("RecievedDocumentationId")
                         .HasColumnType("int");
 
@@ -843,7 +846,56 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("InvoiceIns");
+                    b.ToTable("InvoiceIn");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceOut", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BankDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DueDays")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankDetailsId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("InvoiceOut");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceStatus", b =>
@@ -1122,6 +1174,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<string>("InvoiceInId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("InvoiceOutId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1167,6 +1222,8 @@ namespace BCKFreightTMS.Data.Migrations
                         .HasFilter("[DocumentationId] IS NOT NULL");
 
                     b.HasIndex("InvoiceInId");
+
+                    b.HasIndex("InvoiceOutId");
 
                     b.HasIndex("IsDeleted");
 
@@ -1732,6 +1789,23 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceOut", b =>
+                {
+                    b.HasOne("BCKFreightTMS.Data.Models.BankDetails", "BankDetails")
+                        .WithMany()
+                        .HasForeignKey("BankDetailsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
+
+                    b.Navigation("BankDetails");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
                 {
                     b.HasOne("BCKFreightTMS.Data.Models.ApplicationUser", "Creator")
@@ -1845,6 +1919,10 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("OrderTos")
                         .HasForeignKey("InvoiceInId");
 
+                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceOut", "InvoiceOut")
+                        .WithMany("OrderTos")
+                        .HasForeignKey("InvoiceOutId");
+
                     b.HasOne("BCKFreightTMS.Data.Models.Order", "Order")
                         .WithMany("OrderTos")
                         .HasForeignKey("OrderId");
@@ -1870,6 +1948,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("Documentation");
 
                     b.Navigation("InvoiceIn");
+
+                    b.Navigation("InvoiceOut");
 
                     b.Navigation("Order");
 
@@ -2070,6 +2150,11 @@ namespace BCKFreightTMS.Data.Migrations
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceIn", b =>
+                {
+                    b.Navigation("OrderTos");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceOut", b =>
                 {
                     b.Navigation("OrderTos");
                 });

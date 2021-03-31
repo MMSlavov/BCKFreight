@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> userManager
 @inject BCKFreightTMS.Services.Data.IFinanceService financeService
-@model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListFailedOrderViewModel>
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListFailedOrderToViewModel>
 @{
     var user = await this.userManager.GetUserAsync(this.User);
     var companyCurrency = user.Company.TaxCurrency.Name;
@@ -44,18 +44,18 @@
     <tbody>
         @foreach (var order in this.Model)
         {
-            var priceIn = this.financeService.GetAmount(order.OrderFromCurrencyId, order.OrderFromPriceNetIn);
-            var priceOut = this.financeService.GetAmount(order.OrderToCurrencyId, order.OrderToPriceNetOut);
+            var priceIn = this.financeService.GetAmount(order.CurrencyInId, order.PriceNetIn);
+            var priceOut = this.financeService.GetAmount(order.CurrencyOutId, order.PriceNetOut);
             <tr>
                 <td>
-                    <span class="text-bold">@order.OrderToReferenceNum</span>
+                    <span class="text-bold">@order.CarrierOrderReferenceNum</span>
                 </td>
                 <td>
-                    <span class="text-bold">@order.OrderFromReferenceNum</span>
+                    <span class="text-bold">@order.CarrierOrderReferenceNum</span>
                 </td>
                 <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderFromCompanyName)</span>
-                    <p>@($"{order.OrderFromContactFirstName} {order.OrderFromContactLastName}")</p>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderOrderFromCompanyName)</span>
+                    <p>@($"{order.OrderOrderFromContactFirstName} {order.OrderOrderFromContactLastName}")</p>
                 </td>
                 <td class="text-bold align-middle">
                     @($"{priceIn:f2}")
@@ -66,8 +66,8 @@
                     <p class="text-black-50">@companyCurrency</p>
                 </td>
                 <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderToCompanyName)</span>
-                    <p>@($"{order.OrderToContactFirstName} {order.OrderToContactLastName}")</p>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => order.CarrierOrderCompanyName)</span>
+                    <p>@($"{order.ContactFirstName} {order.ContactLastName}")</p>
                 </td>
                 <td class="align-middle text-center">
                     @Html.Raw(order.Voyage)

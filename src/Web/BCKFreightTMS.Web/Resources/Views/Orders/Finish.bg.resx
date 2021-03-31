@@ -148,7 +148,7 @@
     <value>Проверка на документация</value>
   </data>
   <data name="Finish" xml:space="preserve">
-    <value>Завърши</value>
+    <value>Завеждане</value>
   </data>
   <data name="Invoice" xml:space="preserve">
     <value>Фактура</value>
@@ -167,5 +167,8 @@
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Внимание</value>
+  </data>
+  <data name="Weighing note" xml:space="preserve">
+    <value>Кантарна бележка</value>
   </data>
 </root>

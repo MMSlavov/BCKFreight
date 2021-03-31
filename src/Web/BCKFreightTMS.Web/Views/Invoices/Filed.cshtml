@@ -53,13 +53,13 @@
                     <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
-                    @*<a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>*@
-                    @*<a href="javascript:void(0);" onclick="showInPopup('Order/Details/@order.Id', 'Details')" title="Details">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>*@
-                    <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                    @*<a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
+                        <span>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>*@
+                    @*<a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>*@
                 </td>
             </tr>
         }

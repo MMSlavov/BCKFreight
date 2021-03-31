@@ -1,0 +1,159 @@
+﻿@using BCKFreightTMS.Common.Enums;
+@using BCKFreightTMS.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@inject UserManager<ApplicationUser> userManager
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Orders.ListOrderToViewModel>
+@{
+    var user = await this.userManager.GetUserAsync(this.User);
+    var companyCurrency = user.Company.TaxCurrency.Name;
+}
+@*<div class="p-2">
+        <a asp-action="Accept" class="btn btn-primary">Create new order</a>
+    </div>*@
+<hr class="mt-1" />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<table class="table table-striped table-hover rounded mb-2" id="orders_data">
+    <thead>
+        <tr>
+            <th>
+                Order
+            </th>
+            @*<th>
+                Client
+            </th>*@
+            <th>
+                Client
+            </th>
+            <th>
+                Voyage
+            </th>
+            @*<th>
+                Margin
+            </th>*@
+            @*<th>
+                Status
+            </th>*@
+            <th style="visibility: hidden;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderTo in this.Model)
+        {
+            <tr>
+                <td>
+                    <span>@orderTo.CreatedOn.ToLocalTime().ToShortDateString()</span>
+                    <p class="m-0 text-bold">@orderTo.CarrierOrderReferenceNum</p>
+                </td>
+                <td>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.OrderOrderFromCompanyName)</span>
+                    <p class="m-0">@($"{orderTo.OrderOrderFromContactFirstName} {orderTo.OrderOrderFromContactLastName}")</p>
+                </td>
+                @*<td>
+                    <span class="text-bold">@Html.DisplayFor(modelItem => order.OrderOrderFromCompanyName)</span>
+                    <p class="m-0">@($"{orderTo1.ContactFirstName} {orderTo1.ContactLastName}")</p>
+                </td>*@
+                <td>
+                    @Html.Raw(orderTo.Voyage)
+                </td>
+                @*@{
+                    var priceOut = this.financeService.GetAmount(orderTo.CurrencyOutId, orderTo.PriceNetOut);
+                    var priceIn = this.financeService.GetAmount(orderTo.CurrencyInId, orderTo.PriceNetIn);
+                    var margin = (priceIn - priceOut);
+                }
+                @if (margin > 0)
+                {
+                    <td class="text-green text-bold align-middle">
+                        @($"{margin:f2}")
+                        <p class="text-black-50 m-0">@companyCurrency</p>
+                    </td>
+                }
+                else
+                {
+                    <td class="text-danger text-bold align-middle">
+                        @($"{margin:f2}")
+                        <p class="m-0">@companyCurrency</p>
+                    </td>
+                }*@
+                <td class="align-middle text-center">
+                    @*@if (order.OrderStatusName != OrderStatusNames.Finished.ToString())
+                    {
+                        string action;
+                        string btnColor;
+                        string btnState = string.Empty;
+                        switch (order.OrderStatusName)
+                        {
+                            case "DocumentationCheck":
+                                action = "Finish";
+                                btnColor = "primary";
+                                break;
+                            case "AwaitingApproval":
+                                action = "Finish";
+                                btnColor = "warning";
+                                if (!this.User.IsInRole(RoleNames.SuperUser.ToString()))
+                                {
+                                    btnState = "disabled";
+                                }
+                                break;
+                            case "Approved":
+                                action = "Finish";
+                                btnColor = "success";
+                                break;
+                            default:
+                                action = null;
+                                btnColor = "primary";
+                                break;
+                        }
+                        if (action == "ConfirmApplication")
+                        {
+                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', 'Confirm application')" class="btn btn-@btnColor">@localizer[order.OrderStatusName]</a>
+                        }
+                        else
+                        {
+                        }
+                    }
+                    else
+                    {
+                        <a class="btn btn-success disabled">@order.OrderStatusName</a>
+
+                    }*@
+                    <a asp-action="Invoicing" asp-route-id="@orderTo.Id" class="btn btn-primary">@localizer["Invoice out"]</a>
+                </td>
+                @*<td class="px-2 text-center align-middle" style="width:auto">
+                    <a asp-action="Edit" asp-route-id="@order.Id" asp-route-returnUrl="@Url.Action("Check", "Orders", new { area = "" })" title="Edit"><i class="p-1 fas fa-edit"></i></a>
+                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@orderTo.Id', 'Details')" title="Details">
+                        <span>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                    <a href='javascript:' onclick="showInPopup('/Orders/Fail/@order.Id', '@localizer["Order failure"]')" title="Fail"><i class="fas fa-ban text-danger"></i></a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#orders_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                //"scrollX": true,
+                //"scrollCollapse": true,
+            });
+        });
+    </script>
+}

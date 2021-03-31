@@ -1,4 +1,18 @@
-﻿[...document.querySelectorAll(".tabcontent[id*=course]")].forEach(tc => {
+﻿$(document).ready(function () {
+    $('.summernote').summernote({
+        tabsize: 2,
+        height: 100,
+        toolbar: [
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']]
+        ]
+    });
+});
+
+[...document.querySelectorAll(".tabcontent[id*=course]")].forEach(tc => {
     let companyId = tc.querySelector("select[id*=CompanyId]");
     let addContactBtn = tc.querySelector("#addContact");
     let addDriverBtn = tc.querySelector("#addDriver");

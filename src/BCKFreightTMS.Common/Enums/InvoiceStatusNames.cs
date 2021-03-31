@@ -4,8 +4,7 @@
     {
         Draft,
         Finished,
-        DocumentationCheck,
         AwaitingApproval,
-        Approved,
+        AwaitingPayment,
     }
 }

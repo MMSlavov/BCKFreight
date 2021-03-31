@@ -21,16 +21,23 @@ function displayBusyIndicator() {
 
 let instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
 
-showInPopup = (url, title, callback) => {
+showInPopup = (url, title, callback, afterPost) => {
     $.ajax({
         type: 'GET',
         url: url,
         success: function (res) {
+            console.log(res);
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
             if (callback) {
                 callback();
+            }
+            if (afterPost) {
+                document.querySelector("#form-modal form").addEventListener("submit", (ev) => {
+                    ev.preventDefault();
+                    jQueryAjaxPost(ev.target, afterPost);
+                })
             }
             // to make popup draggable
             $(".modal-header").on("mousedown", function (mousedownEvt) {

@@ -150,6 +150,9 @@
   <data name="Cargo" xml:space="preserve">
     <value>Товар</value>
   </data>
+  <data name="Cargo details" xml:space="preserve">
+    <value>Детайли за товара</value>
+  </data>
   <data name="City" xml:space="preserve">
     <value>Град</value>
   </data>
@@ -181,7 +184,7 @@
     <value>Delivery note</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Детайли за товара</value>
+    <value>Допълнителни инструкции</value>
   </data>
   <data name="Dimentions" xml:space="preserve">
     <value>Размери</value>
@@ -223,7 +226,7 @@
     <value>Мега</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Име</value>
+    <value>Наименование</value>
   </data>
   <data name="Net weight" xml:space="preserve">
     <value>Тегло нето</value>

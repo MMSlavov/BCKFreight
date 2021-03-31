@@ -112,6 +112,7 @@
             services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<ICargosService, CargosService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IInvoicesService, InvoicesService>();
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IVehiclesService, VehiclesService>();

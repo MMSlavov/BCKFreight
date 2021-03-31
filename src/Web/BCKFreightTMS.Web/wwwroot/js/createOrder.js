@@ -3,13 +3,14 @@
 //let companyId = currentCourse.querySelector("select[id*=CompanyId]");
 
 [...document.querySelectorAll(".tabcontent[id*=course]")].forEach(tc => {
+    let id = tc.id;
     let companyId = tc.querySelector("select[id*=CompanyId]");
     let addContactBtn = tc.querySelector(".addContact");
     let addDriverBtn = tc.querySelector(".addDriver");
     let addVehicleBtn = tc.querySelector(".addVehicle");
     let addTrailerBtn = tc.querySelector(".addTrailer");
     let radios = tc.querySelector(".radios");
-    let trailerSelectEl = $(tc).find("#trailerSelect");
+    let trailerSelectEl = $("#" + id + " #trailerSelect");
 
     radios.addEventListener("change", function (ev) {
         if (ev.target.id == "radSolo") {
@@ -25,96 +26,95 @@
         let action = typeEl.data().action;
         let title = typeEl.data().modal_title;
 
-        showInPopup('/Vehicles/' + action + '/' + companyId.value, title);
+        showInPopup('/Vehicles/' + action + '/' + companyId.value, title, null, RefreshDropdowns);
     });
     addTrailerBtn.addEventListener("click", function (ev) {
-        showInPopup('/Vehicles/AddTrailerModal/' + companyId.value, ev.target.parentNode.dataset.modal_title);
+        showInPopup('/Vehicles/AddTrailerModal/' + companyId.value, ev.target.parentNode.dataset.modal_title, null, RefreshDropdowns);
     });
     addContactBtn.addEventListener("click", function (ev) {
-        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact', null, RefreshDropdowns);
     });
     addDriverBtn.addEventListener("click", function (ev) {
-        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver', null, RefreshDropdowns);
     });
 
     $(function () { $(tc).find('.selectpicker').selectpicker(); });
 
     $(function () {
-        $(tc).find("#areaFilter").change(function () {
-            $.getJSON("/Orders/GetCarriersByArea", { area: $(tc).find("#areaFilter").val() }, function (d) {
+        $("#" + id + " #areaFilter").change(function () {
+            $.getJSON("/Orders/GetCarriersByArea", { area: $("#" + id + " #areaFilter").val() }, function (d) {
                 let row = "";
-                $(tc).find("select[id*=CompanyId]").empty();
+                $("#" + id + " select[id*=CompanyId]").empty();
                 $.each(d, function (i, v) {
                     row += "<option value=" + v.value + ">" + v.text + "</option>";
                 });
-                $(tc).find("select[id*=CompanyId]").html(row);
+                $("#" + id + " select[id*=CompanyId]").html(row);
                 RefreshDropdowns();
                 $(tc).find('.selectpicker').selectpicker('refresh');
             })
         })
-        $(tc).find("select[id*=CompanyId]").change(function () {
+        $("#" + id + " select[id*=CompanyId]").change(function () {
             RefreshDropdowns();
         });
         $('#form-modal').on('submit', function () {
             RefreshDropdowns();
         });
-
-        function RefreshDropdowns() {
-            $.getJSON("/Orders/GetContacts", { companyId: $(tc).find("select[id*=CompanyId]").val() }, function (d) {
-                let row = "";
-                addContactBtn.style.display = "";
-                console.log(tc);
-                $(tc).find("#contactTo").empty();
-                $.each(d, function (i, v) {
-                    row += "<option value=" + v.value + ">" + v.text + "</option>";
-                });
-                $(tc).find("#contactTo").html(row);
-                let item = new Option("Select", '', true, true);
-                $(item).html("Select");
-                //item.setAttribute("disabled", "disabled");
-                $(tc).find("#contactTo").append(item);
-            })
-            $.getJSON("/Orders/GetDrivers", { companyId: $(tc).find("select[id*=CompanyId]").val() }, function (d) {
-                let row = "";
-                addDriverBtn.style.display = "";
-                $(tc).find("#driver").empty();
-                $.each(d, function (i, v) {
-                    row += "<option value=" + v.value + ">" + v.text + "</option>";
-                });
-                $(tc).find("#driver").html(row);
-                let item = new Option("Select", '', true, true);
-                $(item).html("Select");
-                //item.setAttribute("disabled", "disabled");
-                $(tc).find("#driver").append(item);
-            })
-            $.getJSON("/Orders/GetVehicles", { companyId: $(tc).find("select[id*=CompanyId]").val() }, function (d) {
-                let row = "";
-                addVehicleBtn.style.display = "";
-                $(tc).find("#vehicle").empty();
-                $.each(d, function (i, v) {
-                    row += "<option value=" + v.value + ">" + v.text + "</option>";
-                });
-                $(tc).find("#vehicle").html(row);
-                let item = new Option("Select", '', true, true);
-                $(item).html("Select");
-                //item.setAttribute("disabled", "disabled");
-                $(tc).find("#vehicle").append(item);
-            })
-            $.getJSON("/Orders/GetTrailers", { companyId: $(tc).find("select[id*=CompanyId]").val() }, function (d) {
-                let row = "";
-                addTrailerBtn.style.display = "";
-                $(tc).find("#trailer").empty();
-                $.each(d, function (i, v) {
-                    row += "<option value=" + v.value + ">" + v.text + "</option>";
-                });
-                $(tc).find("#trailer").html(row);
-                let item = new Option("Select", '', true, true);
-                $(item).html("Select");
-                //item.setAttribute("disabled", "disabled");
-                $(tc).find("#trailer").append(item);
-            })
-        }
     })
+
+    function RefreshDropdowns() {
+        $.getJSON("/Orders/GetContacts", { companyId: $("#" + id + " select[id*=CompanyId]").val() }, function (d) {
+            let row = "";
+            addContactBtn.style.display = "";
+            $("#" + id + " #contactTo").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#" + id + " #contactTo").html(row);
+            let item = new Option("Select", '', true, true);
+            $(item).html("Select");
+            //item.setAttribute("disabled", "disabled");
+            $("#" + id + " #contactTo").append(item);
+        })
+        $.getJSON("/Orders/GetDrivers", { companyId: $("#" + id + " select[id*=CompanyId]").val() }, function (d) {
+            let row = "";
+            addDriverBtn.style.display = "";
+            $("#" + id + " #driver").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#" + id + " #driver").html(row);
+            let item = new Option("Select", '', true, true);
+            $(item).html("Select");
+            //item.setAttribute("disabled", "disabled");
+            $("#" + id + " #driver").append(item);
+        })
+        $.getJSON("/Orders/GetVehicles", { companyId: $("#" + id + " select[id*=CompanyId]").val() }, function (d) {
+            let row = "";
+            addVehicleBtn.style.display = "";
+            $("#" + id + " #vehicle").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#" + id + " #vehicle").html(row);
+            let item = new Option("Select", '', true, true);
+            $(item).html("Select");
+            //item.setAttribute("disabled", "disabled");
+            $("#" + id + " #vehicle").append(item);
+        })
+        $.getJSON("/Orders/GetTrailers", { companyId: $("#" + id + " select[id*=CompanyId]").val() }, function (d) {
+            let row = "";
+            addTrailerBtn.style.display = "";
+            $("#" + id + " #trailer").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#" + id + " #trailer").html(row);
+            let item = new Option("Select", '', true, true);
+            $(item).html("Select");
+            //item.setAttribute("disabled", "disabled");
+            $("#" + id + " #trailer").append(item);
+        })
+    }
 });
 
 document.getElementById("tabs")

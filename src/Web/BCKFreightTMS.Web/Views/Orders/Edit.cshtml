@@ -16,11 +16,11 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group border border-dark rounded bg-gray-light  p-2">
             <h4 class="text-muted text-bold text-center">@localizer["Client"]</h4>
-                <div class="form-group col-6">
-                    <label class="control-label">@localizer["Reference number"]</label>
-                    <input asp-for="OrderFromReferenceNum" class="form-control" placeholder="Reference number" />
-                    <span asp-validation-for="OrderFromReferenceNum" class="text-danger"></span>
-                </div>
+            <div class="form-group col-6">
+                <label class="control-label">@localizer["Reference number"]</label>
+                <input asp-for="OrderFromReferenceNum" class="form-control" placeholder="Reference number" />
+                <span asp-validation-for="OrderFromReferenceNum" class="text-danger"></span>
+            </div>
         </div>
         <div class="tab rounded" id="cTabs">
             @for (int i = 0; i < orderTos.Count; i++)
@@ -215,7 +215,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">@localizer["Details"]</label>
-                                <textarea asp-for="OrderTos[oi].Cargo.Details" class="form-control" rows="2"></textarea>
+                                <textarea asp-for="OrderTos[oi].Cargo.Details" class="form-control summernote" rows="2"></textarea>
                                 <span asp-validation-for="OrderTos[oi].Cargo.Details" class="text-danger"></span>
                             </div>
                         </div>
@@ -277,7 +277,7 @@
                         </div>
                     </div>
                 </div>
-                @Html.HiddenFor(m=> m.OrderTos[oi].Id)
+                @Html.HiddenFor(m => m.OrderTos[oi].Id)
                 @Html.HiddenFor(m => m.OrderTos[oi].DriverId)
                 @Html.HiddenFor(m => m.OrderTos[oi].VehicleId)
             </div>
@@ -293,5 +293,6 @@
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src="/lib/summernote/summernote.min.js"></script>
     <script src="~/js/editOrder.js"></script>
 }

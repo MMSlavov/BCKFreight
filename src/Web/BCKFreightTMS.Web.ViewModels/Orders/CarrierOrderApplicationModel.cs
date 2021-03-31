@@ -10,7 +10,7 @@
 
         public string ReferenceNum { get; set; }
 
-        public int OrderDueDaysFrom { get; set; }
+        public int OrderDueDaysTo { get; set; }
 
         public List<OrderToApplicationModel> OrderTos { get; set; }
 

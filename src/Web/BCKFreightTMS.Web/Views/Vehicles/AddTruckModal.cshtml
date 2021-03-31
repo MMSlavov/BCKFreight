@@ -7,58 +7,56 @@
     //var typeItems = this.Model.TypeItems.Select(ti => new SelectListItem(localizer[ti.Value].Value, ti.Key));
 }
 
-<div>
-    <form asp-action="AddVehicleModal" onsubmit="return jQueryAjaxPost(this);" class="p-1">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-row">
-            <div class="form-group col-6">
-                <label asp-for="RegNumber" class="control-label">@localizer["Registration number"] <span class="text-danger">*</span></label>
-                <input asp-for="RegNumber" class="form-control col-8" placeholder="(AA1234BB)" />
-                <span asp-validation-for="RegNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group col-6">
-                <label asp-for="Name" class="control-label">@localizer["Name"]</label>
-                <input asp-for="Name" class="form-control" placeholder="Vehicle name" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+<form asp-action="AddVehicleModal" class="p-1">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label asp-for="RegNumber" class="control-label">@localizer["Registration number"] <span class="text-danger">*</span></label>
+            <input asp-for="RegNumber" class="form-control col-8" placeholder="(AA1234BB)" />
+            <span asp-validation-for="RegNumber" class="text-danger"></span>
         </div>
-        <div class="form-group col-5">
-            <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
-            <select asp-for="DriverId" id="vehicle_driver" class="form-control" asp-items="@this.ViewBag.TrailerItems">
-                <option disabled selected hidden>Select</option>
-            </select>
+        <div class="form-group col-6">
+            <label asp-for="Name" class="control-label">@localizer["Name"]</label>
+            <input asp-for="Name" class="form-control" placeholder="Vehicle name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="Details" class="control-label">@localizer["Details"]</label>
-            <textarea asp-for="Details" class="form-control" rows="2"></textarea>
-            <span asp-validation-for="Details" class="text-danger"></span>
-        </div>
-        @Html.HiddenFor(m => m.TypeId)
-        @Html.HiddenFor(m => m.CompanyId)
-        @Html.HiddenFor(m => m.LoadingBodyId)
-        <div class="form-group">
-            <input type="submit" value="@localizer["Create"]" class="btn btn-primary" />
-        </div>
-    </form>
-</div>
+    </div>
+    <div class="form-group col-5">
+        <label asp-for="DriverId" class="control-label">@localizer["Driver"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddPersonModal', 'Add Driver')"><i class="fas fa-plus"></i></a>
+        <select asp-for="DriverId" id="vehicle_driver" class="form-control" asp-items="@this.ViewBag.TrailerItems">
+            <option disabled selected hidden>Select</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Details" class="control-label">@localizer["Details"]</label>
+        <textarea asp-for="Details" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Details" class="text-danger"></span>
+    </div>
+    @Html.HiddenFor(m => m.TypeId)
+    @Html.HiddenFor(m => m.CompanyId)
+    @Html.HiddenFor(m => m.LoadingBodyId)
+    <div class="form-group">
+        <input type="submit" value="@localizer["Create"]" class="btn btn-primary" />
+    </div>
+</form>
 
 <script>
     $(function () {
-        $(".modal-body #TypeId").change(function () {
-            let trailer = document.querySelector(".modal-body #trailer");
-            let driver = document.querySelector(".modal-body #vehicle_driver");
+        //$(".modal-body #TypeId").change(function () {
+        //    let trailer = document.querySelector(".modal-body #trailer");
+        //    let driver = document.querySelector(".modal-body #vehicle_driver");
 
-            if ($(".modal-body #TypeId").val() == 2) {
-                trailer.setAttribute("disabled", "disabled");
-                trailer.value = "null";
-                driver.setAttribute("disabled", "disabled");
-                driver.value = "null";
-            }
-            else {
-                trailer.removeAttribute("disabled");
-                driver.removeAttribute("disabled");
-            }
-        })
+        //    if ($(".modal-body #TypeId").val() == 2) {
+        //        trailer.setAttribute("disabled", "disabled");
+        //        trailer.value = "null";
+        //        driver.setAttribute("disabled", "disabled");
+        //        driver.value = "null";
+        //    }
+        //    else {
+        //        trailer.removeAttribute("disabled");
+        //        driver.removeAttribute("disabled");
+        //    }
+        //})
         $.getJSON("/Vehicles/GetDrivers", { companyId: $(".modal-body #CompanyId").val() }, function (d) {
             let row = "";
             $(".modal-body #vehicle_driver").empty();

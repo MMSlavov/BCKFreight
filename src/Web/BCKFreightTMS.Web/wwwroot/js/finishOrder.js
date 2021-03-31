@@ -11,9 +11,22 @@ document.getElementById("yes").addEventListener("change", (ev) => {
 
 document.querySelector("#docCheck a").addEventListener("click", (ev) => CheckDoc(ev.target.id))
 
-document.querySelector("#addRow a").addEventListener("click", (ev) => ShowModal(ev.target.dataset.companyid, ev.target.dataset.title))
+document.querySelector("#addRow a").addEventListener("click", (ev) => ShowModal(ev.target.dataset.companyid, ev.target.dataset.title, CheckDoc, SetRows))
 
 document.getElementById("confirmBtn").addEventListener("click", () => HideCurrentDocumentation());
+
+function SetRows() {
+    [...document.querySelectorAll("#rows tr")].forEach((r) => r.addEventListener("click", (ev) => {
+        if (ev.target.classList.contains("delete")) {
+            let id = ev.target.id;
+            RemoveOrderTo(id);
+            HideCurrentDocumentation();
+        }
+        else {
+            openDocumentation(ev.currentTarget.id.split("_").pop());
+        }
+    }))
+}
 
 document.getElementById("no").addEventListener("change", (ev) => {
     let parent = ev.target.parentNode.parentNode.parentNode.parentNode;
@@ -23,8 +36,12 @@ document.getElementById("no").addEventListener("change", (ev) => {
 function ShowInvoiceEnd() {
     let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => { return sum + parseFloat(e.textContent.trim()) }, 0);
     invoiceEndEl.querySelector("#subTotal").textContent = subTotal.toFixed(2);
-    let vat = subTotal * 0.2;
-    invoiceEndEl.querySelector("#vat").textContent = vat.toFixed(2);
+    let vatEl = invoiceEndEl.querySelector("#vat");
+    let vat = 0;
+    if (vatEl.textContent != "no") {
+        vat = subTotal * 0.2;
+    }
+    vatEl.textContent = vat.toFixed(2);
     let total = subTotal + vat;
     invoiceEndEl.querySelector("#total").textContent = total.toFixed(2);
     invoiceEndEl.style.display = "";

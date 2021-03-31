@@ -69,6 +69,11 @@
 
         public virtual InvoiceIn InvoiceIn { get; set; }
 
+        [ForeignKey(nameof(InvoiceOut))]
+        public string InvoiceOutId { get; set; }
+
+        public virtual InvoiceOut InvoiceOut { get; set; }
+
         public virtual ICollection<DriverOrder> Drivers { get; set; }
 
         public virtual ICollection<OrderAction> OrderActions { get; set; }

@@ -76,6 +76,8 @@
 
         public DbSet<InvoiceIn> InvoiceIns { get; set; }
 
+        public DbSet<InvoiceIn> InvoiceOuts { get; set; }
+
         public DbSet<CarrierOrder> CarrierOrders { get; set; }
 
         public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }

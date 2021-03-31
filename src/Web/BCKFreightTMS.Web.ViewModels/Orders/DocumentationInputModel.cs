@@ -22,5 +22,7 @@
         public bool BillOfGoods { get; set; }
 
         public bool WeighingNote { get; set; }
+
+        public string Problem { get; set; }
     }
 }

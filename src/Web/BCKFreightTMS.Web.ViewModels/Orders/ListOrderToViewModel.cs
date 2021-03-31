@@ -21,6 +21,12 @@
 
         public string CarrierOrderCompanyName { get; set; }
 
+        public string OrderOrderFromContactFirstName { get; set; }
+
+        public string OrderOrderFromContactLastName { get; set; }
+
+        public string OrderOrderFromCompanyName { get; set; }
+
         public decimal PriceNetOut { get; set; }
 
         public int CurrencyOutId { get; set; }

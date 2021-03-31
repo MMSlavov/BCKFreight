@@ -66,7 +66,7 @@ public static class NavigationIndicatorHelper
         }
     }
 
-    public static string MakeActiveClass(this IUrlHelper urlHelper, string result, string[] actions)
+    public static string MakeActiveActionsClass(this IUrlHelper urlHelper, string result, string[] actions, string controller = "")
     {
         try
         {
@@ -75,8 +75,9 @@ public static class NavigationIndicatorHelper
                 return null;
             }
 
+            string controllerName = urlHelper.ActionContext.RouteData.Values["controller"].ToString();
             string methodName = urlHelper.ActionContext.RouteData.Values["action"].ToString();
-            if (string.IsNullOrEmpty(methodName))
+            if (string.IsNullOrEmpty(methodName) || (!controllerName.Equals(controller, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrEmpty(controller)))
             {
                 return null;
             }

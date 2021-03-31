@@ -6,11 +6,12 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IContactsService contacts
-@inject IDeletableEntityRepository<Order> orders
+@inject IDeletableEntityRepository<InvoiceIn> invoices
 @{ 
-    var awaitingOrders = this.User.IsInRole("SuperUser") ? 
-                         this.orders.AllAsNoTracking()
-                                    .Where(o => o.Status.Name == OrderStatusNames.AwaitingApproval.ToString())
+    var awaitingInvoices = this.User.IsInRole("SuperUser") ?
+                         this.invoices.AllAsNoTracking()
+                                    .Where(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString() &&
+                                                i.OrderTos.Any(o => !string.IsNullOrWhiteSpace(o.Documentation.RecievedDocumentation.Problem)))
                                     .Count() : 0;
 }
 
@@ -80,16 +81,16 @@
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
-                @if (awaitingOrders > 0)
-                {<span class="badge badge-danger navbar-badge">@awaitingOrders</span>}
+                @if (awaitingInvoices > 0)
+                {<span class="badge badge-danger navbar-badge">@awaitingInvoices</span>}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 @*<span class="dropdown-header">15 Notifications</span>*@
                 <div class="dropdown-divider"></div>
-                @if (awaitingOrders > 0)
+                @if (awaitingInvoices > 0)
                 {
-                    <a asp-controller="Orders" asp-action="Check" class="dropdown-item">
-                        You have @awaitingOrders orders for approval.
+                    <a asp-controller="Invoices" asp-action="Incomplete" class="dropdown-item">
+                        You have @awaitingInvoices invoices for approval.
                     </a>
                 }
                 @*<div class="dropdown-divider"></div>
@@ -103,7 +104,7 @@
                         <span class="float-right text-muted text-sm">2 days</span>
                     </a>*@
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">@(awaitingOrders > 0 ? "See All Notifications" : "No notifications")</a>
+                <a href="#" class="dropdown-item dropdown-footer">@(awaitingInvoices > 0 ? "See All Notifications" : "No notifications")</a>
             </div>
         </li>
         @*@await Html.PartialAsync("_CulturePartial")*@

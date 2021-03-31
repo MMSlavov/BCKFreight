@@ -29,5 +29,9 @@
         public const string BGOrderNumberFormat = "{0}{1}{2}";
 
         public const string NonBGOrderNumberFormat = "{1}-{0}{2}";
+
+        public const string InvoiceOutNumberFormat = "7{0}";
+
+        public static readonly int[] DueDaysValues = { 15, 30, 45 };
     }
 }

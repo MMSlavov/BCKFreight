@@ -15,11 +15,19 @@
 
         public decimal PriceNetOut { get; set; }
 
+        public int CurrencyOutId { get; set; }
+
+        public decimal PriceNetIn { get; set; }
+
+        public int CurrencyInId { get; set; }
+
         public string VehicleRegNumber { get; set; }
 
         public string VehicleTrailerRegNumber { get; set; }
 
         public string CarrierOrderReferenceNum { get; set; }
+
+        public bool IsDocValid { get; set; }
 
         public DocumentationInputModel Documentation { get; set; }
 

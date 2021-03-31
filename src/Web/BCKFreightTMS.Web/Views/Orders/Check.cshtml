@@ -122,7 +122,7 @@
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     @*<a asp-action="Edit" asp-route-id="@order.Id" asp-route-returnUrl="@Url.Action("Check", "Orders", new { area = "" })" title="Edit"><i class="p-1 fas fa-edit"></i></a>*@
-                    <a href="javascript:" onclick="showInPopup('/Orders/Details/@orderTo.Id', 'Details')" title="Details">
+                    <a href="javascript:" onclick="showInPopup('/Orders/OrderToDetails/@orderTo.Id', 'Details')" title="Details">
                         <span>
                             <i class="p-1 fas fa-info-circle"></i>
                         </span>

@@ -144,6 +144,9 @@
   <data name="Filed" xml:space="preserve">
     <value>Заведени вх. ф-ри</value>
   </data>
+  <data name="For invoicing" xml:space="preserve">
+    <value>За фактуриране към к-т</value>
+  </data>
   <data name="Incoming" xml:space="preserve">
     <value>Входящи</value>
   </data>
@@ -156,8 +159,14 @@
   <data name="Orders" xml:space="preserve">
     <value>Заявки</value>
   </data>
+  <data name="Outgoing" xml:space="preserve">
+    <value>Изходящи</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="Unfinished" xml:space="preserve">
+    <value>За добавяне на курс</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Потребители</value>

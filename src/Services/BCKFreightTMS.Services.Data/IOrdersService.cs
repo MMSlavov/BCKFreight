@@ -63,10 +63,6 @@
 
         public Task<string> FinishInvoiceInAsync(InvoiceInInputModel input);
 
-        public bool ValidateFinishModel(InvoiceInInputModel input);
-
-        public Task MarkInvoiceInForApproval(string invoiceId);
-
-        public Task ApproveInvoice(InvoiceInInputModel input);
+        public bool ValidateFinishModel(IEnumerable<OrderToInvoiceModel> input);
     }
 }

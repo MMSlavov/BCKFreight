@@ -1,0 +1,308 @@
+﻿@using BCKFreightTMS.Common.Enums
+@using BCKFreightTMS.Common
+@using BCKFreightTMS.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Invoices.InvoiceInEditModel
+@{
+    var user = await this.userManager.GetUserAsync(this.User);
+    var orderTos = this.Model.OrderTos;
+    var currOrderToIndex = -1;
+    var isCurrOrderTo = false;
+}
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*<h4><b>@localizer["Documentation check"]</b></h4>
+    <hr />*@
+<form method="post" class="p-2" id="documentation_form">
+    <div class="form-group border bg-white p-4">
+        <div class="form-row justify-content-around mb-4">
+            <div class="col-4"></div>
+            <div class="col-4 text-center">
+                <p class="m-0" style="font-size:25px"><b>Фактура</b></p>
+                <p class="m-0">/входяща/</p>
+                <p class="m-0 ml-auto" style="font-size:18px"><i>Оригинал</i></p>
+            </div>
+            <div class="col-4 flex">
+                <div class="col-7 ml-auto">
+                    <div class="row">
+                        <label>Номер:</label>
+                        <input asp-for="Number" class="form-control" />
+                    </div>
+                    <div class="row">
+                        <label>Дата:</label>
+                        <input asp-for="CreateDate" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-around">
+            <table class="table table-sm table-borderless border border-dark rounded bg-gray-light col-5">
+                <tr><td width="6"> Получател: </td><td>@Model.CreatorCompany.Name</td></tr>
+                <tr><td> ДДС №:</td><td>@Model.CreatorCompany.TaxNumber</td></tr>
+                <tr><td> Адрес:</td><td>@Model.CreatorCompany.AddressAddressStreetLine</td></tr>
+                <tr><td> Град:</td><td>@Model.CreatorCompany.AddressAddressCity</td></tr>
+                <tr><td> МОЛ:</td><td>@Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</td></tr>
+                <tr><td> Телефон:</td><td>@Model.CreatorCompany.ComunicatorsMobile1</td></tr>
+            </table>
+            <table class="table table-sm table-borderless border border-dark rounded bg-gray-light col-5">
+                <tr><td width="6"> Доставчик: </td><td>@Model.CarrierCompany.Name</td></tr>
+                <tr><td> ДДС №:</td><td>@Model.CarrierCompany.TaxNumber</td></tr>
+                <tr><td> Адрес:</td><td>@Model.CarrierCompany.AddressAddressStreetLine</td></tr>
+                <tr><td> МОЛ:</td><td>@Model.CarrierCompany.AddressMOLFirstName @Model.CarrierCompany.AddressMOLLastName</td></tr>
+                <tr><td> Телефон:</td><td>@Model.CarrierCompany.ComunicatorsMobile1</td></tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <table class="table table-sm table-bordered table-hover mb-1">
+                <thead class="bg-gray-light text-center">
+                    <tr>
+                        <th>
+                            <b>№</b>
+                        </th>
+                        <th>
+                            Наименование на стоката/услугата
+                        </th>
+                        <th>
+                            Мярка
+                        </th>
+                        <th>
+                            Количество
+                        </th>
+                        <th>
+                            Цена
+                        </th>
+                        <th style="visibility: hidden;"></th>
+                    </tr>
+                </thead>
+                <tbody id="rows">
+                    @for (int i = 0; i < Model.OrderTos.Count; i++)
+                    {
+                        var orderTo = orderTos[i];
+                        if (!orderTo.IsDocValid &&
+                            !isCurrOrderTo)
+                        {
+                            currOrderToIndex = i;
+                            isCurrOrderTo = true;
+                        }
+                        <tr id="row_@i" @*class="@(orderTos[i].IsDocValid?"table-success":(i == currOrderToIndex ? "table-danger active-row":"table-danger"))"*@ style="cursor: pointer;">
+                            <td>
+                                <b>1</b>
+                            </td>
+                            <td>
+                                Транспортна услуга <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                                с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                                по заявка <b>@Model.OrderTos[i].CarrierOrderReferenceNum</b>
+                                @Html.HiddenFor(m => m.OrderTos[i].Id)
+                            </td>
+                            <td>
+                                курс
+                            </td>
+                            <td>
+                                1.00
+                            </td>
+                            <td class="price">
+                                @Model.OrderTos[i].PriceNetOut
+                            </td>
+                            <td class="text-center align-middle">
+                                <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger'></i>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="docs" class="border rounded bg-gray-light p-2" @*@(orderTos.Any(o => !o.IsDocValid) ? "" : "style=display:none")*@ style="display:none">
+            @for (int i = 0; i < Model.OrderTos.Count; i++)
+            {
+                var orderTo = orderTos[i];
+                <div class="form-group m-0 rounded" id="doc_@i" @(i == currOrderToIndex ? "" : "style=display:none")>
+                    <div class="form-row justify-content-center">
+                        @if (!orderTo.IsDocValid)
+                            {
+                                <div class="text-center solve">
+                                    <div class="form-group border border-dark rounded p-2 m-0">
+                                        @if (string.IsNullOrWhiteSpace(Model.OrderTos[i].DocumentationRecievedDocumentation.Problem))
+                                                {
+                                        <div style="max-width:270px"><p class="border rounded bg-warning p-1"><b>@localizer["Свържи се с превозвача и уточни кога ще бъде изпратена липсващата документация"]</b></p></div>
+                                                }
+                                                else
+                                                {
+                                        <p class="border rounded bg-warning p-1"><b>@localizer["Проблем"]</b></p>
+                                                }
+                                        <textarea asp-for="OrderTos[i].DocumentationRecievedDocumentation.Problem" placeholder="@localizer["Опиши проблема"]" rows="8" cols="35"></textarea>
+                                    </div>
+                                </div>
+                            }
+                        <div class="form-group border border-dark rounded p-2 m-0 ml-2">
+                            <h5 class="text-muted text-bold">@localizer["Requaired documentation"]</h5>
+                            <div class="col" id="reqDoc">
+                                @if (Model.OrderTos[i].Documentation.CMR)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["CMR"]</label></div>}
+                                @if (Model.OrderTos[i].Documentation.BillOfLading)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of lading"]</label></div>}
+                                @if (Model.OrderTos[i].Documentation.AOA)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Act of acceptance"]</label></div>}
+                                @if (Model.OrderTos[i].Documentation.DeliveryNote)
+                                    {<div><i class="fas fa-check mr-2"></i><label>Delivery note</label></div>}
+                                @if (Model.OrderTos[i].Documentation.PackingList)
+                                    {<div><i class="fas fa-check mr-2"></i><label>Packing list</label></div>}
+                                @if (Model.OrderTos[i].Documentation.ListItems)
+                                    {<div><i class="fas fa-check mr-2"></i><label>List items</label></div>}
+                                @if (Model.OrderTos[i].Documentation.Invoice)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Invoice"]</label></div>}
+                                @if (Model.OrderTos[i].Documentation.BillOfGoods)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of goods"]</label></div>}
+                                @if (Model.OrderTos[i].Documentation.WeighingNote)
+                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Weighing note"]</label></div>}
+                            </div>
+                        </div>
+                        <div class="form-group border border-dark rounded p-2 m-0 ml-2">
+                            <h5 class="text-muted text-bold">@localizer["Recieved documentation"]</h5>
+                            <div class="col">
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.CMR" type="checkbox"><label class="ml-1">@localizer["CMR"]</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.BillOfLading" type="checkbox"><label class="ml-1">@localizer["Bill of lading"]</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.AOA" type="checkbox"><label class="ml-1">@localizer["Act of acceptance"]</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.DeliveryNote" type="checkbox"><label class="ml-1">Delivery note</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.PackingList" type="checkbox"><label class="ml-1">Packing list</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.ListItems" type="checkbox"><label class="ml-1">List items</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.Invoice" type="checkbox"><label class="ml-1">@localizer["Invoice"]</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.BillOfGoods" type="checkbox"><label class="ml-1">@localizer["Bill of goods"]</label></div>
+                                <div><input asp-for="OrderTos[i].DocumentationRecievedDocumentation.WeighingNote" type="checkbox"><label class="ml-1">@localizer["Weighing note"]</label></div>
+                            </div>
+                        </div>
+                        <div class="row m-0 pb-3 align-items-center">
+                            <div class="text-center">
+                                <div class="col my-2" id="docCheck"><a href="javascript:" id="@i" class="btn btn-primary">OK</a></div>
+                                @*@if (this.User.IsInRole("SuperUser"))
+                                    {
+                                        <div class="col" id="approve"><a href="javascript:" id="@i" class="btn btn-success">@localizer["Одобри"]</a></div>
+                                    }*@
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.CMR)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.BillOfLading)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.AOA)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.DeliveryNote)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.PackingList)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.ListItems)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.Invoice)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.BillOfGoods)
+                    @Html.HiddenFor(m => m.OrderTos[i].Documentation.WeighingNote)
+                </div>
+            }
+        </div>
+        @*<div class="form-group ml-2" id="invoiceAddRow" @(orderTos.Any(o => o.IsDocValid) ? "" : "style=display:none")>
+                <div class="form-row">
+                    <p><b>@localizer["Има ли допълнителни курсове във фактурата?"]</b></p>
+                    <div class="ml-2">
+                        <label class="ml-4"><input class="form-check-input" name="is" type="radio" id="yes" />@localizer["Да"]</label>
+                        <label class="ml-4"><input class="form-check-input" name="is" type="radio" id="no" />@localizer["Не"]</label>
+                    </div>
+                </div>
+                <div class="form-row" id="addRow" style="display:none">
+                    <a href="javascript:" data-companyId="@Model.CarrierCompany.Id" data-title="@localizer["Добави курс"]" class="btn btn-primary"><i class="fa fa-plus mr-2"></i>@localizer["Добави следващ курс"]</a>
+                </div>
+            </div>*@
+        <div class="form-group" id="invoiceEnd" @*style="display:none"*@>
+            <div class="flex">
+                <div class="form-group col-4 ml-auto mb-1">
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">0</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@(!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"0":"no")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">0</td></tr>
+                    </table>
+                </div>
+                <div class="form-row justify-content-between">
+                    <div>
+                        @if (!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            <label>@localizer["Основание за неначисляване на ДДС"]</label>
+                            <select asp-for="ReasonNoVATId" class="form-control" asp-items="@Model.ReasonNoVATItems">
+                                <option value="null">Select</option>
+                            </select>
+                        }
+                    </div>
+                    <div class="col-4">
+                        <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.CarrierCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
+                        <select asp-for="BankDetailsId" class="form-control" asp-items="@Model.BankDetailsItems"></select>
+                    </div>
+                </div>
+                <div class="form-row justify-content-between">
+                    <p class="m-0 mt-2 ml-2"><i>@localizer["Получил:"]</i> @Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</p>
+                    <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил:"]</i> @Model.CarrierCompany.AddressMOLFirstName @Model.CarrierCompany.AddressMOLLastName</p>
+                </div>
+                @*<hr />
+                    <div class="row justify-content-center">
+                        <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
+                    </div>*@
+            </div>
+        </div>
+        <div class="form-row justify-content-start" id="finish" @*style="display:none"*@>
+            <div class="form-group col-6">
+                <div class="form-group">
+                    <label>@localizer["Дата на получаване"]</label>
+                    <input asp-for="ReceiveDate" class="form-control col-6" />
+                </div>
+                <div class="form-row mt-4 ml-2">
+                    <label>@localizer["Срок на плащане"]: </label>
+                    @foreach (var val in BCKFreightTMS.Common.GlobalConstants.DueDaysValues)
+                    {
+                        if (val == Model.DueDays)
+                        {
+                            <label class="ml-4"><input class="form-check-input" asp-for="DueDays" type="radio" value="@val" checked />@val @localizer["дни"]</label>
+                        }
+                        else
+                        {
+                            <label class="ml-4"><input class="form-check-input" asp-for="DueDays" type="radio" value="@val" />@val @localizer["дни"]</label>
+                        }
+                    }
+                </div>
+            </div>
+            @*<div class="row align-items-center col-3">
+                @if (orderTos.Any(o => !o.IsDocValid))
+                {
+                    <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" disabled value="@localizer["Завеждане"]" />
+                }
+                else
+                {
+                    <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["Завеждане"]" />
+                }
+                @if (Model.StatusName == OrderStatusNames.AwaitingApproval.ToString())
+                {
+                    <input asp-action="ApproveDocumentation" type="submit" class="btn btn-warning" value="@localizer["Approve order documentation"]" />
+                }
+            </div>*@
+        </div>
+        @Html.HiddenFor(m => m.Id)
+        <div class="form-group mt-2">
+            <a asp-action="Filed" class="btn btn-secondary">@localizer["Cancel"]</a>
+            <input asp-action="Save" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази"]" />
+        </div>
+    </div>
+</form>
+<div class="modal" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@localizer["Warning"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-bold text-center">
+                    @localizer["The requaired documentation do not match the received documentation!"]
+                </p>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>*@
+                <a id="confirmBtn" class="btn btn-warning">@localizer["Mark for approval"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="module" src="~/js/editInvoiceIn.js"></script>
+}

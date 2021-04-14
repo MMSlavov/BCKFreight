@@ -48,7 +48,7 @@
                     <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td class="align-middle text-center">
-                    <a asp-action="EditOut" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
+                    <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
                 </td>
                 @*<td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="Edit" asp-route-id="@order.Id" title="Edit"><i class="pr-2 fas fa-edit"></i></a>

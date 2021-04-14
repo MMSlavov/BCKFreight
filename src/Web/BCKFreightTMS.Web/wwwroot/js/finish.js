@@ -2,10 +2,19 @@
 
 let invoiceEndEl = document.querySelector("#invoiceEnd");
 let finish = document.querySelector("#finish");
+let vatEl = invoiceEndEl.querySelector("#vat");
+let vatReasonEl = document.querySelector('.vatReason');
+const val = vatReasonEl.dataset.selected;
+vatReasonEl.querySelector("option[value='" + val + "']").selected = true;
+
+vatReasonEl.addEventListener("change", (ev) => {
+    calculateTotal();
+})
 
 document.getElementById("yes").addEventListener("change", (ev) => {
     let parent = ev.target.parentNode.parentNode.parentNode;
     parent.nextSibling.nextSibling.style.display = "block";
+    invoiceEndEl.style.display = 'none';
     //parent.style.display = "none";
 });
 
@@ -25,11 +34,13 @@ function SetRows() {
             let id = ev.target.id;
             RemoveOrderTo(id);
             HideCurrentDocumentation();
+            calculateTotal();
         }
         else {
             openDocumentation(ev.currentTarget.id.split("_").pop());
         }
     }))
+
 }
 SetRows();
 
@@ -44,17 +55,21 @@ document.getElementById("no").addEventListener("change", (ev) => {
     ev.target.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "none";
 })
 function ShowInvoiceEnd() {
+    calculateTotal();
+    invoiceEndEl.style.display = "";
+}
+
+function calculateTotal() {
     let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => { return sum + parseFloat(e.textContent.trim()) }, 0);
     invoiceEndEl.querySelector("#subTotal").textContent = subTotal.toFixed(2);
-    let vatEl = invoiceEndEl.querySelector("#vat");
+    
     let vat = 0;
-    if (vatEl.textContent != "no") {
+    if (vatReasonEl.value == vatReasonEl.dataset.vatitemid) {
         vat = subTotal * 0.2;
     }
     vatEl.textContent = vat.toFixed(2);
     let total = subTotal + vat;
     invoiceEndEl.querySelector("#total").textContent = total.toFixed(2);
-    invoiceEndEl.style.display = "";
 }
 
 document.getElementById("showFinish").addEventListener("click", (ev) => {

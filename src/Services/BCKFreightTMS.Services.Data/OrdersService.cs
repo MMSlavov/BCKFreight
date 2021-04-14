@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -40,6 +41,8 @@
         private readonly IDeletableEntityRepository<OrderTo> orderTos;
         private readonly IDeletableEntityRepository<InvoiceIn> invoiceIns;
         private readonly IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
+        private readonly IDeletableEntityRepository<VATReason> vatReasons;
+        private readonly IDeletableEntityRepository<TaxCountry> taxCountries;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
 
@@ -63,6 +66,8 @@
             IDeletableEntityRepository<OrderTo> orderTos,
             IDeletableEntityRepository<InvoiceIn> invoiceIns,
             IDeletableEntityRepository<InvoiceStatus> invoiceStatuses,
+            IDeletableEntityRepository<VATReason> vatReasons,
+            IDeletableEntityRepository<TaxCountry> taxCountries,
             IMapper mapper,
             IEmailSender emailSender)
         {
@@ -85,6 +90,8 @@
             this.orderTos = orderTos;
             this.invoiceIns = invoiceIns;
             this.invoiceStatuses = invoiceStatuses;
+            this.vatReasons = vatReasons;
+            this.taxCountries = taxCountries;
             this.mapper = mapper;
             this.emailSender = emailSender;
         }
@@ -102,12 +109,12 @@
 
         public IEnumerable<T> GetAllOrderTos<T>(Expression<Func<OrderTo, bool>> whereFilter)
         {
-            if (!this.orders.AllAsNoTracking().Any())
+            if (!this.orderTos.AllAsNoTracking().Any())
             {
                 return new List<T>();
             }
 
-            var orders = this.orderTos.All().Where(whereFilter).To<T>().ToList();
+            var orders = this.orderTos.All().Where(whereFilter).ToList().Select(o => this.mapper.Map<T>(o));
             return orders;
         }
 
@@ -133,6 +140,11 @@
             model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
                                                     .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
                                                     .ToList();
+            TaxCountryNames res;
+            model.TaxCountryItems = this.taxCountries.AllAsNoTracking()
+                                        .Select(tc => new KeyValuePair<string, string>(tc.Id.ToString(), tc.Name))
+                                        .ToList()
+                                        .Where(r => Enum.TryParse<TaxCountryNames>(r.Value, true, out res));
             return model;
         }
 
@@ -690,8 +702,29 @@
                                                                .Select(bd => new SelectListItem { Value = bd.Id.ToString(), Text = bd.BankIban });
             invoiceInModel.InvoiceIn.PaymentMethodItems = Enum.GetValues(typeof(PaymentMethods)).Cast<PaymentMethods>().Select(
                             enu => new SelectListItem() { Text = enu.ToString(), Value = enu.ToString() }).ToList();
+            VATReasonsIn res;
+            invoiceInModel.InvoiceIn.ReasonNoVATItems = this.vatReasons.AllAsNoTracking()
+                                                                       .Select(r => new KeyValuePair<string, string>(r.Id.ToString(), r.Name))
+                                                                       .ToList()
+                                                                       .Where(r => Enum.TryParse<VATReasonsIn>(r.Value, out res));
             invoiceInModel.OrderTos = new List<OrderToInvoiceModel>();
             invoiceInModel.OrderTos.Add(this.mapper.Map<OrderToInvoiceModel>(orderTo));
+
+            if (invoiceInModel.OrderCreatorCompany.TaxCountryName == TaxCountryNames.Румъния.ToString())
+            {
+                invoiceInModel.SelectedReasonId = invoiceInModel.InvoiceIn.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл21ал2.ToString()).Key;
+            }
+            else
+            {
+                if (invoiceInModel.OrderTos.Any(ot => ot.NoVAT))
+                {
+                    invoiceInModel.SelectedReasonId = invoiceInModel.InvoiceIn.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл28т2.ToString()).Key;
+                }
+                else
+                {
+                    invoiceInModel.SelectedReasonId = invoiceInModel.InvoiceIn.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл66ал1.ToString()).Key;
+                }
+            }
 
             // var receivedDoc = order.Documentation.RecievedDocumentation;
             // model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);

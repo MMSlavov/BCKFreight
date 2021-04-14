@@ -2,6 +2,12 @@
 
 let invoiceEndEl = document.querySelector("#invoiceEnd");
 let finish = document.querySelector("#finish");
+let vatEl = invoiceEndEl.querySelector("#vat");
+let vatReasonEl = document.querySelector('.vatReason');
+
+vatReasonEl.addEventListener("change", (ev) => {
+    calculateTotal();
+})
 
 document.getElementById("yes").addEventListener("change", (ev) => {
     let parent = ev.target.parentNode.parentNode.parentNode;
@@ -25,6 +31,7 @@ function SetRows() {
             let id = ev.target.id;
             RemoveOrderTo(id);
             HideCurrentDocumentation();
+            calculateTotal();
         }
         else {
             openDocumentation(ev.currentTarget.id.split("_").pop());
@@ -43,18 +50,23 @@ document.getElementById("no").addEventListener("change", (ev) => {
     parent.style.display = "none";
     ev.target.parentNode.parentNode.parentNode.nextSibling.nextSibling.style.display = "none";
 })
+
 function ShowInvoiceEnd() {
+    calculateTotal();
+    invoiceEndEl.style.display = "";
+}
+
+function calculateTotal() {
     let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => { return sum + parseFloat(e.textContent.trim()) }, 0);
     invoiceEndEl.querySelector("#subTotal").textContent = subTotal.toFixed(2);
-    let vatEl = invoiceEndEl.querySelector("#vat");
+
     let vat = 0;
-    if (vatEl.textContent != "no") {
+    if (vatReasonEl.value == vatReasonEl.dataset.vatitemid) {
         vat = subTotal * 0.2;
     }
     vatEl.textContent = vat.toFixed(2);
     let total = subTotal + vat;
     invoiceEndEl.querySelector("#total").textContent = total.toFixed(2);
-    invoiceEndEl.style.display = "";
 }
 
 document.getElementById("showFinish").addEventListener("click", (ev) => {
@@ -99,10 +111,8 @@ function CheckDoc(id) {
     else {
         $('#doc_' + id + ' .solve').show();
     }
-    //let form = document.getElementById("documentation_form");
-    //form.action = "/Orders/FinishOrder";
-    //form.submit();
 }
+
 function HideCurrentDocumentation() {
     [...document.querySelectorAll("#rows tr")].forEach((t) => {
         t.classList.remove("active-row");
@@ -142,24 +152,6 @@ function RefreshBankDetails(form) {
     })
 }
 
-[...document.querySelectorAll("#rows tr")].forEach((r) => r.addEventListener("click", (ev) => {
-    if (ev.target.classList.contains("delete")) {
-        let id = ev.target.id;
-        RemoveOrderTo(id);
-        HideCurrentDocumentation();
-    }
-    else {
-        openDocumentation(ev.currentTarget.id.split("_").pop());
-    }
-}))
-
-function RemoveOrderTo(id) {
-    document.querySelector("#doc_" + id).remove();
-    document.querySelector("#row_" + id).remove();
-    [...document.querySelectorAll("input[name*=\"" + id + "\"]")].forEach((e) => {
-        e.remove()
-    });
-}
 
 function openDocumentation(id) {
     document.getElementById("invoiceAddRow").style.display = "none";

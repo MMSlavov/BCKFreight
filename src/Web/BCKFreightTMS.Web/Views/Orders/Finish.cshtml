@@ -6,6 +6,7 @@
     var orderTos = this.Model.OrderTos;
     var documentation = this.Model.OrderTos[0].Documentation;
     var priceOut = this.financeService.GetAmount(orderTos[0].CurrencyOutId, orderTos[0].PriceNetOut);
+    var vatReasons = this.Model.InvoiceIn.ReasonNoVATItems.Select(r => new SelectListItem(this.localizer[r.Value].Value, r.Key));
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @*<h4><b>@localizer["Documentation check"]</b></h4>
@@ -88,7 +89,7 @@
                             1.00
                         </td>
                         <td class="price">
-                            @priceOut
+                            @($"{priceOut:f2}")
                         </td>
                     </tr>
                 </tbody>
@@ -135,7 +136,7 @@
                         </div>
                     </div>
                     <div class="row m-0 pb-3 align-items-md-center">
-                        <div class="col" id="docCheck"><a href="javascript:" id="0" class="btn btn-primary">OK</a></div>
+                        <div class="col" id="docCheck"><a href="javascript:" id="0" class="btn btn-primary"><b style="pointer-events:none">OK</b></a></div>
                     </div>
                 </div>
                 @Html.HiddenFor(m => m.OrderTos[0].Documentation.CMR)
@@ -166,19 +167,15 @@
                 <div class="form-group col-4 ml-auto mb-1">
                     <table class="table table-sm table-borderless">
                         <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">0</td></tr>
-                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@(!Model.OrderCreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"0":"no")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">0</td></tr>
                         <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">0</td></tr>
                     </table>
                 </div>
                 <div class="form-row justify-content-between">
                     <div>
-                        @if (!Model.OrderCreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            <label>@localizer["Основание за неначисляване на ДДС"]</label>
-                            <select asp-for="InvoiceIn.ReasonNoVATId" class="form-control" asp-items="@Model.InvoiceIn.ReasonNoVATItems">
-                                <option value="null">Select</option>
-                            </select>
-                        }
+                        <label>@localizer["Основание за начисляване / неначисляване на ДДС"]:</label>
+                        <select asp-for="InvoiceIn.VATReasonId" class="form-control col-5 vatReason" data-selected="@Model.SelectedReasonId" data-vatItemId="@(Model.InvoiceIn.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл66ал1.ToString()).Key)" asp-items="@vatReasons">
+                        </select>
                     </div>
                     <div class="col-4">
                         <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.CarrierOrderCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
@@ -191,7 +188,7 @@
                 </div>
                 <hr />
                 <div class="row justify-content-center">
-                    <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
+                    <a href="javascript:" id="showFinish" class="btn btn-primary"><b style="pointer-events:none">OK</b></a>
                 </div>
             </div>
         </div>

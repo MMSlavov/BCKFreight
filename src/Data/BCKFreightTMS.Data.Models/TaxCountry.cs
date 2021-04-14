@@ -10,6 +10,7 @@
         public TaxCountry()
         {
             this.Companies = new HashSet<Company>();
+            this.OrderActions = new HashSet<OrderAction>();
         }
 
         [Required]
@@ -17,5 +18,7 @@
         public string Name { get; set; }
 
         public virtual ICollection<Company> Companies { get; set; }
+
+        public virtual ICollection<OrderAction> OrderActions { get; set; }
     }
 }

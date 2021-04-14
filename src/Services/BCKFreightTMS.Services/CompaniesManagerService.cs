@@ -88,7 +88,8 @@
             }
 
             var mol = elements["Управители/Съдружници"].Trim();
-            var address = elements["Седалище адрес"].Split("  ", StringSplitOptions.RemoveEmptyEntries)[0]
+            var address = elements["Седалище адрес"].Replace("Виж на картата", string.Empty)
+                                                    .Trim()
                                                     .Split(", ")
                                                     .ToArray();
             company.Name = elements["Наименование"];

@@ -9,10 +9,11 @@
     var orderTos = this.Model.OrderTos;
     var currOrderToIndex = -1;
     var isCurrOrderTo = false;
+    var vatReasons = this.Model.ReasonNoVATItems.Select(r => new SelectListItem(this.localizer[r.Value].Value, r.Key));
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @*<h4><b>@localizer["Documentation check"]</b></h4>
-    <hr />*@
+  <hr />*@
 <form method="post" class="p-2" id="documentation_form">
     <div class="form-group border bg-white p-4">
         <div class="form-row justify-content-around mb-4">
@@ -169,7 +170,7 @@
                         </div>
                         <div class="row m-0 pb-3 align-items-center">
                             <div class="text-center">
-                                <div class="col my-2" id="docCheck"><a href="javascript:" id="@i" class="btn btn-primary">OK</a></div>
+                                <div class="col my-2" id="docCheck"><a href="javascript:" id="@i" class="btn btn-primary"><b>OK</b></a></div>
                                 @if (this.User.IsInRole("SuperUser"))
                                 {
                                     <div class="col" id="approve"><a href="javascript:" id="@i" class="btn btn-success">@localizer["Одобри"]</a></div>
@@ -206,19 +207,15 @@
                 <div class="form-group col-4 ml-auto mb-1">
                     <table class="table table-sm table-borderless">
                         <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">0</td></tr>
-                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@(!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"0":"no")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">0</td></tr>
                         <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">0</td></tr>
                     </table>
                 </div>
                 <div class="form-row justify-content-between">
                     <div>
-                        @if (!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            <label>@localizer["Основание за неначисляване на ДДС"]</label>
-                            <select asp-for="ReasonNoVATId" class="form-control" asp-items="@Model.ReasonNoVATItems">
-                                <option value="null">Select</option>
-                            </select>
-                        }
+                        <label>@localizer["Основание за начисляване / неначисляване на ДДС"]:</label>
+                        <select asp-for="VATReasonId" class="form-control col-5 vatReason" data-vatItemId="@(Model.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл66ал1.ToString()).Key)" asp-items="@vatReasons">
+                        </select>
                     </div>
                     <div class="col-4">
                         <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.CarrierCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
@@ -231,7 +228,7 @@
                 </div>
                 <hr />
                 <div class="row justify-content-center">
-                    <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
+                    <a href="javascript:" id="showFinish" class="btn btn-primary"><b>OK</b></a>
                 </div>
             </div>
         </div>
@@ -274,7 +271,7 @@
         @Html.HiddenFor(m => m.Id)
         <div class="form-group mt-2">
             <a asp-action="Incomplete" class="btn btn-secondary">@localizer["Cancel"]</a>
-            <input asp-action="Save" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази"]" />
+            <input asp-action="SaveIn" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази"]" />
         </div>
     </div>
 </form>

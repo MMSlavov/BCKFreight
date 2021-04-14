@@ -50,26 +50,39 @@
             </div>
         </div>
         <div class="col-6"></div>
-        <div class="row flex-row">
-            <div class="m-2 card col-lg-3 col-sm">
-                <div class="card-body p-2">
-                    <h3 class="m-0">Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
-                    <span id="Bucharest_z707" style="font-size:45px; font-family: 'Segoe UI'"></span>
+        <div class="row justify-content-around">
+            <div class="col-lg-3 col-sm">
+                <div class="card">
+                    <div class="card-body p-2">
+                        <h3 class="m-0">Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
+                        <span id="Bucharest_z707" style="font-size:45px; font-family: 'Segoe UI'"></span>
+                    </div>
                 </div>
             </div>
-            <div class="m-2 card col-lg-3 col-sm">
-                <div class="card-body p-2">
-                    <h3 class="m-0">Targovishte <p class="m-0"><strong>Bulgaria</strong></p></h3>
-                    <span id="Targovishte_z729" style="font-size:45px; font-family: 'Segoe UI'"></span>
+            <div class="col-lg-3 col-sm">
+                <div class="card">
+                    <div class="card-body p-2">
+                        <h3 class="m-0">Targovishte <p class="m-0"><strong>Bulgaria</strong></p></h3>
+                        <span id="Targovishte_z729" style="font-size:45px; font-family: 'Segoe UI'"></span>
+                    </div>
                 </div>
             </div>
-            <div class="m-2 card col-lg-3 col-sm">
-                <div class="card-body p-2">
-                    <h3 class="m-0">Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
-                    <span id="Belgrade_z703" style="font-size:45px; font-family: 'Segoe UI'"></span>
+            <div class="col-lg-3 col-sm">
+                <div class="card">
+                    <div class="card-body p-2">
+                        <h3 class="m-0">Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
+                        <span id="Belgrade_z703" style="font-size:45px; font-family: 'Segoe UI'"></span>
+                    </div>
                 </div>
             </div>
-            <a href="https://time.is/" id="time_is_link" rel="nofollow" style="font-size:10px" class="ml-auto mt-auto">time.is</a>
+            <div class="col-lg-3 col-sm">
+                <div class="card">
+                    <div class="card-body p-2">
+                        <h3 class="m-0">Amsterdam <p class="m-0"><strong>Netherlands</strong></p></h3>
+                        <span id="Netherlands_z700" style="font-size:45px; font-family: 'Segoe UI'"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr class="mt-1" />
@@ -118,6 +131,7 @@
         </div>
     </div>
 </section>
+<a href="https://time.is/" id="time_is_link" rel="nofollow" style="font-size:10px" class="float-right">time.is</a>
 
 
 @section Scripts{
@@ -143,7 +157,8 @@
         time_is_widget.init({
             Targovishte_z729: {},
             Bucharest_z707: {},
-            Belgrade_z703: {}
+            Belgrade_z703: {},
+            Netherlands_z700: {}
         });
     </script>
 }

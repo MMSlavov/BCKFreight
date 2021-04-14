@@ -13,6 +13,8 @@
 
         public int TypeId { get; set; }
 
+        public int TaxCountryId { get; set; }
+
         public string TypeName { get; set; }
 
         public AddressInputModel Address { get; set; }

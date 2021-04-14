@@ -20,6 +20,8 @@
 
         public int TypeId { get; set; }
 
+        public int TaxCountryId { get; set; }
+
         public bool NoNotes { get; set; }
 
         public string Notes { get; set; }

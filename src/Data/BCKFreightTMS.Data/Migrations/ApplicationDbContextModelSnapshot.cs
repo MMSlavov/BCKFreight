@@ -838,6 +838,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VATReasonId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BankDetailsId");
@@ -845,6 +848,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("VATReasonId");
 
                     b.ToTable("InvoiceIn");
                 });
@@ -887,6 +892,9 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("VATReasonId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BankDetailsId");
@@ -894,6 +902,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("VATReasonId");
 
                     b.ToTable("InvoiceOut");
                 });
@@ -1030,6 +1040,9 @@ namespace BCKFreightTMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("TaxCountryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
@@ -1045,6 +1058,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasIndex("NotFinishedReasonId");
 
                     b.HasIndex("OrderToId");
+
+                    b.HasIndex("TaxCountryId");
 
                     b.HasIndex("TypeId");
 
@@ -1393,6 +1408,40 @@ namespace BCKFreightTMS.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("TaxCountries");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.VATReason", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("VATReasons");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Vehicle", b =>
@@ -1784,9 +1833,15 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("InvoiceIns")
                         .HasForeignKey("StatusId");
 
+                    b.HasOne("BCKFreightTMS.Data.Models.VATReason", "VATReason")
+                        .WithMany("InvoiceIns")
+                        .HasForeignKey("VATReasonId");
+
                     b.Navigation("BankDetails");
 
                     b.Navigation("Status");
+
+                    b.Navigation("VATReason");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceOut", b =>
@@ -1801,9 +1856,15 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany()
                         .HasForeignKey("StatusId");
 
+                    b.HasOne("BCKFreightTMS.Data.Models.VATReason", "VATReason")
+                        .WithMany("InvoiceOuts")
+                        .HasForeignKey("VATReasonId");
+
                     b.Navigation("BankDetails");
 
                     b.Navigation("Status");
+
+                    b.Navigation("VATReason");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
@@ -1847,6 +1908,10 @@ namespace BCKFreightTMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("BCKFreightTMS.Data.Models.TaxCountry", "TaxCountry")
+                        .WithMany("OrderActions")
+                        .HasForeignKey("TaxCountryId");
+
                     b.HasOne("BCKFreightTMS.Data.Models.ActionType", "Type")
                         .WithMany("OrderActions")
                         .HasForeignKey("TypeId")
@@ -1858,6 +1923,8 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("NotFinishedReason");
 
                     b.Navigation("OrderTo");
+
+                    b.Navigation("TaxCountry");
 
                     b.Navigation("Type");
                 });
@@ -2212,6 +2279,15 @@ namespace BCKFreightTMS.Data.Migrations
             modelBuilder.Entity("BCKFreightTMS.Data.Models.TaxCountry", b =>
                 {
                     b.Navigation("Companies");
+
+                    b.Navigation("OrderActions");
+                });
+
+            modelBuilder.Entity("BCKFreightTMS.Data.Models.VATReason", b =>
+                {
+                    b.Navigation("InvoiceIns");
+
+                    b.Navigation("InvoiceOuts");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Vehicle", b =>

@@ -21,7 +21,7 @@
         public int BankDetailsId { get; set; }
 
         [Required]
-        public int ReasonNoVATId { get; set; }
+        public int VATReasonId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -40,6 +40,6 @@
 
         public IEnumerable<SelectListItem> BankDetailsItems { get; set; }
 
-        public IEnumerable<SelectListItem> ReasonNoVATItems { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> ReasonNoVATItems { get; set; }
     }
 }

@@ -86,7 +86,7 @@ jQueryAjaxPost = (form, callback) => {
                     $('#form-modal .modal-body').html(res.html);
                 }
                 if (callback) {
-                    callback(form);
+                    callback(form, res);
                 }
             },
             error: function (err) {

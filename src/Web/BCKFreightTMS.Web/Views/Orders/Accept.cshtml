@@ -6,6 +6,7 @@
     var cargoTypeItems = this.Model.CargoTypeItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
     var currencyItems = this.Model.CurrencyItems.Select(c => new SelectListItem(c.Value, c.Key));
     var actionTypeItems = this.Model.ActionTypeItems.Select(at => new SelectListItem(at.Value, at.Key));
+    var taxCoutryItems = this.Model.TaxCountryItems.Select(tc => new SelectListItem(localizer[tc.Value].Value, tc.Key));
     var orderTos = this.Model.OrderTos;
 }
 
@@ -70,17 +71,16 @@
                         @Html.Hidden("OrderTos[0].OrderActions[0].TypeId", "1")
                         <div class="form-row">
                             <div class="form-group border rounded col-6 p-2 m-0 ml-2">
-                                <label class="text-muted">@localizer["Address"]</label>
+                                <h5 class="text-muted text-bold">@localizer["Address"]</h5>
                                 <div class="form-row">
+                                    <div class="form-group col-5">
+                                        <label>@localizer["Държава"]</label>
+                                        <select asp-for="OrderTos[0].OrderActions[0].TaxCountryId" class="form-control" asp-items="@taxCoutryItems"></select>
+                                    </div>
                                     <div class="form-group col-7">
                                         <label class="control-label">@localizer["City"]</label>
                                         <input asp-for="OrderTos[0].OrderActions[0].Address.City" class="form-control" placeholder="City name" />
                                         <span asp-validation-for="OrderTos[0].OrderActions[0].Address.City" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label class="control-label">@localizer["Post code"]</label>
-                                        <input asp-for="OrderTos[0].OrderActions[0].Address.Postcode" class="form-control" placeholder="Code" />
-                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.Postcode" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -95,10 +95,17 @@
                                         <span asp-validation-for="OrderTos[0].OrderActions[0].Address.Area" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">@localizer["Street line"]</label>
-                                    <input asp-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="form-control" placeholder="Street and number" />
-                                    <span asp-validation-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="text-danger"></span>
+                                <div class="form-row">
+                                    <div class="form-group col-8">
+                                        <label class="control-label">@localizer["Street line"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="form-control" placeholder="Street and number" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.StreetLine" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label class="control-label">@localizer["Post code"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[0].Address.Postcode" class="form-control" placeholder="Code" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[0].Address.Postcode" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-5 ml-1">
@@ -119,17 +126,16 @@
                         @Html.Hidden("OrderTos[0].OrderActions[1].TypeId", "2")
                         <div class="form-row">
                             <div class="form-group border rounded col-6 p-2 m-0 ml-2">
-                                <label class="text-muted">@localizer["Address"]</label>
+                                <h5 class="text-muted text-bold">@localizer["Address"]</h5>
                                 <div class="form-row">
+                                    <div class="form-group col-5">
+                                        <label>@localizer["Държава"]</label>
+                                        <select asp-for="OrderTos[0].OrderActions[1].TaxCountryId" class="form-control" asp-items="@taxCoutryItems"></select>
+                                    </div>
                                     <div class="form-group col-7">
                                         <label class="control-label">@localizer["City"]</label>
                                         <input asp-for="OrderTos[0].OrderActions[1].Address.City" class="form-control" placeholder="City name" />
                                         <span asp-validation-for="OrderTos[0].OrderActions[1].Address.City" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group col-4">
-                                        <label class="control-label">@localizer["Post code"]</label>
-                                        <input asp-for="OrderTos[0].OrderActions[1].Address.Postcode" class="form-control" placeholder="Code" />
-                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.Postcode" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -143,10 +149,17 @@
                                         <span asp-validation-for="OrderTos[0].OrderActions[1].Address.Area" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">@localizer["Street line"]</label>
-                                    <input asp-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="form-control" placeholder="Street and number" />
-                                    <span asp-validation-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="text-danger"></span>
+                                <div class="form-row">
+                                    <div class="form-group col-8">
+                                        <label class="control-label">@localizer["Street line"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="form-control" placeholder="Street and number" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.StreetLine" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label class="control-label">@localizer["Post code"]</label>
+                                        <input asp-for="OrderTos[0].OrderActions[1].Address.Postcode" class="form-control" placeholder="Code" />
+                                        <span asp-validation-for="OrderTos[0].OrderActions[1].Address.Postcode" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-5 ml-1">

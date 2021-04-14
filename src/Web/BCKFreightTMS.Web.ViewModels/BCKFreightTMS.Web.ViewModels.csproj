@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BCKFreightTMS.Common\BCKFreightTMS.Common.csproj" />
     <ProjectReference Include="..\..\Data\BCKFreightTMS.Data.Models\BCKFreightTMS.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\BCKFreightTMS.Services.Mapping\BCKFreightTMS.Services.Mapping.csproj" />
   </ItemGroup>

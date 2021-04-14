@@ -20,6 +20,14 @@
 
         public InvoiceOutInputModel LoadInvoiceOutModel(string orderId);
 
-        public Task<string> SaveInvoiceOut(InvoiceOutInputModel input);
+        public Task<string> CreateInvoiceOut(InvoiceOutInputModel input);
+
+        public Task<string> SaveInvoiceOut(InvoiceOutEditModel input);
+
+        public InvoiceModel GenerateInvoiceModel(string invoiceId);
+
+        public Task<string> GenerateInvoiceHtml(string id);
+
+        public Task<byte[]> GenerateInvoicePdf(string id);
     }
 }

@@ -82,6 +82,8 @@
 
         public DbSet<InvoiceStatus> InvoiceStatuses { get; set; }
 
+        public DbSet<VATReason> VATReasons { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

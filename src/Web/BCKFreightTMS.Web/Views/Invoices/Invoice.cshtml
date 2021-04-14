@@ -1,0 +1,261 @@
+﻿@using BCKFreightTMS.Common.Enums
+@using BCKFreightTMS.Common
+@using BCKFreightTMS.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> userManager
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Invoices.InvoiceModel
+@{
+    var user = await this.userManager.GetUserAsync(this.User);
+    var orderTos = this.Model.OrderTos;
+    var subTotal = 0m;
+}
+<head>
+    <style>
+        .myInvoice {
+            font-size: 19px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<div class="myInvoice p-1" style="height: 40.5cm">
+    <div class="form-row justify-content-between">
+        <table class="table table-sm table-borderless border border-dark rounded-lg bg-gray-light col-5 ml-1">
+            <tr><td width="6"> Получател: </td><td>@Model.ClientCompany.Name</td></tr>
+            <tr><td> ДДС №:</td><td>@Model.ClientCompany.TaxNumber</td></tr>
+            <tr><td> Адрес:</td><td>@Model.ClientCompany.AddressAddressStreetLine</td></tr>
+            <tr><td> МОЛ:</td><td>@Model.ClientCompany.AddressMOLFirstName @Model.ClientCompany.AddressMOLLastName</td></tr>
+            <tr><td> Телефон:</td><td>@Model.ClientCompany.ComunicatorsMobile1</td></tr>
+        </table>
+        <table class="table table-sm table-borderless border border-dark rounded bg-gray-light col-5 mr-1">
+            <tr><td width="6"> Доставчик: </td><td>@Model.CreatorCompany.Name</td></tr>
+            <tr><td> ДДС №:</td><td>@Model.CreatorCompany.TaxNumber</td></tr>
+            <tr><td> Адрес:</td><td>@Model.CreatorCompany.AddressAddressStreetLine</td></tr>
+            <tr><td> Град:</td><td>@Model.CreatorCompany.AddressAddressCity</td></tr>
+            <tr><td> МОЛ:</td><td>@Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</td></tr>
+            <tr><td> Телефон:</td><td>@Model.CreatorCompany.ComunicatorsMobile1</td></tr>
+        </table>
+    </div>
+    <div class="form-row justify-content-between">
+        <div class="text-left">
+            <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            <p class="m-0 ml-auto noPrev" style="font-size:20px">Оригинал</p>
+        </div>
+        <div class="mr-4">
+            <table class="table table-sm table-borderless">
+                <tr><td class="text-left">Номер:</td><td></td><td><b>@Model.Number</b></td></tr>
+                <tr><td class="text-left">Дата:</td><td></td><td><b>@Model.CreateDate.ToLocalTime().ToShortDateString()</b></td></tr>
+                <tr><td class="text-left">Дата на падеж:</td><td></td><td><b>@Model.CreateDate.AddDays(Model.DueDays).ToLocalTime().ToShortDateString()</b></td></tr>
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <table class="table table-sm table-bordered mb-1">
+            <thead class="bg-gray-light text-center">
+                <tr>
+                    <th>
+                        <b>№</b>
+                    </th>
+                    <th>
+                        Наименование на стоката/услугата
+                    </th>
+                    <th>
+                        Мярка
+                    </th>
+                    <th>
+                        Количество
+                    </th>
+                    <th>
+                        Цена
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="rows">
+                @for (int i = 0; i < Model.OrderTos.Count; i++)
+                {
+                    var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                    var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
+                    subTotal += priceIn;
+                    <tr id="row_@i">
+                        <td>
+                            <b>@(i + 1)</b>
+                        </td>
+                        <td>
+                            Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                            с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                            @(string.IsNullOrWhiteSpace(refNum)? "" : Html.Raw($"по заявка <b>{refNum}</b>"))
+                        </td>
+                        <td class="text-center">
+                            курс
+                        </td>
+                        <td class="text-center">
+                            1.00
+                        </td>
+                        <td class="price text-center">
+                            @($"{priceIn:f2}")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @{
+        var vat = 0m;
+        if (Model.VATReasonName == VATReasons.Чл66ал1.ToString())
+        {
+            vat = subTotal * 0.2m;
+        }
+    }
+    <div class="form-group mb-5" id="invoiceEnd">
+        <div class="flex">
+            <div class="form-row justify-content-between" @*class="form-group col-4 ml-auto mb-1"*@>
+                <p>
+                    @localizer["Основание за начисляване / неначисляване на ДДС"]:<br /> @localizer[Model.VATReasonName]
+                </p>
+                <div class="mr-4">
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">@($"{subTotal:f2}")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@($"{vat:f2}")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">@($"{subTotal + vat:f2}")</td></tr>
+                    </table>
+                </div>
+            </div>
+            <hr />
+            <div class="form-row justify-content-between">
+                <p>
+                    @localizer["Дата на възникване на дан. събитие"]: @this.Model.CreateDate.ToLocalTime().ToShortDateString()
+                </p>
+                <div>
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-left">Плащане:</td><td></td><td>по сметка</td></tr>
+                        <tr><td class="text-left"><b>BIC</b></td><td></td><td>@Model.BankDetailsBankCode</td></tr>
+                        <tr><td class="text-left"><b>IBAN</b></td><td></td><td>@Model.BankDetailsBankIban</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-row justify-content-between">
+                <p class="m-0 mt-2 ml-2"><i>@localizer["Получил подпис: "]</i>.............................</p>
+                <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил подпис: "]</i>.............................</p>
+            </div>
+        </div>
+    </div>
+    <p style="font-size:14px">Съгласно чл.6 от Закона за счетоводството, чл.114 от ЗДДР и чл.78 от ППЗДДС печатът и подписът не са задължителни реквизити във фактурата</p>
+</div>
+<div class="myInvoice p-1 noPrev">
+    <div class="form-row justify-content-between">
+        <table class="table table-sm table-borderless border border-dark rounded bg-gray-light col-5 ml-1">
+            <tr><td width="6"> Получател: </td><td>@Model.ClientCompany.Name</td></tr>
+            <tr><td> ДДС №:</td><td>@Model.ClientCompany.TaxNumber</td></tr>
+            <tr><td> Адрес:</td><td>@Model.ClientCompany.AddressAddressStreetLine</td></tr>
+            <tr><td> МОЛ:</td><td>@Model.ClientCompany.AddressMOLFirstName @Model.ClientCompany.AddressMOLLastName</td></tr>
+            <tr><td> Телефон:</td><td>@Model.ClientCompany.ComunicatorsMobile1</td></tr>
+        </table>
+        <table class="table table-sm table-borderless border border-dark rounded bg-gray-light col-5 mr-1">
+            <tr><td width="6"> Доставчик: </td><td>@Model.CreatorCompany.Name</td></tr>
+            <tr><td> ДДС №:</td><td>@Model.CreatorCompany.TaxNumber</td></tr>
+            <tr><td> Адрес:</td><td>@Model.CreatorCompany.AddressAddressStreetLine</td></tr>
+            <tr><td> Град:</td><td>@Model.CreatorCompany.AddressAddressCity</td></tr>
+            <tr><td> МОЛ:</td><td>@Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</td></tr>
+            <tr><td> Телефон:</td><td>@Model.CreatorCompany.ComunicatorsMobile1</td></tr>
+        </table>
+    </div>
+    <div class="form-row justify-content-between">
+        <div class="text-left">
+            <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            <p class="m-0 ml-auto noPrev" style="font-size:20px">Копие</p>
+        </div>
+        <div class="mr-4">
+            <table class="table table-sm table-borderless">
+                <tr><td class="text-left">Номер:</td><td></td><td><b>@Model.Number</b></td></tr>
+                <tr><td class="text-left">Дата:</td><td></td><td><b>@Model.CreateDate.ToLocalTime().ToShortDateString()</b></td></tr>
+                <tr><td class="text-left">Дата на падеж:</td><td></td><td><b>@Model.CreateDate.AddDays(Model.DueDays).ToLocalTime().ToShortDateString()</b></td></tr>
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <table class="table table-sm table-bordered mb-1">
+            <thead class="bg-gray-light text-center">
+                <tr>
+                    <th>
+                        <b>№</b>
+                    </th>
+                    <th>
+                        Наименование на стоката/услугата
+                    </th>
+                    <th>
+                        Мярка
+                    </th>
+                    <th>
+                        Количество
+                    </th>
+                    <th>
+                        Цена
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="rows">
+                @for (int i = 0; i < Model.OrderTos.Count; i++)
+                {
+                    var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                    var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
+                    subTotal += priceIn;
+                    <tr id="row_@i">
+                        <td>
+                            <b>@(i + 1)</b>
+                        </td>
+                        <td>
+                            Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                            с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                            @(string.IsNullOrWhiteSpace(refNum)? "" : Html.Raw($"по заявка <b>{refNum}</b>"))
+                        </td>
+                        <td class="text-center">
+                            курс
+                        </td>
+                        <td class="text-center">
+                            1.00
+                        </td>
+                        <td class="price text-center">
+                            @($"{priceIn:f2}")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group mb-5" id="invoiceEnd">
+        <div class="flex">
+            <div class="form-row justify-content-between" @*class="form-group col-4 ml-auto mb-1"*@>
+                <p>
+                    @localizer["Основание за начисляване / неначисляване на ДДС"]:<br /> @localizer[Model.VATReasonName]
+                </p>
+                <div class="mr-4">
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">@($"{subTotal:f2}")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@($"{vat:f2}")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">@($"{subTotal + vat:f2}")</td></tr>
+                    </table>
+                </div>
+            </div>
+            <hr />
+            <div class="form-row justify-content-between">
+                <p>
+                    @localizer["Дата на възникване на дан. събитие"]: @this.Model.CreateDate.ToLocalTime().ToShortDateString()
+                </p>
+                <div>
+                    <table class="table table-sm table-borderless">
+                        <tr><td class="text-left">Плащане:</td><td></td><td>по сметка</td></tr>
+                        <tr><td class="text-left"><b>BIC</b></td><td></td><td>@Model.BankDetailsBankCode</td></tr>
+                        <tr><td class="text-left"><b>IBAN</b></td><td></td><td>@Model.BankDetailsBankIban</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-row justify-content-between">
+                <p class="m-0 mt-2 ml-2"><i>@localizer["Получил подпис: "]</i>.............................</p>
+                <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил подпис: "]</i>.............................</p>
+            </div>
+        </div>
+    </div>
+    <p style="font-size:14px">Съгласно чл.6 от Закона за счетоводството, чл.114 от ЗДДР и чл.78 от ППЗДДС печатът и подписът не са задължителни реквизити във фактурата</p>
+</div>

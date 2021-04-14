@@ -14,6 +14,11 @@
 
         public virtual OrderTo OrderTo { get; set; }
 
+        [ForeignKey(nameof(TaxCountry))]
+        public int? TaxCountryId { get; set; }
+
+        public virtual TaxCountry TaxCountry { get; set; }
+
         [Required]
         [ForeignKey(nameof(Address))]
         public int AddressId { get; set; }

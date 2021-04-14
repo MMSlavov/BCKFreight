@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\Web\BCKFreightTMS.Web.ViewModels\BCKFreightTMS.Web.ViewModels.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Services.Mapping\BCKFreightTMS.Services.Mapping.csproj" />
     <ProjectReference Include="..\BCKFreightTMS.Services.Messaging\BCKFreightTMS.Services.Messaging.csproj" />
+    <ProjectReference Include="..\BCKFreightTMS.Services\BCKFreightTMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

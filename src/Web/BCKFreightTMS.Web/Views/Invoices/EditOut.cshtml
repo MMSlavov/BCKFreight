@@ -9,6 +9,7 @@
 @{
     var user = await this.userManager.GetUserAsync(this.User);
     var orderTos = this.Model.OrderTos;
+    var vatReasons = this.Model.ReasonNoVATItems.Select(r => new SelectListItem(this.localizer[r.Value].Value, r.Key));
 }
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @*<h4><b>@localizer["Documentation check"]</b></h4>
@@ -80,12 +81,12 @@
                         var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
                         <tr id="row_@i">
                             <td>
-                                <b>1</b>
+                                <b>@(i + 1)</b>
                             </td>
                             <td>
-                                Транспортна услуга <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                                Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
                                 с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                                по заявка <b>@Model.OrderTos[i].CarrierOrderReferenceNum</b>
+                                по заявка <b>@Model.OrderTos[i].OrderOrderFromReferenceNum</b>
                                 @Html.HiddenFor(m => m.OrderTos[i].Id)
                             </td>
                             <td>
@@ -98,7 +99,7 @@
                                 @($"{priceIn:f2}")
                             </td>
                             <td class="text-center align-middle">
-                                <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger'></i>
+                                <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger' style="cursor: pointer;"></i>
                             </td>
                         </tr>
                     }
@@ -186,7 +187,7 @@
                 </div>
             }
         </div>*@
-        <div class="form-group ml-2" id="invoiceAddRow">
+        @*<div class="form-group ml-2" id="invoiceAddRow">
             <div class="form-row">
                 <p><b>@localizer["Има ли допълнителни курсове във фактурата?"]</b></p>
                 <div class="ml-2">
@@ -197,35 +198,31 @@
             <div class="form-row" id="addRow" style="display:none">
                 <a href="javascript:" data-companyId="@Model.ClientCompany.Id" data-title="@localizer["Добави курс"]" class="btn btn-primary"><i class="fa fa-plus mr-2"></i>@localizer["Добави следващ курс"]</a>
             </div>
-        </div>
-        <div class="form-group" id="invoiceEnd" style="display:none">
+        </div>*@
+        <div class="form-group" id="invoiceEnd">
             <div class="flex">
                 <div class="form-group col-4 ml-auto mb-1">
                     <table class="table table-sm table-borderless">
                         <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">0</td></tr>
-                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">@(!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"0":"no")</td></tr>
+                        <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">0</td></tr>
                         <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">0</td></tr>
                     </table>
                 </div>
                 <div class="form-row justify-content-between">
                     <div>
-                        @if (!Model.CreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            <label>@localizer["Основание за неначисляване на ДДС"]</label>
-                            <select asp-for="ReasonNoVATId" class="form-control" asp-items="@Model.ReasonNoVATItems">
-                                <option value="null">Select</option>
-                            </select>
-                        }
+                        <label>@localizer["Основание за начисляване / неначисляване на ДДС"]:</label>
+                        <select asp-for="VATReasonId" class="form-control col-5 vatReason" data-vatItemId="@(Model.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл66ал1.ToString()).Key)" asp-items="@vatReasons">
+                        </select>
                     </div>
                     <div class="col-4">
-                        <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.ClientCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
+                        <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.CreatorCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
                         <select asp-for="BankDetailsId" class="form-control" asp-items="@Model.BankDetailsItems"></select>
                     </div>
                 </div>
-                <div class="form-row justify-content-between">
+                @*<div class="form-row justify-content-between">
                     <p class="m-0 mt-2 ml-2"><i>@localizer["Получил:"]</i> @Model.ClientCompany.AddressMOLFirstName @Model.ClientCompany.AddressMOLLastName</p>
                     <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил:"]</i> @Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</p>
-                </div>
+                </div>*@
                 @*<hr />
                 <div class="row justify-content-center">
                     <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
@@ -266,32 +263,11 @@
         </div>*@
         @Html.HiddenFor(m => m.Id)
         <div class="form-group mt-2">
-            <a asp-action="Unfinished" class="btn btn-secondary">@localizer["Cancel"]</a>
-            <input type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази"]" />
+            <a asp-action="AwaitingPayment" class="btn btn-secondary">@localizer["Cancel"]</a>
+            <input asp-action="SaveOut" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази"]" />
         </div>
     </div>
 </form>
-@*<div class="modal" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@localizer["Warning"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-bold text-center">
-                    @localizer["The requaired documentation do not match the received documentation!"]
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>
-                <a id="confirmBtn" class="btn btn-warning">@localizer["Mark for approval"]</a>
-            </div>
-        </div>
-    </div>
-</div>*@
 @section Scripts{
     <script type="module" src="~/js/editInvoiceOut.js"></script>
 }

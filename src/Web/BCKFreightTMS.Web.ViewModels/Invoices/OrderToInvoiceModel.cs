@@ -1,8 +1,10 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Invoices
 {
+    using System;
     using System.Linq;
 
     using AutoMapper;
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Orders;
@@ -27,7 +29,11 @@
 
         public string CarrierOrderReferenceNum { get; set; }
 
+        public string OrderOrderFromReferenceNum { get; set; }
+
         public bool IsDocValid { get; set; }
+
+        public bool NoVAT { get; set; }
 
         public DocumentationInputModel Documentation { get; set; }
 
@@ -37,6 +43,9 @@
         {
             configuration.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.Voyage, opt =>
                     opt.MapFrom(x => string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))));
+            NoVATTaxCoutryNames res;
+            configuration.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.NoVAT, opt =>
+                    opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))));
         }
     }
 }

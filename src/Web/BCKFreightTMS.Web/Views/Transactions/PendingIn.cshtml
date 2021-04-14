@@ -1,0 +1,87 @@
+﻿@using BCKFreightTMS.Common.Enums;
+@using BCKFreightTMS.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@inject UserManager<ApplicationUser> userManager
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Invoices.ListInvoiceOutModel>
+@{
+    var user = await this.userManager.GetUserAsync(this.User);
+    var companyCurrency = user.Company.TaxCurrency.Name;
+}
+
+<hr class="mt-1" />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<table class="table table-striped table-hover rounded mb-2" id="orders_data">
+    <thead>
+        <tr>
+            <th>
+                @localizer["Number"]
+            </th>
+            <th>
+                @localizer["Client"]
+            </th>
+            <th>
+                @localizer["Create date"]
+            </th>
+            <th>
+                @localizer["Due date"]
+            </th>
+            @*<th style="visibility: hidden;"></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoiceIn in this.Model)
+        {
+            <tr>
+                <td>
+                    <span class="text-bold"><a asp-controller="Invoices" asp-action="GenerateInvoice" asp-route-id="@invoiceIn.Id">@invoiceIn.Number</a></span>
+                </td>
+                <td>
+                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
+                </td>
+                <td>
+                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                </td>
+                <td>
+                    <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
+                </td>
+                @*<td class="align-middle text-center">
+                    <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
+                </td>*@
+                @*<td class="px-2 text-center align-middle" style="width:auto">
+                    <a asp-action="EditOut" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
+                            <span>
+                                <i class="p-1 fas fa-info-circle"></i>
+                            </span>
+                        </a>
+                    <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(function () {
+            $('#orders_data').DataTable({
+                "paging": true,
+                "filter": true,
+                "processing": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "order": [[3, "asc"]],
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+}

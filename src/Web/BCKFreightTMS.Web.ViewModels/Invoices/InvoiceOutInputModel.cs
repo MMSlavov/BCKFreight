@@ -12,6 +12,8 @@
 
         public int OrderDueDaysFrom { get; set; }
 
+        public string SelectedReasonId { get; set; }
+
         public List<OrderToInvoiceModel> OrderTos { get; set; }
     }
 }

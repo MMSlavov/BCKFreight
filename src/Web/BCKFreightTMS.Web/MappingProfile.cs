@@ -1,9 +1,11 @@
 ﻿namespace BCKFreightTMS.Web
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Cargos;
     using BCKFreightTMS.Web.ViewModels.Contacts;
@@ -55,14 +57,20 @@
             this.CreateMap<OrderToModel, OrderTo>();
             this.CreateMap<OrderTo, OrderToApplicationModel>();
             this.CreateMap<OrderTo, OrderToListModel>();
+            NoVATTaxCoutryNames res;
             this.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))));
+                    opt.MapFrom(x => string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))
+                                                          .ForMember(x => x.NoVAT, opt =>
+                    opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))));
             this.CreateMap<OrderToInvoiceModel, OrderTo>();
             this.CreateMap<CarrierOrder, CarrierOrderApplicationModel>();
             this.CreateMap<CarrierOrder, CarrierOrderListModel>();
             this.CreateMap<OrderTo, InvoiceInInputModel>();
             this.CreateMap<OrderTo, InvoiceOutInputModel>();
             this.CreateMap<BankDetailsModel, BankDetails>();
+            this.CreateMap<InvoiceOut, InvoiceModel>();
+            this.CreateMap<OrderTo, ListOrderToViewModel>().ForMember(x => x.Voyage, opt =>
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}"}</b></p>"));
         }
     }
 }

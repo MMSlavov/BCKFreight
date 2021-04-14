@@ -20,7 +20,6 @@
         <cache enabled="true"><img src="~/img/logo_full2.svg" class="img-fluid"
                     style="max-width: 75%"></cache> 
     </a>
-
     <div class="sidebar">
         <div class="user-panel mb-3 d-flex align-items-center">
             @if (User.Identity.IsAuthenticated)
@@ -102,7 +101,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item pl-2  @Url.MakeActiveActionsClass( "menu-open", new[]{"filed", "incomplete", "editin", "correct" }, "invoices")">
-                                <a href="#" class="nav-link">
+                                <a href="#" class="nav-link @Url.MakeActiveActionsClass( "active", new[]{"filed", "incomplete", "editin", "correct" }, "invoices")">
                                     <i class="nav-icon fas fa-arrow-alt-circle-down"></i>
                                     <p>
                                         @localizer["Incoming"]
@@ -124,8 +123,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item pl-2 @Url.MakeActiveActionsClass( "menu-open", new[]{"forinvoicing", "unfinished", "invoicing", "editout"})">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item pl-2 @Url.MakeActiveActionsClass( "menu-open", new[]{"forinvoicing", "unfinished", "invoicing", "editout", "addition", "awaitingpayment"})">
+                                <a href="#" class="nav-link @Url.MakeActiveActionsClass( "active", new[]{"forinvoicing", "unfinished", "invoicing", "editout", "addition", "awaitingpayment"})">
                                     <i class="nav-icon fas fa-arrow-alt-circle-up"></i>
                                     <p>
                                         @localizer["Outgoing"]
@@ -140,15 +139,81 @@
                                         </a>
                                     </li>
                                     <li class="nav-item pl-2">
-                                        <a asp-area="" asp-controller="Invoices" asp-action="Unfinished" class="nav-link @Url.MakeActiveActionsClass("active", new[]{"unfinished", "editout"}, "invoices")">
+                                        <a asp-area="" asp-controller="Invoices" asp-action="Unfinished" class="nav-link @Url.MakeActiveActionsClass("active", new[]{"unfinished", "addition"}, "invoices")">
                                             <i class="nav-icon fas fa-dot-circle"></i>
                                             <p>@localizer["Unfinished"]</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item pl-2">
+                                        <a asp-area="" asp-controller="Invoices" asp-action="AwaitingPayment" class="nav-link @Url.MakeActiveActionsClass("active", new[]{"awaitingpayment", "editout"}, "invoices")">
+                                            <i class="nav-icon fas fa-dot-circle"></i>
+                                            <p>@localizer["AwaitingPayment"]</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
+                    @if (this.User.IsInRole("SuperUser"))
+                    {
+                        <li class="nav-item  @Url.MakeActiveClass(new[] { "transactions" }, "menu-open")">
+                            <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "transactions" }, "active")">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p>
+                                    @localizer["Transactions"]
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item pl-2  @Url.MakeActiveActionsClass("menu-open", new[] { "pendingout", "paidout" }, "transactions")">
+                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout", "paidout" }, "transactions")">
+                                        <i class="nav-icon fas fa-arrow-alt-circle-up"></i>
+                                        <p>
+                                            @localizer["Contractors"]
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PendingOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Pending"]</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PaidOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "filed", "editin" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Paid"]</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-2 @Url.MakeActiveActionsClass("menu-open", new[] { "pendingin", "paidin" })">
+                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingin", "paidin" })">
+                                        <i class="nav-icon fas fa-arrow-alt-circle-down"></i>
+                                        <p>
+                                            @localizer["Clients"]
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PendingIn" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingin" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Pending"]</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PaidIn" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "paidin" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Paid"]</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Cargos" asp-action="Index" class="nav-link @Url.MakeActiveClass("cargos", null, "active")">
                             <i class="nav-icon fas fa-truck-loading"></i>

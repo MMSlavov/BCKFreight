@@ -35,6 +35,8 @@
                               new ActionNotFinishedReasonsSeeder(),
                               new CurrencyCodesSeeder(),
                               new InvoiceStatusesSeeder(),
+                              new VATReasonsSeeder(),
+                              new TaxCountriesSeeder(),
                           };
 
             foreach (var seeder in seeders)

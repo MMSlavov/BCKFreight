@@ -1,24 +1,75 @@
 ﻿namespace BCKFreightTMS.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
 
     using SelectPdf;
+    using Tesseract;
+    using WIA;
 
     public class PdfService : IPdfService
     {
-        // public byte[] PdfSharpConvert(string html)
+        public List<Image> Scan()
+        {
+            return WIAScanner.Scan();
+        }
+
+        // public string ScanAndOCR()
         // {
-        //    byte[] res = null;
-        //    using (MemoryStream ms = new MemoryStream())
+        //    var images = WIAScanner.Scan();
+        //    string result = string.Empty;
+
+        // using (var ms = new MemoryStream())
         //    {
-        //        var pdf = PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
-        //        pdf.Save(ms);
-        //        res = ms.ToArray();
+        //        images[0].Save(ms, images[0].RawFormat);
+        //        result = this.api.RecognizeImage(ms);
         //    }
 
-        // return res;
+        // return result;
         // }
+        public IEnumerable<string> ScanTessOCR()
+        {
+            var images = WIAScanner.Scan();
+            var result = new List<string>();
+            var ocr = new TesseractEngine("./tessdata", "bul", EngineMode.LstmOnly);
+
+            using (var ms = new MemoryStream())
+            {
+                foreach (var image in images)
+                {
+                    image.Save(ms, image.RawFormat);
+                    var pic = Pix.LoadFromMemory(ms.ToArray()).Deskew();
+                    pic.Save("ocrImg.png", ImageFormat.Png);
+
+                    var res = ocr.Process(pic);
+                    result.Add(res.GetText());
+                }
+            }
+
+            return result;
+        }
+
+        public string FileTessOCR(byte[] data)
+        {
+            var ocr = new TesseractEngine("./tessdata", "bul", EngineMode.LstmOnly);
+
+            var pic = Pix.LoadFromMemory(data);
+            var res = ocr.Process(pic);
+            var result = res.GetText();
+
+            return result;
+        }
+
+        public string[] GetScaners()
+        {
+            var deviceManager = new DeviceManager();
+            var scaners = WIAScanner.GetDevices();
+
+            return scaners.ToArray();
+        }
+
         public byte[] SelectPdfConvert(string html)
         {
             HtmlToPdf converter = new HtmlToPdf();
@@ -52,5 +103,18 @@
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        // public byte[] PdfSharpConvert(string html)
+        // {
+        //    byte[] res = null;
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        var pdf = PdfGenerator.GeneratePdf(html, PdfSharp.PageSize.A4);
+        //        pdf.Save(ms);
+        //        res = ms.ToArray();
+        //    }
+
+        // return res;
+        // }
     }
 }

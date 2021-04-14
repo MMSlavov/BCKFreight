@@ -63,6 +63,8 @@
 
         public IEnumerable<KeyValuePair<string, string>> ActionTypeItems { get; set; }
 
+        public IEnumerable<KeyValuePair<string, string>> TaxCountryItems { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();

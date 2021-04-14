@@ -123,17 +123,26 @@
   <data name="Active" xml:space="preserve">
     <value>В изпълнение</value>
   </data>
+  <data name="AwaitingPayment" xml:space="preserve">
+    <value>Чакащи плащане</value>
+  </data>
   <data name="Cargos" xml:space="preserve">
     <value>Товари</value>
   </data>
   <data name="Check" xml:space="preserve">
     <value>Чака насрещна ф-ра с док.</value>
   </data>
+  <data name="Clients" xml:space="preserve">
+    <value>Клиенти</value>
+  </data>
   <data name="Configuration" xml:space="preserve">
     <value>Конфигурация</value>
   </data>
   <data name="Contacts" xml:space="preserve">
     <value>Контакти</value>
+  </data>
+  <data name="Contractors" xml:space="preserve">
+    <value>Доставчици</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Работен плот</value>
@@ -162,8 +171,17 @@
   <data name="Outgoing" xml:space="preserve">
     <value>Изходящи</value>
   </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Платени</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>За плащане</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="Transactions" xml:space="preserve">
+    <value>Плащания</value>
   </data>
   <data name="Unfinished" xml:space="preserve">
     <value>За добавяне на курс</value>

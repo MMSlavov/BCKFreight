@@ -57,4 +57,10 @@
   <ItemGroup>
     <Folder Include="Hubs\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="tessdata\bul.traineddata">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

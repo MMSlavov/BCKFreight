@@ -34,6 +34,11 @@
 
         public virtual InvoiceStatus Status { get; set; }
 
+        [ForeignKey(nameof(VATReason))]
+        public int? VATReasonId { get; set; }
+
+        public virtual VATReason VATReason { get; set; }
+
         public virtual ICollection<OrderTo> OrderTos { get; set; }
     }
 }

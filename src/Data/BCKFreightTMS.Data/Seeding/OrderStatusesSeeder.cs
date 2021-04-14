@@ -7,18 +7,18 @@
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Models;
 
-    public class OrderStatusesSeeder : ISeeder
+    public class VATReasonsSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            foreach (var name in (OrderStatusNames[])Enum.GetValues(typeof(OrderStatusNames)))
+            foreach (var name in (VATReasons[])Enum.GetValues(typeof(VATReasons)))
             {
-                if (dbContext.OrderStatuses.Any(s => s.Name == name.ToString()))
+                if (dbContext.VATReasons.Any(s => s.Name == name.ToString()))
                 {
                     continue;
                 }
 
-                await dbContext.OrderStatuses.AddAsync(new OrderStatus { Name = name.ToString() });
+                await dbContext.VATReasons.AddAsync(new VATReason { Name = name.ToString() });
             }
 
             await dbContext.SaveChangesAsync();

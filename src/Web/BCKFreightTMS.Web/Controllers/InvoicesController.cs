@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using AspNetCoreHero.ToastNotification.Abstractions;
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -11,6 +12,7 @@
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
+    using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Localization;
@@ -87,6 +89,13 @@
             return this.View(model);
         }
 
+        public IActionResult Addition(string id)
+        {
+            var model = this.invoicesService.LoadInvoiceOutEditModel(id);
+
+            return this.View(model);
+        }
+
         public IActionResult Invoicing(string id)
         {
             var model = this.invoicesService.LoadInvoiceOutModel(id);
@@ -111,8 +120,29 @@
             return this.View(invoices);
         }
 
+        public IActionResult AwaitingPayment()
+        {
+            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString())
+                                                  .To<ListInvoiceOutModel>()
+                                                  .ToList();
+            return this.View(invoices);
+        }
+
+        public async Task<IActionResult> GenerateInvoice(string id)
+        {
+            var invHtml = await this.invoicesService.GenerateInvoiceHtml(id);
+            var invModel = new InvoicePreview { Html = invHtml, InvoiceId = id };
+            return this.View(invModel);
+        }
+
+        public async Task<IActionResult> DownloadInvoice(string id)
+        {
+            var pdfData = await this.invoicesService.GenerateInvoicePdf(id);
+            return this.File(pdfData, GlobalConstants.PdfMimeType, $"Invoice.pdf");
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Save(InvoiceInEditModel input)
+        public async Task<IActionResult> SaveIn(InvoiceInEditModel input)
         {
             await this.invoicesService.SaveInvoiceIn(input);
 
@@ -140,11 +170,39 @@
         [HttpPost]
         public async Task<IActionResult> SaveForAddition(InvoiceOutInputModel input)
         {
-            var invoiceId = await this.invoicesService.SaveInvoiceOut(input);
+            var invoiceId = await this.invoicesService.CreateInvoiceOut(input);
             await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingApproval.ToString());
             this.notyfService.Success(this.localizer["Invoice filed."]);
 
             return this.RedirectToAction("ForInvoicing");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinishOut(InvoiceOutInputModel input)
+        {
+            var invoiceId = await this.invoicesService.CreateInvoiceOut(input);
+            await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
+            this.notyfService.Success(this.localizer["Invoice filed."]);
+
+            return this.Redirect(@$"/Invoices/GenerateInvoice/{invoiceId}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FinishAddition(InvoiceOutEditModel input)
+        {
+            var invoiceId = await this.invoicesService.SaveInvoiceOut(input);
+            await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
+            this.notyfService.Success(this.localizer["Invoice filed."]);
+
+            return this.Redirect(@$"/Invoices/GenerateInvoice/{invoiceId}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveOut(InvoiceOutEditModel input)
+        {
+            await this.invoicesService.SaveInvoiceOut(input);
+
+            return this.RedirectToAction("Unfinished");
         }
     }
 }

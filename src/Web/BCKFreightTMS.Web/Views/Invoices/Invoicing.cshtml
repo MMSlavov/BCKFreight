@@ -7,6 +7,7 @@
     var documentation = this.Model.OrderTos[0].Documentation;
     var vatReasons = this.Model.InvoiceOut.ReasonNoVATItems
                                           .Select(r => new SelectListItem { Text = this.localizer[r.Value].Value, Value = r.Key });
+    var priceIn = this.financeService.GetAmount(orderTos[0].CurrencyInId, orderTos[0].PriceNetIn);
 }
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -88,7 +89,7 @@
                             1.00
                         </td>
                         <td class="price">
-                            @Model.OrderTos[0].PriceNetOut
+                            @($"{priceIn:f2}")
                         </td>
                     </tr>
                 </tbody>

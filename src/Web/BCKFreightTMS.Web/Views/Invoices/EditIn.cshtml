@@ -2,6 +2,7 @@
 @using BCKFreightTMS.Common
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
+@inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @inject UserManager<ApplicationUser> userManager
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model BCKFreightTMS.Web.ViewModels.Invoices.InvoiceInEditModel
@@ -86,6 +87,7 @@
                             currOrderToIndex = i;
                             isCurrOrderTo = true;
                         }
+                        var priceOut = this.financeService.GetAmount(orderTo.CurrencyOutId, orderTo.PriceNetOut);
                         <tr id="row_@i" @*class="@(orderTos[i].IsDocValid?"table-success":(i == currOrderToIndex ? "table-danger active-row":"table-danger"))"*@ style="cursor: pointer;">
                             <td>
                                 <b>1</b>
@@ -103,7 +105,7 @@
                                 1.00
                             </td>
                             <td class="price">
-                                @Model.OrderTos[i].PriceNetOut
+                                @($"{priceOut:f2}")
                             </td>
                             <td class="text-center align-middle">
                                 <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger'></i>
@@ -120,42 +122,42 @@
                 <div class="form-group m-0 rounded" id="doc_@i" @(i == currOrderToIndex ? "" : "style=display:none")>
                     <div class="form-row justify-content-center">
                         @if (!orderTo.IsDocValid)
-                            {
-                                <div class="text-center solve">
-                                    <div class="form-group border border-dark rounded p-2 m-0">
-                                        @if (string.IsNullOrWhiteSpace(Model.OrderTos[i].DocumentationRecievedDocumentation.Problem))
-                                                {
+                        {
+                            <div class="text-center solve">
+                                <div class="form-group border border-dark rounded p-2 m-0">
+                                    @if (string.IsNullOrWhiteSpace(Model.OrderTos[i].DocumentationRecievedDocumentation.Problem))
+                                    {
                                         <div style="max-width:270px"><p class="border rounded bg-warning p-1"><b>@localizer["Свържи се с превозвача и уточни кога ще бъде изпратена липсващата документация"]</b></p></div>
-                                                }
-                                                else
-                                                {
+                                    }
+                                    else
+                                    {
                                         <p class="border rounded bg-warning p-1"><b>@localizer["Проблем"]</b></p>
-                                                }
-                                        <textarea asp-for="OrderTos[i].DocumentationRecievedDocumentation.Problem" placeholder="@localizer["Опиши проблема"]" rows="8" cols="35"></textarea>
-                                    </div>
+                                    }
+                                    <textarea asp-for="OrderTos[i].DocumentationRecievedDocumentation.Problem" placeholder="@localizer["Опиши проблема"]" rows="8" cols="35"></textarea>
                                 </div>
-                            }
+                            </div>
+                        }
                         <div class="form-group border border-dark rounded p-2 m-0 ml-2">
                             <h5 class="text-muted text-bold">@localizer["Requaired documentation"]</h5>
                             <div class="col" id="reqDoc">
                                 @if (Model.OrderTos[i].Documentation.CMR)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["CMR"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["CMR"]</label></div>}
                                 @if (Model.OrderTos[i].Documentation.BillOfLading)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of lading"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of lading"]</label></div>}
                                 @if (Model.OrderTos[i].Documentation.AOA)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Act of acceptance"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["Act of acceptance"]</label></div>}
                                 @if (Model.OrderTos[i].Documentation.DeliveryNote)
-                                    {<div><i class="fas fa-check mr-2"></i><label>Delivery note</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>Delivery note</label></div>}
                                 @if (Model.OrderTos[i].Documentation.PackingList)
-                                    {<div><i class="fas fa-check mr-2"></i><label>Packing list</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>Packing list</label></div>}
                                 @if (Model.OrderTos[i].Documentation.ListItems)
-                                    {<div><i class="fas fa-check mr-2"></i><label>List items</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>List items</label></div>}
                                 @if (Model.OrderTos[i].Documentation.Invoice)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Invoice"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["Invoice"]</label></div>}
                                 @if (Model.OrderTos[i].Documentation.BillOfGoods)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of goods"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["Bill of goods"]</label></div>}
                                 @if (Model.OrderTos[i].Documentation.WeighingNote)
-                                    {<div><i class="fas fa-check mr-2"></i><label>@localizer["Weighing note"]</label></div>}
+                                {<div><i class="fas fa-check mr-2"></i><label>@localizer["Weighing note"]</label></div>}
                             </div>
                         </div>
                         <div class="form-group border border-dark rounded p-2 m-0 ml-2">
@@ -258,19 +260,19 @@
                 </div>
             </div>
             @*<div class="row align-items-center col-3">
-                @if (orderTos.Any(o => !o.IsDocValid))
-                {
-                    <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" disabled value="@localizer["Завеждане"]" />
-                }
-                else
-                {
-                    <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["Завеждане"]" />
-                }
-                @if (Model.StatusName == OrderStatusNames.AwaitingApproval.ToString())
-                {
-                    <input asp-action="ApproveDocumentation" type="submit" class="btn btn-warning" value="@localizer["Approve order documentation"]" />
-                }
-            </div>*@
+                    @if (orderTos.Any(o => !o.IsDocValid))
+                    {
+                        <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" disabled value="@localizer["Завеждане"]" />
+                    }
+                    else
+                    {
+                        <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["Завеждане"]" />
+                    }
+                    @if (Model.StatusName == OrderStatusNames.AwaitingApproval.ToString())
+                    {
+                        <input asp-action="ApproveDocumentation" type="submit" class="btn btn-warning" value="@localizer["Approve order documentation"]" />
+                    }
+                </div>*@
         </div>
         @Html.HiddenFor(m => m.Id)
         <div class="form-group mt-2">

@@ -165,34 +165,11 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item pl-2  @Url.MakeActiveActionsClass("menu-open", new[] { "pendingout", "paidout" }, "transactions")">
-                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout", "paidout" }, "transactions")">
+                                <li class="nav-item pl-2  @Url.MakeActiveActionsClass("menu-open", new[] { "pendingin", "paidin" }, "transactions")">
+                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingin", "paidin" }, "transactions")">
                                         <i class="nav-icon fas fa-arrow-alt-circle-up"></i>
                                         <p>
                                             @localizer["Contractors"]
-                                            <i class="fas fa-angle-left right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item pl-2">
-                                            <a asp-area="" asp-controller="Transactions" asp-action="PendingOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout" }, "transactions")">
-                                                <i class="nav-icon fas fa-dot-circle"></i>
-                                                <p>@localizer["Pending"]</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item pl-2">
-                                            <a asp-area="" asp-controller="Transactions" asp-action="PaidOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "filed", "editin" }, "transactions")">
-                                                <i class="nav-icon fas fa-dot-circle"></i>
-                                                <p>@localizer["Paid"]</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item pl-2 @Url.MakeActiveActionsClass("menu-open", new[] { "pendingin", "paidin" })">
-                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingin", "paidin" })">
-                                        <i class="nav-icon fas fa-arrow-alt-circle-down"></i>
-                                        <p>
-                                            @localizer["Clients"]
                                             <i class="fas fa-angle-left right"></i>
                                         </p>
                                     </a>
@@ -205,6 +182,29 @@
                                         </li>
                                         <li class="nav-item pl-2">
                                             <a asp-area="" asp-controller="Transactions" asp-action="PaidIn" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "paidin" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Paid"]</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item pl-2 @Url.MakeActiveActionsClass("menu-open", new[] { "pendingout", "paidout" })">
+                                    <a href="#" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout", "paidout" })">
+                                        <i class="nav-icon fas fa-arrow-alt-circle-down"></i>
+                                        <p>
+                                            @localizer["Clients"]
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PendingOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "pendingout" }, "transactions")">
+                                                <i class="nav-icon fas fa-dot-circle"></i>
+                                                <p>@localizer["Pending"]</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item pl-2">
+                                            <a asp-area="" asp-controller="Transactions" asp-action="PaidOut" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "filed", "editin" }, "transactions")">
                                                 <i class="nav-icon fas fa-dot-circle"></i>
                                                 <p>@localizer["Paid"]</p>
                                             </a>

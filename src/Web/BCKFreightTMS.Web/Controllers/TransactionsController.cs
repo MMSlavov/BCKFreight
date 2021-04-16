@@ -39,20 +39,42 @@
             this.localizer = localizer;
         }
 
-        public IActionResult PendingOut()
+        public IActionResult PendingIn()
         {
-            var invoices = this.invoiceIns.All().Where(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString())
+            var invoices = this.invoiceIns.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString() ||
+                                                            i.Status.Name == InvoiceStatusNames.PayAttempt.ToString())
                                                 .To<ListInvoiceInModel>()
                                                 .ToList();
             return this.View(invoices);
         }
 
-        public IActionResult PendingIn()
+        public IActionResult PendingOut()
         {
             var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString())
                                                  .To<ListInvoiceOutModel>()
                                                  .ToList();
             return this.View(invoices);
+        }
+
+        public IActionResult PaidIn(string id)
+        {
+            this.invoicesService.UpdateInvoiceInStatus(id, InvoiceStatusNames.Paid.ToString());
+
+            return this.RedirectToAction(nameof(this.PendingIn));
+        }
+
+        public IActionResult PayIn(string id)
+        {
+            this.invoicesService.UpdateInvoiceInStatus(id, InvoiceStatusNames.PayAttempt.ToString());
+
+            return this.RedirectToAction(nameof(this.PendingIn));
+        }
+
+        public IActionResult PaidOut(string id)
+        {
+            this.invoicesService.UpdateInvoiceOutStatus(id, InvoiceStatusNames.Paid.ToString());
+
+            return this.RedirectToAction(nameof(this.PendingOut));
         }
     }
 }

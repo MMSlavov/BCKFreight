@@ -25,6 +25,8 @@
 
         public OrderFailModel LoadOrderFailModel(string orderId);
 
+        public OrderConfirmReferenceModel LoadOrderConfirmReferenceModel(string orderId);
+
         public OrderApplicationModel GenerateApplicationModel(string orderId);
 
         public CarrierOrderApplicationModel GenerateCarrierApplicationModel(string carrierOrderId);
@@ -50,6 +52,8 @@
         public Task<string> ConfirmApplicationAsync(string orderId);
 
         public Task<string> SetOrderFailAsync(OrderFailModel input);
+
+        public Task<string> SetOrderReferenceFromAsync(OrderConfirmReferenceModel input);
 
         public Task<bool> DeleteAsync(string id);
 

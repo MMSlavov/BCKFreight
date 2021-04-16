@@ -1,7 +1,8 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Orders
 {
-    using BCKFreightTMS.Web.ViewModels.Cargos;
     using System.Collections.Generic;
+
+    using BCKFreightTMS.Web.ViewModels.Cargos;
 
     public class OrderToApplicationModel
     {

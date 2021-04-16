@@ -4,7 +4,7 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @inject UserManager<ApplicationUser> userManager
 @inject BCKFreightTMS.Services.Data.IFinanceService financeService
-@model IEnumerable<BCKFreightTMS.Web.ViewModels.Invoices.ListInvoiceOutModel>
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Invoices.ListInvoiceInModel>
 @{
     var user = await this.userManager.GetUserAsync(this.User);
     var companyCurrency = user.Company.TaxCurrency.Name;
@@ -19,43 +19,50 @@
                 @localizer["Number"]
             </th>
             <th>
-                @localizer["Client"]
+                @localizer["Create date"]
             </th>
             <th>
-                @localizer["Create date"]
+                @localizer["Carrier"]
+            </th>
+            <th>
+                @localizer["Recieve date"]
             </th>
             <th>
                 @localizer["Due date"]
             </th>
-            @*<th style="visibility: hidden;"></th>*@
+            <th style="visibility: hidden;"></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var invoiceIn in this.Model)
         {
-            <tr>
+            <tr @(invoiceIn.StatusName == InvoiceStatusNames.PayAttempt.ToString() ? "class=table-warning" : "")>
                 <td>
-                    <span class="text-bold"><a asp-controller="Invoices" asp-action="GenerateInvoice" asp-route-id="@invoiceIn.Id">@invoiceIn.Number</a></span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
+                    <span class="text-bold">@invoiceIn.Number</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
                 </td>
-                @*<td class="align-middle text-center">
-                    <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
-                </td>*@
+                <td>
+                    <span class="text-bold">@invoiceIn.ReceiveDate.ToLocalTime().ToShortDateString()</span>
+                </td>
+                <td>
+                    <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
+                </td>
+                <td class="align-middle text-center">
+                    <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" onclick="window.open('http://bulbankonline.bg', '_blank')" class="btn btn-primary mx-1">@localizer["Pay"]</a>
+                    <a asp-action="PaidIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
+                </td>
                 @*<td class="px-2 text-center align-middle" style="width:auto">
-                    <a asp-action="EditOut" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
                     <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>
+                        <span>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>
                     <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
                 </td>*@
             </tr>

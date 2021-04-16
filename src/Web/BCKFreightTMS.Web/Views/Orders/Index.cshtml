@@ -92,24 +92,8 @@
                                 action = "Status";
                                 btnColor = "primary";
                                 break;
-                            case "DocumentationCheck":
-                                action = "Finish";
-                                btnColor = "primary";
-                                break;
-                            case "AwaitingApproval":
-                                action = "Finish";
-                                btnColor = "warning";
-                                if (!this.User.IsInRole(RoleNames.SuperUser.ToString()))
-                                {
-                                    btnState = "disabled";
-                                }
-                                break;
-                            case "Approved":
-                                action = "Finish";
-                                btnColor = "success";
-                                break;
-                            case "AwaitingApplication":
-                                action = "ConfirmApplication";
+                            case "AwaitingReference":
+                                action = "ConfirmReference";
                                 btnColor = "warning";
                                 break;
                             default:
@@ -117,9 +101,9 @@
                                 btnColor = "danger";
                                 break;
                         }
-                        if (action == "ConfirmApplication")
+                        if (action == "ConfirmReference")
                         {
-                            <a onclick="showInPopup('/Orders/ConfirmApplication/@order.Id', 'Confirm application')" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
+                            <a onclick="showInPopup('/Orders/ConfirmReference/@order.Id', '@localizer["Confirm reference"]')" class="btn btn-@btnColor">@localizer[order.StatusName]</a>
                         }
                         else
                         {

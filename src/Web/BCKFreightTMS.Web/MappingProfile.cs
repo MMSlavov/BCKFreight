@@ -42,6 +42,8 @@
             this.CreateMap<Company, CompanyViewModel>();
             this.CreateMap<Order, OrderFailModel>();
             this.CreateMap<OrderFailModel, Order>();
+            this.CreateMap<Order, OrderConfirmReferenceModel>();
+            this.CreateMap<OrderConfirmReferenceModel, Order>();
             this.CreateMap<Company, InvoiceCompanyModel>();
             this.CreateMap<InvoiceCompanyModel, Company>();
             this.CreateMap<InvoiceIn, InvoiceInModel>();

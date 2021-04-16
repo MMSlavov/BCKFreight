@@ -226,6 +226,19 @@
             return model;
         }
 
+        public OrderConfirmReferenceModel LoadOrderConfirmReferenceModel(string orderId)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
+            if (order is null)
+            {
+                return null;
+            }
+
+            var model = this.mapper.Map<OrderConfirmReferenceModel>(order);
+
+            return model;
+        }
+
         public OrderApplicationModel GenerateApplicationModel(string orderId)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == orderId);
@@ -539,7 +552,7 @@
 
         public async Task<string> ConfirmApplicationAsync(string orderId)
         {
-            await this.UpdateOrderStatus(orderId, OrderStatusNames.InProgress.ToString());
+            await this.UpdateOrderStatus(orderId, OrderStatusNames.AwaitingReference.ToString());
             return orderId;
         }
 
@@ -558,6 +571,23 @@
             }
 
             await this.UpdateOrderStatus(input.Id, OrderStatusNames.Fail.ToString());
+            return order.Id;
+        }
+
+        public async Task<string> SetOrderReferenceFromAsync(OrderConfirmReferenceModel input)
+        {
+            var order = this.orders.All().FirstOrDefault(o => o.Id == input.Id);
+            if (order is null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(input.OrderFromReferenceNum))
+            {
+                order.OrderFrom.ReferenceNum = input.OrderFromReferenceNum;
+            }
+
+            await this.UpdateOrderStatus(input.Id, OrderStatusNames.InProgress.ToString());
             return order.Id;
         }
 

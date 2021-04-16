@@ -137,7 +137,7 @@
             {<div><i class="fas fa-check"></i><b>&nbsp;@localizer["Bill of goods"]</b></div>}
         </div>
 
-        <p>Цена и начин на плащане: <b>@orderTo.PriceNetOut</b> @orderTo.CurrencyName @(Model.OrderCreatorCompany.TaxCountryName.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
+        <p>Цена и начин на плащане: <b>@orderTo.PriceNetOut</b> @orderTo.CurrencyName @(Model.OrderCreatorCompany.TaxCountryName.Equals(BCKFreightTMS.Common.Enums.TaxCountryNames.България.ToString(), StringComparison.InvariantCultureIgnoreCase)?"+ ДДС":"")</p>
         <hr style="border: none; height: 2px; background-color: black;"/>
     }
     <p>· Платец на навлото: @companyName</p>

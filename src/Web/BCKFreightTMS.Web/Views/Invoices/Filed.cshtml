@@ -19,10 +19,10 @@
                 @localizer["Number"]
             </th>
             <th>
-                @localizer["Carrier"]
+                @localizer["Create date"]
             </th>
             <th>
-                @localizer["Create date"]
+                @localizer["Carrier"]
             </th>
             <th>
                 @localizer["Recieve date"]
@@ -41,10 +41,10 @@
                     <span class="text-bold">@invoiceIn.Number</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
+                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.ReceiveDate.ToLocalTime().ToShortDateString()</span>

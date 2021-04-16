@@ -228,7 +228,6 @@
             var invoice = this.invoiceIns.All().FirstOrDefault(o => o.Id == invoiceId);
             invoice.Status = this.invoiceStatuses.AllAsNoTracking()
                                                  .FirstOrDefault(s => s.Name == status);
-            this.invoiceIns.Update(invoice);
             await this.invoiceIns.SaveChangesAsync();
         }
 
@@ -237,7 +236,6 @@
             var invoice = this.invoiceOuts.All().FirstOrDefault(o => o.Id == invoiceId);
             invoice.Status = this.invoiceStatuses.AllAsNoTracking()
                                                .FirstOrDefault(s => s.Name == status);
-            this.invoiceOuts.Update(invoice);
             await this.invoiceOuts.SaveChangesAsync();
         }
 
@@ -321,7 +319,7 @@
         {
             var ordersCount = this.invoiceOuts.AllAsNoTracking()
                                          .Count() + 1;
-            var number = ordersCount.ToString().PadLeft(9, '0');
+            var number = ordersCount.ToString().PadLeft(8, '0');
 
             return string.Format(GlobalConstants.InvoiceOutNumberFormat, number);
         }

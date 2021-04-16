@@ -115,7 +115,7 @@
     function addAction(evt, type) {
         let index = tc.querySelectorAll(".tabcontent").length;
         let action = tc.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
-        [...action.querySelectorAll("input, textarea")].forEach((v) => {
+        [...action.querySelectorAll("input:not([type=hidden]), textarea")].forEach((v) => {
             v.value = '';
             v.defaultValue = '';
         })

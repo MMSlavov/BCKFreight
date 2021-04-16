@@ -1,4 +1,8 @@
-﻿namespace BCKFreightTMS.Common.Enums
+﻿// <copyright file="OrderStatusNames.cs" company="BCKFreightTMS">
+// Copyright (c) BCKFreightTMS. All Rights Reserved.
+// </copyright>
+
+namespace BCKFreightTMS.Common.Enums
 {
     public enum OrderStatusNames
     {
@@ -11,6 +15,7 @@
         Approved,
         Ready,
         AwaitingApplication,
+        AwaitingReference,
         Fail,
     }
 }

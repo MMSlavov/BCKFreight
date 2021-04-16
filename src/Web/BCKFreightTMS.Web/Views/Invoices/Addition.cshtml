@@ -7,9 +7,8 @@
     var documentation = this.Model.OrderTos[0].Documentation;
     var vatReasons = this.Model.ReasonNoVATItems.Select(r => new SelectListItem(this.localizer[r.Value].Value, r.Key));
 }
+
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*<h4><b>@localizer["Documentation check"]</b></h4>
-    <hr />*@
 <form method="post" class="p-2" id="documentation_form">
     <div class="form-group border bg-white p-4">
         <div class="form-row justify-content-around mb-4">
@@ -161,18 +160,7 @@
                 </div>
             </div>
             <div class="row align-items-center col-3">
-                @*@if (Model.InvoiceIn.StatusName == OrderStatusNames.AwaitingApproval.ToString())
-                    {
-                        <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" disabled value="@localizer["Finish"]" />
-                    }
-                    else
-                    {*@
                 <input asp-action="FinishAddition" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["File"]" />
-                @*}
-                    @if (Model.InvoiceIn.StatusName == OrderStatusNames.AwaitingApproval.ToString())
-                    {
-                        <input asp-action="ApproveDocumentation" type="submit" class="btn btn-warning" value="@localizer["Approve order documentation"]" />
-                    }*@
             </div>
         </div>
         @Html.HiddenFor(m => m.Id)

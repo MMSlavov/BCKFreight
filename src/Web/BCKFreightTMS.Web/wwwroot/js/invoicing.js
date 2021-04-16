@@ -17,7 +17,7 @@ const rowTemp = (index, input) => html`<tr id="row_${index}">
                                                 1.00
                                             </td>
                                             <td class="price">
-                                                ${input.PriceNetOut.toFixed(2)}
+                                                ${input.PriceNetIn.toFixed(2)}
                                             </td>
                                             <td class="text-center align-middle">
                                                 <i href='javascript:' id="${index}" class='delete fas fa-minus-circle text-danger'  style="cursor: pointer;"></i>
@@ -25,18 +25,6 @@ const rowTemp = (index, input) => html`<tr id="row_${index}">
                                         </tr>`;
 
 let rows = document.getElementById("rows");
-
-const docParser = {
-    "CMR": "CMR",
-    "BillOfLading": "Товарителница",
-    "AOA": "ППП",
-    "DeliveryNote": "Delivery note",
-    "PackingList": "Packing list",
-    "ListItems": "List items",
-    "Invoice": "Фактура",
-    "BillOfGoods": "Стокова",
-    "WeighingNote": "Кантарна бележка"
-};
 
 function SetBtns(setRows) {
     [...document.querySelectorAll("#orderTos .addRow")].forEach((e) => e.addEventListener("click", (ev) => {
@@ -93,15 +81,6 @@ document.getElementById("yes").addEventListener("change", (ev) => {
     invoiceEndEl.style.display = 'none';
     //parent.style.display = "none";
 });
-
-[...document.querySelectorAll("#approve a")].forEach((e) => e.addEventListener("click", (ev) => ApproveDoc(ev.target.id)));
-
-function ApproveDoc(id) {
-    let courseRow = document.getElementById(`row_${id}`);
-    courseRow.classList.remove("table-danger");
-    courseRow.classList.add("table-success");
-    HideCurrentDocumentation();
-}
 
 function SetRows() {
     [...document.querySelectorAll("#rows tr")].forEach((r) => r.addEventListener("click", (ev) => {

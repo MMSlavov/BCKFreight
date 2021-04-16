@@ -1,0 +1,40 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Orders.OrderConfirmReferenceModel
+@{ 
+    this.Layout = null;
+}
+
+<form asp-action="ConfirmReference">
+    <p class="form-group text-center m-0">
+        <div class="text-center" id="ask">
+            <label>@localizer["Is there application from the client?"]</label>
+            <div class="p-2 text-center">
+                <a class="btn btn-success mx-3" id="yes">@localizer["Yes"]</a>
+                <a class="btn btn-danger mx-3" id="no">@localizer["No"]</a>
+            </div>
+        </div>
+        <div id="refInput" class="text-center" style="display:none">
+            <label>@localizer["Enter application refrence number."]</label>
+            <input asp-for="OrderFromReferenceNum" type="text" class="form-control" placeholder="Reference number" />
+            <button type="submit" class="btn btn-primary mt-2">@localizer["OK"]</button>
+        </div>
+        <div id="send" class="text-center" style="display:none">
+            <label>@localizer["Send application to the client."]</label><br />
+            <button type="submit" class="btn btn-primary mt-2">@localizer["Send"]</button>
+        </div>
+    </p>
+    @Html.HiddenFor(m => m.Id)
+    <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>
+    </div>
+</form>
+<script>
+    document.getElementById("yes").addEventListener("click", () => {
+        document.getElementById("ask").style.display = "none";
+        document.getElementById("refInput").style.display = "block"
+    })
+    document.getElementById("no").addEventListener("click", () => {
+        document.getElementById("ask").style.display = "none";
+        document.getElementById("send").style.display = "block"
+    })
+</script>

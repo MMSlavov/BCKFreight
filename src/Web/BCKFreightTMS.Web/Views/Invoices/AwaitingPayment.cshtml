@@ -19,10 +19,10 @@
                 @localizer["Number"]
             </th>
             <th>
-                @localizer["Client"]
+                @localizer["Create date"]
             </th>
             <th>
-                @localizer["Create date"]
+                @localizer["Client"]
             </th>
             <th>
                 @localizer["Due date"]
@@ -39,10 +39,10 @@
                     <span class="text-bold"><a asp-action="GenerateInvoice" asp-route-id="@invoiceIn.Id">@invoiceIn.Number</a></span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
+                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>

@@ -416,6 +416,21 @@
             return this.View(model);
         }
 
+        public IActionResult ConfirmReference(string id)
+        {
+            var model = this.ordersService.LoadOrderConfirmReferenceModel(id);
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmReference(OrderConfirmReferenceModel input)
+        {
+            await this.ordersService.SetOrderReferenceFromAsync(input);
+
+            // this.notyfService.Error(this.localizer["Order failed!"]);
+            return this.RedirectToAction(GlobalConstants.Index);
+        }
+
         public IActionResult Status(string id)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == id);

@@ -140,7 +140,7 @@ function addAction(evt, type) {
     let course = document.querySelector(".tabcontent[id=" + evt.target.parentNode.parentNode.parentNode.id + "]");
     let index = course.getElementsByClassName("tabcontent").length;
     let action = course.querySelector(".tabcontent[id=" + type + "]").cloneNode(true);
-    [...action.querySelectorAll("input, textarea")].forEach((v) => {
+    [...action.querySelectorAll("input:not([type=hidden]), textarea")].forEach((v) => {
         v.value = '';
         v.defaultValue = '';
     })

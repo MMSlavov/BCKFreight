@@ -124,7 +124,7 @@
     <value>В изпълнение</value>
   </data>
   <data name="AwaitingPayment" xml:space="preserve">
-    <value>Чакащи плащане</value>
+    <value>Заведени изх. ф-ри</value>
   </data>
   <data name="Cargos" xml:space="preserve">
     <value>Товари</value>

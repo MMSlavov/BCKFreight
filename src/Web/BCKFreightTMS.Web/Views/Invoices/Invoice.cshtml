@@ -200,7 +200,6 @@
                 {
                     var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
                     var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
-                    subTotal += priceIn;
                     <tr id="row_@i">
                         <td>
                             <b>@(i + 1)</b>

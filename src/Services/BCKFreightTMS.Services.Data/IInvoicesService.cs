@@ -12,9 +12,9 @@
 
         public Task<string> SaveInvoiceIn(InvoiceInEditModel input);
 
-        public Task UpdateInvoiceInStatus(string invoiceId, string status);
+        public Task UpdateInvoiceInStatusAsync(string invoiceId, string status);
 
-        public Task UpdateInvoiceOutStatus(string invoiceId, string status);
+        public Task UpdateInvoiceOutStatusAsync(string invoiceId, string status);
 
         public Task MarkInvoiceInForApproval(string invoiceId);
 

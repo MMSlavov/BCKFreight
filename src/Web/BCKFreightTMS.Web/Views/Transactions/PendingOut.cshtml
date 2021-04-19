@@ -27,28 +27,28 @@
             <th>
                 @localizer["Due date"]
             </th>
-            @*<th style="visibility: hidden;"></th>*@
+            <th style="visibility: hidden;"></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var invoiceIn in this.Model)
+        @foreach (var invoiceOut in this.Model)
         {
             <tr>
                 <td>
-                    <span class="text-bold"><a asp-controller="Invoices" asp-action="GenerateInvoice" asp-route-id="@invoiceIn.Id">@invoiceIn.Number</a></span>
+                    <span class="text-bold"><a asp-controller="Invoices" asp-action="GenerateInvoice" asp-route-id="@invoiceOut.Id">@invoiceOut.Number</a></span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceOut.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
+                    <span class="text-bold">@invoiceOut.ClientCompanyName</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceOut.CreateDate.AddDays(invoiceOut.DueDays + 3).ToLocalTime().ToShortDateString()</span>
                 </td>
-                @*<td class="align-middle text-center">
-                    <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
-                </td>*@
+                <td class="align-middle text-center">
+                    <a asp-action="PayOut" asp-route-id="@invoiceOut.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
+                </td>
                 @*<td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="EditOut" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
                     <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">

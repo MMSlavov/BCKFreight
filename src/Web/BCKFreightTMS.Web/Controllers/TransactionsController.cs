@@ -1,7 +1,7 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System.Linq;
-
+    using System.Threading.Tasks;
     using AspNetCoreHero.ToastNotification.Abstractions;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -48,6 +48,14 @@
             return this.View(invoices);
         }
 
+        public IActionResult PaidIn()
+        {
+            var invoices = this.invoiceIns.All().Where(i => i.Status.Name == InvoiceStatusNames.Paid.ToString())
+                                                .To<ListInvoiceInModel>()
+                                                .ToList();
+            return this.View(invoices);
+        }
+
         public IActionResult PendingOut()
         {
             var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString())
@@ -56,23 +64,31 @@
             return this.View(invoices);
         }
 
-        public IActionResult PaidIn(string id)
+        public async Task<IActionResult> PayInAsync(string id)
         {
-            this.invoicesService.UpdateInvoiceInStatus(id, InvoiceStatusNames.Paid.ToString());
+            await this.invoicesService.UpdateInvoiceInStatusAsync(id, InvoiceStatusNames.Paid.ToString());
 
             return this.RedirectToAction(nameof(this.PendingIn));
         }
 
-        public IActionResult PayIn(string id)
+        public async Task<IActionResult> PayAsync(string id)
         {
-            this.invoicesService.UpdateInvoiceInStatus(id, InvoiceStatusNames.PayAttempt.ToString());
+            await this.invoicesService.UpdateInvoiceInStatusAsync(id, InvoiceStatusNames.PayAttempt.ToString());
 
             return this.RedirectToAction(nameof(this.PendingIn));
         }
 
-        public IActionResult PaidOut(string id)
+        public IActionResult PaidOut()
         {
-            this.invoicesService.UpdateInvoiceOutStatus(id, InvoiceStatusNames.Paid.ToString());
+            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.Paid.ToString())
+                                                .To<ListInvoiceOutModel>()
+                                                .ToList();
+            return this.View(invoices);
+        }
+
+        public async Task<IActionResult> PayOut(string id)
+        {
+            await this.invoicesService.UpdateInvoiceOutStatusAsync(id, InvoiceStatusNames.Paid.ToString());
 
             return this.RedirectToAction(nameof(this.PendingOut));
         }

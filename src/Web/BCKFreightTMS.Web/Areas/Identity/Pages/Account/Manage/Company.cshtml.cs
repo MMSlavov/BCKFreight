@@ -43,8 +43,7 @@
             [MaxLength(200)]
             public string Name { get; set; }
 
-            [MaxLength(90)]
-            public string TaxCountry { get; set; }
+            public int? TaxCountryId { get; set; }
 
             [MaxLength(20)]
             public string TaxNumber { get; set; }
@@ -132,7 +131,7 @@
             }
 
             company.Name = this.Input.Name;
-            company.TaxCountry.Name = this.Input.TaxCountry;
+            company.TaxCountryId = this.Input.TaxCountryId;
             company.TaxNumber = this.Input.TaxNumber;
             company.Address.Address.StreetLine = this.Input.StreetLine;
             company.Address.MOLFirstName = this.Input.MOLFirstName;
@@ -166,7 +165,7 @@
                 this.Input = new InputModel
                 {
                     Name = company.Name,
-                    TaxCountry = company.TaxCountry.Name,
+                    TaxCountryId = company.TaxCountryId,
                     TaxNumber = company.TaxNumber,
                     TaxCurrency = company.TaxCurrency.Name,
                     StreetLine = company.Address.Address.StreetLine,

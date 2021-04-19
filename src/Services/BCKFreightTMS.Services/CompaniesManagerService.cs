@@ -88,7 +88,7 @@
             }
 
             var mol = elements["Управители/Съдружници"].Trim();
-            var address = elements["Седалище адрес"].Replace("Виж на картата", string.Empty)
+            var address = elements["Седалище адрес"].Split("\n\n")[0]
                                                     .Trim()
                                                     .Split(", ")
                                                     .ToArray();

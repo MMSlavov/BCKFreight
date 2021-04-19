@@ -53,8 +53,8 @@
                     <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td class="align-middle text-center">
-                    <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" onclick="window.open('http://bulbankonline.bg', '_blank')" class="btn btn-primary mx-1">@localizer["Pay"]</a>
-                    <a asp-action="PaidIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
+                    <a asp-action="Pay" asp-route-id="@invoiceIn.Id" onclick="OpenBankTab()" class="btn btn-primary mx-1">@localizer["Pay"]</a>
+                    <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
                 </td>
                 @*<td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
@@ -90,5 +90,9 @@
                 "responsive": true,
             });
         });
+
+        function OpenBankTab() {
+            window.open('http://bulbankonline.bg', 'bulbank_window');
+        }
     </script>
 }

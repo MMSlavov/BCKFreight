@@ -33,7 +33,7 @@
         {
             var images = WIAScanner.Scan();
             var result = new List<string>();
-            var ocr = new TesseractEngine("./tessdata", "bul+eng", EngineMode.LstmOnly);
+            var ocr = new TesseractEngine("./tessdata", "bul", EngineMode.LstmOnly);
 
             using (var ms = new MemoryStream())
             {
@@ -44,7 +44,7 @@
                     pic.Save("ocrImg.png", ImageFormat.Png);
 
                     var res = ocr.Process(pic);
-                    result.Add(res.GetText().Trim());
+                    result.Add(res.GetText());
                 }
             }
 
@@ -53,13 +53,13 @@
 
         public string FileTessOCR(byte[] data)
         {
-            var ocr = new TesseractEngine("./tessdata", "bul+eng", EngineMode.LstmOnly);
+            var ocr = new TesseractEngine("./tessdata", "bul", EngineMode.LstmOnly);
 
             var pic = Pix.LoadFromMemory(data);
             var res = ocr.Process(pic);
             var result = res.GetText();
 
-            return result.Trim();
+            return result;
         }
 
         public string[] GetScaners()

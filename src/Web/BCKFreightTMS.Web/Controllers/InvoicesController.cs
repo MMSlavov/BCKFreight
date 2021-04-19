@@ -155,7 +155,7 @@
             var invoiceId = await this.invoicesService.SaveInvoiceIn(input);
             if (this.ordersService.ValidateFinishModel(input.OrderTos))
             {
-                await this.invoicesService.UpdateInvoiceInStatusAsync(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
+                await this.invoicesService.UpdateInvoiceInStatus(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
                 this.notyfService.Success(this.localizer["Invoice filed."]);
             }
             else
@@ -171,7 +171,7 @@
         public async Task<IActionResult> SaveForAddition(InvoiceOutInputModel input)
         {
             var invoiceId = await this.invoicesService.CreateInvoiceOut(input);
-            await this.invoicesService.UpdateInvoiceOutStatusAsync(invoiceId, InvoiceStatusNames.AwaitingApproval.ToString());
+            await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingApproval.ToString());
             this.notyfService.Success(this.localizer["Invoice filed."]);
 
             return this.RedirectToAction("ForInvoicing");
@@ -181,7 +181,7 @@
         public async Task<IActionResult> FinishOut(InvoiceOutInputModel input)
         {
             var invoiceId = await this.invoicesService.CreateInvoiceOut(input);
-            await this.invoicesService.UpdateInvoiceOutStatusAsync(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
+            await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
             this.notyfService.Success(this.localizer["Invoice filed."]);
 
             return this.Redirect(@$"/Invoices/GenerateInvoice/{invoiceId}");
@@ -191,7 +191,7 @@
         public async Task<IActionResult> FinishAddition(InvoiceOutEditModel input)
         {
             var invoiceId = await this.invoicesService.SaveInvoiceOut(input);
-            await this.invoicesService.UpdateInvoiceOutStatusAsync(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
+            await this.invoicesService.UpdateInvoiceOutStatus(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
             this.notyfService.Success(this.localizer["Invoice filed."]);
 
             return this.Redirect(@$"/Invoices/GenerateInvoice/{invoiceId}");

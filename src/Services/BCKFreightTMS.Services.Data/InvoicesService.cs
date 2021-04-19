@@ -220,22 +220,22 @@
 
         public async Task MarkInvoiceInForApproval(string invoiceId)
         {
-            await this.UpdateInvoiceInStatusAsync(invoiceId, OrderStatusNames.AwaitingApproval.ToString());
+            await this.UpdateInvoiceInStatus(invoiceId, OrderStatusNames.AwaitingApproval.ToString());
         }
 
-        public async Task UpdateInvoiceInStatusAsync(string invoiceId, string status)
+        public async Task UpdateInvoiceInStatus(string invoiceId, string status)
         {
             var invoice = this.invoiceIns.All().FirstOrDefault(o => o.Id == invoiceId);
-            invoice.Status = this.invoiceStatuses.All()
+            invoice.Status = this.invoiceStatuses.AllAsNoTracking()
                                                  .FirstOrDefault(s => s.Name == status);
             await this.invoiceIns.SaveChangesAsync();
         }
 
-        public async Task UpdateInvoiceOutStatusAsync(string invoiceId, string status)
+        public async Task UpdateInvoiceOutStatus(string invoiceId, string status)
         {
             var invoice = this.invoiceOuts.All().FirstOrDefault(o => o.Id == invoiceId);
-            invoice.Status = this.invoiceStatuses.All()
-                                                 .FirstOrDefault(s => s.Name == status);
+            invoice.Status = this.invoiceStatuses.AllAsNoTracking()
+                                               .FirstOrDefault(s => s.Name == status);
             await this.invoiceOuts.SaveChangesAsync();
         }
 

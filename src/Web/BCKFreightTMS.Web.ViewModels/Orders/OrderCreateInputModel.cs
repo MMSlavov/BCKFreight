@@ -11,9 +11,9 @@
 
         public int DueDaysTo { get; set; }
 
-        //public decimal OrderFromPriceNetIn { get; set; }
+        // public decimal OrderFromPriceNetIn { get; set; }
 
-        //public int OrderFromCurrencyId { get; set; }
+        // public int OrderFromCurrencyId { get; set; }
 
         // public string CargoLoadingBodyName { get; set; }
 

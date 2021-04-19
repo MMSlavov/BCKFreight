@@ -79,7 +79,7 @@
             if (this.ISValidFileType(fileName))
             {
                 string pathaname = path + @"\" + fileName;
-                this.save(pathaname, 60);
+                this.Save(pathaname, 60);
             }
         }
 
@@ -114,6 +114,7 @@
         {
             bool isValidExt = false;
             string fileExt = Path.GetExtension(fileName);
+
             // switch (fileExt.ToLower())
             // {
             //    case CommonConstant.JPEG:
@@ -123,7 +124,6 @@
             //        isValidExt = true;
             //        break;
             // }
-
             return isValidExt;
         }
 
@@ -153,7 +153,7 @@
         /// </summary>
         /// <param name="path">string data type.</param>
         /// <param name="quality">int data type.</param>
-        private void save(string path, int quality)
+        private void Save(string path, int quality)
         {
             this.img = this.CompressImage();
             ////Setting the quality of the picture

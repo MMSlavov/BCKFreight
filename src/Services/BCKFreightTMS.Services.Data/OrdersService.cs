@@ -140,10 +140,11 @@
             model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
                                                     .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
                                                     .ToList();
+            TaxCountryNames res;
             model.TaxCountryItems = this.taxCountries.AllAsNoTracking()
                                         .Select(tc => new KeyValuePair<string, string>(tc.Id.ToString(), tc.Name))
                                         .ToList()
-                                        .Distinct();
+                                        .Where(r => Enum.TryParse<TaxCountryNames>(r.Value, true, out res));
             return model;
         }
 

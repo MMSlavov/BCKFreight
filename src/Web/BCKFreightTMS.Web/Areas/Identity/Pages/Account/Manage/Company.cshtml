@@ -18,7 +18,7 @@
             <div class="form-row">
                 <div class="form-group col-5">
                     <label>Tax country</label>
-                    <input asp-for="Input.TaxCountry" type="text" class="form-control" placeholder="Enter Tax country">
+                    <select asp-for="Input.TaxCountryId" class="form-control" asp-items="@this.Model.Input.TaxCountryItems"></select>
                 </div>
                 <div class="form-group col-7">
                     <label>Tax number</label>

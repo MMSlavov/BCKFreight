@@ -10,10 +10,10 @@
 
         public CompanyViewModel CreatorCompany { get; set; }
 
-        //public List<ActionApplicationModel> OrderActions { get; set; }
+        // public List<ActionApplicationModel> OrderActions { get; set; }
 
-        //public CargoInputModel Cargo { get; set; }
+        // public CargoInputModel Cargo { get; set; }
 
-        //public DocumentationInputModel Documentation { get; set; }
+        // public DocumentationInputModel Documentation { get; set; }
     }
 }

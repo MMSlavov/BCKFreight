@@ -16,8 +16,8 @@
     using Moq;
     using Xunit;
 
-    //public class OrdersServiceTests
-    //{
+    // public class OrdersServiceTests
+    // {
     //    private IDeletableEntityRepository<Company> companies;
     //    private IDeletableEntityRepository<Order> orders;
     //    private IDeletableEntityRepository<VehicleLoadingBody> loadingBodies;
@@ -38,13 +38,13 @@
     //    private IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
     //    private IDeletableEntityRepository<VATReason> vatReasons;
 
-    //    // [Fact]
+    // // [Fact]
     //    // public void GetAllTest()
     //    // {
     //    //    using var dbContext = this.GetDbContext();
     //    //    var service = this.GetContactsService(dbContext);
 
-    //    // var res = service.GetAll<ListOrderViewModel>();
+    // // var res = service.GetAll<ListOrderViewModel>();
     //    //    Assert.NotNull(res);
     //    // }
     //    // [Fact]
@@ -83,7 +83,7 @@
     //        Assert.Equal("testFN testLN", res.First().Text);
     //    }
 
-    //    [Fact]
+    // [Fact]
     //    public void GetDriversTest()
     //    {
     //        using var dbContext = this.GetDbContext();
@@ -101,7 +101,7 @@
     //        Assert.Equal("testFN testLN", res.First().Text);
     //    }
 
-    //    [Fact]
+    // [Fact]
     //    public void GetVehiclesTest()
     //    {
     //        using var dbContext = this.GetDbContext();
@@ -118,7 +118,7 @@
     //        Assert.Equal("testRN", res.First().Text);
     //    }
 
-    //    [Fact]
+    // [Fact]
     //    public async void CreateOrderTest()
     //    {
     //        using var dbContext = this.GetDbContext();
@@ -126,20 +126,20 @@
     //        dbContext.OrderStatuses.Add(new OrderStatus { Name = "InProgress" });
     //        dbContext.ActionTypes.AddRange(new ActionType { Name = "Loading" }, new ActionType { Name = "Unloading" });
 
-    //        dbContext.SaveChanges();
+    // dbContext.SaveChanges();
     //        var service = this.GetContactsService(dbContext);
     //        var model = new OrderAcceptInputModel
     //        {
     //            CompanyFromId = "test",
 
-    //            // CompanyToId = "test",
+    // // CompanyToId = "test",
     //            // DriverId = "test",
     //        };
     //        var res = await service.AcceptAsync(model, new ClaimsPrincipal());
     //        Assert.NotNull(res);
     //    }
 
-    //    // [Fact]
+    // // [Fact]
     //    // public async void DeleteOrderTest()
     //    // {
     //    //    using var dbContext = this.GetDbContext();
@@ -160,7 +160,7 @@
     //        Assert.False(res);
     //    }
 
-    //    // [Fact]
+    // // [Fact]
     //    // public async void LoadOrderStatusModelTest()
     //    // {
     //    //    using var dbContext = this.GetDbContext();
@@ -168,7 +168,7 @@
     //    //    dbContext.OrderStatuses.Add(new OrderStatus { Name = "InProgress" });
     //    //    dbContext.ActionTypes.AddRange(new ActionType { Name = "Loading" }, new ActionType { Name = "Unloading" });
 
-    //    // dbContext.SaveChanges();
+    // // dbContext.SaveChanges();
     //    //    var service = this.GetContactsService(dbContext);
     //    //    var model = new OrderInputModel
     //    //    {
@@ -189,7 +189,7 @@
     //        return dbContext;
     //    }
 
-    //    private OrdersService GetContactsService(ApplicationDbContext dbContext)
+    // private OrdersService GetContactsService(ApplicationDbContext dbContext)
     //    {
     //        var repoFactory = new RepositoryFactory();
     //        this.companies = repoFactory.GetEfDeletableEntityRepository<Company>(dbContext);
@@ -212,14 +212,14 @@
     //        this.invoiceStatuses = repoFactory.GetEfDeletableEntityRepository<InvoiceStatus>(dbContext);
     //        this.vatReasons = repoFactory.GetEfDeletableEntityRepository<VATReason>(dbContext);
 
-    //        var store = new Mock<IUserStore<ApplicationUser>>();
+    // var store = new Mock<IUserStore<ApplicationUser>>();
     //        var userMan = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
     //        userMan.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
     //            .Returns(Task.FromResult(new ApplicationUser { AdminId = string.Empty }));
     //        var mapper = new Mock<IMapper>();
     //        var emailSender = new Mock<IEmailSender>();
 
-    //        return new OrdersService(
+    // return new OrdersService(
     //            this.companies,
     //            this.orders,
     //            this.loadingBodies,
@@ -243,5 +243,5 @@
     //            mapper.Object,
     //            emailSender.Object);
     //    }
-    //}
+    // }
 }

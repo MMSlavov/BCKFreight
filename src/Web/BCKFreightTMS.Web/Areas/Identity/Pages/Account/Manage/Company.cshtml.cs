@@ -1,10 +1,11 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
@@ -13,21 +14,25 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     [Authorize(Roles = "SuperUser")]
     public partial class CompanyModel : PageModel
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IFinanceService financeService;
+        private readonly IDeletableEntityRepository<TaxCountry> taxCountries;
         private readonly IDeletableEntityRepository<Company> companies;
 
         public CompanyModel(
             UserManager<ApplicationUser> userManager,
             IFinanceService financeService,
+            IDeletableEntityRepository<TaxCountry> taxCountries,
             IDeletableEntityRepository<Company> companies)
         {
             this.userManager = userManager;
             this.financeService = financeService;
+            this.taxCountries = taxCountries;
             this.companies = companies;
         }
 
@@ -95,6 +100,8 @@
             [EmailAddress]
             [MaxLength(10)]
             public string Email2 { get; set; }
+
+            public IEnumerable<SelectListItem> TaxCountryItems { get; set; }
 
             public ICollection<CurrencyModel> ExchangeRates { get; set; }
 
@@ -176,6 +183,11 @@
                     Details = company.Comunicators.Details,
                     ExchangeRates = this.financeService.GetCurrencyRates(),
                 };
+                TaxCountryNames res;
+                this.Input.TaxCountryItems = this.taxCountries.AllAsNoTracking()
+                                            .Select(tc => new SelectListItem(tc.Name, tc.Id.ToString()))
+                                            .ToList()
+                                            .Where(r => Enum.TryParse<TaxCountryNames>(r.Text, true, out res));
             }
             catch (System.Exception)
             {

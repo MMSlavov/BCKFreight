@@ -26,6 +26,10 @@
 
         public const decimal SmallOrderMinMargin = 25;
 
+        public const decimal VAT = 0.2m;
+
+        public const decimal VATTot = 1.2m;
+
         public const string BGOrderNumberFormat = "{0}{1}{2}";
 
         public const string NonBGOrderNumberFormat = "{1}-{0}{2}";

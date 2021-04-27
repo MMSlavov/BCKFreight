@@ -25,7 +25,7 @@
                     <span asp-validation-for="CompanyFromId" class="text-danger"></span>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-4 mx-2">
                         <label asp-for="ContactFromId" class="control-label">@localizer["Contact"]</label><a href="#" class="pl-2" style="display:none" id="addContact"><i class="fas fa-plus"></i></a>
                         <select asp-for="ContactFromId" id="contactFrom" class="form-control" asp-items="@(new SelectList(string.Empty, "ContactId", "ContactName"))">
                             <option hidden>Select client first</option>
@@ -47,7 +47,7 @@
                 <a class="btn tablinks active-tab" id="course">@localizer["Course"]</a>
                 <a id="addCourse" class="btn"><i class="fas fa-plus text-primary" style="pointer-events:none"></i></a>
             </div>
-            <div id="course" class="tabcontent rounded-bottom" style="display:block">
+            <div id="course" class="tabcontent rounded-bottom bg-gray-light" style="display:block">
                 <div class="form-row ml-2">
                     <div class="form-group col-2">
                         <label class="control-label">@localizer["Price"]</label>

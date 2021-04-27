@@ -1,6 +1,5 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Identity.Pages.Account
 {
-    using System.Text;
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
@@ -8,7 +7,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.AspNetCore.WebUtilities;
 
     [AllowAnonymous]
     public class ConfirmEmailChangeModel : PageModel

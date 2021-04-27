@@ -7,9 +7,7 @@
 
     public class ActionIndexViewModel : IMapFrom<OrderAction>
     {
-        public string OrderId { get; set; }
-
-        public string OrderStatusName { get; set; }
+        public string OrderToOrderId { get; set; }
 
         public string TypeName { get; set; }
 

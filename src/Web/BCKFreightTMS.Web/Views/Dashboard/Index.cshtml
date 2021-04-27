@@ -54,7 +54,7 @@
             <div class="col-lg-3 col-sm">
                 <div class="card">
                     <div class="card-body p-2">
-                        <h3 class="m-0">Bucharest <p class="m-0"><strong>Romania</strong></p></h3>
+                        <h3 class="m-0">@localizer["Bucharest"] <p class="m-0"><strong>@localizer["Romania"]</strong></p></h3>
                         <span id="Bucharest_z707" style="font-size:45px; font-family: 'Segoe UI'"></span>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-lg-3 col-sm">
                 <div class="card">
                     <div class="card-body p-2">
-                        <h3 class="m-0">Targovishte <p class="m-0"><strong>Bulgaria</strong></p></h3>
+                        <h3 class="m-0">@localizer["Targovishte"] <p class="m-0"><strong>@localizer["Bulgaria"]</strong></p></h3>
                         <span id="Targovishte_z729" style="font-size:45px; font-family: 'Segoe UI'"></span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             <div class="col-lg-3 col-sm">
                 <div class="card">
                     <div class="card-body p-2">
-                        <h3 class="m-0">Belgrade <p class="m-0"><strong>Serbia</strong></p></h3>
+                        <h3 class="m-0">@localizer["Belgrade"] <p class="m-0"><strong>@localizer["Serbia"]</strong></p></h3>
                         <span id="Belgrade_z703" style="font-size:45px; font-family: 'Segoe UI'"></span>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
             <div class="col-lg-3 col-sm">
                 <div class="card">
                     <div class="card-body p-2">
-                        <h3 class="m-0">Amsterdam <p class="m-0"><strong>Netherlands</strong></p></h3>
+                        <h3 class="m-0">@localizer["Amsterdam"] <p class="m-0"><strong>@localizer["Netherlands"]</strong></p></h3>
                         <span id="Netherlands_z700" style="font-size:45px; font-family: 'Segoe UI'"></span>
                     </div>
                 </div>
@@ -101,17 +101,15 @@
                             Destination
                         </th>
                         <th>
-                            Due time
+                            Due date
                         </th>
-                        <th>
-                            Status
-                        </th>
+                        <th style="visibility: hidden">
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr @(item.Until < DateTime.UtcNow?"class=table-danger":"")>
                             <td class="text-bold">
                                 @localizer[item.TypeName]
                             </td>
@@ -122,7 +120,7 @@
                                 @item.Until.ToLocalTime().ToString("dddd, dd MMMM yyyy")
                             </td>
                             <td class="text-center">
-                                <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderId" class="btn btn-@(item.IsFinished?"success":"primary") @(item.IsFinished?"disabled":null)">@(item.IsFinished ? "Finished" : "Active")</a>
+                                <a asp-controller="Orders" asp-action="Status" asp-route-id="@item.OrderToOrderId" class="btn btn-primary">@localizer["Статус"]</a>
                             </td>
                         </tr>
                     }

@@ -7,7 +7,7 @@ const rowTemp = (index, input) => html`<tr id="row_${index}">
                                             <td>
                                                 Спедиторски услуги <p class="m-0"><b>${input.Voyage} </b></p>
                                                 с автомобил <b>${input.VehicleRegNumber}/${input.VehicleTrailerRegNumber} </b>
-                                                по заявка <b>${input.OrderOrderFromReferenceNum} </b>
+                                                по заявка <b>${input.OrderOrderFromReferenceNum == null ? input.ReceiveDate : input.OrderOrderFromReferenceNum}</b>
                                                 <input id="OrderTos_${index}__Id" name="OrderTos[${index}].Id" type="hidden" value="${input.Id}">
                                             </td>
                                             <td>
@@ -35,26 +35,6 @@ function SetBtns(setRows) {
         render(rowTemp(index, data), row);
         rows.appendChild(row.children[0]);
 
-        //let doc = document.querySelector("#doc_0").cloneNode(true);
-        //[...doc.querySelectorAll("input, textarea")].forEach((v) => {
-        //    v.value = '';
-        //    v.defaultValue = '';
-        //    v.removeAttribute("checked");
-        //});
-        //let reqDoc = doc.querySelector("#reqDoc");
-        //let docRow = reqDoc.querySelector("div");
-        //reqDoc.innerHTML = "";
-        //for (const [name, val] of Object.entries(data.Documentation)) {
-        //    if (val) {
-        //        docRow.children[1].textContent = docParser[name];
-        //        reqDoc.appendChild(docRow.cloneNode(true));
-        //    }
-        //}
-
-        //let docHtml = doc.innerHTML.replace(/OrderTos_\d_/g, "OrderTos_" + index + "_").replace(/OrderTos\[\d\]/g, "OrderTos[" + index + "]").replace(/id="\d"/g, "id=\"" + index + "\"");
-        //$("#docs").append("<div class='form-group m-0 rounded' id='doc_" + index + "'>" + docHtml + '</div>');
-        //$("#invoiceAddRow").hide();
-        //document.querySelector("#doc_" + index + " #docCheck a").addEventListener("click", (ev) => docCheck(ev.target.id))
         $('#form-modal').modal('hide');
         setRows();
     }));
@@ -106,6 +86,10 @@ function ShowInvoiceEnd() {
     calculateTotal();
     invoiceEndEl.style.display = "";
 }
+
+vatReasonEl.addEventListener("change", (ev) => {
+    calculateTotal();
+})
 
 function calculateTotal() {
     let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => { return sum + parseFloat(e.textContent.trim()) }, 0);

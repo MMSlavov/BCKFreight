@@ -76,6 +76,7 @@
                 @for (int i = 0; i < Model.OrderTos.Count; i++)
                 {
                     var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                    var recDate = this.Model.OrderTos[i].ReceiveDate;
                     var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
                     subTotal += priceIn;
                     <tr id="row_@i">
@@ -85,7 +86,7 @@
                         <td>
                             Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
                             с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                            @(string.IsNullOrWhiteSpace(refNum)? "" : Html.Raw($"по заявка <b>{refNum}</b>"))
+                            по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
                         </td>
                         <td class="text-center">
                             курс
@@ -199,6 +200,7 @@
                 @for (int i = 0; i < Model.OrderTos.Count; i++)
                 {
                     var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                    var recDate = this.Model.OrderTos[i].ReceiveDate;
                     var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
                     <tr id="row_@i">
                         <td>
@@ -207,7 +209,7 @@
                         <td>
                             Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
                             с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                            @(string.IsNullOrWhiteSpace(refNum)? "" : Html.Raw($"по заявка <b>{refNum}</b>"))
+                            по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
                         </td>
                         <td class="text-center">
                             курс

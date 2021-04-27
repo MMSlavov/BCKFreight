@@ -9,8 +9,16 @@
     using Tesseract;
     using WIA;
 
-    public class PdfService : IPdfService
+    public class PdfService : IPdfService, IDisposable
     {
+        private readonly TesseractEngine ocr;
+        private bool disposed;
+
+        public PdfService()
+        {
+            this.ocr = new TesseractEngine("./tessdata", "bul+eng", EngineMode.LstmOnly);
+        }
+
         public List<Image> Scan()
         {
             return WIAScanner.Scan();
@@ -33,7 +41,6 @@
         {
             var images = WIAScanner.Scan();
             var result = new List<string>();
-            var ocr = new TesseractEngine("./tessdata", "bul+eng", EngineMode.LstmOnly);
 
             using (var ms = new MemoryStream())
             {
@@ -43,7 +50,7 @@
                     var pic = Pix.LoadFromMemory(ms.ToArray()).Deskew();
                     pic.Save("ocrImg.png", ImageFormat.Png);
 
-                    var res = ocr.Process(pic);
+                    var res = this.ocr.Process(pic);
                     result.Add(res.GetText().Trim());
                 }
             }
@@ -53,10 +60,8 @@
 
         public string FileTessOCR(byte[] data)
         {
-            var ocr = new TesseractEngine("./tessdata", "bul+eng", EngineMode.LstmOnly);
-
             var pic = Pix.LoadFromMemory(data);
-            var res = ocr.Process(pic);
+            var res = this.ocr.Process(pic);
             var result = res.GetText();
 
             return result.Trim();
@@ -102,6 +107,27 @@
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.ocr.Dispose();
+            }
+
+            this.disposed = true;
         }
 
         // public byte[] PdfSharpConvert(string html)

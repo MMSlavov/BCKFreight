@@ -1,6 +1,5 @@
 ﻿namespace BCKFreightTMS.Web.Areas.Administration.Controllers
 {
-    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Web.Controllers;
 
     using Microsoft.AspNetCore.Authorization;

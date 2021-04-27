@@ -12,6 +12,8 @@
 
         public int OrderDueDaysTo { get; set; }
 
+        public bool NoVAT { get; set; }
+
         public List<OrderToApplicationModel> OrderTos { get; set; }
 
         public CompanyViewModel OrderCreatorCompany { get; set; }

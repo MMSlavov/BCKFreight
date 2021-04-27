@@ -1,5 +1,6 @@
-﻿@using BCKFreightTMS.Common.Enums;
+﻿@using BCKFreightTMS.Common;
 @using BCKFreightTMS.Data.Models
+@using BCKFreightTMS.Common.Enums;
 @using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @inject UserManager<ApplicationUser> userManager
@@ -19,16 +20,13 @@
                 @localizer["Number"]
             </th>
             <th>
-                @localizer["Create date"]
-            </th>
-            <th>
                 @localizer["Carrier"]
             </th>
             <th>
-                @localizer["Recieve date"]
+                @localizer["Payment date"]
             </th>
             <th>
-                @localizer["Due date"]
+                @localizer["Price"]
             </th>
             @*<th style="visibility: hidden;"></th>*@
         </tr>
@@ -38,33 +36,31 @@
         {
             <tr @(invoiceIn.StatusName == InvoiceStatusNames.PayAttempt.ToString() ? "class=table-warning" : "")>
                 <td>
-                    <span class="text-bold">@invoiceIn.Number</span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <p class="text-bold m-0">@invoiceIn.Number</p>
+                    <span>@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.ReceiveDate.ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoiceIn.PayDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@(invoiceIn.NoVAT ? $"{invoiceIn.Price:f2}" : $"{invoiceIn.Price * GlobalConstants.VATTot:f2}")</span>
                 </td>
                 @*<td class="align-middle text-center">
-                    <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" onclick="window.open('http://bulbankonline.bg', '_blank')" class="btn btn-primary mx-1">@localizer["Pay"]</a>
-                    <a asp-action="PaidIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
-                </td>*@
+                        <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" onclick="window.open('http://bulbankonline.bg', '_blank')" class="btn btn-primary mx-1">@localizer["Pay"]</a>
+                        <a asp-action="PaidIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
+                    </td>*@
                 @*<td class="px-2 text-center align-middle" style="width:auto">
-                    <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
-                        <span>
-                            <i class="p-1 fas fa-info-circle"></i>
-                        </span>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
-                </td>*@
+                        <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                        <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
+                            <span>
+                                <i class="p-1 fas fa-info-circle"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </td>*@
             </tr>
         }
     </tbody>

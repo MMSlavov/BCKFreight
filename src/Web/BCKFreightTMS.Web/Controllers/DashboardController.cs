@@ -1,9 +1,9 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
-    using System;
     using System.Diagnostics;
     using System.Linq;
 
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
@@ -29,8 +29,10 @@
 
         public IActionResult Index()
         {
-            var model = this.orderActions.All()
-                                        .Where(a => a.Until > DateTime.UtcNow && a.OrderTo.Order.Creator.Id == this.userManager.GetUserId(this.User))
+            var model = this.orderActions.AllAsNoTracking()
+                                        .Where(a => a.OrderTo.Order.Status.Name == OrderStatusNames.InProgress.ToString() &&
+                                                    a.OrderTo.Order.Creator.Id == this.userManager.GetUserId(this.User) &&
+                                                    !a.OrderTo.IsFinished)
                                         .OrderBy(a => a.Until)
                                         .To<ActionIndexViewModel>()
                                         .ToList();

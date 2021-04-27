@@ -1,7 +1,6 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Orders
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;

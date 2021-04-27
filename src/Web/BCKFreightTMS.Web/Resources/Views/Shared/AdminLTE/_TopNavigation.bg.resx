@@ -117,55 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Добави</value>
+  <data name="Admin" xml:space="preserve">
+    <value>Админ</value>
   </data>
-  <data name="Amsterdam" xml:space="preserve">
-    <value>Амстердам</value>
-  </data>
-  <data name="Belgrade" xml:space="preserve">
-    <value>Белград</value>
-  </data>
-  <data name="bg" xml:space="preserve">
-    <value>&lt;i class="flag-icon flag-icon-bg mr-2"&gt;&lt;/i&gt; Bulgarian</value>
-  </data>
-  <data name="Bucharest" xml:space="preserve">
-    <value>Букурещ</value>
-  </data>
-  <data name="Bulgaria" xml:space="preserve">
-    <value>България</value>
-  </data>
-  <data name="Cargos" xml:space="preserve">
-    <value>Товари</value>
-  </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Контакти</value>
-  </data>
-  <data name="en" xml:space="preserve">
-    <value>&lt;i class="flag-icon flag-icon-gb mr-2"&gt;&lt;/i&gt; English</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Товарене</value>
-  </data>
-  <data name="Netherlands" xml:space="preserve">
-    <value>Холандия</value>
-  </data>
-  <data name="Orders" xml:space="preserve">
-    <value>Заявки</value>
-  </data>
-  <data name="Romania" xml:space="preserve">
-    <value>Румъния</value>
-  </data>
-  <data name="Serbia" xml:space="preserve">
-    <value>Сърбия</value>
-  </data>
-  <data name="Targovishte" xml:space="preserve">
-    <value>Търговище</value>
-  </data>
-  <data name="Unloading" xml:space="preserve">
-    <value>Разтоварване</value>
-  </data>
-  <data name="Vehicles" xml:space="preserve">
-    <value>Камиони</value>
+  <data name="Logout" xml:space="preserve">
+    <value>Излез</value>
   </data>
 </root>

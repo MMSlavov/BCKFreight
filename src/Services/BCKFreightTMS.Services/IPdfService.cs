@@ -18,5 +18,6 @@
         public IEnumerable<string> ScanTessOCR();
 
         public string FileTessOCR(byte[] data);
+        void Dispose();
     }
 }

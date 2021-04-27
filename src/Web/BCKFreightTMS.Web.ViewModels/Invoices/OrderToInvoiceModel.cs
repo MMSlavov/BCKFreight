@@ -31,6 +31,8 @@
 
         public string OrderOrderFromReferenceNum { get; set; }
 
+        public string ReceiveDate { get; set; }
+
         public bool IsDocValid { get; set; }
 
         public bool NoVAT { get; set; }
@@ -46,6 +48,8 @@
             NoVATTaxCoutryNames res;
             configuration.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.NoVAT, opt =>
                     opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))));
+            configuration.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.ReceiveDate, opt =>
+                    opt.MapFrom(x => x.Order.OrderFrom.ReceiveDate.Value.ToLocalTime().ToShortDateString()));
         }
     }
 }

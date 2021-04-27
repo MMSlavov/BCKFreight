@@ -16,12 +16,20 @@
     let companyId = tc.querySelector("select[id*=CompanyId]");
     let addContactBtn = tc.querySelector("#addContact");
     let addDriverBtn = tc.querySelector("#addDriver");
+    let addVehicleBtn = tc.querySelector("#addVehicle");
+    let addCarrierBtn = tc.querySelector("#addCarrier");
 
     addContactBtn.addEventListener("click", function (ev) {
-        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact', null, () => { GetData(companyId.value) });
     });
     addDriverBtn.addEventListener("click", function (ev) {
-        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver');
+        showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Driver`, 'Add driver', null, () => { GetData(companyId.value) });
+    });
+    addVehicleBtn.addEventListener("click", function (ev) {
+        showInPopup(`/Vehicles/AddVehicleModal`, 'Add vehicle', null, () => { GetData(companyId.value) });
+    });
+    addCarrierBtn.addEventListener("click", function (ev) {
+        showInPopup(`/Contacts/AddCompanyModal/`, 'Add carrier', null, () => { GetData(companyId.value) });
     });
 
     $(function () { $('.selectpicker').selectpicker(); });

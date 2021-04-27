@@ -1,13 +1,11 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Orders
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class OrderAcceptInputModel : IValidatableObject
     {
         // [RegularExpression(@"^\d+(\.|,)\d{2}$", ErrorMessage = "Invalid price.(123.45)")]
-
         public int DueDaysFrom { get; set; }
 
         [Required]
@@ -50,7 +48,6 @@
         // public DocumentationInputModel Documentation { get; set; }
 
         // public List<ActionCreateInputModel> Actions { get; set; }
-
         public List<OrderToModel> OrderTos { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> CompanyItems { get; set; }

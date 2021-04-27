@@ -206,6 +206,8 @@
                 data.Add("Id", person.Id);
                 data.Add("First name", person.FirstName);
                 data.Add("Last name", person.LastName);
+                data.Add("Company", person.Company?.Name);
+                data.Add("Role", person.Role?.Name);
                 data.Add("Birthday", person.BirthDate == default ? null : person.BirthDate?.ToLocalTime().ToShortDateString());
                 data.Add("Mobile", person.Comunicators?.Mobile1);
             }

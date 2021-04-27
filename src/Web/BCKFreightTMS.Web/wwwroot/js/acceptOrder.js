@@ -15,7 +15,7 @@
 let companyId = document.getElementById("CompanyFromId");
 let addContactBtn = document.getElementById("addContact");
 addContactBtn.addEventListener("click", function (ev) {
-    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact');
+    showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact', null, refreshContact);
 });
  
 $(function () {
@@ -27,21 +27,23 @@ $(function () {
         refreshContact();
         $('.selectpicker').selectpicker('refresh');
     });
-    function refreshContact() {
-        $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyFromId").val() }, function (d) {
-            let row = "";
-            $("#contactFrom").empty();
-            $.each(d, function (i, v) {
-                row += "<option value=" + v.value + ">" + v.text + "</option>";
-            });
-            $("#contactFrom").html(row);
-            let item = new Option("Select", null, true, true);
-            $(item).html("Select");
-            item.setAttribute("disabled", "disabled");
-            $("#contactFrom").append(item);
-        })
-    }
 })
+
+function refreshContact() {
+    $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyFromId").val() }, function (d) {
+        let row = "";
+        $("#contactFrom").empty();
+        $.each(d, function (i, v) {
+            row += "<option value=" + v.value + ">" + v.text + "</option>";
+        });
+        $("#contactFrom").html(row);
+        let item = new Option("Select", null, true, true);
+        $(item).html("Select");
+        item.setAttribute("disabled", "disabled");
+        $("#contactFrom").append(item);
+    })
+}
+
 function SetActions() {
     let aTabs = document.querySelectorAll("#aTabs");
     aTabs[aTabs.length - 1].addEventListener("click", (ev) => {
@@ -170,7 +172,7 @@ function addCourse(evt) {
     })
     let courseHtml = course.innerHTML.replace(/OrderTos_\d_/g, "OrderTos_" + index + "_").replace(/OrderTos\[\d\]/g, "OrderTos[" + index + "]");
 
-    $("#courses").append("<div id='course" + index + "' class='tabcontent rounded-bottom'>" + courseHtml + '</div>');/*<a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>*/
+    $("#courses").append("<div id='course" + index + "' class='tabcontent rounded-bottom bg-gray-light'>" + courseHtml + '</div>');/*<a href='#' class='delete float-right'><i class='fas fa-minus-circle text-danger'></i></a>*/
     let btn = document.querySelector(".tablinks[id=course]").cloneNode();
     btn.id += index;
     btnIndex = document.querySelectorAll(".tablinks[id^=course]").length + 1;

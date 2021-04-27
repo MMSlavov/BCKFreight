@@ -8,7 +8,6 @@
     using System.Threading.Tasks;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
@@ -255,6 +254,12 @@
                 {
                     carrierOrder.ReferenceNum = this.GenerateOrderNumber(companyTaxCountry.Equals("bulgaria", StringComparison.InvariantCultureIgnoreCase) ||
                                                                          companyTaxCountry.Equals("българия", StringComparison.InvariantCultureIgnoreCase));
+                }
+
+                if (carrierOrder.OrderCreatorCompany.TaxCountryName == TaxCountryNames.Румъния.ToString() ||
+                    carrierOrder.OrderTos.Any(ot => ot.NoVAT))
+                {
+                    carrierOrder.NoVAT = true;
                 }
             }
 
@@ -586,6 +591,8 @@
             {
                 order.OrderFrom.ReferenceNum = input.OrderFromReferenceNum;
             }
+
+            order.OrderFrom.ReceiveDate = DateTime.UtcNow;
 
             await this.UpdateOrderStatus(input.Id, OrderStatusNames.InProgress.ToString());
             return order.Id;

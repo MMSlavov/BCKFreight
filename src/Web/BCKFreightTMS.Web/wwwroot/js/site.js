@@ -26,7 +26,6 @@ showInPopup = (url, title, callback, afterPost) => {
         type: 'GET',
         url: url,
         success: function (res) {
-            console.log(res);
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
             $('#form-modal').modal('show');
@@ -39,6 +38,7 @@ showInPopup = (url, title, callback, afterPost) => {
                     jQueryAjaxPost(ev.target, afterPost);
                 })
             }
+
             // to make popup draggable
             $(".modal-header").on("mousedown", function (mousedownEvt) {
                 let $draggable = $(this);

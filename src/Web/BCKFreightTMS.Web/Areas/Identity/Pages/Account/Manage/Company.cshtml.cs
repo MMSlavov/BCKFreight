@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
+
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -160,8 +161,16 @@
                 return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            await this.financeService.UpdateCurrencyRatesAsync(user.CompanyId);
-            this.StatusMessage = "Currency rates has been updated";
+            try
+            {
+                await this.financeService.UpdateCurrencyRatesAsync(user.CompanyId);
+                this.StatusMessage = "Currency rates has been updated";
+            }
+            catch (Exception ex)
+            {
+                this.StatusMessage = $"Error: {ex.Message}";
+            }
+
             return this.RedirectToPage();
         }
 

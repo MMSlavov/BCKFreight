@@ -1,8 +1,5 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
-    using System;
-
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
 

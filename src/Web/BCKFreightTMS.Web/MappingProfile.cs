@@ -57,22 +57,27 @@
             this.CreateMap<OrderTo, OrderToModel>().ForMember(x => x.OrderStatusActions, opt =>
                     opt.MapFrom(x => x.OrderActions));
             this.CreateMap<OrderToModel, OrderTo>();
-            this.CreateMap<OrderTo, OrderToApplicationModel>();
-            this.CreateMap<OrderTo, OrderToListModel>();
             NoVATTaxCoutryNames res;
+            this.CreateMap<OrderTo, OrderToApplicationModel>().ForMember(x => x.NoVAT, opt =>
+                    opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))));
+            this.CreateMap<OrderTo, OrderToListModel>();
             this.CreateMap<OrderTo, OrderToInvoiceModel>().ForMember(x => x.Voyage, opt =>
                     opt.MapFrom(x => string.Join(" - ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))))
                                                           .ForMember(x => x.NoVAT, opt =>
-                    opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))));
+                    opt.MapFrom(x => x.OrderActions.Any(a => Enum.TryParse<NoVATTaxCoutryNames>(a.TaxCountry.Name, out res))))
+                                                          .ForMember(x => x.ReceiveDate, opt =>
+                    opt.MapFrom(x => x.Order.OrderFrom.ReceiveDate == null ? string.Empty : x.Order.OrderFrom.ReceiveDate.Value.ToLocalTime().ToShortDateString()));
             this.CreateMap<OrderToInvoiceModel, OrderTo>();
             this.CreateMap<CarrierOrder, CarrierOrderApplicationModel>();
             this.CreateMap<CarrierOrder, CarrierOrderListModel>();
             this.CreateMap<OrderTo, InvoiceInInputModel>();
             this.CreateMap<OrderTo, InvoiceOutInputModel>();
+            this.CreateMap<OrderTo, ListFailedOrderToViewModel>().ForMember(x => x.Voyage, opt =>
+                    opt.MapFrom(x => string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))));
             this.CreateMap<BankDetailsModel, BankDetails>();
             this.CreateMap<InvoiceOut, InvoiceModel>();
             this.CreateMap<OrderTo, ListOrderToViewModel>().ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}"}</b></p>"));
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}"}{(x.Vehicle.Trailer != null ? $" / {x.Vehicle.Trailer.RegNumber}" : string.Empty)}</b></p>"));
         }
     }
 }

@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Services.Data;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

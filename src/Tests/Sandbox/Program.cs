@@ -1,7 +1,6 @@
 ﻿namespace Sandbox
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
@@ -11,9 +10,7 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Data.Repositories;
-    using BCKFreightTMS.Data.Seeding;
     using BCKFreightTMS.Services;
-    using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Messaging;
 
     using CommandLine;

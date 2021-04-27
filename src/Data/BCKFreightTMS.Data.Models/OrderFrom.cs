@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Data.Models
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,6 +9,8 @@
     public class OrderFrom : BaseDeletableModel<int>
     {
         public string ReferenceNum { get; set; }
+
+        public DateTime? ReceiveDate { get; set; }
 
         [Required]
         [ForeignKey(nameof(Company))]

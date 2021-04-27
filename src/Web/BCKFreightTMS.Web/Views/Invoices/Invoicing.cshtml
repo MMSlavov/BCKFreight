@@ -79,7 +79,7 @@
                         <td>
                             Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[0].Voyage) </b></p>
                             с автомобил <b>@Model.OrderTos[0].VehicleRegNumber/@Model.OrderTos[0].VehicleTrailerRegNumber </b>
-                            по заявка <b>@Model.OrderTos[0].OrderOrderFromReferenceNum</b>
+                            по заявка <b>@(string.IsNullOrWhiteSpace(this.Model.OrderTos[0].OrderOrderFromReferenceNum) ? this.Model.OrderTos[0].ReceiveDate : this.Model.OrderTos[0].OrderOrderFromReferenceNum)</b>
                             @Html.HiddenFor(m => m.OrderTos[0].Id)
                         </td>
                         <td>

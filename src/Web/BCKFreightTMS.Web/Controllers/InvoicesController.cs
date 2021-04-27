@@ -105,10 +105,8 @@
 
         public IActionResult GetOrderTo(string id)
         {
-            var viewModel = this.ordersService.GetAllOrderTos<OrderToInvoiceModel>(o => o.Order.OrderFrom.CompanyId == id &&
-                                                                                        o.IsFinished &&
-                                                                                        o.InvoiceInId != null &&
-                                                                                        o.InvoiceOutId == null);
+            var viewModel = this.invoicesService.GetOrderTosInvoicing(id);
+
             return this.View(viewModel);
         }
 
@@ -122,7 +120,7 @@
 
         public IActionResult AwaitingPayment()
         {
-            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString())
+            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString())
                                                   .To<ListInvoiceOutModel>()
                                                   .ToList();
             return this.View(invoices);

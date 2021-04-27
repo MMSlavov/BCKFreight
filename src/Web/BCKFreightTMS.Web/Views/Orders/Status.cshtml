@@ -9,8 +9,8 @@
     var isCurrOrderTo = false;
 }
 
-<h3 class="text-bold">@localizer["Order status"]</h3>
-<hr class="mb-1" />
+@*<h3 class="text-bold">@localizer["Order status"]</h3>
+<hr class="mb-1" />*@
 <div class="container-fluid p-2">
     <form method="post">
         <div class="tab rounded" id="cTabs">
@@ -40,29 +40,32 @@
                     <div class="col-3 p-1">
                         <dl>
                             <dt class="text-right">
-                                Registration number:&nbsp;&nbsp;
+                                @localizer["Registration number"]:&nbsp;&nbsp;
                             </dt>
                             <dd>
                                 @orderTos[oi].VehicleRegNumber
                             </dd>
-                            <dt class="text-right">
-                                Trailer:&nbsp;&nbsp;
-                            </dt>
-                            <dd>
-                                @orderTos[oi].VehicleTrailerRegNumber
-                            </dd>
+                            @if (!string.IsNullOrWhiteSpace(orderTos[oi].VehicleTrailerRegNumber))
+                            {
+                                <dt class="text-right">
+                                    @localizer["Trailer"]:&nbsp;&nbsp;
+                                </dt>
+                                <dd>
+                                    @orderTos[oi].VehicleTrailerRegNumber
+                                </dd>
+                            }
                         </dl>
                     </div>
                     <div class="col-3 p-1">
                         <dl>
                             <dt class="text-right">
-                                Carrier:&nbsp;&nbsp;
+                                @localizer["Carrier"]:&nbsp;&nbsp;
                             </dt>
                             <dd>
                                 @orderTos[oi].CarrierOrderCompanyName
                             </dd>
                             <dt class="text-right">
-                                Company mobile:&nbsp;&nbsp;
+                                @localizer["Company mobile"]:&nbsp;&nbsp;
                             </dt>
                             <dd>
                                 @orderTos[oi].CarrierOrderCompanyComunicatorsMobile1
@@ -72,13 +75,13 @@
                     <div class="col-3 p-1">
                         <dl>
                             <dt class="text-right">
-                                Contact person:&nbsp;&nbsp;
+                                @localizer["Contact person"]:&nbsp;&nbsp;
                             </dt>
                             <dd>
                                 @orderTos[oi].ContactFirstName @orderTos[oi].ContactLastName
                             </dd>
                             <dt class="text-right">
-                                Contact mobile:&nbsp;&nbsp;
+                                @localizer["Contact mobile"]:&nbsp;&nbsp;
                             </dt>
                             <dd>
                                 @orderTos[oi].ContactComunicatorsMobile1

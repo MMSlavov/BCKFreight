@@ -6,7 +6,6 @@
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Data.Repositories;
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.EntityFrameworkCore;

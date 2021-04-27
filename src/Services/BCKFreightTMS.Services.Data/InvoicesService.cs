@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -10,6 +11,7 @@
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,6 +22,7 @@
         private readonly IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
         private readonly IDeletableEntityRepository<OrderTo> orderTos;
         private readonly IDeletableEntityRepository<VATReason> vatReasons;
+        private readonly IFinanceService financeService;
         private readonly IPdfService pdfService;
         private readonly IViewRenderService viewRenderService;
         private readonly IDeletableEntityRepository<InvoiceOut> invoiceOuts;
@@ -32,6 +35,7 @@
                 IDeletableEntityRepository<InvoiceStatus> invoiceStatuses,
                 IDeletableEntityRepository<OrderTo> orderTos,
                 IDeletableEntityRepository<VATReason> vatReasons,
+                IFinanceService financeService,
                 IPdfService pdfService,
                 IViewRenderService viewRenderService,
                 IOrdersService ordersService,
@@ -42,6 +46,7 @@
             this.invoiceStatuses = invoiceStatuses;
             this.orderTos = orderTos;
             this.vatReasons = vatReasons;
+            this.financeService = financeService;
             this.pdfService = pdfService;
             this.viewRenderService = viewRenderService;
             this.ordersService = ordersService;
@@ -278,6 +283,70 @@
             // var receivedDoc = order.Documentation.RecievedDocumentation;
             // model.RecievedDocumentation = this.mapper.Map<DocumentationInputModel>(receivedDoc);
             return invoiceOutModel;
+        }
+
+        public IEnumerable<ListInvoiceInModel> LoadInvoiceInList(Expression<Func<InvoiceIn, bool>> filter)
+        {
+            var invoices = this.invoiceIns.All().Where(filter)
+                                    .To<ListInvoiceInModel>()
+                                    .ToList();
+
+            foreach (var invoice in invoices)
+            {
+                if (invoice.VATReasonName != VATReasonsIn.Чл66ал1.ToString())
+                {
+                    invoice.NoVAT = true;
+                }
+
+                invoice.Price = invoice.OrderTos.Sum(i => this.financeService.GetAmount(i.CurrencyOutId, i.PriceNetOut));
+            }
+
+            return invoices;
+        }
+
+        public IEnumerable<ListInvoiceOutModel> LoadInvoiceOutList(Expression<Func<InvoiceOut, bool>> filter)
+        {
+            var invoices = this.invoiceOuts.All().Where(filter)
+                                    .To<ListInvoiceOutModel>()
+                                    .ToList();
+
+            foreach (var invoice in invoices)
+            {
+                if (invoice.VATReasonName != VATReasonsOut.Чл66ал1.ToString())
+                {
+                    invoice.NoVAT = true;
+                }
+
+                invoice.Price = invoice.OrderTos.Sum(i => this.financeService.GetAmount(i.CurrencyInId, i.PriceNetIn));
+            }
+
+            return invoices;
+        }
+
+        public async Task PayInvoiceIn(string invoiceId)
+        {
+            this.invoiceIns.All().FirstOrDefault(i => i.Id == invoiceId).PayDate = DateTime.UtcNow;
+            await this.UpdateInvoiceInStatusAsync(invoiceId, InvoiceStatusNames.Paid.ToString());
+        }
+
+        public async Task PayInvoiceOut(string invoiceId)
+        {
+            this.invoiceOuts.All().FirstOrDefault(i => i.Id == invoiceId).PayDate = DateTime.UtcNow;
+            await this.UpdateInvoiceOutStatusAsync(invoiceId, InvoiceStatusNames.Paid.ToString());
+        }
+
+        public IEnumerable<OrderToInvoiceModel> GetOrderTosInvoicing(string orderId)
+        {
+            var model = this.ordersService.GetAllOrderTos<OrderToInvoiceModel>(o => o.Order.OrderFrom.CompanyId == orderId &&
+                                                                            o.IsFinished &&
+                                                                            o.InvoiceInId != null &&
+                                                                            o.InvoiceOutId == null);
+            foreach (var orderTo in model)
+            {
+                orderTo.PriceNetIn = this.financeService.GetAmount(orderTo.CurrencyInId, orderTo.PriceNetIn);
+            }
+
+            return model;
         }
 
         public InvoiceModel GenerateInvoiceModel(string invoiceId)

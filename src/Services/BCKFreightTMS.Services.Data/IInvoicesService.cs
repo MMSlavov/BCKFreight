@@ -1,7 +1,11 @@
 ﻿namespace BCKFreightTMS.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Invoices;
 
     public interface IInvoicesService
@@ -19,6 +23,16 @@
         public Task MarkInvoiceInForApproval(string invoiceId);
 
         public InvoiceOutInputModel LoadInvoiceOutModel(string orderId);
+
+        public Task PayInvoiceIn(string invoiceId);
+
+        public Task PayInvoiceOut(string invoiceId);
+
+        public IEnumerable<ListInvoiceInModel> LoadInvoiceInList(Expression<Func<InvoiceIn, bool>> filter);
+
+        public IEnumerable<ListInvoiceOutModel> LoadInvoiceOutList(Expression<Func<InvoiceOut, bool>> filter);
+
+        public IEnumerable<OrderToInvoiceModel> GetOrderTosInvoicing(string orderId);
 
         public Task<string> CreateInvoiceOut(InvoiceOutInputModel input);
 

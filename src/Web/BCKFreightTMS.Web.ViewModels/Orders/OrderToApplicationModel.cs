@@ -18,6 +18,8 @@
 
         public DocumentationInputModel Documentation { get; set; }
 
+        public bool NoVAT { get; set; }
+
         public List<ActionCreateInputModel> OrderActions { get; set; }
 
         public CargoInputModel Cargo { get; set; }

@@ -6,9 +6,9 @@
 
     using BCKFreightTMS.Data.Common.Models;
 
-    public class InvoiceIn : BaseDeletableModel<string>
+    public class InvoiceOut : BaseDeletableModel<string>
     {
-        public InvoiceIn()
+        public InvoiceOut()
         {
             this.Id = Guid.NewGuid().ToString();
             this.OrderTos = new HashSet<OrderTo>();
@@ -21,9 +21,9 @@
 
         public virtual BankDetails BankDetails { get; set; }
 
-        public DateTime ReceiveDate { get; set; }
-
         public DateTime CreateDate { get; set; }
+
+        public DateTime? PayDate { get; set; }
 
         public int DueDays { get; set; }
 

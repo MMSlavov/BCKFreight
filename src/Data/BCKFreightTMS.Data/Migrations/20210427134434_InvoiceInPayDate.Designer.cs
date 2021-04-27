@@ -4,14 +4,16 @@ using BCKFreightTMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BCKFreightTMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427134434_InvoiceInPayDate")]
+    partial class InvoiceInPayDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -888,9 +890,6 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PayDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");

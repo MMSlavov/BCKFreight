@@ -12,7 +12,6 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
@@ -524,6 +523,7 @@
             }
             else
             {
+                await this.invoicesService.UpdateInvoiceInStatusAsync(invoiceId, InvoiceStatusNames.AwaitingPayment.ToString());
                 this.notyfService.Success(this.localizer["Order finished."]);
             }
 

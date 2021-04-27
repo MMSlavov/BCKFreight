@@ -1,20 +1,5 @@
 ﻿namespace BCKFreightTMS.Services.Data.Tests
 {
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
-    using AutoMapper;
-    using BCKFreightTMS.Data;
-    using BCKFreightTMS.Data.Common.Repositories;
-    using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Data.Repositories;
-    using BCKFreightTMS.Services.Messaging;
-    using BCKFreightTMS.Web.ViewModels.Orders;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using Moq;
-    using Xunit;
 
     // public class OrdersServiceTests
     // {

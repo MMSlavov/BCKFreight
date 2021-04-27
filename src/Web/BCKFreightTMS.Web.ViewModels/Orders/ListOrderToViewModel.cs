@@ -41,7 +41,7 @@
         {
             configuration.CreateMap<OrderTo, ListOrderToViewModel>()
                 .ForMember(x => x.Voyage, opt =>
-                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}"}</b></p>"));
+                    opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}{(x.Vehicle.Trailer != null ? $"/{x.Vehicle.Trailer.RegNumber}" : string.Empty)}"}</b></p>"));
         }
     }
 }

@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Birthday" xml:space="preserve">
+    <value>Рожден ден</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Фирма</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Дейност</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>Първо име</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>Фамилия</value>
   </data>
   <data name="Mobile" xml:space="preserve">
     <value>Телефон</value>
@@ -128,6 +140,9 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Име</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роля</value>
   </data>
   <data name="Tax country" xml:space="preserve">
     <value>Държава</value>

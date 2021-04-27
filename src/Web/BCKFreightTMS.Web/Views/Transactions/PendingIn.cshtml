@@ -1,4 +1,5 @@
-﻿@using BCKFreightTMS.Common.Enums;
+﻿@using BCKFreightTMS.Common;
+@using BCKFreightTMS.Common.Enums;
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -16,11 +17,11 @@
     <thead>
         <tr>
             <th>
-                @localizer["Number"]
+                @localizer["Invoice"]
             </th>
-            <th>
-                @localizer["Create date"]
-            </th>
+            @*<th>
+                    @localizer["Create date"]
+                </th>*@
             <th>
                 @localizer["Carrier"]
             </th>
@@ -30,6 +31,9 @@
             <th>
                 @localizer["Due date"]
             </th>
+            <th>
+                @localizer["Price"]
+            </th>
             <th style="visibility: hidden;"></th>
         </tr>
     </thead>
@@ -38,10 +42,8 @@
         {
             <tr @(invoiceIn.StatusName == InvoiceStatusNames.PayAttempt.ToString() ? "class=table-warning" : "")>
                 <td>
-                    <span class="text-bold">@invoiceIn.Number</span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <p class="text-bold m-0">@invoiceIn.Number</p>
+                    <span>@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
@@ -52,19 +54,23 @@
                 <td>
                     <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
                 </td>
+                <td>
+                    <p class="text-bold m-0">@(invoiceIn.NoVAT ? $"{invoiceIn.Price:f2}" : $"{invoiceIn.Price * GlobalConstants.VATTot:f2}")</p>
+                    <span>@(invoiceIn.NoVAT ? "" : localizer["със ДДС"])</span>
+                </td>
                 <td class="align-middle text-center">
                     <a asp-action="Pay" asp-route-id="@invoiceIn.Id" onclick="OpenBankTab()" class="btn btn-primary mx-1">@localizer["Pay"]</a>
                     <a asp-action="PayIn" asp-route-id="@invoiceIn.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>
                 </td>
                 @*<td class="px-2 text-center align-middle" style="width:auto">
-                    <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
-                    <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
-                        <span>
-                            <i class="p-1 fas fa-info-circle"></i>
-                        </span>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
-                </td>*@
+                        <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                        <a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
+                            <span>
+                                <i class="p-1 fas fa-info-circle"></i>
+                            </span>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                    </td>*@
             </tr>
         }
     </tbody>
@@ -84,7 +90,7 @@
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
-                "order": [[3, "asc"]],
+                "order": [[2, "asc"]],
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,

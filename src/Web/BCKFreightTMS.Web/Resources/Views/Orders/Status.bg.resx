@@ -123,8 +123,20 @@
   <data name="Cancel" xml:space="preserve">
     <value>Отказ</value>
   </data>
+  <data name="Carrier" xml:space="preserve">
+    <value>Превозвач</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>Забележки</value>
+  </data>
+  <data name="Company mobile" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Contact mobile" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Contact person" xml:space="preserve">
+    <value>Лице за контакт</value>
   </data>
   <data name="Course" xml:space="preserve">
     <value>Курс</value>
@@ -162,11 +174,17 @@
   <data name="Reason" xml:space="preserve">
     <value>Причина</value>
   </data>
+  <data name="Registration number" xml:space="preserve">
+    <value>Рег. номер</value>
+  </data>
   <data name="the driver has not yet arrived" xml:space="preserve">
     <value>шофьорът все още не е пристигнал</value>
   </data>
   <data name="the enterprise is off time" xml:space="preserve">
     <value>предприятието е off time</value>
+  </data>
+  <data name="Trailer" xml:space="preserve">
+    <value>Ремарке</value>
   </data>
   <data name="Unloading" xml:space="preserve">
     <value>Разтоварване</value>

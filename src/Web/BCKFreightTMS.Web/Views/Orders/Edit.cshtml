@@ -42,7 +42,7 @@
                 <div class="form-row justify-content-around p-2 ml-2">
                     <div class="form-group col-5">
                         <div class="form-group">
-                            <label class="control-label">@localizer["Carrier company"]</label><a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>
+                            <label class="control-label">@localizer["Carrier company"]</label><a href="#" class="pl-2" id="addCarrier"><i class="fas fa-plus"></i></a>
                             <select asp-for="OrderTos[oi].CarrierOrderCompanyId" class="form-control selectpicker" data-live-search="true" asp-items="companyItems">
                             </select>
                             <span asp-validation-for="OrderTos[oi].CarrierOrderCompanyId" class="text-danger"></span>
@@ -78,7 +78,7 @@
                             <span asp-validation-for="OrderTos[oi].ContactId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OrderTos[oi].VehicleId" class="control-label">@localizer["Vehicle"]</label><a href="#" class="pl-2" onclick="showInPopup('/Vehicles/AddVehicleModal', 'Add Vehicle')"><i class="fas fa-plus"></i></a>
+                            <label asp-for="OrderTos[oi].VehicleId" class="control-label">@localizer["Vehicle"]</label><a href="#" class="pl-2" id="addVehicle"><i class="fas fa-plus"></i></a>
                             <select asp-for="OrderTos[oi].VehicleId" id="vehicle" class="form-control col-11" asp-items="@Model.OrderTos[oi].VehicleItems">
                             </select>
                             <span asp-validation-for="OrderTos[oi].VehicleId" class="text-danger"></span>

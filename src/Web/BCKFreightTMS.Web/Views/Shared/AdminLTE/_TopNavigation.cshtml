@@ -3,11 +3,12 @@
 @using Microsoft.AspNetCore.Identity
 @using BCKFreightTMS.Services.Data
 @using BCKFreightTMS.Data.Common.Repositories
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IContactsService contacts
 @inject IDeletableEntityRepository<InvoiceIn> invoices
-@{ 
+@{
     var awaitingInvoices = this.User.IsInRole("SuperUser") ?
                          this.invoices.AllAsNoTracking()
                                     .Where(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString() &&
@@ -25,11 +26,11 @@
             if (this.User.IsInRole(RoleNames.Admin.ToString()))
             {
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index">Admin</a>
+                    <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index">@localizer["Admin"]</a>
                 </li>
             }
             <li class="nav-item d-none d-sm-inline-block">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Dashboard")">Logout</a>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Dashboard")">@localizer["Logout"]</a>
             </li>
         }
         else

@@ -1,0 +1,18 @@
+﻿@model BCKFreightTMS.Web.ViewModels.Transactions.DSKStatementModel
+@{ 
+    this.Layout = null;
+}
+
+<table class="table table-striped">
+    <tbody>
+        @foreach (var movement in this.Model.AccountMovements)
+        {
+            <tr>
+                <td>@movement.OppositeSideName</td>
+                <td>@movement.Reason</td>
+                <td>@movement.ValueDate</td>
+                <td>@movement.Amount</td>
+            </tr>
+        }
+    </tbody>
+</table>

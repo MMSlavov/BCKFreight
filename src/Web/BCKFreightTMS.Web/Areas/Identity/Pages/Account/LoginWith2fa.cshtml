@@ -2,40 +2,72 @@
 @model LoginWith2faModel
 @{
     ViewData["Title"] = "Two-factor authentication";
+    this.Layout = null;
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-            <input asp-for="RememberMe" type="hidden" />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.TwoFactorCode"></label>
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="Input.RememberMachine">
-                        <input asp-for="Input.RememberMachine" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
-                    </label>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BCKFreight | Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="~/plugins/fontawesome-free-5.15.1-web/css/all.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/adminlte.min.css" asp-append-version="true">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" asp-append-version="true">
+</head>
+<body class="hold-transition login-page" style="background-image: url('/img/');
+        background-image: url('/img/e13edc61-c4f9-468a-8e51-b21884df39d3.jpg');
+        background-size: cover;
+        background-position: center center;
+        opacity: 0.9;
+    ">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>BCK</b>Freight
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
+                <div class="row">
+                    <div>
+                        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                            <input asp-for="RememberMe" type="hidden" />
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.TwoFactorCode"></label>
+                                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label asp-for="Input.RememberMachine">
+                                        <input asp-for="Input.RememberMachine" />
+                                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+                <p>
+                    Don't have access to your authenticator device? You can
+                    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
+                </p>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Log in</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</body>
+</html>

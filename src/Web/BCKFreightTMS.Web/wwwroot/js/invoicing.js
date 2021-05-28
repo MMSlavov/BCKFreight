@@ -49,7 +49,9 @@ let finish = document.querySelector("#finish");
 let vatEl = invoiceEndEl.querySelector("#vat");
 let vatReasonEl = document.querySelector('.vatReason');
 const val = vatReasonEl.dataset.selected;
-vatReasonEl.querySelector("option[value='" + val + "']").selected = true;
+if (val) {
+    vatReasonEl.querySelector("option[value='" + val + "']").selected = true;
+}
 
 vatReasonEl.addEventListener("change", (ev) => {
     calculateTotal();

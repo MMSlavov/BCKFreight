@@ -44,7 +44,7 @@
             <tr>
                 <td>
                     <span>@orderTo.CreatedOn.ToLocalTime().ToShortDateString()</span>
-                    <p class="m-0 text-bold">@orderTo.CarrierOrderReferenceNum</p>
+                    <a asp-action="DownloadApplication" asp-route-id="@orderTo.CarrierOrderId" onclick='setTimeout(function () { $(".loading").hide() }, 3000);' class="m-0" title="Download"><b>@orderTo.CarrierOrderReferenceNum</b></a>
                 </td>
                 <td>
                     <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CarrierOrderCompanyName)</span>

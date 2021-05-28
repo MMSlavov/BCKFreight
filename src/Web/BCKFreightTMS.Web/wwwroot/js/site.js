@@ -57,6 +57,9 @@ showInPopup = (url, title, callback, afterPost) => {
                     $("body").off("mousemove.draggable");
                 });
             });
+        },
+        error: function (er) {
+            alert(er.responseText);
         }
     })
 }

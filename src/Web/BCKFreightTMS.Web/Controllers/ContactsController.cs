@@ -63,6 +63,13 @@
             return this.View();
         }
 
+        public IActionResult EditCompanyModal(string id)
+        {
+            var model = this.contactsService.LoadEditCompanyModel(id);
+
+            return this.View(model);
+        }
+
         public async Task<IActionResult> GetCompany(string searchStr = null)
         {
             try
@@ -198,6 +205,26 @@
             {
                 this.ModelState.AddModelError(string.Empty, "Company allready exists.");
                 return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
+            }
+
+            return this.Json(new { isValid = true, redirectToUrl = "reload" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCompanyModal(CompanyEditModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
+            }
+
+            try
+            {
+                await this.contactsService.EditCompanyAsync(model);
+            }
+            catch (Exception)
+            {
+                return this.Json(new { isValid = false, redirectToUrl = "reload" });
             }
 
             return this.Json(new { isValid = true, redirectToUrl = "reload" });

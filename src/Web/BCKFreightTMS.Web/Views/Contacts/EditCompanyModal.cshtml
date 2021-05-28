@@ -1,0 +1,55 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Contacts.CompanyEditModel
+@{
+    this.Layout = null;
+}
+
+<form asp-action="EditCompanyModal" onsubmit="return jQueryAjaxPost(this);" id="company_input">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label>@localizer["Company name"] <span class="text-danger">*</span></label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Enter company name" required>
+    </div>
+    <div class="form-row">
+        @*<div class="form-group col-5">
+            <label>@localizer["Tax country"]</label>
+            <input asp-for="TaxCountry" type="text" class="form-control" placeholder="Enter Tax country">
+        </div>*@
+        <div class="form-group col-7">
+            <label>@localizer["Tax number"]</label>
+            <input asp-for="TaxNumber" type="text" id="uicInput" class="form-control" placeholder="Enter Tax number">
+        </div>
+    </div>
+    <div class="form-group p-2 border rounded">
+        <label class="text-muted">@localizer["Company address"]</label>
+        <div class="form-group">
+            <label asp-for="AddressAddressStreetLine">@localizer["Street line"]</label>
+            <input asp-for="AddressAddressStreetLine" type="text" class="form-control" placeholder="Enter Street line">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label asp-for="AddressMOLFirstName">@localizer["MOL First name"]</label>
+                <input asp-for="AddressMOLFirstName" type="text" class="form-control" placeholder="Enter MOL First name">
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="AddressMOLLastName">@localizer["MOL Last name"]</label>
+                <input asp-for="AddressMOLLastName" type="text" class="form-control" placeholder="Enter MOL Last name">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-4">
+                <label asp-for="ComunicatorsMobile1">@localizer["Mobile"] <span class="text-danger">*</span></label>
+                <input asp-for="ComunicatorsMobile1" type="text" class="form-control" placeholder="Mobile">
+            </div>
+            <div class="form-group col-6">
+                <label>@localizer["Email"] <span class="text-danger">*</span></label>
+                <input asp-for="ComunicatorsEmail1" type="text" class="form-control" placeholder="Email">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ComunicatorsDetails">@localizer["Details"]</label>
+        <textarea asp-for="ComunicatorsDetails" type="text" class="form-control" placeholder="Enter Details" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">@localizer["Save"]</button>
+</form>

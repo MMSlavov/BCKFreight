@@ -7,7 +7,7 @@
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Mapping;
 
-    public class OrderStatusViewModel : IMapFrom<Order>, IHaveCustomMappings
+    public class OrderStatusViewModel : IMapFrom<Order>
     {
         public string Id { get; set; }
 
@@ -32,20 +32,10 @@
         // public ICollection<ActionStatusInputModel> Actions { get; set; }
 
         // public DocumentationInputModel Documentation { get; set; }
-        public ICollection<KeyValuePair<string, string>> DriversMobiles { get; set; }
-
         public List<OrderToModel> OrderTos { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ActionTypeItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ActionNotFinishedItems { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Order, OrderStatusViewModel>()
-                .ForMember(x => x.DriversMobiles, opt =>
-                opt.MapFrom(x => x.OrderTos.SelectMany(o => o.Drivers).Select(d =>
-                new KeyValuePair<string, string>($"{d.Driver.FirstName} {d.Driver.LastName}", d.Driver.Comunicators.Mobile1))));
-        }
     }
 }

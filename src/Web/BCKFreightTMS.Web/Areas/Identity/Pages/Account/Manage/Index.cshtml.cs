@@ -4,6 +4,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Data.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -131,6 +132,12 @@
 
             if (this.Request.Form.Files.Count > 0)
             {
+                if (file.Length > GlobalConstants.MaxProfPicSize)
+                {
+                    this.StatusMessage = "Error: Image too big.(max 300KB)";
+                    return this.RedirectToPage();
+                }
+
                 using (var dataStream = new MemoryStream())
                 {
                     await file.CopyToAsync(dataStream);

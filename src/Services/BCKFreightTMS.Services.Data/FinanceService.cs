@@ -51,6 +51,10 @@
         public decimal GetAmount(int currencyId, decimal amount)
         {
             var currency = this.currencies.All().FirstOrDefault(c => c.Id == currencyId);
+            if (currency == null)
+            {
+                return amount;
+            }
 
             return amount * currency.Rate;
         }
@@ -90,14 +94,14 @@
 
         private decimal GetCurrencyExRate(string fromCurrency, string toCurrency)
         {
-            string url = string.Format(GlobalConstants.ExchangeRateUrl, fromCurrency, toCurrency);
+            string url = string.Format(GlobalConstants.ExchangeRateUrlv2, fromCurrency);
 
             using (var wc = new WebClient())
             {
                 var json = wc.DownloadString(url);
 
                 JToken token = JObject.Parse(json);
-                decimal exchangeRate = (decimal)token.SelectToken("rate");
+                decimal exchangeRate = (decimal)token.SelectToken("conversion_rates").SelectToken(toCurrency);
 
                 return exchangeRate;
             }

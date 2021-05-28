@@ -12,6 +12,7 @@
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
+    using BCKFreightTMS.Web.ViewModels.Transactions;
 
     public class MappingProfile : Profile
     {
@@ -29,9 +30,7 @@
             this.CreateMap<OrderApplicationModel, Order>();
             this.CreateMap<OrderEditInputModel, Order>();
             this.CreateMap<Order, OrderEditInputModel>();
-            this.CreateMap<Order, OrderStatusViewModel>().ForMember(x => x.DriversMobiles, opt =>
-                                                        opt.MapFrom(x => x.OrderTos.SelectMany(o => o.Drivers).Select(d =>
-                                                        new KeyValuePair<string, string>($"{d.Driver.FirstName} {d.Driver.LastName}", d.Driver.Comunicators.Mobile1))));
+            this.CreateMap<Order, OrderStatusViewModel>();
             this.CreateMap<CargoInputModel, Cargo>();
             this.CreateMap<Cargo, CargoInputModel>();
             this.CreateMap<OrderAction, ActionApplicationModel>();
@@ -46,6 +45,8 @@
             this.CreateMap<OrderConfirmReferenceModel, Order>();
             this.CreateMap<Company, InvoiceCompanyModel>();
             this.CreateMap<InvoiceCompanyModel, Company>();
+            this.CreateMap<Company, CompanyEditModel>();
+            this.CreateMap<CompanyEditModel, Company>();
             this.CreateMap<InvoiceIn, InvoiceInModel>();
             this.CreateMap<InvoiceIn, InvoiceInEditModel>();
             this.CreateMap<InvoiceOut, InvoiceOutEditModel>();
@@ -78,6 +79,16 @@
             this.CreateMap<InvoiceOut, InvoiceModel>();
             this.CreateMap<OrderTo, ListOrderToViewModel>().ForMember(x => x.Voyage, opt =>
                     opt.MapFrom(x => $"<p class='m-0 mt-1'>{$"{string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))}<br><b>{x.Vehicle.RegNumber}"}{(x.Vehicle.Trailer != null ? $" / {x.Vehicle.Trailer.RegNumber}" : string.Empty)}</b></p>"));
+            this.CreateMap<UNCRStatementModel, BankStatementModel>().ForMember(x => x.Movements, opt =>
+                    opt.MapFrom(x => x.Items));
+            this.CreateMap<UNCRAccountMovement, BankAccountMovementModel>().ForMember(x => x.Date, opt =>
+                                                opt.MapFrom(x => x.PaymentDateTime))
+                                                                           .ForMember(x => x.Reason, opt =>
+                                                opt.MapFrom(x => $"{x.Reason}\n({x.Narrative})"));
+            this.CreateMap<DSKStatementModel, BankStatementModel>().ForMember(x => x.Movements, opt =>
+                                                opt.MapFrom(x => x.AccountMovements));
+            this.CreateMap<AccountMovement, BankAccountMovementModel>().ForMember(x => x.Date, opt =>
+                                                opt.MapFrom(x => x.AccountingDate));
         }
     }
 }

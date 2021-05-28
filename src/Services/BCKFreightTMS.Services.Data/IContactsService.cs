@@ -16,6 +16,10 @@
 
         Task<string> AddCompanyAsync(CompanyInputModel input);
 
+        public CompanyEditModel LoadEditCompanyModel(string companyId);
+
+        public Task<string> EditCompanyAsync(CompanyEditModel input);
+
         Task<int> AddBankDetails(BankDetailsModel input);
 
         public IEnumerable<SelectListItem> GetBankDetails(string companyId);

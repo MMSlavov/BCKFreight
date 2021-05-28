@@ -275,6 +275,11 @@
             }
 
             var model = this.mapper.Map<CarrierOrderApplicationModel>(order);
+            if (model.OrderCreatorCompany.TaxCountryName == TaxCountryNames.Румъния.ToString() ||
+                model.OrderTos.Any(ot => ot.NoVAT))
+            {
+                model.NoVAT = true;
+            }
 
             return model;
         }

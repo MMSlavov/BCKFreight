@@ -117,85 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accepted" xml:space="preserve">
-    <value>Приети от клиенти</value>
+  <data name="DSK" xml:space="preserve">
+    <value>ДСК</value>
   </data>
-  <data name="Accounting" xml:space="preserve">
-    <value>Осчетоводяване</value>
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>В изпълнение</value>
-  </data>
-  <data name="AwaitingPayment" xml:space="preserve">
-    <value>Заведени изх. ф-ри</value>
-  </data>
-  <data name="Cargos" xml:space="preserve">
-    <value>Товари</value>
-  </data>
-  <data name="Check" xml:space="preserve">
-    <value>Чака насрещна ф-ра с док.</value>
-  </data>
-  <data name="Clients" xml:space="preserve">
-    <value>Клиенти</value>
-  </data>
-  <data name="Configuration" xml:space="preserve">
-    <value>Конфигурация</value>
-  </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Контакти</value>
-  </data>
-  <data name="Contractors" xml:space="preserve">
-    <value>Доставчици</value>
-  </data>
-  <data name="Dashboard" xml:space="preserve">
-    <value>Работен плот</value>
-  </data>
-  <data name="Failed" xml:space="preserve">
-    <value>Провалени</value>
-  </data>
-  <data name="Filed" xml:space="preserve">
-    <value>Заведени вх. ф-ри</value>
-  </data>
-  <data name="For invoicing" xml:space="preserve">
-    <value>За фактуриране към к-т</value>
-  </data>
-  <data name="Incoming" xml:space="preserve">
-    <value>Входящи</value>
-  </data>
-  <data name="Incomplete" xml:space="preserve">
-    <value>Непълна док.</value>
-  </data>
-  <data name="Invoices" xml:space="preserve">
-    <value>Фактури</value>
-  </data>
-  <data name="Orders" xml:space="preserve">
-    <value>Заявки</value>
-  </data>
-  <data name="Outgoing" xml:space="preserve">
-    <value>Изходящи</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>Платени</value>
-  </data>
-  <data name="Pending" xml:space="preserve">
-    <value>За плащане</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Настройки</value>
-  </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Плащания</value>
-  </data>
-  <data name="Unfinished" xml:space="preserve">
-    <value>За добавяне на курс</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Потребители</value>
-  </data>
-  <data name="Vehicles" xml:space="preserve">
-    <value>Камиони</value>
-  </data>
-  <data name="WaitingConfirm" xml:space="preserve">
-    <value>За потвърждение от п-ч</value>
+  <data name="UNCR" xml:space="preserve">
+    <value>УниКредит</value>
   </data>
 </root>

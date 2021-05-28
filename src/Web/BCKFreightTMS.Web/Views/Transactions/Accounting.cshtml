@@ -1,0 +1,110 @@
+﻿@using BCKFreightTMS.Common.Enums
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Transactions.AccountingModel
+@{ 
+    this.Model.BankItems.ToList().ForEach(i => i.Text = this.localizer[i.Text].Value);
+}
+<div class="border rounded p-2">
+    <div class="col-6">
+        <form asp-action="ProcessBSJson" id="bsForm" class="border rounded bg-white mb-2 p-2">
+            <div class="row p-2 col6">
+                <input type="file"
+                        accept=".xml"
+                        class="form-control-file pb-2"
+                        name="file"
+                        style="border:0px!important;" />
+                <div class="col-5">
+                    <label>@localizer["Банка"]</label>
+                    <select name="bankCode" asp-items="@Model.BankItems" class="form-control"></select>
+                </div>
+            </div>
+            <div class="justify-content-center"><input type="submit" class="btn btn-primary" value="Process" /></div>
+        </form>
+    </div>
+    <div id="res" class="border rounded bg-white p-2" style="display:none">
+        <p class="float-left ml-2"><span id="index" class="text-bold"></span> от <span id="totRows" class="text-bold"></span></p>
+        <a href="javascript:"><i id="next" class="fas fa-arrow-right float-right m-2"></i></a>
+        <div class="justify-content-center">
+            <div>
+                <table class="table table-bordered" style="overflow-y:auto">
+                    <thead>
+                        <tr>
+                            <th><b>Дата:</b></th>
+                            <th><b>@localizer["Наредител/Получател"]:</b></th>
+                            <th><b>Основание:</b></th>
+                            <th><b>Сума:</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="date"></td>
+                            <td id="OSName"></td>
+                            <td id="reason"></td>
+                            <td id="amount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form asp-action="SafeBankMovement" id="movementForm">
+            <input type="hidden" name="DateIn" id="DateIn" />
+            <input type="hidden" name="OSNameIn" id="OSNameIn" />
+            <input type="hidden" name="ReasonIn" id="ReasonIn" />
+            <input type="hidden" name="AmountIn" id="AmountIn" />
+            <input type="hidden" name="OSAccIn" id="OSAccIn" />
+            <input type="hidden" name="AccTypeId" id="AccTypeId" />
+
+            <div id="accTypeBtns" class="mb-2">
+                <div class="form-row justify-content-center" id="debitBtns">
+                    @foreach (var accType in this.Model.DebitTypeItems)
+                    {
+                        <a class="btn btn-danger@(accType.Code == DebitAccountingTypes.ПН503.ToString()?" pn":"") text-bold m-1" id="@accType.Id" data-toggle="popover" data-content="@accType.Description">@accType.Code</a>
+                    }
+                </div>
+                <div class="form-row justify-content-center" id="creditBtns">
+                    @foreach (var accType in this.Model.CreditTypeItems)
+                    {
+                        <a class="btn btn-success@(accType.Code == CreditAccountingTypes.ПН503.ToString()?" pn":"") text-bold m-1" id="@accType.Id" data-toggle="popover" data-content="@accType.Description">@accType.Code</a>
+                    }
+                </div>
+            </div>
+            <div id="invoiceSelect" class="border rounded p-2">
+                <div class="form-row">
+                    <div class="form-group col-5 mt-2 mb-0">
+                        <label>@localizer["Наредител/Получател"]</label>
+                        <select id="company" class="form-control" asp-items="@Model.CompanyItems">
+                            <option selected hidden value="">Select</option>
+                        </select>
+                    </div>
+                    <div id="invoices" class="form-group col-7 mb-0">
+                        <table class="table table-striped table-bordered table-sm table-hover" style="overflow-y:auto">
+                            <thead>
+                                <tr>
+                                    <th>@localizer["Дата"]</th>
+                                    <th>@localizer["Номер"]</th>
+                                    <th>@localizer["Сума"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="text-right">@localizer["Общо"]:</td>
+                                    <td id="tot">0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <hr />
+                <div class="text-center"><a class="btn btn-primary"><b>OK</b></a></div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="p-2"></div>
+
+@section Scripts {
+    <script src="~/lib/popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="~/js/accounting.js"></script>
+}

@@ -20,6 +20,8 @@
 
         public const string ExchangeRateUrl = @"http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
 
+        public const string ExchangeRateUrlv2 = @"https://v6.exchangerate-api.com/v6/c01439be15b0834e067d4c8b/latest/{0}";
+
         public const decimal MinOrderMargin = 0.05m;
 
         public const decimal SmallOrderMaxAmount = 500;
@@ -35,6 +37,8 @@
         public const string NonBGOrderNumberFormat = "{1}-{0}{2}";
 
         public const string InvoiceOutNumberFormat = "07{0}";
+
+        public const long MaxProfPicSize = 300000;
 
         public static readonly int[] DueDaysValues = { 15, 30, 45 };
     }

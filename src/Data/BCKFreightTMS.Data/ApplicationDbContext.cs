@@ -84,6 +84,10 @@
 
         public DbSet<VATReason> VATReasons { get; set; }
 
+        public DbSet<AccountingType> AccountingTypes { get; set; }
+
+        public DbSet<BankMovement> BankMovements { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

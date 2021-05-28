@@ -15,6 +15,8 @@
 
         public string CarrierOrderReferenceNum { get; set; }
 
+        public string CarrierOrderId { get; set; }
+
         public string ContactFirstName { get; set; }
 
         public string ContactLastName { get; set; }

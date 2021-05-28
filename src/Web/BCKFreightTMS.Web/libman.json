@@ -230,6 +230,11 @@
         "package.json",
         "README.md"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "@popperjs/core@2.9.2",
+      "destination": "wwwroot/lib/popperjs/core/"
     }
   ]
 }

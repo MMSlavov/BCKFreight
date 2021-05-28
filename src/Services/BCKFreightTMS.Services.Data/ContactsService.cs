@@ -96,6 +96,39 @@
             return company.Id;
         }
 
+        public CompanyEditModel LoadEditCompanyModel(string companyId)
+        {
+            var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == companyId);
+            if (company == null)
+            {
+                throw new ArgumentException("Company do not exist!");
+            }
+
+            return this.mapper.Map<CompanyEditModel>(company);
+        }
+
+        public async Task<string> EditCompanyAsync(CompanyEditModel input)
+        {
+            var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == input.Id);
+            if (company == null)
+            {
+                throw new ArgumentException("Company do not exist!");
+            }
+
+            company.Name = input.Name;
+            company.TaxNumber = input.TaxNumber;
+            company.Address.Address.StreetLine = input.AddressAddressStreetLine;
+            company.Address.MOLFirstName = input.AddressMOLFirstName;
+            company.Address.MOLLastName = input.AddressMOLLastName;
+            company.Comunicators.Mobile1 = input.ComunicatorsMobile1;
+            company.Comunicators.Email1 = input.ComunicatorsEmail1;
+            company.Comunicators.Details = input.ComunicatorsDetails;
+
+            await this.companiesRepository.SaveChangesAsync();
+
+            return company.Id;
+        }
+
         public PersonInputModel GetPersonInputModel(PersonInputModel model = null)
         {
             var viewModel = model ?? new PersonInputModel();

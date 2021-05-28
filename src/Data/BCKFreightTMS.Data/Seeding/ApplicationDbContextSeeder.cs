@@ -37,6 +37,7 @@
                               new InvoiceStatusesSeeder(),
                               new VATReasonsSeeder(),
                               new TaxCountriesSeeder(),
+                              new AccountingTypesSeeder(),
                           };
 
             foreach (var seeder in seeders)

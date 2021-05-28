@@ -15,12 +15,12 @@
     } 
 }
 
-<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4" style="z-index: 20;">
+<aside class="main-sidebar position-fixed sidebar-dark-primary elevation-4" style="z-index: 20; bottom:0; padding-bottom:30px;">
     <a class="brand-link d-flex justify-content-center" asp-area="" asp-controller="Dashboard" asp-action="Index">
         <cache enabled="true"><img src="~/img/logo_full2.svg" class="img-fluid"
                     style="max-width: 75%"></cache> 
     </a>
-    <div class="sidebar">
+    <div class="sidebar" style="overflow-y:auto;">
         <div class="user-panel mb-3 d-flex align-items-center">
             @if (User.Identity.IsAuthenticated)
             {
@@ -211,6 +211,14 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <environment include="Development">
+                                    <li class="nav-item pl-2">
+                                        <a asp-area="" asp-controller="Transactions" asp-action="Accounting" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "accounting" }, "transactions")">
+                                            <i class="nav-icon fas fa-calculator"></i>
+                                            <p>@localizer["Accounting"]</p>
+                                        </a>
+                                    </li>
+                                </environment>
                             </ul>
                         </li>
                     }
@@ -249,7 +257,8 @@
                                 </li>
                             </ul>
                         </li>
-                    }}
+                    }
+                }
             </ul>
         </nav>
     </div>

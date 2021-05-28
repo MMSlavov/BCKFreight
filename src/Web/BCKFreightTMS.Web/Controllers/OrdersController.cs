@@ -433,7 +433,7 @@
         public IActionResult Status(string id)
         {
             var order = this.orders.All().FirstOrDefault(o => o.Id == id);
-            if (order is null || order.Status.Name == OrderStatusNames.Finished.ToString())
+            if (order is null || order.Status.Name != OrderStatusNames.InProgress.ToString())
             {
                 return this.RedirectToAction(GlobalConstants.Index);
             }

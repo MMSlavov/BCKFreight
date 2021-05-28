@@ -39,6 +39,11 @@
 
         public virtual VATReason VATReason { get; set; }
 
+        [ForeignKey(nameof(BankMovement))]
+        public string BankMovementId { get; set; }
+
+        public virtual BankMovement BankMovement { get; set; }
+
         public virtual ICollection<OrderTo> OrderTos { get; set; }
     }
 }

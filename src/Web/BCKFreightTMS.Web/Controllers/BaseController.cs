@@ -1,6 +1,5 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

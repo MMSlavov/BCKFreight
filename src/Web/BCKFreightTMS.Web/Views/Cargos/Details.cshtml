@@ -1,0 +1,22 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model System.Collections.Generic.Dictionary<string, string>
+@{
+    this.Layout = null;
+}
+
+<div>
+    <dl class="row">
+        @foreach (var (name, data) in Model.Skip(1))
+        {
+            if (data != null)
+            {
+                <dt class="col-sm-4 text-right">
+                    @localizer[name]
+                </dt>
+                <dd class="col-sm-8">
+                    @data
+                </dd>
+            }
+        }
+    </dl>
+</div>

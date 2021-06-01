@@ -117,88 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accepted" xml:space="preserve">
-    <value>Приети от клиенти</value>
+  <data name="Gondola" xml:space="preserve">
+    <value>Гондола</value>
   </data>
-  <data name="Accounted" xml:space="preserve">
-    <value>Осчетоводени пл.</value>
+  <data name="Hanger" xml:space="preserve">
+    <value>Хенгер</value>
   </data>
-  <data name="Accounting" xml:space="preserve">
-    <value>Осчетоводяване</value>
+  <data name="Mega" xml:space="preserve">
+    <value>Мега</value>
   </data>
-  <data name="Active" xml:space="preserve">
-    <value>В изпълнение</value>
+  <data name="Onboard" xml:space="preserve">
+    <value>Бордови</value>
   </data>
-  <data name="AwaitingPayment" xml:space="preserve">
-    <value>Заведени изх. ф-ри</value>
+  <data name="Refrigeration" xml:space="preserve">
+    <value>Хладилен</value>
   </data>
-  <data name="Cargos" xml:space="preserve">
-    <value>Товари</value>
+  <data name="Solo" xml:space="preserve">
+    <value>Соло</value>
   </data>
-  <data name="Check" xml:space="preserve">
-    <value>Чака насрещна ф-ра с док.</value>
+  <data name="Tarpaulin" xml:space="preserve">
+    <value>Брезент</value>
   </data>
-  <data name="Clients" xml:space="preserve">
-    <value>Клиенти</value>
+  <data name="Trailer" xml:space="preserve">
+    <value>Ремарке</value>
   </data>
-  <data name="Configuration" xml:space="preserve">
-    <value>Конфигурация</value>
-  </data>
-  <data name="Contacts" xml:space="preserve">
-    <value>Контакти</value>
-  </data>
-  <data name="Contractors" xml:space="preserve">
-    <value>Доставчици</value>
-  </data>
-  <data name="Dashboard" xml:space="preserve">
-    <value>Работен плот</value>
-  </data>
-  <data name="Failed" xml:space="preserve">
-    <value>Провалени</value>
-  </data>
-  <data name="Filed" xml:space="preserve">
-    <value>Заведени вх. ф-ри</value>
-  </data>
-  <data name="For invoicing" xml:space="preserve">
-    <value>За фактуриране към к-т</value>
-  </data>
-  <data name="Incoming" xml:space="preserve">
-    <value>Входящи</value>
-  </data>
-  <data name="Incomplete" xml:space="preserve">
-    <value>Непълна док.</value>
-  </data>
-  <data name="Invoices" xml:space="preserve">
-    <value>Фактури</value>
-  </data>
-  <data name="Orders" xml:space="preserve">
-    <value>Заявки</value>
-  </data>
-  <data name="Outgoing" xml:space="preserve">
-    <value>Изходящи</value>
-  </data>
-  <data name="Paid" xml:space="preserve">
-    <value>Платени</value>
-  </data>
-  <data name="Pending" xml:space="preserve">
-    <value>За плащане</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Настройки</value>
-  </data>
-  <data name="Transactions" xml:space="preserve">
-    <value>Плащания</value>
-  </data>
-  <data name="Unfinished" xml:space="preserve">
-    <value>За добавяне на курс</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Потребители</value>
-  </data>
-  <data name="Vehicles" xml:space="preserve">
-    <value>Камиони</value>
-  </data>
-  <data name="WaitingConfirm" xml:space="preserve">
-    <value>За потвърждение от п-ч</value>
+  <data name="Truck" xml:space="preserve">
+    <value>Влекач</value>
   </data>
 </root>

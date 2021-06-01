@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BCKFreightTMS.Web.ViewModels.Vehicles.VehicleListViewModel>
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model IEnumerable<BCKFreightTMS.Web.ViewModels.Vehicles.VehicleListViewModel>
 
 <div class="container-fluid">
     <div class="row pb-2">
@@ -27,28 +28,28 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var vehicle in Model)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.TypeName)
+                        @localizer[vehicle.TypeName]
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LoadingBodyName)
+                        @localizer[vehicle.LoadingBodyName??"-"]
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CompanyName)
+                        @Html.DisplayFor(modelItem => vehicle.CompanyName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.RegNumber)
+                        @Html.DisplayFor(modelItem => vehicle.RegNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @(vehicle.Name??"-")
                     </td>
                     <td class="align-middle text-center">
                         @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                        <a asp-action="Delete" asp-route-id="@vehicle.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

@@ -9,6 +9,7 @@
 
     using AspNetCoreHero.ToastNotification.Abstractions;
     using AutoMapper;
+    using BCKFreightTMS.Common;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
@@ -123,6 +124,13 @@
             return this.View(model);
         }
 
+        public IActionResult AccountedMovements()
+        {
+            var model = this.bankMovements.All().To<ListBankMovementModel>().ToList();
+
+            return this.View(model);
+        }
+
         [HttpPost]
         public IActionResult ProcessBS(IFormFile file)
         {
@@ -144,7 +152,14 @@
         public IActionResult ProcessBSJson(IFormFile file, string bankCode)
         {
             var asmbl = typeof(BCKFreightTMS.Web.ViewModels.Transactions.BankStatementModel).Assembly;
-            var type = asmbl.GetTypes().FirstOrDefault(t => t.Name.Contains(bankCode));
+            var modelName = string.Format(GlobalConstants.BankStatementModelFormat, bankCode);
+            var type = asmbl.GetTypes().FirstOrDefault(t => t.Name.Contains(modelName));
+            if (type == null)
+            {
+                this.notyfService.Error(this.localizer["Невалидна банка!"]);
+                return this.Json(new { });
+            }
+
             var serializer = new XmlSerializer(type);
 
             using var stream = file.OpenReadStream();
@@ -191,7 +206,7 @@
                 return this.Json(invoicesOut);
             }
 
-            var invoicesIn = this.invoicesService.LoadInvoiceInList(i => i.BankDetails.Company.Id == (companyId ?? string.Empty));
+            var invoicesIn = this.invoicesService.LoadInvoiceInList(i => i.BankDetails.Company.Id == (companyId ?? string.Empty) && i.Status.Name != InvoiceStatusNames.Paid.ToString());
             foreach (var invoice in invoicesIn)
             {
                 invoice.CreateDate = invoice.CreateDate.ToLocalTime();
@@ -203,6 +218,7 @@
         [HttpPost]
         public async Task SafeBankMovement(BankMovementInputModel input)
         {
+            var accType = this.accountingTypes.All().FirstOrDefault(t => t.Id == input.AccTypeId);
             var movement = new BankMovement
             {
                 Date = input.DateIn,
@@ -210,8 +226,35 @@
                 OppositeSideName = input.OSNameIn,
                 OppositeSideAccount = input.OSAccIn,
                 Amount = input.AmountIn,
-                AccountingTypeId = input.AccTypeId,
+                AccountingType = accType,
             };
+            if (accType.Code == CreditAccountingTypes.ПН503.ToString())
+            {
+                if (accType.MovementType == "Credit")
+                {
+                    foreach (var id in input.InvoiceIds)
+                    {
+                        var invoice = this.invoiceOuts.All().FirstOrDefault(i => i.Id == id);
+                        if (invoice != null)
+                        {
+                            await this.invoicesService.UpdateInvoiceOutStatusAsync(invoice.Id, InvoiceStatusNames.Paid.ToString());
+                            invoice.BankMovementId = movement.Id;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var id in input.InvoiceIds)
+                    {
+                        var invoice = this.invoiceIns.All().FirstOrDefault(i => i.Id == id);
+                        if (invoice != null)
+                        {
+                            await this.invoicesService.UpdateInvoiceInStatusAsync(invoice.Id, InvoiceStatusNames.Paid.ToString());
+                            invoice.BankMovementId = movement.Id;
+                        }
+                    }
+                }
+            }
 
             await this.bankMovements.AddAsync(movement);
             await this.bankMovements.SaveChangesAsync();

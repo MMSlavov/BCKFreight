@@ -1,9 +1,7 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Transactions
 {
-    using System;
     using System.Xml.Serialization;
 
-    [Serializable]
     public class UNCRAccountMovement
     {
         [XmlIgnore]

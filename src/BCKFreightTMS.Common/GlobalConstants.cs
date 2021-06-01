@@ -38,6 +38,8 @@
 
         public const string InvoiceOutNumberFormat = "07{0}";
 
+        public const string BankStatementModelFormat = "{0}StatementModel";
+
         public const long MaxProfPicSize = 300000;
 
         public static readonly int[] DueDaysValues = { 15, 30, 45 };

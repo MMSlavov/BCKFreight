@@ -93,7 +93,7 @@
                     </li>
                     <li class="nav-item  @Url.MakeActiveClass(new[] { "invoices" }, "menu-open")">
                         <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "invoices" }, "active")">
-                            <i class="nav-icon fas fa-archive"></i>
+                            <i class="nav-icon fas fa-file-invoice"></i>
                             <p>
                                 @localizer["Invoices"]
                                 <i class="fas fa-angle-left right"></i>
@@ -216,6 +216,12 @@
                                         <a asp-area="" asp-controller="Transactions" asp-action="Accounting" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "accounting" }, "transactions")">
                                             <i class="nav-icon fas fa-calculator"></i>
                                             <p>@localizer["Accounting"]</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item pl-2">
+                                        <a asp-area="" asp-controller="Transactions" asp-action="AccountedMovements" class="nav-link @Url.MakeActiveActionsClass("active", new[] { "accountedmovements" }, "transactions")">
+                                            <i class="nav-icon fas fa-money-check-alt"></i>
+                                            <p>@localizer["Accounted"]</p>
                                         </a>
                                     </li>
                                 </environment>

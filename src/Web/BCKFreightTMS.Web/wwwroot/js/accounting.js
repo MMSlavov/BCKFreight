@@ -7,6 +7,7 @@
 })
 const resForm = document.querySelector("#res");
 const mvForm = resForm.querySelector("#movementForm");
+const invIn = mvForm.querySelector("#invoicesIn");
 const invSel = resForm.querySelector("#invoiceSelect");
 const invTable = resForm.querySelector("#invoices");
 
@@ -46,16 +47,16 @@ $("#invoices").hide();
 function getInvoices() {
     $.getJSON("/Transactions/GetCompanyInvoices", { companyId: $("#company").val(), mvType: currRowData.movementType }, function (d) {
         let row = "";
-        console.log(d);
         $("#invoices tbody").empty();
         if (d.length == 0) {
             $("#invoices").hide();
             return;
         }
         $.each(d, function (i, v) {
-            row += "<tr class=invRow>" + "<td>" + new Date(Date.parse(v.createDate)).toLocaleDateString() + "</td>" + "<td>" + v.number + "</td>" + "<td class=price>" + v.price.toFixed(2) + "</td>" + "</tr>";
+            row += "<tr id=" + v.id + " class=invRow>" + "<td>" + new Date(Date.parse(v.createDate)).toLocaleDateString() + "</td>" + "<td>" + v.number + "</td>" + "<td class=price>" + v.price.toFixed(2) + "</td>" + "</tr>";
         });
         $("#invoices tbody").html(row);
+        calculateInvTot();
         $("#invoices").show();
     })
 }
@@ -77,6 +78,17 @@ function calculateInvTot() {
     invTable.querySelector("#tot").textContent = [...invTable.querySelectorAll("tr.active-row .price")].reduce((a, v) => { return a += Number(v.textContent) }, 0).toFixed(2);
 }
 
+invSel.querySelector("#pnConfirm").addEventListener("click", function () {
+    [...invTable.querySelectorAll("tr.active-row")].forEach((r, i) => {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = `InvoiceIds[${i}]`;
+        input.value = r.id;
+        invIn.appendChild(input);
+    })
+    safeBankMovement();
+})
+
 document.getElementById("bsForm").addEventListener("submit", (ev) => {
     ev.preventDefault();
     jQueryAjaxPost(ev.target, (f, res) => {
@@ -94,6 +106,7 @@ function loadMovement(i) {
     }
     currRowData = data[i];
     currRow = i;
+    invIn.innerHTML = '';
     invSel.style.display = 'none';
 
     //load movement form

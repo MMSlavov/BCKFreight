@@ -13,12 +13,12 @@
                         class="form-control-file pb-2"
                         name="file"
                         style="border:0px!important;" />
-                <div class="col-5">
-                    <label>@localizer["Банка"]</label>
+                <div class="col-6">
+                    <label class="m-0">@localizer["Банка"]</label>
                     <select name="bankCode" asp-items="@Model.BankItems" class="form-control"></select>
                 </div>
             </div>
-            <div class="justify-content-center"><input type="submit" class="btn btn-primary" value="Process" /></div>
+            <div class="d-flex justify-content-center"><input type="submit" class="btn btn-primary" value="Process" /></div>
         </form>
     </div>
     <div id="res" class="border rounded bg-white p-2" style="display:none">
@@ -53,7 +53,7 @@
             <input type="hidden" name="AmountIn" id="AmountIn" />
             <input type="hidden" name="OSAccIn" id="OSAccIn" />
             <input type="hidden" name="AccTypeId" id="AccTypeId" />
-
+            <div id="invoicesIn"></div>
             <div id="accTypeBtns" class="mb-2">
                 <div class="form-row justify-content-center" id="debitBtns">
                     @foreach (var accType in this.Model.DebitTypeItems)
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <hr />
-                <div class="text-center"><a class="btn btn-primary"><b>OK</b></a></div>
+                <div class="text-center"><a id="pnConfirm" class="btn btn-primary"><b>OK</b></a></div>
             </div>
         </form>
     </div>

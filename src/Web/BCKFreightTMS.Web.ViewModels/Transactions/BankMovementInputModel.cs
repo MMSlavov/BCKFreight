@@ -15,5 +15,7 @@
         public string OSNameIn { get; set; }
 
         public DateTime DateIn { get; set; }
+
+        public string[] InvoiceIds { get; set; }
     }
 }

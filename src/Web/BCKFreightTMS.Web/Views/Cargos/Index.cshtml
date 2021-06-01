@@ -16,7 +16,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Lenght)
                 </th>
                 <th>
@@ -24,7 +24,7 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Height)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.WeightGross)
                 </th>
@@ -47,7 +47,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Lenght)
                     </td>
                     <td>
@@ -55,7 +55,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Height)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.WeightGross)
                     </td>
@@ -66,12 +66,12 @@
                         @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
                     <td class="text-center" style="width:auto">
-                        @*<a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>
-                        <a href="javascript:void(0);" onclick="showInPopup('Carsgos/Details/@item.Id', 'Details')" title="Details">
+                        @*<a asp-action="Edit" asp-route-id="@item.Id" title="Edit"><i class="pr-3 fas fa-edit"></i></a>*@
+                        <a href="javascript:" onclick="showInPopup('Cargos/Details/@item.Id', 'Details')" title="Details">
                             <span>
                                 <i class="p-1 fas fa-info-circle"></i>
                             </span>
-                        </a>*@
+                        </a>
                         @*@{
                             var parms = new Dictionary<string, string>
                                                     {
@@ -79,7 +79,7 @@
                                     { "id", item.Id}
                                 };
                         }*@
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete"><i class="p-1 fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
             }

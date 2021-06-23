@@ -27,6 +27,10 @@
 
         public string PaymentMethod { get; set; }
 
+        public NoteInfoModel NoteInfo { get; set; }
+
+        public InvoiceModel InvoiceNote { get; set; }
+
         public InvoiceCompanyModel CreatorCompany { get; set; }
 
         public InvoiceCompanyModel ClientCompany { get; set; }

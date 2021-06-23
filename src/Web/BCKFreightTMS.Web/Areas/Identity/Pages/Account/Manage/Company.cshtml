@@ -1,4 +1,5 @@
 ﻿@page
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @model CompanyModel
 @{
     ViewData["Title"] = "Company";
@@ -57,24 +58,34 @@
                     <input asp-for="Input.Email1" type="text" class="form-control" placeholder="Email">
                 </div>
             </div>
-            <div class="form-group mt-3">
-                <table class="table table-striped table-hover rounded mb-1 border-0">
-                    <tbody>
-                        @foreach (var currency in this.Model.Input.ExchangeRates)
-                        {
-                            <tr>
-                                <td class="text-center">
-                                    <span class="text-bold">@currency.Name</span>
-                                </td>
-                                <td class="text-center">
-                                    <span>@currency.Rate</span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <a asp-page-handler="UpdateCurrencyRates" class="btn btn-success float-right">Update currency rates</a>
-            </div>
         </div>
+    </div>
+    <div class="form-group mt-3">
+        <table class="table table-striped table-hover rounded mb-1 border-0">
+            <thead>
+                <tr>
+                    <th class="text-center">@localizer["Currency"]</th>
+                    <th class="text-center">@localizer["Exchange rate"]</th>
+                    <th class="text-center">@localizer["Last updated"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var currency in this.Model.Input.ExchangeRates)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <span class="text-bold">@currency.Name</span>
+                        </td>
+                        <td class="text-center">
+                            <span>@currency.Rate</span>
+                        </td>
+                        <td class="text-center">
+                            <span>@currency.ModifiedOn.ToLocalTime().ToShortDateString()</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center"><a asp-page-handler="UpdateCurrencyRates" class="btn btn-success">Update currency rates</a></div>
     </div>
 </form>

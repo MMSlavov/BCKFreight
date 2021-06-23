@@ -43,11 +43,11 @@
         {
             <tr>
                 <td>
-                    <span>@orderTo.CreatedOn.ToLocalTime().ToShortDateString()</span>
+                    <p class="m-0">@orderTo.CreatedOn.ToLocalTime().ToShortDateString()</p>
                     <a asp-action="DownloadApplication" asp-route-id="@orderTo.CarrierOrderId" onclick='setTimeout(function () { $(".loading").hide() }, 3000);' class="m-0" title="Download"><b>@orderTo.CarrierOrderReferenceNum</b></a>
                 </td>
                 <td>
-                    <span class="text-bold">@Html.DisplayFor(modelItem => orderTo.CarrierOrderCompanyName)</span>
+                    <p class="text-bold m-0">@Html.DisplayFor(modelItem => orderTo.CarrierOrderCompanyName)</p>
                     <p class="m-0">@($"{orderTo.ContactFirstName} {orderTo.ContactLastName}")</p>
                 </td>
                 @*<td>

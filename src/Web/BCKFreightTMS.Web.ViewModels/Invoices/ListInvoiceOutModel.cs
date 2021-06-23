@@ -35,12 +35,17 @@
 
         public decimal Price { get; set; }
 
+        public NoteInfoModel NoteInfo { get; set; }
+
+        public ListInvoiceOutModel InvoiceNote { get; set; }
+
         public List<OrderToInvoiceModel> OrderTos { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<InvoiceOut, ListInvoiceOutModel>().ForMember(x => x.ClientCompanyName, opt =>
-                                            opt.MapFrom(x => x.OrderTos.First().Order.OrderFrom.Company.Name));
+                                            opt.MapFrom(x => x.OrderTos.First().Order.OrderFrom.Company.Name ?? x.InvoiceNote.OrderTos.First().Order.OrderFrom.Company.Name));
+            configuration.CreateMap<NoteInfo, NoteInfoModel>();
         }
     }
 }

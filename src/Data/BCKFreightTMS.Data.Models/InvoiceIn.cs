@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Models;
 
     public class InvoiceIn : BaseDeletableModel<string>
@@ -45,6 +46,15 @@
         public string BankMovementId { get; set; }
 
         public virtual BankMovement BankMovement { get; set; }
+
+        public virtual NoteInfo NoteInfo { get; set; }
+
+        [ForeignKey(nameof(InvoiceNote))]
+        public string InvoiceNoteInId { get; set; }
+
+        public virtual InvoiceIn InvoiceNote { get; set; }
+
+        public virtual ICollection<InvoiceIn> NoteInvoices { get; set; }
 
         public virtual ICollection<OrderTo> OrderTos { get; set; }
     }

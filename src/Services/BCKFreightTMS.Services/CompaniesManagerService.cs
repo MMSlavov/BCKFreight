@@ -96,8 +96,12 @@
             company.TaxCountry = address[0];
             company.StreetLine = string.Join(", ", address.Skip(1));
             company.TaxNumber = $"BG{elements["ЕИК/ПИК"]}";
-            company.Details = elements["Предмет на дейност"].Split("\n", StringSplitOptions.RemoveEmptyEntries)[2]
-                                                            .TrimStart();
+            company.Details = elements["Предмет на дейност"].Contains("прочети още") ?
+                              Regex.Match(elements["Предмет на дейност"], @"(?<=\.\.\.\n)(\n|.)+(?=прочети още)").Value.Trim() :
+                              elements["Предмет на дейност"];
+
+            // company.Details = elements["Предмет на дейност"].Split("\n", StringSplitOptions.RemoveEmptyEntries)[2]
+            //                                                .TrimStart();
             company.MOLFirstName = Regex.Match(mol, @"(?<=: )([А-Яа-я]+)").Value;
             company.MOLLastName = Regex.Match(mol, @"([А-Яа-я]+)(?= \()").Value;
 

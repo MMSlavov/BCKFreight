@@ -49,7 +49,6 @@
                 </td>
                 <td>
                     <p class="text-bold m-0">@(invoiceOut.NoVAT ? $"{invoiceOut.Price:f2}" : $"{invoiceOut.Price * GlobalConstants.VATTot:f2}")</p>
-                    <span>@(invoiceOut.NoVAT ? "" : localizer["със ДДС"])</span>
                 </td>
                 <td class="align-middle text-center">
                     <a asp-action="PayOut" asp-route-id="@invoiceOut.Id" class="btn btn-success mx-1">@localizer["Paid"]</a>

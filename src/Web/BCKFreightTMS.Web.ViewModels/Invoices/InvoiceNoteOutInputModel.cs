@@ -1,18 +1,14 @@
 ﻿namespace BCKFreightTMS.Web.ViewModels.Invoices
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using BCKFreightTMS.Data.Models;
-    using BCKFreightTMS.Services.Mapping;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-
-    public class InvoiceOutModel : IMapFrom<InvoiceOut>
+    public class InvoiceNoteOutInputModel
     {
-        public string Id { get; set; }
-
-        public string StatusName { get; set; }
+        public InvoiceNoteOutInputModel()
+        {
+            this.Note = new NoteInfoModel();
+        }
 
         [Required]
         public string Number { get; set; }
@@ -32,10 +28,16 @@
         [Required]
         public string PaymentMethod { get; set; }
 
-        public IEnumerable<KeyValuePair<string, string>> ReasonNoVATItems { get; set; }
+        public InvoiceOutModel InvoiceOut { get; set; }
 
-        public IEnumerable<SelectListItem> PaymentMethodItems { get; set; }
+        public InvoiceCompanyModel OrderCreatorCompany { get; set; }
 
-        public IEnumerable<SelectListItem> BankDetailsItems { get; set; }
+        public InvoiceCompanyModel OrderOrderFromCompany { get; set; }
+
+        public int OrderDueDaysFrom { get; set; }
+
+        public string SelectedReasonId { get; set; }
+
+        public NoteInfoModel Note { get; set; }
     }
 }

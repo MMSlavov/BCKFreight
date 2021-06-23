@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿import { DateTime } from "../lib/luxon/src/luxon.js";
+
+$(function () {
     $('[data-toggle="popover"]').popover({
         container: "body",
         placement: "bottom",
@@ -92,9 +94,11 @@ invSel.querySelector("#pnConfirm").addEventListener("click", function () {
 document.getElementById("bsForm").addEventListener("submit", (ev) => {
     ev.preventDefault();
     jQueryAjaxPost(ev.target, (f, res) => {
-        data = res;
-        loadMovement(0);
-        $(".loading").hide();
+        if (res.length > 0) {
+            data = res;
+            loadMovement(0);
+            $(".loading").hide();
+        }
     });
 })
 
@@ -108,9 +112,13 @@ function loadMovement(i) {
     currRow = i;
     invIn.innerHTML = '';
     invSel.style.display = 'none';
+    let date = DateTime.fromISO(currRowData.date).toJSDate();
+    if (date == "Invalid Date") {
+        date = DateTime.fromFormat(currRowData.date, "dd.LL.yyyy").toJSDate();
+    }
 
     //load movement form
-    mvForm.querySelector("#DateIn").value = new Date(Date.parse(currRowData.date)).toISOString();
+    mvForm.querySelector("#DateIn").value = date.toISOString();
     mvForm.querySelector("#OSNameIn").value = currRowData.oppositeSideName;
     mvForm.querySelector("#ReasonIn").value = currRowData.reason;
     mvForm.querySelector("#AmountIn").value = currRowData.amount;
@@ -121,7 +129,7 @@ function loadMovement(i) {
     resForm.querySelector("#totRows").textContent = data.length;
     resForm.querySelector("#OSName").textContent = currRowData.oppositeSideName ? currRowData.oppositeSideName : "-";
     resForm.querySelector("#reason").textContent = currRowData.reason;
-    resForm.querySelector("#date").textContent = new Date(Date.parse(currRowData.date)).toLocaleDateString();
+    resForm.querySelector("#date").textContent = date.toLocaleDateString();
     resForm.querySelector("#amount").textContent = currRowData.amount.toFixed(2);
 
     if (currRowData.movementType == "Credit") {

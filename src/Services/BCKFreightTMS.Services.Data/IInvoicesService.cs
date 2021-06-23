@@ -24,6 +24,8 @@
 
         public InvoiceOutInputModel LoadInvoiceOutModel(string orderId);
 
+        public InvoiceNoteOutInputModel LoadInvoiceNoteOutModel(string invoiceId);
+
         public Task PayInvoiceIn(string invoiceId);
 
         public Task PayInvoiceOut(string invoiceId);
@@ -35,6 +37,8 @@
         public IEnumerable<OrderToInvoiceModel> GetOrderTosInvoicing(string orderId);
 
         public Task<string> CreateInvoiceOut(InvoiceOutInputModel input);
+
+        public Task<string> CreateInvoiceNoteOut(InvoiceNoteOutInputModel input);
 
         public Task<string> SaveInvoiceOut(InvoiceOutEditModel input);
 

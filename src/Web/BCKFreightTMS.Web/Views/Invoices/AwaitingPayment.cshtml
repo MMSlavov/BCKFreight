@@ -1,4 +1,4 @@
-﻿@using BCKFreightTMS.Common.Enums;
+﻿@using BCKFreightTMS.Common;
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -16,48 +16,40 @@
     <thead>
         <tr>
             <th>
-                @localizer["Number"]
-            </th>
-            <th>
-                @localizer["Create date"]
+                @localizer["Invoice"]
             </th>
             <th>
                 @localizer["Client"]
             </th>
             <th>
-                @localizer["Due date"]
+                @localizer["Amount"]
             </th>
             <th style="visibility: hidden;"></th>
             @*<th style="visibility: hidden;"></th>*@
         </tr>
     </thead>
     <tbody>
-        @foreach (var invoiceIn in this.Model)
+        @foreach (var invoice in this.Model)
         {
             <tr>
                 <td>
-                    <span class="text-bold"><a asp-action="GenerateInvoice" asp-route-id="@invoiceIn.Id">@invoiceIn.Number</a></span>
+                    <p class="text-bold m-0"><a asp-action="GenerateInvoice" asp-route-id="@invoice.Id">@invoice.Number</a>@(invoice.NoteInfo != null?$" ({localizer[invoice.NoteInfo.InvoiceNoteType.ToString()].Value}И)":"")</p>
+                    <span>@invoice.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <span class="text-bold">@invoice.ClientCompanyName</span>
                 </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.ClientCompanyName</span>
+                <td class="text-center">
+                    <p class="text-bold m-0">@(invoice.NoVAT ? $"{invoice.Price:f2}" : $"{invoice.Price * GlobalConstants.VATTot:f2}")</p>
                 </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
-                </td>
-                @*<td class="align-middle text-center">
-                    <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>
-                </td>*@
                 <td class="px-2 text-center align-middle" style="width:auto">
-                    <a asp-action="EditOut" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>
+                    <a asp-action="EditOut" asp-route-id="@invoice.Id" title="Edit"><i class="fas fa-edit"></i></a>
                     @*<a href="javascript:void(0);" onclick="showInPopup('Invoices/Details/@invoiceIn.Id', 'Details')" title="Details">
-                            <span>
-                                <i class="p-1 fas fa-info-circle"></i>
-                            </span>
-                        </a>
-                    <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>*@
+                        <span>
+                            <i class="p-1 fas fa-info-circle"></i>
+                        </span>
+                    </a>
+                <a asp-action="Delete" asp-route-id="@invoiceIn.Id" title="Delete"><i class="fas fa-trash-alt"></i></a>*@
                 </td>
             </tr>
         }

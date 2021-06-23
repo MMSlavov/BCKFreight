@@ -235,6 +235,11 @@
       "provider": "unpkg",
       "library": "@popperjs/core@2.9.2",
       "destination": "wwwroot/lib/popperjs/core/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "luxon@1.27.0",
+      "destination": "wwwroot/lib/luxon/"
     }
   ]
 }

@@ -4,14 +4,16 @@ using BCKFreightTMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BCKFreightTMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210622133754_NoteCurrency")]
+    partial class NoteCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -909,11 +911,11 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int>("DueDays")
                         .HasColumnType("int");
 
+                    b.Property<string>("InvoiceInId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("InvoiceNoteId")
                         .HasColumnType("int");
-
-                    b.Property<string>("InvoiceNoteInId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -945,11 +947,11 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("BankMovementId");
 
+                    b.HasIndex("InvoiceInId");
+
                     b.HasIndex("InvoiceNoteId")
                         .IsUnique()
                         .HasFilter("[InvoiceNoteId] IS NOT NULL");
-
-                    b.HasIndex("InvoiceNoteInId");
 
                     b.HasIndex("IsDeleted");
 
@@ -967,6 +969,9 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.Property<string>("AdminId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("BankDetailsId")
                         .HasColumnType("int");
@@ -989,7 +994,10 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Property<int?>("InvoiceNoteId")
                         .HasColumnType("int");
 
-                    b.Property<string>("InvoiceNoteOutId")
+                    b.Property<int?>("InvoiceNoteType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvoiceOutId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
@@ -1023,7 +1031,7 @@ namespace BCKFreightTMS.Data.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceNoteId] IS NOT NULL");
 
-                    b.HasIndex("InvoiceNoteOutId");
+                    b.HasIndex("InvoiceOutId");
 
                     b.HasIndex("IsDeleted");
 
@@ -2014,13 +2022,13 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithMany("InvoiceIns")
                         .HasForeignKey("BankMovementId");
 
+                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceIn", null)
+                        .WithMany("NoteInvoices")
+                        .HasForeignKey("InvoiceInId");
+
                     b.HasOne("BCKFreightTMS.Data.Models.NoteInfo", "NoteInfo")
                         .WithOne("InvoiceIn")
                         .HasForeignKey("BCKFreightTMS.Data.Models.InvoiceIn", "InvoiceNoteId");
-
-                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceIn", "InvoiceNoteIn")
-                        .WithMany("NoteInvoices")
-                        .HasForeignKey("InvoiceNoteInId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.InvoiceStatus", "Status")
                         .WithMany("InvoiceIns")
@@ -2033,8 +2041,6 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("BankDetails");
 
                     b.Navigation("BankMovement");
-
-                    b.Navigation("InvoiceNoteIn");
 
                     b.Navigation("NoteInfo");
 
@@ -2059,9 +2065,9 @@ namespace BCKFreightTMS.Data.Migrations
                         .WithOne("InvoiceOut")
                         .HasForeignKey("BCKFreightTMS.Data.Models.InvoiceOut", "InvoiceNoteId");
 
-                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceOut", "InvoiceNoteOut")
+                    b.HasOne("BCKFreightTMS.Data.Models.InvoiceOut", null)
                         .WithMany("NoteInvoices")
-                        .HasForeignKey("InvoiceNoteOutId");
+                        .HasForeignKey("InvoiceOutId");
 
                     b.HasOne("BCKFreightTMS.Data.Models.InvoiceStatus", "Status")
                         .WithMany()
@@ -2074,8 +2080,6 @@ namespace BCKFreightTMS.Data.Migrations
                     b.Navigation("BankDetails");
 
                     b.Navigation("BankMovement");
-
-                    b.Navigation("InvoiceNoteOut");
 
                     b.Navigation("NoteInfo");
 

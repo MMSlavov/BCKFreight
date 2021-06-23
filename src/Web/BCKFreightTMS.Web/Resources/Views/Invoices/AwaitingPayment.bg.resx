@@ -117,67 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Act of acceptance" xml:space="preserve">
-    <value>ППП</value>
+  <data name="Credit" xml:space="preserve">
+    <value>К</value>
   </data>
-  <data name="Approve order documentation" xml:space="preserve">
-    <value>Потвърди документацията</value>
-  </data>
-  <data name="Approved" xml:space="preserve">
-    <value>Потвърдено</value>
-  </data>
-  <data name="Bill of goods" xml:space="preserve">
-    <value>Стокова</value>
-  </data>
-  <data name="Bill of lading" xml:space="preserve">
-    <value>Товарителница</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отказ</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Затвори</value>
-  </data>
-  <data name="CMR" xml:space="preserve">
-    <value>CMR</value>
-  </data>
-  <data name="Course" xml:space="preserve">
-    <value>Курс</value>
-  </data>
-  <data name="Documentation check" xml:space="preserve">
-    <value>Проверка на документация</value>
-  </data>
-  <data name="Finish" xml:space="preserve">
-    <value>Завеждане</value>
-  </data>
-  <data name="Invoice" xml:space="preserve">
-    <value>Фактура</value>
-  </data>
-  <data name="Mark for approval" xml:space="preserve">
-    <value>Продължи</value>
-  </data>
-  <data name="Recieved documentation" xml:space="preserve">
-    <value>Получена документация</value>
-  </data>
-  <data name="Requaired documentation" xml:space="preserve">
-    <value>Необходима документация</value>
-  </data>
-  <data name="The requaired documentation do not match the received documentation!" xml:space="preserve">
-    <value>Необходимата документация не отговаря на получената!</value>
-  </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Внимание</value>
-  </data>
-  <data name="Weighing note" xml:space="preserve">
-    <value>Кантарна бележка</value>
-  </data>
-  <data name="Чл21ал2" xml:space="preserve">
-    <value>Чл. 21, ал.2</value>
-  </data>
-  <data name="Чл28т2" xml:space="preserve">
-    <value>Чл. 28, т.2</value>
-  </data>
-  <data name="Чл66ал1" xml:space="preserve">
-    <value>Чл. 66, ал.1</value>
+  <data name="Debit" xml:space="preserve">
+    <value>Д</value>
   </data>
 </root>

@@ -8,6 +8,8 @@
 
     public class PersonInputModel
     {
+        public string Id { get; set; }
+
         [Required]
         [MaxLength(80)]
         public string FirstName { get; set; }

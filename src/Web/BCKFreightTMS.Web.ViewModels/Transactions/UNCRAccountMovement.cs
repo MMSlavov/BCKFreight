@@ -16,8 +16,11 @@
         [XmlElement("Reason")]
         public string Reason { get; set; }
 
-        [XmlElement("NarrativeI02")]
+        [XmlElement("Narrative")]
         public string Narrative { get; set; }
+
+        [XmlElement("NarrativeI02")]
+        public string NarrativeI02 { get; set; }
 
         [XmlElement("OppositeSideName")]
         public string OppositeSideName { get; set; }

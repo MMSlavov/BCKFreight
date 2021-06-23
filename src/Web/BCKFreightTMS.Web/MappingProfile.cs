@@ -1,13 +1,13 @@
 ﻿namespace BCKFreightTMS.Web
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using AutoMapper;
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Web.ViewModels.Cargos;
+    using BCKFreightTMS.Web.ViewModels.Comunicators;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
@@ -47,9 +47,14 @@
             this.CreateMap<InvoiceCompanyModel, Company>();
             this.CreateMap<Company, CompanyEditModel>();
             this.CreateMap<CompanyEditModel, Company>();
+            this.CreateMap<Person, PersonInputModel>();
+            this.CreateMap<PersonInputModel, Person>();
+            this.CreateMap<ComunicatorsInputModel, Comunicators>();
+            this.CreateMap<Comunicators, ComunicatorsInputModel>();
             this.CreateMap<InvoiceIn, InvoiceInModel>();
             this.CreateMap<InvoiceIn, InvoiceInEditModel>();
             this.CreateMap<InvoiceOut, InvoiceOutEditModel>();
+            this.CreateMap<InvoiceOutInputModel, InvoiceNoteOutInputModel>();
             this.CreateMap<InvoiceInEditModel, InvoiceIn>().ForPath(x => x.Id, x => x.Ignore())
                                                         .ForPath(x => x.Status.Name, x => x.Ignore());
             this.CreateMap<InvoiceOutEditModel, InvoiceOut>().ForPath(x => x.Id, x => x.Ignore())
@@ -72,7 +77,11 @@
             this.CreateMap<CarrierOrder, CarrierOrderApplicationModel>();
             this.CreateMap<CarrierOrder, CarrierOrderListModel>();
             this.CreateMap<OrderTo, InvoiceInInputModel>();
+            this.CreateMap<OrderTo, InvoiceNoteOutInputModel>();
             this.CreateMap<OrderTo, InvoiceOutInputModel>();
+            this.CreateMap<InvoiceOut, InvoiceOutModel>();
+            this.CreateMap<NoteInfoModel, NoteInfo>();
+            this.CreateMap<NoteInfo, NoteInfoModel>();
             this.CreateMap<OrderTo, ListFailedOrderToViewModel>().ForMember(x => x.Voyage, opt =>
                     opt.MapFrom(x => string.Join(" <i class='fas fa-angle-double-right'></i> ", x.OrderActions.OrderBy(oa => oa.TypeId).Select(oa => oa.Address.City))));
             this.CreateMap<BankDetailsModel, BankDetails>();
@@ -84,7 +93,7 @@
             this.CreateMap<UNCRAccountMovement, BankAccountMovementModel>().ForMember(x => x.Date, opt =>
                                                 opt.MapFrom(x => x.PaymentDateTime))
                                                                            .ForMember(x => x.Reason, opt =>
-                                                opt.MapFrom(x => $"{x.Reason}\n({x.Narrative})"));
+                                                opt.MapFrom(x => $"{x.Reason}\n({(x.NarrativeI02 == null ? x.Narrative : x.NarrativeI02)})"));
             this.CreateMap<DSKStatementModel, BankStatementModel>().ForMember(x => x.Movements, opt =>
                                                 opt.MapFrom(x => x.AccountMovements));
             this.CreateMap<AccountMovement, BankAccountMovementModel>().ForMember(x => x.Date, opt =>

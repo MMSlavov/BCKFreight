@@ -56,7 +56,6 @@
                 </td>
                 <td>
                     <p class="text-bold m-0">@(invoiceIn.NoVAT ? $"{invoiceIn.Price:f2}" : $"{invoiceIn.Price * GlobalConstants.VATTot:f2}")</p>
-                    <span>@(invoiceIn.NoVAT ? "" : localizer["със ДДС"])</span>
                 </td>
                 <td class="align-middle text-center">
                     <a asp-action="Pay" asp-route-id="@invoiceIn.Id" onclick="OpenBankTab()" class="btn btn-primary mx-1">@localizer["Pay"]</a>

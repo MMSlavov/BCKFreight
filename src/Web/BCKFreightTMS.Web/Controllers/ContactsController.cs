@@ -70,6 +70,13 @@
             return this.View(model);
         }
 
+        public IActionResult EditPersonModal(string id)
+        {
+            var model = this.contactsService.LoadEditPersonModel(id);
+
+            return this.View(model);
+        }
+
         public async Task<IActionResult> GetCompany(string searchStr = null)
         {
             try
@@ -221,6 +228,26 @@
             try
             {
                 await this.contactsService.EditCompanyAsync(model);
+            }
+            catch (Exception)
+            {
+                return this.Json(new { isValid = false, redirectToUrl = "reload" });
+            }
+
+            return this.Json(new { isValid = true, redirectToUrl = "reload" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPersonModal(PersonInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Json(new { isValid = false, redirectToUrl = string.Empty, html = this.View(model) });
+            }
+
+            try
+            {
+                await this.contactsService.EditPersonAsync(model);
             }
             catch (Exception)
             {

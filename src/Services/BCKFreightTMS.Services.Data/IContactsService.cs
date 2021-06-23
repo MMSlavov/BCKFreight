@@ -18,7 +18,11 @@
 
         public CompanyEditModel LoadEditCompanyModel(string companyId);
 
+        public PersonInputModel LoadEditPersonModel(string personId);
+
         public Task<string> EditCompanyAsync(CompanyEditModel input);
+
+        public Task<string> EditPersonAsync(PersonInputModel input);
 
         Task<int> AddBankDetails(BankDetailsModel input);
 

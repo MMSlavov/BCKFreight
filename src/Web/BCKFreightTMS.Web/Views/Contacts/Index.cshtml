@@ -1,12 +1,14 @@
-﻿<partial name="_AntiForgery" />
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<partial name="_AntiForgery" />
 
 <div class="container-fluid">
     <div class="row">
+        @*<div class="p-2">
+                <a class="btn btn-primary" asp-action="AddCompany">Add Company</a>
+            </div>*@
         <div class="p-2">
-            <a class="btn btn-primary" asp-action="AddCompany">Add Company</a>
-        </div>
-        <div class="p-2">
-            <a class="btn btn-primary" asp-action="AddPerson">Add Person</a>
+            <a class="btn btn-primary" asp-action="AddPerson">@localizer["Добави лице за контакт"]</a>
         </div>
     </div>
     <hr class="mt-1" />
@@ -17,16 +19,16 @@
                     Id
                 </th>
                 <th>
-                    Name
+                    @localizer["Име"]
                 </th>
                 <th>
-                    Type
+                    @localizer["Лице"]
                 </th>
                 <th>
-                    Contacts
+                    @localizer["Контакти"]
                 </th>
                 <th>
-                    Address
+                    @localizer["Адрес"]
                 </th>
                 <th style="visibility: hidden; border-top:none; border-right:none; width:auto"></th>
             </tr>

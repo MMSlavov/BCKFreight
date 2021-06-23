@@ -11,13 +11,14 @@
     var orderTos = this.Model.OrderTos;
     var vatReasons = this.Model.ReasonNoVATItems.Select(r => new SelectListItem(this.localizer[r.Value].Value, r.Key));
 }
+
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*<h4><b>@localizer["Documentation check"]</b></h4>
-    <hr />*@
 <form method="post" class="p-2" id="documentation_form">
     <div class="form-group border bg-white p-4">
         <div class="form-row justify-content-around mb-4">
-            <div class="col-4"></div>
+            <div class="col-4 text-center">
+                <a asp-controller="Invoices" asp-action="InvoiceNoteOut" asp-route-id="@Model.Id" class="btn btn-primary mt-3"><b>@localizer["Създай известие"]</b></a>
+            </div>
             <div class="col-4 text-center">
                 <p class="m-0" style="font-size:25px"><b>Фактура</b></p>
                 <p class="m-0">/изходяща/</p>
@@ -219,14 +220,6 @@
                         <select asp-for="BankDetailsId" class="form-control" asp-items="@Model.BankDetailsItems"></select>
                     </div>
                 </div>
-                @*<div class="form-row justify-content-between">
-                    <p class="m-0 mt-2 ml-2"><i>@localizer["Получил:"]</i> @Model.ClientCompany.AddressMOLFirstName @Model.ClientCompany.AddressMOLLastName</p>
-                    <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил:"]</i> @Model.CreatorCompany.AddressMOLFirstName @Model.CreatorCompany.AddressMOLLastName</p>
-                </div>*@
-                @*<hr />
-                <div class="row justify-content-center">
-                    <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
-                </div>*@
             </div>
             <div class="form-group col-6">
                 <div class="form-row mt-4 ml-2">
@@ -245,22 +238,6 @@
                 </div>
             </div>
         </div>
-        @*<div class="form-row justify-content-start" id="finish" style="display:none">
-            <div class="row align-items-center col-3">
-                    @if (orderTos.Any(o => !o.IsDocValid))
-                    {
-                        <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" disabled value="@localizer["Завеждане"]" />
-                    }
-                    else
-                    {
-                        <input asp-action="Finish" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["Завеждане"]" />
-                    }
-                    @if (Model.StatusName == OrderStatusNames.AwaitingApproval.ToString())
-                    {
-                        <input asp-action="ApproveDocumentation" type="submit" class="btn btn-warning" value="@localizer["Approve order documentation"]" />
-                    }
-                </div>
-        </div>*@
         @Html.HiddenFor(m => m.Id)
         <div class="form-group mt-2">
             <a asp-action="AwaitingPayment" class="btn btn-secondary">@localizer["Cancel"]</a>

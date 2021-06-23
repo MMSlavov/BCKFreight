@@ -1,6 +1,5 @@
 ﻿namespace BCKFreightTMS.Services.Data.Tests
 {
-
     // public class OrdersServiceTests
     // {
     //    private IDeletableEntityRepository<Company> companies;

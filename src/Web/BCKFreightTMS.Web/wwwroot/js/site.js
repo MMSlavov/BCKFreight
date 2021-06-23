@@ -83,11 +83,11 @@ jQueryAjaxPost = (form, callback) => {
                     else {
                         window.location = res.redirectToUrl;
                     }
-                    $(".loading").hide()
                 }
-                else {
-                    $('#form-modal .modal-body').html(res.html);
+                else if(res.html) {
+                    $('#form-modal .modal-body').html();
                 }
+                $(".loading").hide()
                 if (callback) {
                     callback(form, res);
                 }

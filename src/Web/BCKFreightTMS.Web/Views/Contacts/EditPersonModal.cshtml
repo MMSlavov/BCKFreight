@@ -1,0 +1,44 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model BCKFreightTMS.Web.ViewModels.Contacts.PersonInputModel
+@{
+    this.Layout = null;
+    var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
+    var roleItems = this.Model.RoleItems.Select(r => new SelectListItem(r.Value, r.Key));
+}
+
+<form method="post" asp-action="EditPersonModal" onsubmit="return jQueryAjaxPost(this);">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label">Company</label>@*<a href="#" class="pl-2" onclick="showInPopup('/Contacts/AddCompanyModal', 'Add company')"><i class="fas fa-plus"></i></a>*@
+        <select asp-for="CompanyId" class="form-control" asp-items="companyItems"></select>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Role</label>
+        <select asp-for="RoleId" class="form-control" asp-items="roleItems"></select>
+    </div>
+    <div class="form-group">
+        <label class="control-label">First name <span class="text-danger">*</span></label>
+        <input asp-for="FirstName" class="form-control col-8" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Last name <span class="text-danger">*</span></label>
+        <input asp-for="LastName" class="form-control col-8" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BirthDate" class="control-label">Birthday</label>
+        <input asp-for="BirthDate" class="form-control col-5" />
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+    </div>
+    <div class="form-group p-2 border rounded">
+        <label asp-for="Comunicators" class="text-muted"></label>
+        <div class="form-group">
+            <label class="control-label">Mobile</label>
+            <input asp-for="Comunicators.Mobile1" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="@localizer["Save"]" class="btn btn-primary" />
+    </div>
+</form>

@@ -40,7 +40,15 @@
     </div>
     <div class="form-row justify-content-between">
         <div class="text-left">
-            <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            @if (this.Model.InvoiceNote != null)
+            {
+                <p class="m-0" style="font-size:30px"><b>@localizer[this.Model.NoteInfo.InvoiceNoteType.ToString()] известие</b></p>
+                <p class="m-0" style="font-size:20px">@localizer["към фактура"] <b>@this.Model.InvoiceNote.Number</b> / <b>@this.Model.InvoiceNote.CreateDate.ToLocalTime().ToShortDateString()</b></p>
+            }
+            else
+            {
+                <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            }
             <p class="m-0 ml-auto noPrev" style="font-size:20px">Оригинал</p>
         </div>
         <div class="mr-4">
@@ -73,20 +81,15 @@
                 </tr>
             </thead>
             <tbody id="rows">
-                @for (int i = 0; i < Model.OrderTos.Count; i++)
+                @if (this.Model.InvoiceNote != null)
                 {
-                    var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
-                    var recDate = this.Model.OrderTos[i].ReceiveDate;
-                    var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
-                    subTotal += priceIn;
-                    <tr id="row_@i">
+                    subTotal = this.Model.NoteInfo.Amount;
+                    <tr id="row_0">
                         <td>
-                            <b>@(i + 1)</b>
+                            <b>1</b>
                         </td>
                         <td>
-                            Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
-                            с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                            по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
+                            @this.Model.NoteInfo.Details
                         </td>
                         <td class="text-center">
                             курс
@@ -95,9 +98,38 @@
                             1.00
                         </td>
                         <td class="price text-center">
-                            @($"{priceIn:f2}")
+                            @($"{subTotal:f2}")
                         </td>
                     </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.OrderTos.Count; i++)
+                    {
+                        var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                        var recDate = this.Model.OrderTos[i].ReceiveDate;
+                        var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
+                        subTotal += priceIn;
+                        <tr id="row_@i">
+                            <td>
+                                <b>@(i + 1)</b>
+                            </td>
+                            <td>
+                                Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                                с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                                по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
+                            </td>
+                            <td class="text-center">
+                                курс
+                            </td>
+                            <td class="text-center">
+                                1.00
+                            </td>
+                            <td class="price text-center">
+                                @($"{priceIn:f2}")
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -164,7 +196,15 @@
     </div>
     <div class="form-row justify-content-between">
         <div class="text-left">
-            <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            @if (this.Model.InvoiceNote != null)
+            {
+                <p class="m-0" style="font-size:30px"><b>@localizer[this.Model.NoteInfo.InvoiceNoteType.ToString()] известие</b></p>
+                <p class="m-0" style="font-size:20px">@localizer["към фактура"] <b>@this.Model.InvoiceNote.Number</b> / <b>@this.Model.InvoiceNote.CreateDate.ToLocalTime().ToShortDateString()</b></p>
+            }
+            else
+            {
+                <p class="m-0" style="font-size:30px"><b>Фактура</b></p>
+            }
             <p class="m-0 ml-auto noPrev" style="font-size:20px">Копие</p>
         </div>
         <div class="mr-4">
@@ -197,19 +237,14 @@
                 </tr>
             </thead>
             <tbody id="rows">
-                @for (int i = 0; i < Model.OrderTos.Count; i++)
+                @if (this.Model.InvoiceNote != null)
                 {
-                    var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
-                    var recDate = this.Model.OrderTos[i].ReceiveDate;
-                    var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
-                    <tr id="row_@i">
+                    <tr id="row_0">
                         <td>
-                            <b>@(i + 1)</b>
+                            <b>1</b>
                         </td>
                         <td>
-                            Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
-                            с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                            по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
+                            @this.Model.NoteInfo.Details
                         </td>
                         <td class="text-center">
                             курс
@@ -218,9 +253,37 @@
                             1.00
                         </td>
                         <td class="price text-center">
-                            @($"{priceIn:f2}")
+                            @($"{subTotal:f2}")
                         </td>
                     </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.OrderTos.Count; i++)
+                    {
+                        var refNum = this.Model.OrderTos[i].OrderOrderFromReferenceNum;
+                        var recDate = this.Model.OrderTos[i].ReceiveDate;
+                        var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
+                        <tr id="row_@i">
+                            <td>
+                                <b>@(i + 1)</b>
+                            </td>
+                            <td>
+                                Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                                с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                                по заявка <b>@(string.IsNullOrWhiteSpace(refNum)? recDate : refNum)</b>
+                            </td>
+                            <td class="text-center">
+                                курс
+                            </td>
+                            <td class="text-center">
+                                1.00
+                            </td>
+                            <td class="price text-center">
+                                @($"{priceIn:f2}")
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>

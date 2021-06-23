@@ -31,7 +31,7 @@ $(document).ready(function () {
             { "data": "address", "name": "Address", "autoWidth": true },
             {
                 "render": function (data, type, row) {
-                    return "<a href = '#' onclick = showInPopup('/Contacts/EditCompanyModal/" + row.id + "','Edit') title='Edit'><i class='fas fa-edit'></i></a><a href = '#' onclick = showInPopup('/Contacts/Details/" + row.id + "','Details') title = 'Details' ><span><i class='p-1 fas fa-info-circle'></i></span></a ><a href='Contacts/Delete?id=" + row.id + "' title='Delete'><i class='p-1 fas fa-trash-alt'></i></a>";
+                    return "<a href = '#' onclick = showInPopup('/Contacts/Edit" + row.type + "Modal/" + row.id + "','Edit') title='Edit'><i class='fas fa-edit'></i></a><a href = '#' onclick = showInPopup('/Contacts/Details/" + row.id + "','Details') title = 'Details' ><span><i class='p-1 fas fa-info-circle'></i></span></a ><a href='Contacts/Delete?id=" + row.id + "' title='Delete'><i class='p-1 fas fa-trash-alt'></i></a>";
                 }, className:"text-center justify-content-around"
             },
         ]

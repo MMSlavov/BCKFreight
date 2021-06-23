@@ -1,5 +1,6 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -120,9 +121,8 @@
 
         public IActionResult AwaitingPayment()
         {
-            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString())
-                                                  .To<ListInvoiceOutModel>()
-                                                  .ToList();
+            var invoices = this.invoicesService.LoadInvoiceOutList(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString());
+
             return this.View(invoices);
         }
 
@@ -201,6 +201,30 @@
             await this.invoicesService.SaveInvoiceOut(input);
 
             return this.RedirectToAction("Unfinished");
+        }
+
+        public IActionResult InvoiceNoteOut(string id)
+        {
+            var model = this.invoicesService.LoadInvoiceNoteOutModel(id);
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InvoiceNoteOut(InvoiceNoteOutInputModel input)
+        {
+            try
+            {
+                var noteInvoiceId = await this.invoicesService.CreateInvoiceNoteOut(input);
+                await this.invoicesService.UpdateInvoiceOutStatusAsync(noteInvoiceId, InvoiceStatusNames.AwaitingApproval.ToString());
+            }
+            catch (Exception ex)
+            {
+                this.notyfService.Error(ex.Message);
+                return this.View(this.invoicesService.LoadInvoiceNoteOutModel(input.InvoiceOut.Id));
+            }
+
+            return this.RedirectToAction("AwaitingPayment");
         }
     }
 }

@@ -44,6 +44,15 @@
 
         public virtual BankMovement BankMovement { get; set; }
 
+        public virtual NoteInfo NoteInfo { get; set; }
+
+        [ForeignKey(nameof(InvoiceNote))]
+        public string InvoiceNoteOutId { get; set; }
+
+        public virtual InvoiceOut InvoiceNote { get; set; }
+
+        public virtual ICollection<InvoiceOut> NoteInvoices { get; set; }
+
         public virtual ICollection<OrderTo> OrderTos { get; set; }
     }
 }

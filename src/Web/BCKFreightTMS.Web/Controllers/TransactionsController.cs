@@ -1,6 +1,7 @@
 ﻿namespace BCKFreightTMS.Web.Controllers
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -160,20 +161,28 @@
                 return this.Json(new { });
             }
 
-            var serializer = new XmlSerializer(type);
+            try
+            {
+                var serializer = new XmlSerializer(type);
 
-            using var stream = file.OpenReadStream();
-            using var reader = new StreamReader(stream);
-            var xmlText = reader.ReadToEnd();
-            xmlText = xmlText.Replace("</br>", "\n");
-            xmlText = Regex.Replace(xmlText, @"(?<=\d)\,(?=\d)", ".");
+                using var stream = file.OpenReadStream();
+                using var reader = new StreamReader(stream);
+                var xmlText = reader.ReadToEnd();
+                xmlText = xmlText.Replace("</br>", "\n");
+                xmlText = Regex.Replace(xmlText, @"(?<=\d)\,(?=\d)", ".");
 
-            using var strReader = new StringReader(xmlText);
-            var model = serializer.Deserialize(strReader);
+                using var strReader = new StringReader(xmlText);
+                var model = serializer.Deserialize(strReader);
 
-            var modelMap = this.mapper.Map<BankStatementModel>(model);
+                var modelMap = this.mapper.Map<BankStatementModel>(model);
 
-            return this.Json(modelMap.Movements);
+                return this.Json(modelMap.Movements);
+            }
+            catch (Exception)
+            {
+                this.notyfService.Error(this.localizer["Грешка по време на обработка."]);
+                return this.Json(new { });
+            }
         }
 
         public JsonResult SearchCompany(string companyName, string companyIban)
@@ -193,9 +202,9 @@
             return this.Json(new { Id = string.Empty });
         }
 
-        public JsonResult GetCompanyInvoices(string companyId, string mvType)
+        public JsonResult GetCompanyInvoices(string companyId, string mvtType)
         {
-            if (mvType == "Credit")
+            if (mvtType == "Credit")
             {
                 var invoicesOut = this.invoicesService.LoadInvoiceOutList(i => i.OrderTos.First().Order.OrderFrom.Company.Id == (companyId ?? string.Empty) && i.Status.Name == InvoiceStatusNames.AwaitingPayment.ToString());
                 foreach (var invoice in invoicesOut)
@@ -219,17 +228,29 @@
         public async Task SafeBankMovement(BankMovementInputModel input)
         {
             var accType = this.accountingTypes.All().FirstOrDefault(t => t.Id == input.AccTypeId);
+
             var movement = new BankMovement
             {
                 Date = input.DateIn,
                 Reason = input.ReasonIn,
                 OppositeSideName = input.OSNameIn,
                 OppositeSideAccount = input.OSAccIn,
-                Amount = input.AmountIn,
+                Amount = decimal.Parse(input.AmountIn, NumberStyles.Number, CultureInfo.InvariantCulture),
                 AccountingType = accType,
             };
-            if (accType.Code == CreditAccountingTypes.ПН503.ToString())
+            if (accType.Code == CreditAccountingTypes.ПН503.ToString() && input.InvoiceIds.Any())
             {
+                var company = this.companies.All().FirstOrDefault(c => c.Id == input.OSIdIn);
+                if (company != null && !company.BankDetails.Any(bd => bd.BankIban.Contains(input.OSAccIn)))
+                {
+                    var bankDetails = new BankDetails
+                    {
+                        BankIban = input.OSAccIn,
+                        AdminId = company.AdminId,
+                    };
+                    company.BankDetails.Add(bankDetails);
+                }
+
                 if (accType.MovementType == "Credit")
                 {
                     foreach (var id in input.InvoiceIds)

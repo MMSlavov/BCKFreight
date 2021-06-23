@@ -15,6 +15,7 @@
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
 
     public class InvoicesService : IInvoicesService
     {
@@ -22,6 +23,7 @@
         private readonly IDeletableEntityRepository<InvoiceStatus> invoiceStatuses;
         private readonly IDeletableEntityRepository<OrderTo> orderTos;
         private readonly IDeletableEntityRepository<VATReason> vatReasons;
+        private readonly IDeletableEntityRepository<Currency> currencies;
         private readonly IFinanceService financeService;
         private readonly IPdfService pdfService;
         private readonly IViewRenderService viewRenderService;
@@ -35,6 +37,7 @@
                 IDeletableEntityRepository<InvoiceStatus> invoiceStatuses,
                 IDeletableEntityRepository<OrderTo> orderTos,
                 IDeletableEntityRepository<VATReason> vatReasons,
+                IDeletableEntityRepository<Currency> currencies,
                 IFinanceService financeService,
                 IPdfService pdfService,
                 IViewRenderService viewRenderService,
@@ -46,6 +49,7 @@
             this.invoiceStatuses = invoiceStatuses;
             this.orderTos = orderTos;
             this.vatReasons = vatReasons;
+            this.currencies = currencies;
             this.financeService = financeService;
             this.pdfService = pdfService;
             this.viewRenderService = viewRenderService;
@@ -159,7 +163,7 @@
             invoice.CreateDate = input.InvoiceOut.CreateDate;
             invoice.DueDays = input.InvoiceOut.DueDays;
             invoice.BankDetailsId = input.InvoiceOut.BankDetailsId;
-            invoice.VATReasonId = input.InvoiceOut.ReasonNoVATId;
+            invoice.VATReasonId = input.InvoiceOut.VATReasonId;
             foreach (var orderToInput in input.OrderTos)
             {
                 var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderToInput.Id);
@@ -183,6 +187,31 @@
             await this.invoiceOuts.SaveChangesAsync();
 
             return invoice.Id;
+        }
+
+        public async Task<string> CreateInvoiceNoteOut(InvoiceNoteOutInputModel input)
+        {
+            var invoice = this.invoiceOuts.All().FirstOrDefault(i => i.Id == input.InvoiceOut.Id);
+            if (invoice is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var noteInvoice = new InvoiceOut();
+            noteInvoice.Number = input.Number;
+            noteInvoice.CreateDate = input.CreateDate;
+            noteInvoice.DueDays = input.DueDays;
+            noteInvoice.BankDetailsId = input.BankDetailsId;
+            noteInvoice.VATReasonId = input.VATReasonId;
+            noteInvoice.NoteInfo = this.mapper.Map<NoteInfo>(input.Note);
+            noteInvoice.NoteInfo.AdminId = invoice.AdminId;
+            await this.invoiceOuts.AddAsync(noteInvoice);
+
+            invoice.NoteInvoices.Add(noteInvoice);
+
+            await this.invoiceOuts.SaveChangesAsync();
+
+            return noteInvoice.Id;
         }
 
         public async Task<string> SaveInvoiceOut(InvoiceOutEditModel input)
@@ -285,6 +314,28 @@
             return invoiceOutModel;
         }
 
+        public InvoiceNoteOutInputModel LoadInvoiceNoteOutModel(string invoiceId)
+        {
+            var invoice = this.invoiceOuts.All().FirstOrDefault(o => o.Id == invoiceId);
+
+            var invoiceNoteOutModel = this.mapper.Map<InvoiceNoteOutInputModel>(invoice.OrderTos.First());
+            invoiceNoteOutModel.Number = this.GenerateInvoiceOutNumber();
+            invoiceNoteOutModel.InvoiceOut.BankDetailsItems = invoice.OrderTos.First().Order.Creator.Company.BankDetails
+                                                   .Select(bd => new SelectListItem { Value = bd.Id.ToString(), Text = bd.BankIban });
+            invoiceNoteOutModel.InvoiceOut.PaymentMethodItems = Enum.GetValues(typeof(PaymentMethods)).Cast<PaymentMethods>().Select(
+                            enu => new SelectListItem() { Text = enu.ToString(), Value = enu.ToString() }).ToList();
+            VATReasonsOut res;
+            invoiceNoteOutModel.InvoiceOut.ReasonNoVATItems = this.vatReasons.AllAsNoTracking()
+                                                           .Select(r => new KeyValuePair<string, string>(r.Id.ToString(), r.Name))
+                                                           .ToList()
+                                                           .Where(r => Enum.TryParse<VATReasonsOut>(r.Value, out res));
+            invoiceNoteOutModel.Note.CurrencyItems = this.currencies.AllAsNoTracking()
+                                      .Select(c => new SelectListItem(c.Name, c.Id.ToString()))
+                                      .ToList();
+
+            return invoiceNoteOutModel;
+        }
+
         public IEnumerable<ListInvoiceInModel> LoadInvoiceInList(Expression<Func<InvoiceIn, bool>> filter)
         {
             var invoices = this.invoiceIns.All().Where(filter)
@@ -307,6 +358,8 @@
         public IEnumerable<ListInvoiceOutModel> LoadInvoiceOutList(Expression<Func<InvoiceOut, bool>> filter)
         {
             var invoices = this.invoiceOuts.All().Where(filter)
+                                    .Include(i => i.NoteInfo)
+                                    .Include(i => i.InvoiceNote)
                                     .To<ListInvoiceOutModel>()
                                     .ToList();
 
@@ -317,7 +370,14 @@
                     invoice.NoVAT = true;
                 }
 
-                invoice.Price = invoice.OrderTos.Sum(i => this.financeService.GetAmount(i.CurrencyInId, i.PriceNetIn));
+                if (invoice.NoteInfo == null)
+                {
+                    invoice.Price = invoice.OrderTos.Sum(i => this.financeService.GetAmount(i.CurrencyInId, i.PriceNetIn));
+                }
+                else
+                {
+                    invoice.Price = this.financeService.GetAmount(invoice.NoteInfo.CurrencyId, invoice.NoteInfo.Amount);
+                }
             }
 
             return invoices;
@@ -358,10 +418,20 @@
             }
 
             var model = this.mapper.Map<InvoiceModel>(invoice);
-            var clientCompany = invoice.OrderTos.First().Order.OrderFrom.Company;
-            var creatorCompany = invoice.OrderTos.First().Order.Creator.Company;
-            model.ClientCompany = this.mapper.Map<InvoiceCompanyModel>(clientCompany);
-            model.CreatorCompany = this.mapper.Map<InvoiceCompanyModel>(creatorCompany);
+            if (model.InvoiceNote == null)
+            {
+                var clientCompany = invoice.OrderTos.First().Order.OrderFrom.Company;
+                var creatorCompany = invoice.OrderTos.First().Order.Creator.Company;
+                model.ClientCompany = this.mapper.Map<InvoiceCompanyModel>(clientCompany);
+                model.CreatorCompany = this.mapper.Map<InvoiceCompanyModel>(creatorCompany);
+            }
+            else
+            {
+                var clientCompany = invoice.InvoiceNote.OrderTos.First().Order.OrderFrom.Company;
+                var creatorCompany = invoice.InvoiceNote.OrderTos.First().Order.Creator.Company;
+                model.ClientCompany = this.mapper.Map<InvoiceCompanyModel>(clientCompany);
+                model.CreatorCompany = this.mapper.Map<InvoiceCompanyModel>(creatorCompany);
+            }
 
             return model;
         }

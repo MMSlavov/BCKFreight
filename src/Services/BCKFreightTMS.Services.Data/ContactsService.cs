@@ -107,6 +107,17 @@
             return this.mapper.Map<CompanyEditModel>(company);
         }
 
+        public PersonInputModel LoadEditPersonModel(string personId)
+        {
+            var person = this.peopleRepository.All().FirstOrDefault(p => p.Id == personId);
+            if (person == null)
+            {
+                throw new ArgumentException("Person do not exist!");
+            }
+
+            return this.GetPersonInputModel(this.mapper.Map<PersonInputModel>(person));
+        }
+
         public async Task<string> EditCompanyAsync(CompanyEditModel input)
         {
             var company = this.companiesRepository.All().FirstOrDefault(c => c.Id == input.Id);
@@ -127,6 +138,28 @@
             await this.companiesRepository.SaveChangesAsync();
 
             return company.Id;
+        }
+
+        public async Task<string> EditPersonAsync(PersonInputModel input)
+        {
+            var person = this.peopleRepository.All().FirstOrDefault(c => c.Id == input.Id);
+            if (person == null)
+            {
+                throw new ArgumentException("Person do not exist!");
+            }
+
+            person.CompanyId = input.CompanyId;
+            person.RoleId = input.RoleId;
+            person.FirstName = input.FirstName;
+            person.LastName = input.LastName;
+            person.BirthDate = input.BirthDate;
+            person.Comunicators.Mobile1 = input.Comunicators.Mobile1;
+            person.Comunicators.Email1 = input.Comunicators.Email1;
+            person.Comunicators.Details = input.Comunicators.Details;
+
+            await this.peopleRepository.SaveChangesAsync();
+
+            return person.Id;
         }
 
         public PersonInputModel GetPersonInputModel(PersonInputModel model = null)

@@ -1,13 +1,10 @@
 ﻿@using BCKFreightTMS.Common.Enums
 @inject BCKFreightTMS.Services.Data.IFinanceService financeService
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-@model BCKFreightTMS.Web.ViewModels.Invoices.InvoiceOutInputModel
+@model BCKFreightTMS.Web.ViewModels.Invoices.InvoiceNoteOutInputModel
 @{
-    var orderTos = this.Model.OrderTos;
-    var documentation = this.Model.OrderTos[0].Documentation;
     var vatReasons = this.Model.InvoiceOut.ReasonNoVATItems
                                           .Select(r => new SelectListItem { Text = this.localizer[r.Value].Value, Value = r.Key });
-    var priceIn = this.financeService.GetAmount(orderTos[0].CurrencyInId, orderTos[0].PriceNetIn);
 }
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -16,19 +13,25 @@
         <div class="form-row justify-content-around mb-4">
             <div class="col-4"></div>
             <div class="col-4 text-center">
-                <p class="m-0" style="font-size:25px"><b>Фактура</b></p>
-                <p class="m-0">/изходяща/</p>
-                <p class="m-0 ml-auto" style="font-size:18px"><i>Оригинал</i></p>
+                <p class="m-0" style="font-size:35px"><b>@localizer["Известие"]</b></p>
+                <div class="form-row justify-content-around mt-2">
+                    @foreach (var val in System.Enum.GetValues(typeof(InvoiceNoteTypes)).OfType<InvoiceNoteTypes>())
+                    {
+                        <label class="ml-4" style="font-size:16px"><input class="form-check-input" asp-for="Note.InvoiceNoteType" type="radio" value="@((int)val)" />@localizer[val.ToString()]</label>
+                    }
+                </div>
+                <span asp-validation-for="Note.InvoiceNoteType" class="text-danger"></span>
+                <p class="m-0" style="font-size:20px">@localizer["към фактура"] <b>@Model.InvoiceOut.Number</b> / <b>@Model.InvoiceOut.CreateDate.ToLocalTime().ToShortDateString()</b></p>
             </div>
             <div class="col-4 flex">
                 <div class="col-7 ml-auto">
                     <div class="row">
                         <label>Номер: </label>
-                        <input asp-for="InvoiceOut.Number" class="form-control" />
+                        <input asp-for="Number" class="form-control" />
                     </div>
                     <div class="row">
                         <label>Дата:</label>
-                        <input asp-for="InvoiceOut.CreateDate" class="form-control" value="@null" />
+                        <input asp-for="CreateDate" class="form-control" value="@null" />
                     </div>
                 </div>
             </div>
@@ -50,7 +53,24 @@
                 <tr><td> Телефон:</td><td>@Model.OrderCreatorCompany.ComunicatorsMobile1</td></tr>
             </table>
         </div>
-        <div class="form-group">
+        <div class="form-row">
+            <div class="form-group col-5 offset-1">
+                <label>@localizer["Основание"]</label>
+                <textarea asp-for="Note.Details" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="col-5 offset-1">
+                <div class="form-group">
+                    <label>@localizer["Стойност"]</label>
+                    <input asp-for="Note.Amount" class="form-control col-5" value="0" data-val="false" />
+                    <span asp-validation-for="Note.Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">@localizer["Валута"]</label>
+                    <select asp-for="Note.CurrencyId" class="form-control col-4" asp-items="@Model.Note.CurrencyItems"></select>
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
             <table class="table table-sm table-bordered mb-1">
                 <thead class="bg-gray-light text-center">
                     <tr>
@@ -106,85 +126,65 @@
             <div class="form-row" id="addRow" style="display:none">
                 <a href="javascript:" data-companyId="@Model.OrderOrderFromCompany.Id" data-title="@localizer["Добави курс"]" class="btn btn-primary"><i class="fa fa-plus mr-2"></i>@localizer["Добави следващ курс"]</a>
             </div>
-        </div>
-        <div class="form-group" id="invoiceEnd" style="display:none">
+        </div>*@
+        <div class="form-group" id="invoiceEnd">
             <div class="flex">
                 <div class="form-group col-4 ml-auto mb-1">
-                    <table class="table table-sm table-borderless">
+                    @*<table class="table table-sm table-borderless">
                         <tr><td class="text-right"><b>@localizer["Данъчна основа:"]</b></td><td></td><td id="subTotal">0</td></tr>
                         <tr><td class="text-right"><b>@localizer["ДДС 20%:"]</b></td><td></td><td id="vat">0</td></tr>
                         <tr><td class="text-right"><b>@localizer["Сума за плащане:"]</b></td><td></td><td id="total">0</td></tr>
-                    </table>
+                    </table>*@
                 </div>
                 <div class="form-row justify-content-between">
                     <div>
                         <label>@localizer["Основание за начисляване / неначисляване на ДДС"]:</label>
-                        <select asp-for="InvoiceOut.VATReasonId" class="form-control col-5 vatReason" data-selected="@Model.SelectedReasonId" data-vatItemId="@(Model.InvoiceOut.ReasonNoVATItems.FirstOrDefault(r => r.Value == VATReasonsIn.Чл66ал1.ToString()).Key)" asp-items="@vatReasons">
+                        <select asp-for="VATReasonId" class="form-control col-5 vatReason" asp-items="@vatReasons" data-selected="@Model.InvoiceOut.VATReasonId">
                         </select>
                     </div>
                     <div class="col-4">
                         <label>@localizer["Банкова сметка"]</label><a href="javascript:" class="pl-2" id="addBankBtn" data-companyId='@Model.OrderCreatorCompany.Id' data-title='@localizer["Add bank details"]'><i class="fas fa-plus" style="pointer-events:none"></i></a>
-                        <select asp-for="InvoiceOut.BankDetailsId" class="form-control" asp-items="@Model.InvoiceOut.BankDetailsItems"></select>
+                        <select asp-for="BankDetailsId" class="form-control" asp-items="@Model.InvoiceOut.BankDetailsItems"></select>
                     </div>
                 </div>
                 @*<div class="form-row justify-content-between">
                         <p class="m-0 mt-2 ml-2"><i>@localizer["Получил:"]</i> @Model.OrderOrderFromCompany.AddressMOLFirstName @Model.OrderOrderFromCompany.AddressMOLLastName</p>
                         <p class="m-0 mt-2 mr-2"><i>@localizer["Съставил:"]</i> @Model.OrderCreatorCompany.AddressMOLFirstName @Model.OrderCreatorCompany.AddressMOLLastName</p>
                     </div>*@
-                <hr />
+                @*<hr />
                 <div class="row justify-content-center">
                     <a href="javascript:" id="showFinish" class="btn btn-primary">OK</a>
-                </div>
+                </div>*@
             </div>
-        </div>
-        <div class="form-row justify-content-around" id="finish" style="display:none">
             <div class="form-group col-6">
                 <div class="form-row mt-4 ml-2">
                     <label>@localizer["Срок на плащане"]: </label>
                     @foreach (var val in BCKFreightTMS.Common.GlobalConstants.DueDaysValues)
                     {
-                        if (val == Model.OrderDueDaysFrom)
+                        if (val == Model.InvoiceOut.DueDays)
                         {
-                            <label class="ml-4"><input class="form-check-input" asp-for="InvoiceOut.DueDays" type="radio" value="@val" checked />@val @localizer["дни"]</label>
+                            <label class="ml-4"><input class="form-check-input" asp-for="DueDays" type="radio" value="@val" checked />@val @localizer["дни"]</label>
                         }
                         else
                         {
-                            <label class="ml-4"><input class="form-check-input" asp-for="InvoiceOut.DueDays" type="radio" value="@val" />@val @localizer["дни"]</label>
+                            <label class="ml-4"><input class="form-check-input" asp-for="DueDays" type="radio" value="@val" />@val @localizer["дни"]</label>
                         }
                     }
                 </div>
             </div>
+        </div>
+        @*<div class="form-row justify-content-around" id="finish" style="display:none">
             <div class="row align-items-center col-3">
                 <input asp-action="FinishOut" type="submit" class="btn btn-success" id="finishBtn" value="@localizer["File"]" />
             </div>
-        </div>
+        </div>*@
+        @Html.HiddenFor(m => m.InvoiceOut.Id)
         <div class="form-group mt-2">
-            <a asp-action="ForInvoicing" class="btn btn-secondary">@localizer["Cancel"]</a>
-            <input asp-action="SaveForAddition" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Запази за добавяне на курс"]" />
+            <a asp-action="AwaitingPayment" class="btn btn-secondary">@localizer["Отказ"]</a>
+            <input asp-action="InvoiceNoteOut" type="submit" class="btn btn-primary" id="finishBtn" value="@localizer["Създай"]" />
         </div>
     </div>
 </form>
-<div class="modal" id="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@localizer["Warning"]</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-bold text-center">
-                    @localizer["The requaired documentation do not match the received documentation!"]
-                </p>
-            </div>
-            <div class="modal-footer">
-                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">@localizer["Close"]</button>*@
-                <a id="confirmBtn" class="btn btn-warning">@localizer["Mark for approval"]</a>
-            </div>
-        </div>
-    </div>
-</div>
 @section Scripts{
-    <script type="module" src="~/js/invoicing.js"></script>
+    @*<script type="module" src="~/js/invoicing.js"></script>*@
 }

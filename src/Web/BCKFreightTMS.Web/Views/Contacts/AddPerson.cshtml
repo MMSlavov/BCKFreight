@@ -1,5 +1,4 @@
 ﻿@model BCKFreightTMS.Web.ViewModels.Contacts.PersonInputModel
-
 @{
     var companyItems = this.Model.CompanyItems.Select(ci => new SelectListItem(ci.Value, ci.Key));
     var roleItems = this.Model.RoleItems.Select(r => new SelectListItem(r.Value, r.Key));

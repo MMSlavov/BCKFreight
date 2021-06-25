@@ -47,26 +47,6 @@ function SetBtns(setRows) {
         render(rowTemp(index, data), row);
         rows.appendChild(row.children[0]);
 
-        //let doc = document.querySelector("#doc_0").cloneNode(true);
-        //[...doc.querySelectorAll("input, textarea")].forEach((v) => {
-        //    v.value = '';
-        //    v.defaultValue = '';
-        //    v.removeAttribute("checked");
-        //});
-        //let reqDoc = doc.querySelector("#reqDoc");
-        //let docRow = reqDoc.querySelector("div");
-        //reqDoc.innerHTML = "";
-        //for (const [name, val] of Object.entries(data.Documentation)) {
-        //    if (val) {
-        //        docRow.children[1].textContent = docParser[name];
-        //        reqDoc.appendChild(docRow.cloneNode(true));
-        //    }
-        //}
-
-        //let docHtml = doc.innerHTML.replace(/OrderTos_\d_/g, "OrderTos_" + index + "_").replace(/OrderTos\[\d\]/g, "OrderTos[" + index + "]").replace(/id="\d"/g, "id=\"" + index + "\"");
-        //$("#docs").append("<div class='form-group m-0 rounded' id='doc_" + index + "'>" + docHtml + '</div>');
-        //$("#invoiceAddRow").hide();
-        //document.querySelector("#doc_" + index + " #docCheck a").addEventListener("click", (ev) => docCheck(ev.target.id))
         $('#form-modal').modal('hide');
         setRows();
     }));
@@ -81,42 +61,17 @@ let finish = document.querySelector("#finish");
 let vatEl = invoiceEndEl.querySelector("#vat");
 let vatReasonEl = document.querySelector('.vatReason');
 
+[...document.querySelectorAll("input.price")].forEach(e => e.addEventListener("change", calculateTotal));
 vatReasonEl.addEventListener("change", (ev) => {
     calculateTotal();
 })
 
-//document.getElementById("yes").addEventListener("change", (ev) => {
-//    let parent = ev.target.parentNode.parentNode.parentNode;
-//    parent.nextSibling.nextSibling.style.display = "block";
-//    //parent.style.display = "none";
-//});
-
-//[...document.querySelectorAll("#docCheck a")].forEach((e) => e.addEventListener("click", (ev) => CheckDoc(ev.target.id)));
-//[...document.querySelectorAll("#approve a")].forEach((e) => e.addEventListener("click", (ev) => ApproveDoc(ev.target.id)));
-
-//function ApproveDoc(id) {
-//    let courseRow = document.getElementById(`row_${id}`);
-//    courseRow.classList.remove("table-danger");
-//    courseRow.classList.add("table-success");
-//    HideCurrentDocumentation();
-//}
-
 //document.querySelector("#addRow a").addEventListener("click", (ev) => ShowModal(ev.target.dataset.companyid, ev.target.dataset.title, SetRows))
 
-/*document.getElementById("confirmBtn").addEventListener("click", () => HideCurrentDocumentation());*/
-
-//document.getElementById("no").addEventListener("change", (ev) => {
-//    let parent = ev.target.parentNode.parentNode.parentNode.parentNode;
-//    ShowInvoiceEnd();
-//    parent.style.display = "none";
-//})
-//function ShowInvoiceEnd() {
-//    calculateTotal();
-//    invoiceEndEl.style.display = "";
-//}
-
 function calculateTotal() {
-    let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => { return sum + parseFloat(e.textContent.trim()) }, 0);
+    let subTotal = [...document.getElementsByClassName("price")].reduce((sum, e) => {
+        return sum + parseFloat(e.value ? e.value : e.textContent.trim());
+    }, 0);
     invoiceEndEl.querySelector("#subTotal").textContent = subTotal.toFixed(2);
 
     let vat = 0;
@@ -128,68 +83,6 @@ function calculateTotal() {
     invoiceEndEl.querySelector("#total").textContent = total.toFixed(2);
 }
 calculateTotal();
-
-//document.getElementById("showFinish").addEventListener("click", (ev) => {
-
-//    ShowFinish();
-//    ev.target.parentNode.style.display = "none";
-//})
-//function ShowFinish() {
-//    if (document.querySelectorAll(".table-danger").length > 0) {
-//        let finishBtn = finish.querySelector("#finishBtn");
-//        finishBtn.classList.remove("btn-success");
-//        finishBtn.classList.add("btn-warning");
-//        finishBtn.value = "Непълна документация";
-//    }
-//    finish.style.display = "";
-//}
-
-//function CheckDoc(id) {
-//    let reqDoc = $('#doc_' + id + ' #reqDoc label').map(function () { return this.textContent });
-//    let courseRow = document.getElementById(`row_${id}`);
-//    if ($('#doc_' + id + ' :checkbox:checked').length != reqDoc.length) {
-//        $('#modal').modal('show');
-//        courseRow.classList.add("table-danger");
-//        $('#doc_' + id + ' .solve').show();
-//        return;
-//    }
-//    let isValid = true
-//    $('#doc_' + id + ' :checkbox:checked').map(function () { return this.nextSibling }).each(function () {
-//        if (jQuery.inArray(this.textContent, reqDoc) == -1) {
-//            $('#modal').modal('show');
-//            courseRow.classList.add("table-danger");
-//            isValid = false;
-//            return;
-//        }
-//    })
-//    if (isValid) {
-//        //courseRow.classList.remove("table-danger");
-//        //courseRow.classList.add("table-success");
-//        //$('#doc_' + id + ' .solve').hide();
-//        HideCurrentDocumentation();
-//    }
-//    //else {
-//    //    $('#doc_' + id + ' .solve').show();
-//    //}
-//    //let form = document.getElementById("documentation_form");
-//    //form.action = "/Orders/FinishOrder";
-//    //form.submit();
-//}
-//function HideCurrentDocumentation() {
-//    [...document.querySelectorAll("#rows tr")].forEach((t) => {
-//        t.classList.remove("active-row");
-//    });
-//    let addRow = document.querySelector("#invoiceAddRow");
-//    if (document.querySelectorAll(".table-danger").length > 0) {
-//        addRow.querySelector("#no").setAttribute("disabled", "true");
-//    }
-//    else {
-//        addRow.querySelector("#no").removeAttribute("disabled");
-//    }
-//    document.querySelector("#docs").style.display = "none";
-//    addRow.style.display = "block";
-//    $('#modal').modal('hide');
-//}
 
 document.getElementById("addBankBtn").addEventListener("click", (ev) => showInPopup("/Contacts/AddBankDetailsModal/" + ev.target.dataset.companyid, ev.target.dataset.title, SetBankDetailsModal));
 function SetBankDetailsModal() {
@@ -231,27 +124,3 @@ function RemoveOrderTo(id) {
         e.remove()
     });
 }
-
-//function openDocumentation(id) {
-///*    document.getElementById("invoiceAddRow").style.display = "none";*/
-//    let docs = document.querySelector("#docs");
-//    docs.style.display = "";
-//    let docsEls = docs.querySelectorAll("div[id*=doc_]");
-//    for (const t of docsEls) {
-//        t.style.display = "none";
-//    }
-//    [...document.querySelectorAll("#rows tr")].forEach((t) => {
-//        t.classList.remove("active-row");
-//    });
-//    document.querySelector("#doc_" + id).style.display = "";
-//    document.querySelector("#row_" + id).className += " active-row";
-//}
-
-//[...document.querySelectorAll(".solve")].forEach((e) => {
-//    e.addEventListener("click", (ev) => {
-//        ev.target.style.display = "none";
-//        ev.target.nextSibling.nextSibling.style.display = "";
-//    })
-//});
-
-/*export { CheckDoc, openDocumentation };*/

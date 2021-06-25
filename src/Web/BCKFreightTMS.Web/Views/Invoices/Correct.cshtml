@@ -170,7 +170,7 @@
                         </div>
                         <div class="row m-0 pb-3 align-items-center">
                             <div class="text-center">
-                                <div class="col my-2" id="docCheck"><a href="javascript:" id="@i" class="btn btn-primary"><b>OK</b></a></div>
+                                <div class="col my-2" id="docCheck"><a href="javascript:" id="@i" class="btn btn-primary text-bold">OK</a></div>
                                 @if (this.User.IsInRole("SuperUser"))
                                 {
                                     <div class="col" id="approve"><a href="javascript:" id="@i" class="btn btn-success">@localizer["Одобри"]</a></div>
@@ -190,7 +190,7 @@
                 </div>
             }
         </div>
-        <div class="form-group ml-2" id="invoiceAddRow" @(orderTos.Any(o => o.IsDocValid) ? "" : "style=display:none")>
+        <div class="form-group ml-2" id="invoiceAddRow" @(orderTos.Any(o => !o.IsDocValid) ? "style=display:none" : "")>
             <div class="form-row">
                 <p><b>@localizer["Има ли допълнителни курсове във фактурата?"]</b></p>
                 <div class="ml-2">

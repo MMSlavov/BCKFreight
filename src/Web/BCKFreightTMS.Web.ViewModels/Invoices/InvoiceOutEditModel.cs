@@ -38,6 +38,10 @@
 
         public InvoiceCompanyModel ClientCompany { get; set; }
 
+        public NoteInfoModel NoteInfo { get; set; }
+
+        public InvoiceModel InvoiceNote { get; set; }
+
         public List<OrderToInvoiceModel> OrderTos { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> ReasonNoVATItems { get; set; }

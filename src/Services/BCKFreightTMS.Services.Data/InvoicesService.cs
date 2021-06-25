@@ -102,7 +102,7 @@
             var invoice = this.invoiceOuts.All().FirstOrDefault(o => o.Id == invoiceId);
 
             var invoiceOutModel = this.mapper.Map<InvoiceOutEditModel>(invoice);
-            var orderTo = invoice.OrderTos.First();
+            var orderTo = invoice.OrderTos.FirstOrDefault() ?? invoice.InvoiceNote.OrderTos.FirstOrDefault();
             invoiceOutModel.BankDetailsItems = orderTo.Order.Creator.Company.BankDetails
                                                      .Select(bd => new SelectListItem { Value = bd.Id.ToString(), Text = bd.BankIban });
             invoiceOutModel.CreatorCompany = this.mapper.Map<InvoiceCompanyModel>(orderTo.Order.Creator.Company);
@@ -115,6 +115,12 @@
                                                            .Select(r => new KeyValuePair<string, string>(r.Id.ToString(), r.Name))
                                                            .ToList()
                                                            .Where(r => Enum.TryParse<VATReasonsOut>(r.Value, out res));
+            if (invoiceOutModel.NoteInfo != null)
+            {
+                invoiceOutModel.NoteInfo.CurrencyItems = this.currencies.AllAsNoTracking()
+                              .Select(c => new SelectListItem(c.Name, c.Id.ToString()))
+                              .ToList();
+            }
 
             return invoiceOutModel;
         }
@@ -227,22 +233,31 @@
             invoice.DueDays = input.DueDays;
             invoice.BankDetailsId = input.BankDetailsId;
             invoice.VATReasonId = input.VATReasonId;
-            foreach (var orderToInput in input.OrderTos)
+            if (invoice.NoteInfo != null)
             {
-                var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderToInput.Id);
-                if (orderTo.InvoiceOut is null)
-                {
-                    orderTo.InvoiceOut = invoice;
-                }
+                invoice.NoteInfo.Details = input.NoteInfo.Details;
+                invoice.NoteInfo.Amount = input.NoteInfo.Amount;
+                invoice.NoteInfo.CurrencyId = input.NoteInfo.CurrencyId;
             }
-
-            await this.orderTos.SaveChangesAsync();
-
-            foreach (var orderTo in invoice.OrderTos)
+            else
             {
-                if (!input.OrderTos.Any(o => o.Id == orderTo.Id))
+                foreach (var orderToInput in input.OrderTos)
                 {
-                    orderTo.InvoiceInId = null;
+                    var orderTo = this.orderTos.All().FirstOrDefault(o => o.Id == orderToInput.Id);
+                    if (orderTo.InvoiceOut is null)
+                    {
+                        orderTo.InvoiceOut = invoice;
+                    }
+                }
+
+                await this.orderTos.SaveChangesAsync();
+
+                foreach (var orderTo in invoice.OrderTos)
+                {
+                    if (!input.OrderTos.Any(o => o.Id == orderTo.Id))
+                    {
+                        orderTo.InvoiceInId = null;
+                    }
                 }
             }
 

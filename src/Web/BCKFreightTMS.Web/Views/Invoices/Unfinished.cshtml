@@ -1,4 +1,4 @@
-﻿@using BCKFreightTMS.Common.Enums;
+﻿@using BCKFreightTMS.Common;
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -16,16 +16,13 @@
     <thead>
         <tr>
             <th>
-                @localizer["Number"]
-            </th>
-            <th>
-                @localizer["Create date"]
+                @localizer["Invoice"]
             </th>
             <th>
                 @localizer["Client"]
             </th>
             <th>
-                @localizer["Due date"]
+                @localizer["Amount"]
             </th>
             <th style="visibility: hidden;"></th>
             @*<th style="visibility: hidden;"></th>*@
@@ -36,16 +33,14 @@
         {
             <tr>
                 <td>
-                    <span class="text-bold">@invoiceIn.Number</span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <p class="text-bold m-0">@invoiceIn.Number</p>
+                    <span>@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.ClientCompanyName</span>
                 </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.AddDays(invoiceIn.DueDays + 3).ToLocalTime().ToShortDateString()</span>
+                <td class="text-center">
+                    <p class="text-bold m-0">@(invoiceIn.NoVAT ? $"{invoiceIn.Price:f2}" : $"{invoiceIn.Price * GlobalConstants.VATTot:f2}")</p>
                 </td>
                 <td class="align-middle text-center">
                     <a asp-action="Addition" asp-route-id="@invoiceIn.Id" class="btn btn-primary">@localizer["Добави курс"]</a>

@@ -10,7 +10,6 @@
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Data;
-    using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
     using BCKFreightTMS.Web.ViewModels.Shared;
@@ -46,17 +45,15 @@
 
         public IActionResult Filed()
         {
-            var invoices = this.invoiceIns.All().Where(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString())
-                                              .To<ListInvoiceInModel>()
-                                              .ToList();
+            var invoices = this.invoicesService.LoadInvoiceInList(i => i.Status.Name != InvoiceStatusNames.AwaitingApproval.ToString());
+
             return this.View(invoices);
         }
 
         public IActionResult Incomplete()
         {
-            var invoices = this.invoiceIns.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString())
-                                              .To<ListInvoiceInModel>()
-                                              .ToList();
+            var invoices = this.invoicesService.LoadInvoiceInList(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString());
+
             return this.View(invoices);
         }
 
@@ -113,9 +110,8 @@
 
         public IActionResult Unfinished()
         {
-            var invoices = this.invoiceOuts.All().Where(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString())
-                                                  .To<ListInvoiceOutModel>()
-                                                  .ToList();
+            var invoices = this.invoicesService.LoadInvoiceOutList(i => i.Status.Name == InvoiceStatusNames.AwaitingApproval.ToString());
+
             return this.View(invoices);
         }
 

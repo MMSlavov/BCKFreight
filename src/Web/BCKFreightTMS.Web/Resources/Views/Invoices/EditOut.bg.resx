@@ -144,6 +144,12 @@
   <data name="Course" xml:space="preserve">
     <value>Курс</value>
   </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Кредитно</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Дебитно</value>
+  </data>
   <data name="Documentation check" xml:space="preserve">
     <value>Проверка на документация</value>
   </data>

@@ -17,12 +17,22 @@
     <div class="form-group border bg-white p-4">
         <div class="form-row justify-content-around mb-4">
             <div class="col-4 text-center">
-                <a asp-controller="Invoices" asp-action="InvoiceNoteOut" asp-route-id="@Model.Id" class="btn btn-primary mt-3"><b>@localizer["Създай известие"]</b></a>
+                @if (this.Model.InvoiceNote == null)
+                {
+                    <a asp-controller="Invoices" asp-action="InvoiceNoteOut" asp-route-id="@Model.Id" class="btn btn-primary mt-3"><b>@localizer["Създай известие"]</b></a>
+                }
             </div>
             <div class="col-4 text-center">
-                <p class="m-0" style="font-size:25px"><b>Фактура</b></p>
-                <p class="m-0">/изходяща/</p>
-                <p class="m-0 ml-auto" style="font-size:18px"><i>Оригинал</i></p>
+                @if (this.Model.InvoiceNote != null)
+                {
+                    <p class="m-0" style="font-size:25px"><b>@localizer[this.Model.NoteInfo.InvoiceNoteType.ToString()] известие</b></p>
+                    <p class="m-0" style="font-size:18px">@localizer["към фактура"] <b>@this.Model.InvoiceNote.Number</b> / <b>@this.Model.InvoiceNote.CreateDate.ToLocalTime().ToShortDateString()</b></p>
+                }
+                else
+                {
+                    <p class="m-0" style="font-size:25px"><b>Фактура</b></p>
+                    <p class="m-0">/изходяща/</p>
+                }
             </div>
             <div class="col-4 flex">
                 <div class="col-7 ml-auto">
@@ -55,57 +65,80 @@
             </table>
         </div>
         <div class="form-group">
-            <table class="table table-sm table-bordered table-hover mb-1">
-                <thead class="bg-gray-light text-center">
-                    <tr>
-                        <th>
-                            <b>№</b>
-                        </th>
-                        <th>
-                            Наименование на стоката/услугата
-                        </th>
-                        <th>
-                            Мярка
-                        </th>
-                        <th>
-                            Количество
-                        </th>
-                        <th>
-                            Цена
-                        </th>
-                        <th style="visibility: hidden;"></th>
-                    </tr>
-                </thead>
-                <tbody id="rows">
-                    @for (int i = 0; i < Model.OrderTos.Count; i++)
-                    {
-                        var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
-                        <tr id="row_@i">
-                            <td>
-                                <b>@(i + 1)</b>
-                            </td>
-                            <td>
-                                Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
-                                с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
-                                по заявка <b>@Model.OrderTos[i].OrderOrderFromReferenceNum</b>
-                                @Html.HiddenFor(m => m.OrderTos[i].Id)
-                            </td>
-                            <td>
-                                курс
-                            </td>
-                            <td>
-                                1.00
-                            </td>
-                            <td class="price">
-                                @($"{priceIn:f2}")
-                            </td>
-                            <td class="text-center align-middle">
-                                <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger' style="cursor: pointer;"></i>
-                            </td>
+            @if (this.Model.InvoiceNote != null)
+            {
+                <div class="form-row">
+                    <div class="form-group col-5 offset-1">
+                        <label>@localizer["Основание"]</label>
+                        <textarea asp-for="NoteInfo.Details" class="form-control" rows="5"></textarea>
+                    </div>
+                    <div class="col-5 offset-1">
+                        <div class="form-group">
+                            <label>@localizer["Стойност"]</label>
+                            <input asp-for="NoteInfo.Amount" class="form-control col-5 price" data-val="false" />
+                            <span asp-validation-for="NoteInfo.Amount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">@localizer["Валута"]</label>
+                            <select asp-for="NoteInfo.CurrencyId" class="form-control col-4" asp-items="@Model.NoteInfo.CurrencyItems"></select>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <table class="table table-sm table-bordered table-hover mb-1">
+                    <thead class="bg-gray-light text-center">
+                        <tr>
+                            <th>
+                                <b>№</b>
+                            </th>
+                            <th>
+                                Наименование на стоката/услугата
+                            </th>
+                            <th>
+                                Мярка
+                            </th>
+                            <th>
+                                Количество
+                            </th>
+                            <th>
+                                Цена
+                            </th>
+                            <th style="visibility: hidden;"></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="rows">
+                        @for (int i = 0; i < Model.OrderTos.Count; i++)
+                        {
+                            var priceIn = this.financeService.GetAmount(orderTos[i].CurrencyInId, orderTos[i].PriceNetIn);
+                            <tr id="row_@i">
+                                <td>
+                                    <b>@(i + 1)</b>
+                                </td>
+                                <td>
+                                    Спедиторски услуги <p class="m-0"><b>@Html.Raw(Model.OrderTos[i].Voyage) </b></p>
+                                    с автомобил <b>@Model.OrderTos[i].VehicleRegNumber/@Model.OrderTos[i].VehicleTrailerRegNumber </b>
+                                    по заявка <b>@Model.OrderTos[i].OrderOrderFromReferenceNum</b>
+                                    @Html.HiddenFor(m => m.OrderTos[i].Id)
+                                </td>
+                                <td>
+                                    курс
+                                </td>
+                                <td>
+                                    1.00
+                                </td>
+                                <td class="price">
+                                    @($"{priceIn:f2}")
+                                </td>
+                                <td class="text-center align-middle">
+                                    <i href='javascript:' id="@i" class='delete fas fa-minus-circle text-danger' style="cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
         @*<div id="docs" class="border rounded bg-gray-light p-2" @(orderTos.Any(o => !o.IsDocValid) ? "" : "style=display:none") style="display:none">
             @for (int i = 0; i < Model.OrderTos.Count; i++)

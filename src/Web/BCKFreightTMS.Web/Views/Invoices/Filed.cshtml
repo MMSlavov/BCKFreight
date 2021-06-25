@@ -1,4 +1,4 @@
-﻿@using BCKFreightTMS.Common.Enums;
+﻿@using BCKFreightTMS.Common;
 @using BCKFreightTMS.Data.Models
 @using Microsoft.AspNetCore.Identity
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -16,19 +16,13 @@
     <thead>
         <tr>
             <th>
-                @localizer["Number"]
-            </th>
-            <th>
-                @localizer["Create date"]
+                @localizer["Invoice"]
             </th>
             <th>
                 @localizer["Carrier"]
             </th>
             <th>
-                @localizer["Recieve date"]
-            </th>
-            <th>
-                @localizer["Due date"]
+                @localizer["Amount"]
             </th>
             <th style="visibility: hidden;"></th>
         </tr>
@@ -38,19 +32,14 @@
         {
             <tr>
                 <td>
-                    <span class="text-bold">@invoiceIn.Number</span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
+                    <p class="text-bold m-0">@invoiceIn.Number</p>
+                    <span>@invoiceIn.CreateDate.ToLocalTime().ToShortDateString()</span>
                 </td>
                 <td>
                     <span class="text-bold">@invoiceIn.BankDetailsCompanyName</span>
                 </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.ReceiveDate.ToLocalTime().ToShortDateString()</span>
-                </td>
-                <td>
-                    <span class="text-bold">@invoiceIn.ReceiveDate.AddDays(invoiceIn.DueDays).ToLocalTime().ToShortDateString()</span>
+                <td class="text-center">
+                    <span class="text-bold">@(invoiceIn.NoVAT ? $"{invoiceIn.Price:f2}" : $"{invoiceIn.Price * GlobalConstants.VATTot:f2}")</span>
                 </td>
                 <td class="px-2 text-center align-middle" style="width:auto">
                     <a asp-action="EditIn" asp-route-id="@invoiceIn.Id" title="Edit"><i class="fas fa-edit"></i></a>

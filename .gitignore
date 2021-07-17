@@ -358,3 +358,5 @@ FodyWeavers.xsd
 src/Web/BCKFreightTMS.Web/appsettings.Development.json
 *.png
 *.jpg
+
+Resourses/

@@ -5,7 +5,7 @@
 @{  
     var user = await this.userManager.GetUserAsync(this.User);
     string picSrc;
-    if (user.ProfilePicture is null)
+    if (user?.ProfilePicture is null)
     {
         picSrc = "/img/default-user-icon-4.jpg";
     }

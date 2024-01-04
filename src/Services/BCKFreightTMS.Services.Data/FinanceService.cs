@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
+    using System.Net.Http;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -78,7 +78,7 @@
 
             foreach (var currency in currencies)
             {
-                var rate = this.GetCurrencyExRate(currency.Name, companyCurr.Name);
+                var rate = await this.GetCurrencyExRate(currency.Name, companyCurr.Name);
                 currency.Rate = rate;
             }
 
@@ -92,19 +92,18 @@
             return currencies;
         }
 
-        private decimal GetCurrencyExRate(string fromCurrency, string toCurrency)
+        private async Task<decimal> GetCurrencyExRate(string fromCurrency, string toCurrency)
         {
             string url = string.Format(GlobalConstants.ExchangeRateUrlv2, fromCurrency);
+            var client = new HttpClient();
 
-            using (var wc = new WebClient())
-            {
-                var json = wc.DownloadString(url);
+            var response = await client.GetAsync(url);
+            var json = await response.Content.ReadAsStringAsync();
 
-                JToken token = JObject.Parse(json);
-                decimal exchangeRate = (decimal)token.SelectToken("conversion_rates").SelectToken(toCurrency);
+            JToken token = JObject.Parse(json);
+            decimal exchangeRate = (decimal)token.SelectToken("conversion_rates").SelectToken(toCurrency);
 
-                return exchangeRate;
-            }
+            return exchangeRate;
         }
     }
 }

@@ -44,7 +44,7 @@
             if (user == null)
             {
                 this.ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
-                return this.View("NotFound");
+                return this.View();
             }
 
             var model = await this.usersService.GetManageUserViewModelAsync(user, this.User);

@@ -19,8 +19,6 @@ function displayBusyIndicator() {
     });
 }());
 
-let instance = OverlayScrollbars(document.getElementsByClassName("sidebar")[0]);
-
 showInPopup = (url, title, callback, afterPost) => {
     $.ajax({
         type: 'GET',

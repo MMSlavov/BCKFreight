@@ -221,7 +221,7 @@
             if (this.orders.All().FirstOrDefault(o => o.Id == id).Status.Name != OrderStatusNames.AwaitingApplication.ToString())
             {
                 this.notyfService.Error(this.localizer["Invalid order!"]);
-                return this.RedirectToAction("/Orders/WaitingConfirm");
+                return this.RedirectToAction("WaitingConfirm");
             }
 
             await this.ordersService.ConfirmApplicationAsync(id);

@@ -1,18 +1,4 @@
-﻿$(document).ready(function () {
-    $('.summernote').summernote({
-        tabsize: 2,
-        height: 100,
-        toolbar: [
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']]
-        ]
-    });
-});
-
-let companyId = document.getElementById("CompanyFromId");
+﻿let companyId = document.getElementById("CompanyFromId");
 let addContactBtn = document.getElementById("addContact");
 addContactBtn.addEventListener("click", function (ev) {
     showInPopup(`/Contacts/AddPersonModal/${companyId.value}?role=Contact`, 'Add contact', null, refreshContact);

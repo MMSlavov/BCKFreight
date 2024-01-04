@@ -49,7 +49,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Json(new { isValid = false, html = this.View(input) });
+                return this.Json(new { isValid = false, html = this.View("AddSetting", input) });
             }
 
             await this.settingsService.AddPersonRoleAsync(input);
@@ -81,7 +81,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Json(new { isValid = false, html = this.View(input) });
+                return this.Json(new { isValid = false, html = this.View("AddSetting", input) });
             }
 
             await this.settingsService.AddCargoTypeAsync(input);
@@ -113,7 +113,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.Json(new { isValid = false, html = this.View(input) });
+                return this.Json(new { isValid = false, html = this.View("AddSetting", input) });
             }
 
             await this.settingsService.AddLoadingBodyAsync(input);

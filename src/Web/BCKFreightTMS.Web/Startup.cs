@@ -28,6 +28,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
     public class Startup
@@ -68,7 +69,11 @@
             services.AddSingleton(this.configuration);
 
             // Automapper
-            var mapperConf = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapperConf = new MapperConfiguration(
+            cfg =>
+            {
+                cfg.AddProfile(new MappingProfile());
+            }, new LoggerFactory());
             IMapper mapper = mapperConf.CreateMapper();
             services.AddSingleton(mapper);
 
@@ -129,7 +134,7 @@
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
                 //dbContext.Database.EnsureDeleted();
-                dbContext.Database.Migrate();
+                //dbContext.Database.Migrate();
                 new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 

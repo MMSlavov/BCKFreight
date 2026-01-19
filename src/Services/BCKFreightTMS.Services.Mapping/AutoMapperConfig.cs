@@ -6,7 +6,7 @@
     using System.Reflection;
 
     using AutoMapper;
-    using AutoMapper.Configuration;
+    using Microsoft.Extensions.Logging;
 
     public static class AutoMapperConfig
     {
@@ -48,7 +48,7 @@
                         map.CreateMappings(configuration);
                     }
                 });
-            MapperInstance = new Mapper(new MapperConfiguration(config));
+            MapperInstance = new Mapper(new MapperConfiguration(config, new LoggerFactory()));
         }
 
         private static IEnumerable<TypesMap> GetFromMaps(IEnumerable<Type> types)

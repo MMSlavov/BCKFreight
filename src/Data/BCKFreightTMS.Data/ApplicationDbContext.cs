@@ -76,7 +76,7 @@
 
         public DbSet<InvoiceIn> InvoiceIns { get; set; }
 
-        public DbSet<InvoiceIn> InvoiceOuts { get; set; }
+        public DbSet<InvoiceOut> InvoiceOuts { get; set; }
 
         public DbSet<CarrierOrder> CarrierOrders { get; set; }
 
@@ -87,6 +87,8 @@
         public DbSet<AccountingType> AccountingTypes { get; set; }
 
         public DbSet<BankMovement> BankMovements { get; set; }
+
+        public DbSet<NoteInfo> NoteInfo { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -115,6 +117,38 @@
             this.ConfigureUserIdentityRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
+
+            builder.Entity<BankMovement>()
+                .Property(b => b.Amount)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Currency>()
+                .Property(c => c.Rate)
+                .HasPrecision(18, 6);
+
+            builder.Entity<NoteInfo>()
+                .Property(n => n.Amount)
+                .HasPrecision(18, 2);
+
+            builder.Entity<OrderTo>()
+                .Property(o => o.PriceNetIn)
+                .HasPrecision(18, 2);
+
+            builder.Entity<OrderTo>()
+                .Property(o => o.PriceNetOut)
+                .HasPrecision(18, 2);
+
+            builder.Entity<Cargo>()
+                .Property(c => c.Cubature)
+                .HasPrecision(10, 2);
+
+            builder.Entity<Cargo>()
+                .Property(c => c.WeightGross)
+                .HasPrecision(10, 2);
+
+            builder.Entity<Cargo>()
+                .Property(c => c.WeightNet)
+                .HasPrecision(10, 2);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 

@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Microsoft.AspNetCore;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Hosting.Server.Features;
     using Microsoft.AspNetCore.Mvc.Testing;
@@ -16,10 +17,10 @@
         public SeleniumServerFactory()
         {
             this.ClientOptions.BaseAddress = new Uri("https://localhost");
-            var host = WebHost.CreateDefaultBuilder(Array.Empty<string>()).UseStartup<TStartup>().Build();
-            host.Start();
-            this.RootUri = host.ServerFeatures.Get<IServerAddressesFeature>().Addresses.LastOrDefault();
-            var testServer = new TestServer(new WebHostBuilder().UseStartup<FakeStartup>());
+            var builder = WebApplication.CreateBuilder(Array.Empty<string>());
+            var app = builder.Build();
+            _ = app.StartAsync();
+            this.RootUri = "https://localhost";
         }
 
         public string RootUri { get; set; }

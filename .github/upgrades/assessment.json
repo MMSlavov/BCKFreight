@@ -1,0 +1,3592 @@
+{
+  "settings": {
+    "components": {
+      "code": false,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-01-19T18:48:44.2653019Z",
+  "analysisEndTime": "2026-01-19T18:48:50.2781518Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 13,
+      "issues": 6,
+      "incidents": 127,
+      "effort": 127
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 18,
+        "Optional": 0,
+        "Potential": 109,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 40,
+        "Project": 13,
+        "Api": 74
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "BCKFreightTMS.Common\\BCKFreightTMS.Common.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "BCKFreightTMS.Common",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 21,
+        "numberOfCodeFiles": 21,
+        "linesTotal": 397,
+        "linesOfCode": 397,
+        "totalApiScanned": 31,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c0ea9e4d-8bab-42b1-9f23-e51da169ef50",
+          "ruleId": "NuGet.0002",
+          "projectPath": "BCKFreightTMS.Common\\BCKFreightTMS.Common.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "BCKFreightTMS.Common\\BCKFreightTMS.Common.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "247dcfb9-4f42-421d-a594-53768aa19726",
+          "ruleId": "Project.0002",
+          "projectPath": "BCKFreightTMS.Common\\BCKFreightTMS.Common.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "BCKFreightTMS.Common\\BCKFreightTMS.Common.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "BCKFreightTMS.Data.Common",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 9,
+        "numberOfCodeFiles": 9,
+        "linesTotal": 119,
+        "linesOfCode": 119,
+        "totalApiScanned": 62,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "fd945e14-93b2-4f90-a34d-5ab9e2de08fa",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7ba2912f-031c-4556-aa79-18f82fd7133b",
+          "ruleId": "NuGet.0003",
+          "projectPath": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.ComponentModel.Annotations, 5.0.0.0\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.ComponentModel.Annotations, 5.0.0.0\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+            "snippet": "System.ComponentModel.Annotations, 5.0.0.0\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.ComponentModel.Annotations, 5.0.0.0\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.ComponentModel.Annotations 5.0.0.0",
+            "properties": {
+              "PackageId": "System.ComponentModel.Annotations",
+              "PackageVersion": "5.0.0.0",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "52c8aab4-4439-461e-a0b3-1cc613392322",
+          "ruleId": "Project.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Common\\BCKFreightTMS.Data.Common.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 7,
+      "properties": {
+        "appName": "BCKFreightTMS.Data",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 62,
+        "numberOfCodeFiles": 61,
+        "linesTotal": 39798,
+        "linesOfCode": 39793,
+        "totalApiScanned": 56414,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "223ca909-8591-4a0d-8be1-720ef6cd0c3e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+              "protected": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "label": "Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "4a32ee89-53f4-435d-9b46-0bbc3e1f9f3d",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "254f03cf-2b09-4fe2-a0e5-69c31c3bc818",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Design 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Design",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f4497e7b-7194-44d1-87d4-36dcfdf2b6aa",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.SqlServer 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.SqlServer",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "4c2bdc3a-3c15-4536-b0ef-fce4f7627465",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Tools 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "0f0a704c-2613-494d-b944-fa53bfe0a761",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.UserSecrets, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.UserSecrets, and replace with new package Microsoft.Extensions.Configuration.UserSecrets 10.0.2",
+              "protected": "Microsoft.Extensions.Configuration.UserSecrets, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.UserSecrets, and replace with new package Microsoft.Extensions.Configuration.UserSecrets 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.UserSecrets, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.UserSecrets, and replace with new package Microsoft.Extensions.Configuration.UserSecrets 10.0.2",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.UserSecrets, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.UserSecrets, and replace with new package Microsoft.Extensions.Configuration.UserSecrets 10.0.2",
+            "label": "Microsoft.Extensions.Configuration.UserSecrets 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.UserSecrets",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "2ebf3dde-12d3-42e4-a943-49eae84e4200",
+          "ruleId": "Project.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data\\BCKFreightTMS.Data.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 4,
+      "properties": {
+        "appName": "BCKFreightTMS.Data.Models",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 35,
+        "numberOfCodeFiles": 35,
+        "linesTotal": 1238,
+        "linesOfCode": 1238,
+        "totalApiScanned": 1688,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "fd28e41f-9c2e-48cd-b7a3-3505b6a24052",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+              "protected": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "label": "Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c8c404ea-77f7-4598-8966-430606638b11",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "e641dff0-bfbd-4b75-a469-6af5255cfa7a",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Design 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Design",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7b3233eb-ebe5-4844-aac4-d91eaf4ccb19",
+          "ruleId": "Project.0002",
+          "projectPath": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Data\\BCKFreightTMS.Data.Models\\BCKFreightTMS.Data.Models.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+      "startingProject": true,
+      "issues": 4,
+      "storyPoints": 42,
+      "properties": {
+        "appName": "BCKFreightTMS.Services",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 10,
+        "numberOfCodeFiles": 9,
+        "linesTotal": 345090,
+        "linesOfCode": 603,
+        "totalApiScanned": 547,
+        "minLinesOfCodeToChange": 40,
+        "maxLinesOfCodeToChange": 40
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "9712b2a7-564e-433d-b77e-3bc30d7dae6a",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c28804d5-67ac-4e90-bd4b-775523a3f43f",
+          "ruleId": "Project.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "b2f62bd1-8232-49c2-8548-b1a5a5a066cc",
+          "ruleId": "Api.0003",
+          "description": "Nullable JsonDocument properties deserialize to JsonValueKind.Null ",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "using var jsonDoc = await JsonDocument.ParseAsync(fs);",
+              "protected": "T:System.Text.Json.JsonDocument"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\CompaniesManagerService.cs",
+            "snippet": "using var jsonDoc = await JsonDocument.ParseAsync(fs);",
+            "protectedSnippet": "T:System.Text.Json.JsonDocument",
+            "label": "T:System.Text.Json.JsonDocument",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/serialization/9.0/jsondocument-props.md",
+                "isCustom": false
+              }
+            ],
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "4822d547-0c71-4ed0-a003-eb9498c478f8",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.img.Save(path, imageCodec, parameters);",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.img.Save(path, imageCodec, parameters);",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 165,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "194a1bb6-ebb6-438a-9c60-7ef8442ccb5e",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.img.Save(path, imageCodec, parameters);",
+              "protected": "M:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.img.Save(path, imageCodec, parameters);",
+            "protectedSnippet": "M:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)",
+            "label": "M:System.Drawing.Image.Save(System.String,System.Drawing.Imaging.ImageCodecInfo,System.Drawing.Imaging.EncoderParameters)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 165,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "c230378c-20d8-478b-9f2b-b53b9ef84914",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "parameters.Param[0] = qualityParam;",
+              "protected": "P:System.Drawing.Imaging.EncoderParameters.Param"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "parameters.Param[0] = qualityParam;",
+            "protectedSnippet": "P:System.Drawing.Imaging.EncoderParameters.Param",
+            "label": "P:System.Drawing.Imaging.EncoderParameters.Param",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 163,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "b29f5504-5e5c-449f-a5c7-c441ad6d33cf",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameters parameters = new EncoderParameters(1);",
+              "protected": "T:System.Drawing.Imaging.EncoderParameters"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameters parameters = new EncoderParameters(1);",
+            "protectedSnippet": "T:System.Drawing.Imaging.EncoderParameters",
+            "label": "T:System.Drawing.Imaging.EncoderParameters",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 162,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5883115b-ab6e-445a-8bd1-8b05b93e54ce",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameters parameters = new EncoderParameters(1);",
+              "protected": "M:System.Drawing.Imaging.EncoderParameters.#ctor(System.Int32)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameters parameters = new EncoderParameters(1);",
+            "protectedSnippet": "M:System.Drawing.Imaging.EncoderParameters.#ctor(System.Int32)",
+            "label": "M:System.Drawing.Imaging.EncoderParameters.#ctor(System.Int32)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 162,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "9e90ed69-a7cf-4417-9c1a-7d49e6e0918e",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "ImageCodecInfo imageCodec = this.GetImageCoeInfo(\u0022image/jpeg\u0022);",
+              "protected": "T:System.Drawing.Imaging.ImageCodecInfo"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "ImageCodecInfo imageCodec = this.GetImageCoeInfo(\u0022image/jpeg\u0022);",
+            "protectedSnippet": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "label": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 160,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "dd3c26e5-22a0-4d62-87a9-e52f4a799b1a",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+              "protected": "T:System.Drawing.Imaging.Encoder"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+            "protectedSnippet": "T:System.Drawing.Imaging.Encoder",
+            "label": "T:System.Drawing.Imaging.Encoder",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 157,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5bca3f27-2227-4da4-a617-66dcf75e8165",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+              "protected": "T:System.Drawing.Imaging.Encoder"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+            "protectedSnippet": "T:System.Drawing.Imaging.Encoder",
+            "label": "T:System.Drawing.Imaging.Encoder",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 157,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "056841e8-6b6c-4ff1-be43-8618364e7dd3",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+              "protected": "F:System.Drawing.Imaging.Encoder.Quality"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+            "protectedSnippet": "F:System.Drawing.Imaging.Encoder.Quality",
+            "label": "F:System.Drawing.Imaging.Encoder.Quality",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 157,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0d96d079-22ca-4d52-b3c9-30b4239ff458",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+              "protected": "T:System.Drawing.Imaging.EncoderParameter"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+            "protectedSnippet": "T:System.Drawing.Imaging.EncoderParameter",
+            "label": "T:System.Drawing.Imaging.EncoderParameter",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 157,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5eac6bc2-3aaf-414a-81de-7f37bd28150d",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+              "protected": "M:System.Drawing.Imaging.EncoderParameter.#ctor(System.Drawing.Imaging.Encoder,System.Int64)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "EncoderParameter qualityParam =\r\n                new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);",
+            "protectedSnippet": "M:System.Drawing.Imaging.EncoderParameter.#ctor(System.Drawing.Imaging.Encoder,System.Int64)",
+            "label": "M:System.Drawing.Imaging.EncoderParameter.#ctor(System.Drawing.Imaging.Encoder,System.Int64)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 157,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "8e24776f-5ed4-45b4-8be8-eb3039990b9f",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.img = this.CompressImage();",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.img = this.CompressImage();",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 155,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "ee89c716-1716-469d-92e0-fef2c1147aee",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.img = this.CompressImage();",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.img = this.CompressImage();",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 155,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0b514f3f-7a8d-44e4-9bc5-71159fd28acc",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private ImageCodecInfo GetImageCoeInfo(string mimeType)",
+              "protected": "T:System.Drawing.Imaging.ImageCodecInfo"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "private ImageCodecInfo GetImageCoeInfo(string mimeType)",
+            "protectedSnippet": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "label": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 133,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "4049387a-57ab-48be-b9c9-6bf1a715cb39",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (codes[i].MimeType == mimeType)\r\n                {\r\n                    return codes[i];\r\n                }",
+              "protected": "P:System.Drawing.Imaging.ImageCodecInfo.MimeType"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "if (codes[i].MimeType == mimeType)\r\n                {\r\n                    return codes[i];\r\n                }",
+            "protectedSnippet": "P:System.Drawing.Imaging.ImageCodecInfo.MimeType",
+            "label": "P:System.Drawing.Imaging.ImageCodecInfo.MimeType",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 138,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "4cc1eb3c-86b5-400c-aad4-37d9d44ad848",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "ImageCodecInfo[] codes = ImageCodecInfo.GetImageEncoders();",
+              "protected": "T:System.Drawing.Imaging.ImageCodecInfo"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "ImageCodecInfo[] codes = ImageCodecInfo.GetImageEncoders();",
+            "protectedSnippet": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "label": "T:System.Drawing.Imaging.ImageCodecInfo",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 135,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "bbb26bc6-53a5-4d19-b239-5c47faa55851",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "ImageCodecInfo[] codes = ImageCodecInfo.GetImageEncoders();",
+              "protected": "M:System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "ImageCodecInfo[] codes = ImageCodecInfo.GetImageEncoders();",
+            "protectedSnippet": "M:System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders",
+            "label": "M:System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 135,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3d43da06-2651-4ec7-a609-ea38a592bdc2",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private Image CompressImage()",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "private Image CompressImage()",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 88,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "47cc603b-9b3c-4a54-9530-8eac748832b8",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 97,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "5ab7f03d-4641-47d9-a760-2c699eb703c5",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);",
+              "protected": "M:System.Drawing.Image.GetThumbnailImage(System.Int32,System.Int32,System.Drawing.Image.GetThumbnailImageAbort,System.IntPtr)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);",
+            "protectedSnippet": "M:System.Drawing.Image.GetThumbnailImage(System.Int32,System.Int32,System.Drawing.Image.GetThumbnailImageAbort,System.IntPtr)",
+            "label": "M:System.Drawing.Image.GetThumbnailImage(System.Int32,System.Int32,System.Drawing.Image.GetThumbnailImageAbort,System.IntPtr)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 97,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "87550fa6-2c0e-4d9d-9742-6f2d6179bb7b",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "newBitmap.SetResolution(80, 80);",
+              "protected": "M:System.Drawing.Bitmap.SetResolution(System.Single,System.Single)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "newBitmap.SetResolution(80, 80);",
+            "protectedSnippet": "M:System.Drawing.Bitmap.SetResolution(System.Single,System.Single)",
+            "label": "M:System.Drawing.Bitmap.SetResolution(System.Single,System.Single)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 96,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "fc767e0f-814b-4818-bc43-68de0be697ce",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "newBitmap = this.bitmap;",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "newBitmap = this.bitmap;",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 95,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "f838d267-8bc7-47e0-a23c-7821618e50a0",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+              "protected": "T:System.Drawing.Imaging.PixelFormat"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+            "protectedSnippet": "T:System.Drawing.Imaging.PixelFormat",
+            "label": "T:System.Drawing.Imaging.PixelFormat",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 94,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "83e8a111-3873-4868-8db1-ba6e839b5df1",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+              "protected": "T:System.Drawing.Imaging.PixelFormat"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+            "protectedSnippet": "T:System.Drawing.Imaging.PixelFormat",
+            "label": "T:System.Drawing.Imaging.PixelFormat",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 94,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "d4dbc624-f98e-4a8b-b044-42a5ad625e80",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+              "protected": "F:System.Drawing.Imaging.PixelFormat.Format24bppRgb"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+            "protectedSnippet": "F:System.Drawing.Imaging.PixelFormat.Format24bppRgb",
+            "label": "F:System.Drawing.Imaging.PixelFormat.Format24bppRgb",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 94,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "f69276bc-4cb6-4c76-a4b9-ba4b10281864",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 94,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "075899dd-77f3-402b-bf02-72caf4e87480",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+              "protected": "M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat)"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);",
+            "protectedSnippet": "M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat)",
+            "label": "M:System.Drawing.Bitmap.#ctor(System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 94,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "8f91cc98-f6ef-45be-91d7-440e39c7f440",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 93,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "04faa113-b18d-42df-93e0-d9dff1347265",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;",
+              "protected": "P:System.Drawing.Image.Height"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;",
+            "protectedSnippet": "P:System.Drawing.Image.Height",
+            "label": "P:System.Drawing.Image.Height",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 93,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "8899c4e0-8e01-4579-87b0-6f6bc82b0b41",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 92,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "400b53fd-d602-45ec-80f2-41a701be4ff6",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;",
+              "protected": "P:System.Drawing.Image.Width"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;",
+            "protectedSnippet": "P:System.Drawing.Image.Width",
+            "label": "P:System.Drawing.Image.Width",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 92,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "39ce9c0e-ab1f-4f8a-b75f-050b8174a7e0",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (this.GetImage != null)\r\n            {\r\n                this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;\r\n                this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;\r\n                Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);\r\n                newBitmap = this.bitmap;\r\n                newBitmap.SetResolution(80, 80);\r\n                return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);\r\n            }\r\n            else\r\n            {\r\n                throw new Exception(\u0022Please provide bitmap\u0022);\r\n            }",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "if (this.GetImage != null)\r\n            {\r\n                this.Width = (this.Width == 0) ? this.GetImage.Width : this.Width;\r\n                this.Height = (this.Height == 0) ? this.GetImage.Height : this.Height;\r\n                Bitmap newBitmap = new Bitmap(this.Width, this.Height, PixelFormat.Format24bppRgb);\r\n                newBitmap = this.bitmap;\r\n                newBitmap.SetResolution(80, 80);\r\n                return newBitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);\r\n            }\r\n            else\r\n            {\r\n                throw new Exception(\u0022Please provide bitmap\u0022);\r\n            }",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 90,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "01da585b-eadb-4330-a903-aa651eb65ce1",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "set { this.bitmap = value; }",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "set { this.bitmap = value; }",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 66,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "30e1225f-564a-4d55-804a-2166d197a27b",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.bitmap = value;",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "this.bitmap = value;",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 66,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "055a0624-01ec-40c0-bd2a-1e88fd314e70",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "get { return this.bitmap; }",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "get { return this.bitmap; }",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 65,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "08e690ee-7f6a-4505-af53-9452382ba3d3",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "return this.bitmap;",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "return this.bitmap;",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 65,
+            "column": 18
+          }
+        },
+        {
+          "incidentId": "d3ce047d-993e-4705-868a-d7c4fdf14a3d",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public Bitmap GetImage",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "public Bitmap GetImage",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 63,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "46d08ea3-b6f1-4bc6-99cc-f7c4536eacc3",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "img",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "img",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 17,
+            "column": 22
+          }
+        },
+        {
+          "incidentId": "8015c49d-45e7-4f75-a27a-2a0de93c9d33",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Services\\BCKFreightTMS.Services\\BCKFreightTMS.Services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "bitmap",
+              "protected": "T:System.Drawing.Bitmap"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services\\ImageCompressService.cs",
+            "snippet": "bitmap",
+            "protectedSnippet": "T:System.Drawing.Bitmap",
+            "label": "T:System.Drawing.Bitmap",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 14,
+            "column": 23
+          }
+        }
+      ],
+      "features": [
+        {
+          "featureId": "GdiDrawing",
+          "incidents": [
+            "8015c49d-45e7-4f75-a27a-2a0de93c9d33",
+            "46d08ea3-b6f1-4bc6-99cc-f7c4536eacc3",
+            "d3ce047d-993e-4705-868a-d7c4fdf14a3d",
+            "08e690ee-7f6a-4505-af53-9452382ba3d3",
+            "055a0624-01ec-40c0-bd2a-1e88fd314e70",
+            "30e1225f-564a-4d55-804a-2166d197a27b",
+            "01da585b-eadb-4330-a903-aa651eb65ce1",
+            "39ce9c0e-ab1f-4f8a-b75f-050b8174a7e0",
+            "400b53fd-d602-45ec-80f2-41a701be4ff6",
+            "8899c4e0-8e01-4579-87b0-6f6bc82b0b41",
+            "04faa113-b18d-42df-93e0-d9dff1347265",
+            "8f91cc98-f6ef-45be-91d7-440e39c7f440",
+            "075899dd-77f3-402b-bf02-72caf4e87480",
+            "f69276bc-4cb6-4c76-a4b9-ba4b10281864",
+            "d4dbc624-f98e-4a8b-b044-42a5ad625e80",
+            "83e8a111-3873-4868-8db1-ba6e839b5df1",
+            "f838d267-8bc7-47e0-a23c-7821618e50a0",
+            "fc767e0f-814b-4818-bc43-68de0be697ce",
+            "87550fa6-2c0e-4d9d-9742-6f2d6179bb7b",
+            "5ab7f03d-4641-47d9-a760-2c699eb703c5",
+            "47cc603b-9b3c-4a54-9530-8eac748832b8",
+            "3d43da06-2651-4ec7-a609-ea38a592bdc2",
+            "bbb26bc6-53a5-4d19-b239-5c47faa55851",
+            "4cc1eb3c-86b5-400c-aad4-37d9d44ad848",
+            "4049387a-57ab-48be-b9c9-6bf1a715cb39",
+            "0b514f3f-7a8d-44e4-9bc5-71159fd28acc",
+            "ee89c716-1716-469d-92e0-fef2c1147aee",
+            "8e24776f-5ed4-45b4-8be8-eb3039990b9f",
+            "5eac6bc2-3aaf-414a-81de-7f37bd28150d",
+            "0d96d079-22ca-4d52-b3c9-30b4239ff458",
+            "056841e8-6b6c-4ff1-be43-8618364e7dd3",
+            "5bca3f27-2227-4da4-a617-66dcf75e8165",
+            "dd3c26e5-22a0-4d62-87a9-e52f4a799b1a",
+            "9e90ed69-a7cf-4417-9c1a-7d49e6e0918e",
+            "5883115b-ab6e-445a-8bd1-8b05b93e54ce",
+            "b29f5504-5e5c-449f-a5c7-c441ad6d33cf",
+            "c230378c-20d8-478b-9f2b-b53b9ef84914",
+            "194a1bb6-ebb6-438a-9c60-7ef8442ccb5e",
+            "4822d547-0c71-4ed0-a003-eb9498c478f8"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "BCKFreightTMS.Services.Data",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 16,
+        "numberOfCodeFiles": 16,
+        "linesTotal": 2510,
+        "linesOfCode": 2510,
+        "totalApiScanned": 3099,
+        "minLinesOfCodeToChange": 1,
+        "maxLinesOfCodeToChange": 1
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "a725fb20-66ec-4a2d-ac8d-7617d1938b9e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "92243f4c-c312-4678-9985-b53562230bd6",
+          "ruleId": "Project.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "243abce9-c864-4446-9cb8-cfa6b24a89c5",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Services\\BCKFreightTMS.Services.Data\\BCKFreightTMS.Services.Data.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var json = await response.Content.ReadAsStringAsync();",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Data\\FinanceService.cs",
+            "snippet": "var json = await response.Content.ReadAsStringAsync();",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 100,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 4,
+      "properties": {
+        "appName": "BCKFreightTMS.Services.Data.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 4,
+        "linesTotal": 2594,
+        "linesOfCode": 568,
+        "totalApiScanned": 587,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "6442470f-4315-40ca-9e15-68a0950f9773",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3d89e776-e0a0-446e-a6c7-83792545241b",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Design, and replace with new package Microsoft.EntityFrameworkCore.Design 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Design 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Design",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3af5d39c-d0a3-4276-ae30-a2c4da991c18",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.InMemory, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.InMemory, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.InMemory, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.InMemory, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.InMemory 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.InMemory",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fc8f9b32-6999-49cd-9df1-1143972e3cbd",
+          "ruleId": "Project.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Services.Data.Tests\\BCKFreightTMS.Services.Data.Tests.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Services\\BCKFreightTMS.Services.Mapping\\BCKFreightTMS.Services.Mapping.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "BCKFreightTMS.Services.Mapping",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 7,
+        "numberOfCodeFiles": 7,
+        "linesTotal": 197,
+        "linesOfCode": 197,
+        "totalApiScanned": 215,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c3a5832e-8977-40b1-a50f-07330653214e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Mapping\\BCKFreightTMS.Services.Mapping.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Mapping\\BCKFreightTMS.Services.Mapping.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f44c1ecb-7ecf-4003-8edb-467581cab045",
+          "ruleId": "Project.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Mapping\\BCKFreightTMS.Services.Mapping.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Mapping\\BCKFreightTMS.Services.Mapping.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "BCKFreightTMS.Services.Messaging",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 5,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 106,
+        "linesOfCode": 106,
+        "totalApiScanned": 99,
+        "minLinesOfCodeToChange": 1,
+        "maxLinesOfCodeToChange": 1
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "2c0b4e55-8fcd-40d9-ac58-517644d1944e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "295ed107-f82e-4b0a-9758-0bbac8ebdc11",
+          "ruleId": "Project.0002",
+          "projectPath": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "6f784c62-9e74-408d-bfae-dc866b964ce7",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Services\\BCKFreightTMS.Services.Messaging\\BCKFreightTMS.Services.Messaging.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Console.WriteLine(await response.Body.ReadAsStringAsync());",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Services\\BCKFreightTMS.Services.Messaging\\SendGridEmailSender.cs",
+            "snippet": "Console.WriteLine(await response.Body.ReadAsStringAsync());",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 41,
+            "column": 16
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+      "startingProject": true,
+      "issues": 5,
+      "storyPoints": 26,
+      "properties": {
+        "appName": "BCKFreightTMS.Web",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 2044,
+        "numberOfCodeFiles": 185,
+        "linesTotal": 397109,
+        "linesOfCode": 14504,
+        "totalApiScanned": 91891,
+        "minLinesOfCodeToChange": 15,
+        "maxLinesOfCodeToChange": 15
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "413343b5-e5db-44e0-a720-1b298c75cef5",
+          "ruleId": "NuGet.0003",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "Microsoft.AspNetCore.Http 2.3.9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Http",
+              "PackageVersion": "2.3.9",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9779f952-c522-4d10-9c75-c684141491a4",
+          "ruleId": "NuGet.0003",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "Microsoft.AspNetCore.Http.Abstractions 2.3.9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Http.Abstractions",
+              "PackageVersion": "2.3.9",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "abc5238b-5fae-49f1-968b-d35ff9ad3ade",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+              "protected": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.2",
+            "label": "Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "4a2f0088-cd8b-452d-96e4-fe68244e7d4f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Proxies, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Proxies, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Proxies, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Proxies, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Proxies, and replace with new package Microsoft.EntityFrameworkCore.Proxies 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Proxies 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Proxies",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fd343d2a-11af-46e9-8842-795d3e0cda5e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.SqlServer 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.SqlServer",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9e8a3139-7cbf-45f3-b7bc-5ccf80207f3f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.2",
+            "label": "Microsoft.EntityFrameworkCore.Tools 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "4f705485-f451-498f-835c-f3814ae913bb",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+              "protected": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "label": "Microsoft.VisualStudio.Web.CodeGeneration.Design 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.CodeGeneration.Design",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "e339b70c-4014-435e-912d-6e1a6267557e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f66f9adb-0b4d-4afd-82d2-3a0f3eb409b7",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 10.0.2",
+              "protected": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 10.0.2",
+            "label": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "bb3d728e-50f6-4327-aec6-7804ccd55d51",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+              "protected": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+            "label": "Microsoft.AspNetCore.Identity.UI 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "75711d1a-0467-4943-abde-37e9b48a193c",
+          "ruleId": "Project.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "be72a032-68f8-4c0a-a692-390bab72e1ec",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "__Microsoft_AspNetCore_Mvc_TagHelpers_CacheTagHelper.ExpiresSliding = \r\n#nullable restore\r\n#line (28,66)-(28,86) \u0022C:\\Users\\mmsla\\Documents\\.NET Projects\\BCKFreight\\src\\Web\\BCKFreightTMS.Web\\Views\\Shared\\AdminLTE\\_MainNavigation.cshtml\u0022\r\nTimeSpan.FromDays(1)\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ;",
+              "protected": "M:System.TimeSpan.FromDays(System.Double)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Views\\Shared\\AdminLTE\\_MainNavigation.cshtml.-W7Cv5f4qAgMBY1A.ide.g.cs",
+            "snippet": "__Microsoft_AspNetCore_Mvc_TagHelpers_CacheTagHelper.ExpiresSliding = \r\n#nullable restore\r\n#line (28,66)-(28,86) \u0022C:\\Users\\mmsla\\Documents\\.NET Projects\\BCKFreight\\src\\Web\\BCKFreightTMS.Web\\Views\\Shared\\AdminLTE\\_MainNavigation.cshtml\u0022\r\nTimeSpan.FromDays(1)\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ;",
+            "protectedSnippet": "M:System.TimeSpan.FromDays(System.Double)",
+            "label": "M:System.TimeSpan.FromDays(System.Double)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 223,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "a88644b1-7887-45d0-9790-14d21ac55b0f",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: New TimeSpan.From*() overloads that take integers ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "__Microsoft_AspNetCore_Mvc_TagHelpers_CacheTagHelper.ExpiresAfter = \r\n#nullable restore\r\n#line (6,23)-(6,47) \u0022C:\\Users\\mmsla\\Documents\\.NET Projects\\BCKFreight\\src\\Web\\BCKFreightTMS.Web\\Areas\\Administration\\Views\\Dashboard\\Index.cshtml\u0022\r\nTimeSpan.FromMinutes(60)\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ;",
+              "protected": "M:System.TimeSpan.FromMinutes(System.Double)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Views\\Dashboard\\Index.cshtml.-W7Cv5f4qAgMBY1A.ide.g.cs",
+            "snippet": "__Microsoft_AspNetCore_Mvc_TagHelpers_CacheTagHelper.ExpiresAfter = \r\n#nullable restore\r\n#line (6,23)-(6,47) \u0022C:\\Users\\mmsla\\Documents\\.NET Projects\\BCKFreight\\src\\Web\\BCKFreightTMS.Web\\Areas\\Administration\\Views\\Dashboard\\Index.cshtml\u0022\r\nTimeSpan.FromMinutes(60)\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ;",
+            "protectedSnippet": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "label": "M:System.TimeSpan.FromMinutes(System.Double)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/core-libraries/9.0/timespan-from-overloads.md",
+                "isCustom": false
+              }
+            ],
+            "line": 150,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "94f61fbf-3f42-4cb4-b844-5404d6226e82",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: XmlSerializer no longer ignores properties marked with ObsoleteAttribute ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var serializer = new XmlSerializer(type);",
+              "protected": "T:System.Xml.Serialization.XmlSerializer"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Controllers\\TransactionsController.cs",
+            "snippet": "var serializer = new XmlSerializer(type);",
+            "protectedSnippet": "T:System.Xml.Serialization.XmlSerializer",
+            "label": "T:System.Xml.Serialization.XmlSerializer",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/serialization/10/xmlserializer-obsolete-properties.md",
+                "isCustom": false
+              }
+            ],
+            "line": 165,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "8c02709d-3ed9-41c8-a83c-6d5189b9215f",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: XmlSerializer no longer ignores properties marked with ObsoleteAttribute ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var serializer = new XmlSerializer(typeof(DSKStatementModel));",
+              "protected": "T:System.Xml.Serialization.XmlSerializer"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Controllers\\TransactionsController.cs",
+            "snippet": "var serializer = new XmlSerializer(typeof(DSKStatementModel));",
+            "protectedSnippet": "T:System.Xml.Serialization.XmlSerializer",
+            "label": "T:System.Xml.Serialization.XmlSerializer",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/serialization/10/xmlserializer-obsolete-properties.md",
+                "isCustom": false
+              }
+            ],
+            "line": 137,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "083bd696-e992-4631-a1b5-88e6c80393ab",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "images[0].Save(ms, images[0].RawFormat);",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Controllers\\DashboardController.cs",
+            "snippet": "images[0].Save(ms, images[0].RawFormat);",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "d0f42f74-bb33-43cb-933b-e2e3a19bbedb",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "images[0].Save(ms, images[0].RawFormat);",
+              "protected": "T:System.Drawing.Imaging.ImageFormat"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Controllers\\DashboardController.cs",
+            "snippet": "images[0].Save(ms, images[0].RawFormat);",
+            "protectedSnippet": "T:System.Drawing.Imaging.ImageFormat",
+            "label": "T:System.Drawing.Imaging.ImageFormat",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "10b4f001-fd30-44f6-a83b-a6a5551c6ed5",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "images[0].Save(ms, images[0].RawFormat);",
+              "protected": "P:System.Drawing.Image.RawFormat"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Controllers\\DashboardController.cs",
+            "snippet": "images[0].Save(ms, images[0].RawFormat);",
+            "protectedSnippet": "P:System.Drawing.Image.RawFormat",
+            "label": "P:System.Drawing.Image.RawFormat",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "bf7456c8-a254-45fa-a695-4027d8563484",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "images[0].Save(ms, images[0].RawFormat);",
+              "protected": "T:System.Drawing.Image"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Controllers\\DashboardController.cs",
+            "snippet": "images[0].Save(ms, images[0].RawFormat);",
+            "protectedSnippet": "T:System.Drawing.Image",
+            "label": "T:System.Drawing.Image",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "7afbe1bd-3579-43ee-b5d5-1c17d4468d99",
+          "ruleId": "Api.0002",
+          "description": "API is available in package System.Drawing.Common, 8.0.6. Add package reference to System.Drawing.Common, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "images[0].Save(ms, images[0].RawFormat);",
+              "protected": "M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Areas\\Administration\\Controllers\\DashboardController.cs",
+            "snippet": "images[0].Save(ms, images[0].RawFormat);",
+            "protectedSnippet": "M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)",
+            "label": "M:System.Drawing.Image.Save(System.IO.Stream,System.Drawing.Imaging.ImageFormat)",
+            "properties": {
+              "PackageId": "System.Drawing.Common",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 37,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "17d603ff-7596-4d63-82a8-9e24b48bd023",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Dashboard/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Dashboard/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 144,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "e2be510c-aa4a-4a3a-857d-c95e7cdee227",
+          "ruleId": "Api.0002",
+          "description": "Breaking change: Razor run-time compilation is obsolete ",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddControllersWithViews(\r\n                options =\u003E\r\n                    {\r\n                        var policy = new AuthorizationPolicyBuilder()\r\n                        .RequireAuthenticatedUser()\r\n                        .Build();\r\n                        options.Filters.Add(new AuthorizeFilter(policy));\r\n                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());\r\n                    }).AddRazorRuntimeCompilation();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation(Microsoft.Extensions.DependencyInjection.IMvcBuilder)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "services.AddControllersWithViews(\r\n                options =\u003E\r\n                    {\r\n                        var policy = new AuthorizationPolicyBuilder()\r\n                        .RequireAuthenticatedUser()\r\n                        .Build();\r\n                        options.Filters.Add(new AuthorizeFilter(policy));\r\n                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());\r\n                    }).AddRazorRuntimeCompilation();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation(Microsoft.Extensions.DependencyInjection.IMvcBuilder)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.RazorRuntimeCompilationMvcBuilderExtensions.AddRazorRuntimeCompilation(Microsoft.Extensions.DependencyInjection.IMvcBuilder)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/razor-runtime-compilation-obsolete.md",
+                "isCustom": false
+              }
+            ],
+            "line": 56,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "2c9ab1f5-a09e-436c-98b9-e56ced9ed037",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 46,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3b351a60-62ee-47b7-b3e8-d82d0f00c2c1",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 46,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "10f6e72a-b571-48b4-bdcd-87b629361fd6",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 46,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3bd661c3-e9dc-4879-ba6a-42079a584cd2",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "Web\\BCKFreightTMS.Web\\BCKFreightTMS.Web.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web\\Startup.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 46,
+            "column": 12
+          }
+        }
+      ],
+      "features": [
+        {
+          "featureId": "GdiDrawing",
+          "incidents": [
+            "7afbe1bd-3579-43ee-b5d5-1c17d4468d99",
+            "bf7456c8-a254-45fa-a695-4027d8563484",
+            "10b4f001-fd30-44f6-a83b-a6a5551c6ed5",
+            "d0f42f74-bb33-43cb-933b-e2e3a19bbedb",
+            "083bd696-e992-4631-a1b5-88e6c80393ab"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+      "startingProject": true,
+      "issues": 5,
+      "storyPoints": 18,
+      "properties": {
+        "appName": "BCKFreightTMS.Web.Tests",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 6,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 2132,
+        "linesOfCode": 106,
+        "totalApiScanned": 176,
+        "minLinesOfCodeToChange": 13,
+        "maxLinesOfCodeToChange": 13
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "4e5da4d5-a2a3-4e7c-b6cb-8223835d80c8",
+          "ruleId": "NuGet.0003",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "Microsoft.AspNetCore.Http, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "Microsoft.AspNetCore.Http 2.3.9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Http",
+              "PackageVersion": "2.3.9",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "ae89a4ab-3229-4436-965c-33060efef5c9",
+          "ruleId": "NuGet.0003",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "Microsoft.AspNetCore.Http.Abstractions, 2.3.9\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "Microsoft.AspNetCore.Http.Abstractions 2.3.9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Http.Abstractions",
+              "PackageVersion": "2.3.9",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3f50e01d-3a87-4d60-a89b-c9cd93ecf404",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d969cae9-989a-4786-a403-f5d5b52090fc",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Testing, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Testing, and replace with new package Microsoft.AspNetCore.Mvc.Testing 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Testing, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Testing, and replace with new package Microsoft.AspNetCore.Mvc.Testing 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Testing, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Testing, and replace with new package Microsoft.AspNetCore.Mvc.Testing 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Testing, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Testing, and replace with new package Microsoft.AspNetCore.Mvc.Testing 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Testing 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Testing",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "36d0ce09-b554-4910-83bb-1892adf24ebe",
+          "ruleId": "Project.0002",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "a0eff432-db57-4a2f-921e-bbb443795e49",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var testServer = new TestServer(new WebHostBuilder().UseStartup\u003CFakeStartup\u003E());",
+              "protected": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var testServer = new TestServer(new WebHostBuilder().UseStartup\u003CFakeStartup\u003E());",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder",
+            "label": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 21,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "81320e87-136e-4e95-a556-43aac7628cc2",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+              "protected": "T:Microsoft.AspNetCore.WebHost"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+            "protectedSnippet": "T:Microsoft.AspNetCore.WebHost",
+            "label": "T:Microsoft.AspNetCore.WebHost",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 18,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "27c89552-8116-4e49-9bed-d7b07e1c6e8a",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+              "protected": "T:Microsoft.AspNetCore.Hosting.IWebHost"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Hosting.IWebHost",
+            "label": "T:Microsoft.AspNetCore.Hosting.IWebHost",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 18,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "48abc3d5-80aa-47b3-aa5d-06f44aaf97f2",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "c019db68-ff5c-41e3-ad2f-62b8f00f3637",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "M:System.Uri.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String)",
+            "label": "M:System.Uri.#ctor(System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0fd4137f-97c7-44ec-86bb-3b4ea2c0ea50",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "a9e175e5-3837-44b9-a7c9-b3e1975eccaf",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var testServer = new TestServer(new WebHostBuilder().UseStartup\u003CFakeStartup\u003E());",
+              "protected": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var testServer = new TestServer(new WebHostBuilder().UseStartup\u003CFakeStartup\u003E());",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder",
+            "label": "T:Microsoft.AspNetCore.Hosting.WebHostBuilder",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 21,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "848d60e2-0bdf-4a5d-847d-46f0e1034cdc",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+              "protected": "T:Microsoft.AspNetCore.WebHost"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+            "protectedSnippet": "T:Microsoft.AspNetCore.WebHost",
+            "label": "T:Microsoft.AspNetCore.WebHost",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 18,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "900bd66e-6d2a-4943-9874-4e8116e57d4e",
+          "ruleId": "Api.0002",
+          "description": "WebHostBuilder, IWebHost, and WebHost are obsolete ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+              "protected": "T:Microsoft.AspNetCore.Hosting.IWebHost"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "var host = WebHost.CreateDefaultBuilder(Array.Empty\u003Cstring\u003E()).UseStartup\u003CTStartup\u003E().Build();",
+            "protectedSnippet": "T:Microsoft.AspNetCore.Hosting.IWebHost",
+            "label": "T:Microsoft.AspNetCore.Hosting.IWebHost",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/webhostbuilder-deprecated.md",
+                "isCustom": false
+              }
+            ],
+            "line": 18,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "0e6786ff-c627-4178-81b9-105a3406f008",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "c4632408-452e-4f82-b29b-9d8d91e534b9",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "M:System.Uri.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String)",
+            "label": "M:System.Uri.#ctor(System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "38e178be-9c3e-4f32-81a1-9afc5182fafd",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\SeleniumServerFactory.cs",
+            "snippet": "this.ClientOptions.BaseAddress = new Uri(\u0022https://localhost\u0022);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "073d5d25-9d58-47ac-a5fa-7602e199c231",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "Tests\\BCKFreightTMS.Web.Tests\\BCKFreightTMS.Web.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var responseContent = await response.Content.ReadAsStringAsync();",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "Tests\\BCKFreightTMS.Web.Tests\\WebTests.cs",
+            "snippet": "var responseContent = await response.Content.ReadAsStringAsync();",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 24,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Web\\BCKFreightTMS.Web.ViewModels\\BCKFreightTMS.Web.ViewModels.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "BCKFreightTMS.Web.ViewModels",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 73,
+        "numberOfCodeFiles": 73,
+        "linesTotal": 2233,
+        "linesOfCode": 2233,
+        "totalApiScanned": 2875,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "f4bb20e3-e6b6-43c0-b77c-9f2a3c32dd96",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web.ViewModels\\BCKFreightTMS.Web.ViewModels.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web.ViewModels\\BCKFreightTMS.Web.ViewModels.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9f9ecb8e-1fbd-4cc9-a740-81e74e0ddd2e",
+          "ruleId": "Project.0002",
+          "projectPath": "Web\\BCKFreightTMS.Web.ViewModels\\BCKFreightTMS.Web.ViewModels.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Web\\BCKFreightTMS.Web.ViewModels\\BCKFreightTMS.Web.ViewModels.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "Tests\\Sandbox\\Sandbox.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 11,
+      "properties": {
+        "appName": "Sandbox",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 3,
+        "numberOfCodeFiles": 2,
+        "linesTotal": 102,
+        "linesOfCode": 97,
+        "totalApiScanned": 108,
+        "minLinesOfCodeToChange": 4,
+        "maxLinesOfCodeToChange": 4
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "e481fde8-e9ac-4c6a-88c5-351c14644dce",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+              "protected": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation, and replace with new package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 10.0.2",
+            "label": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "dc1aafe6-2e69-4f39-bb16-150426fccab0",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.2",
+              "protected": "Microsoft.Extensions.Configuration, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.2",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.2",
+            "label": "Microsoft.Extensions.Configuration 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7b751b4f-9395-4437-bc84-f0978d6552cd",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.EnvironmentVariables, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.2",
+              "protected": "Microsoft.Extensions.Configuration.EnvironmentVariables, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.2",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.2",
+            "label": "Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.EnvironmentVariables",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "1ac09d5a-17bd-4b0e-8c39-fae1912930d7",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Json, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.2",
+              "protected": "Microsoft.Extensions.Configuration.Json, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Json, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.2",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Json, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.2",
+            "label": "Microsoft.Extensions.Configuration.Json 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Json",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "009a2672-9542-40b3-a374-b06270f10369",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Logging.Console, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.2",
+              "protected": "Microsoft.Extensions.Logging.Console, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.Extensions.Logging.Console, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.2",
+            "protectedSnippet": "Microsoft.Extensions.Logging.Console, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.2",
+            "label": "Microsoft.Extensions.Logging.Console 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Logging.Console",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c3480c61-0f8a-462b-923d-bd47651bd3da",
+          "ruleId": "NuGet.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+              "protected": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.UI, 6.0.0\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.2",
+            "label": "Microsoft.AspNetCore.Identity.UI 6.0.0",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageVersion": "6.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "bdb69ac7-1443-4a6d-869d-c2c62a9f2270",
+          "ruleId": "Project.0002",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net6.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net6.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Sandbox.csproj",
+            "snippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net6.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net6.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "45e33116-4e9e-4c17-9815-f00699783ae1",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Program.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 76,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "24cec66f-8392-4e37-a203-19aa3278ecd0",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Program.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 76,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "bd5b67c4-d50b-49a6-9b96-e0c25786753a",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Program.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 76,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "b322a5ea-6873-483c-af3e-e0ceba3f5a2c",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "Tests\\Sandbox\\Sandbox.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)"
+            },
+            "kind": "File",
+            "path": "Tests\\Sandbox\\Program.cs",
+            "snippet": "services.AddDefaultIdentity\u003CApplicationUser\u003E(IdentityOptionsProvider.GetIdentityOptions)\r\n                .AddRoles\u003CApplicationRole\u003E().AddEntityFrameworkStores\u003CApplicationDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 76,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0003": {
+      "id": "NuGet.0003",
+      "isFeature": false,
+      "description": "NuGet package functionality is included with framework reference.\n\nPackage needs to be removed.",
+      "label": "NuGet package functionality is included with framework reference",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262609",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "API is source incompatible for selected .NET version: requires code changes to compile successfully when targeting a new version, such as removing obsolete APIs or changing method signatures.",
+      "label": "Source incompatible for selected .NET version",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "GdiDrawing": {
+      "id": "GdiDrawing",
+      "isFeature": false,
+      "description": "System.Drawing APIs for 2D graphics, imaging, and printing that are available via NuGet package System.Drawing.Common. Note: Not recommended for server scenarios due to Windows dependencies; consider cross-platform alternatives like SkiaSharp or ImageSharp for new code.",
+      "label": "GDI\u002B / System.Drawing",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "System.Drawing.Common only supported on Windows",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2341701",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}

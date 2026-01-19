@@ -38,21 +38,7 @@ The solution is organized into multiple layers and functional areas:
 - **Action Tracking**: Record actions taken on orders with reasons and status
 - **Multi-Currency Support**: Handle transactions in different currencies
 
-### Building the Solution
-
-```bash
-cd src
-dotnet build BCKFreightTMS.sln
-```
-
-### Running the Application
-
-```bash
-cd src/BCKFreightTMS.Web
-dotnet run
-```
-
-The application will be available at `https://localhost:5001` by default.
+The application will be available at `https://localhost:44319` by default.
 
 ## Architecture Highlights
 

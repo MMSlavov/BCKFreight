@@ -16,12 +16,6 @@
 
     public class ContactsServiceTests
     {
-        private IDeletableEntityRepository<Company> companiesRepository;
-        private IDeletableEntityRepository<Person> peopleRepository;
-        private IDeletableEntityRepository<TaxCountry> taxCtrRepo;
-        private IDeletableEntityRepository<PersonRole> personRolesRepo;
-        private IDeletableEntityRepository<BankDetails> bankDetails;
-
         [Fact]
         public async Task AddCompanyTest()
         {
@@ -178,25 +172,27 @@
 
         private ApplicationDbContext GetDbContext()
         {
+            var uniqueDatabaseName = $"ContactsServiceTestDb_{Guid.NewGuid()}";
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "SettingsTestDb").Options;
+                .UseInMemoryDatabase(databaseName: uniqueDatabaseName).Options;
             var dbContext = new ApplicationDbContext(options);
             dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
             return dbContext;
         }
 
         private ContactsService GetContactsService(ApplicationDbContext dbContext)
         {
             var repoFactory = new RepositoryFactory();
-            this.companiesRepository = repoFactory.GetEfDeletableEntityRepository<Company>(dbContext);
-            this.peopleRepository = repoFactory.GetEfDeletableEntityRepository<Person>(dbContext);
-            this.taxCtrRepo = repoFactory.GetEfDeletableEntityRepository<TaxCountry>(dbContext);
-            this.personRolesRepo = repoFactory.GetEfDeletableEntityRepository<PersonRole>(dbContext);
-            this.bankDetails = repoFactory.GetEfDeletableEntityRepository<BankDetails>(dbContext);
+            var companiesRepository = repoFactory.GetEfDeletableEntityRepository<Company>(dbContext);
+            var peopleRepository = repoFactory.GetEfDeletableEntityRepository<Person>(dbContext);
+            var taxCtrRepo = repoFactory.GetEfDeletableEntityRepository<TaxCountry>(dbContext);
+            var personRolesRepo = repoFactory.GetEfDeletableEntityRepository<PersonRole>(dbContext);
+            var bankDetails = repoFactory.GetEfDeletableEntityRepository<BankDetails>(dbContext);
             var emailSender = new Mock<IEmailSender>();
             var mapper = new Mock<IMapper>();
 
-            return new ContactsService(this.companiesRepository, this.peopleRepository, this.taxCtrRepo, this.personRolesRepo, this.bankDetails, mapper.Object, emailSender.Object);
+            return new ContactsService(companiesRepository, peopleRepository, taxCtrRepo, personRolesRepo, bankDetails, mapper.Object, emailSender.Object);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace BCKFreightTMS.Services.Data.Tests
 {
+    using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using AutoMapper;
     using BCKFreightTMS.Data;
@@ -21,24 +23,36 @@
         private IDeletableEntityRepository<BankDetails> bankDetails;
 
         [Fact]
-        public async void AddCompanyTest()
+        public async Task AddCompanyTest()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
-            var company = new CompanyInputModel { Name = "test" };
+            var company = new CompanyInputModel
+            {
+                Name = "test",
+                TaxCountry = "Bulgaria",
+                Mobile1 = "123",
+            };
             var res = await service.AddCompanyAsync(company);
+
             Assert.NotNull(res);
             Assert.True(dbContext.Companies.Any(x => x.Name == company.Name));
         }
 
         [Fact]
-        public async void AddingSameCompanyTwiceShouldReturnNull()
+        public async Task AddingSameCompanyTwiceShouldReturnNull()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
-            var company = new CompanyInputModel { Name = "test" };
+            var company = new CompanyInputModel
+            {
+                Name = "test",
+                TaxCountry = "Bulgaria",
+                Mobile1 = "123",
+            };
             await service.AddCompanyAsync(company);
             var res = await service.AddCompanyAsync(company);
+
             Assert.Null(res);
         }
 
@@ -53,31 +67,33 @@
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
             var model = service.GetPersonInputModel();
+
             Assert.NotNull(model);
             Assert.Equal(2, model.CompanyItems.Count());
             Assert.Equal(2, model.RoleItems.Count());
         }
 
         [Fact]
-        public async void AddPersonTest()
+        public async Task AddPersonTest()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
             var person = new PersonInputModel { FirstName = "testFN", LastName = "testLN" };
             var res = await service.AddPersonAsync(person);
+
             Assert.NotNull(res);
             Assert.True(dbContext.People.Any(x => x.FirstName == person.FirstName));
         }
 
         [Fact]
-        public async void AddingSamePersonTwiceShouldReturnNull()
+        public async Task AddingSamePersonTwiceShouldThrowException()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
             var person = new PersonInputModel { FirstName = "testFN", LastName = "testLN" };
             await service.AddPersonAsync(person);
-            var res = await service.AddPersonAsync(person);
-            Assert.Null(res);
+
+            await Assert.ThrowsAsync<ArgumentException>(() => service.AddPersonAsync(person));
         }
 
         [Fact]
@@ -89,6 +105,7 @@
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
             var res = service.GetAll();
+
             Assert.Equal(2, res.Count());
         }
 
@@ -100,6 +117,7 @@
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
             var res = service.GetContactDetails(dbContext.People.First().Id);
+
             Assert.Equal(3, res.Count());
         }
 
@@ -107,11 +125,16 @@
         public void GetCompanyDetailsTest()
         {
             using var dbContext = this.GetDbContext();
-            dbContext.Companies.Add(new Company { Name = "testFN" });
+            var company = dbContext.Companies.Add(new Company
+            {
+                Name = "testFN",
+                TaxCountry = null,
+            });
             dbContext.SaveChanges();
             var service = this.GetContactsService(dbContext);
-            var res = service.GetContactDetails(dbContext.Companies.First().Id);
-            Assert.Equal(2, res.Count());
+            var res = service.GetContactDetails(company.Entity.Id);
+
+            Assert.Equal(3, res.Count());
         }
 
         [Fact]
@@ -120,11 +143,12 @@
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
             var res = service.GetContactDetails(string.Empty);
+
             Assert.Null(res);
         }
 
         [Fact]
-        public async void DeletePersonTest()
+        public async Task DeletePersonTest()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
@@ -136,25 +160,18 @@
         }
 
         [Fact]
-        public async void DeleteCompanyTest()
+        public async Task DeleteCompanyTest()
         {
             using var dbContext = this.GetDbContext();
             var service = this.GetContactsService(dbContext);
-            var company = new CompanyInputModel { Name = "testC" };
+            var company = new CompanyInputModel
+            {
+                Name = "testC",
+                TaxCountry = "Bulgaria",
+            };
             await service.AddCompanyAsync(company);
             var res = await service.DeleteAsync(dbContext.Companies.First().Id);
-            Assert.True(res);
-            Assert.Equal(0, dbContext.Companies.Count());
-        }
 
-        [Fact]
-        public async void Test()
-        {
-            using var dbContext = this.GetDbContext();
-            var service = this.GetContactsService(dbContext);
-            var company = new CompanyInputModel { Name = "testC" };
-            await service.AddCompanyAsync(company);
-            var res = await service.DeleteAsync(dbContext.Companies.First().Id);
             Assert.True(res);
             Assert.Equal(0, dbContext.Companies.Count());
         }

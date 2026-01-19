@@ -7,7 +7,6 @@
 
     using SelectPdf;
     using Tesseract;
-    using WIA;
 
     public class PdfService : IPdfService, IDisposable
     {
@@ -21,41 +20,32 @@
 
         public List<Image> Scan()
         {
-            return WIAScanner.Scan();
+            // WIA scanning not supported in .NET 6 - COM interop not available
+            throw new NotSupportedException("WIA scanning is not supported in .NET 6. Please use alternative scanning method.");
+            // return WIAScanner.Scan();
         }
 
-        // public string ScanAndOCR()
-        // {
-        //    var images = WIAScanner.Scan();
-        //    string result = string.Empty;
-
-        // using (var ms = new MemoryStream())
-        //    {
-        //        images[0].Save(ms, images[0].RawFormat);
-        //        result = this.api.RecognizeImage(ms);
-        //    }
-
-        // return result;
-        // }
         public IEnumerable<string> ScanTessOCR()
         {
-            var images = WIAScanner.Scan();
-            var result = new List<string>();
+            // WIA scanning not supported in .NET 6 - COM interop not available
+            throw new NotSupportedException("WIA scanning is not supported in .NET 6. Please use alternative scanning method.");
+            // var images = WIAScanner.Scan();
+            // var result = new List<string>();
 
-            using (var ms = new MemoryStream())
-            {
-                foreach (var image in images)
-                {
-                    image.Save(ms, image.RawFormat);
-                    var pic = Pix.LoadFromMemory(ms.ToArray()).Deskew();
-                    pic.Save("ocrImg.png", ImageFormat.Png);
+            // using (var ms = new MemoryStream())
+            // {
+            //     foreach (var image in images)
+            //     {
+            //         image.Save(ms, image.RawFormat);
+            //         var pic = Pix.LoadFromMemory(ms.ToArray()).Deskew();
+            //         pic.Save("ocrImg.png", ImageFormat.Png);
 
-                    var res = this.ocr.Process(pic);
-                    result.Add(res.GetText().Trim());
-                }
-            }
+            //         var res = this.ocr.Process(pic);
+            //         result.Add(res.GetText().Trim());
+            //     }
+            // }
 
-            return result;
+            // return result;
         }
 
         public string FileTessOCR(byte[] data)
@@ -69,10 +59,11 @@
 
         public string[] GetScaners()
         {
-            var deviceManager = new DeviceManager();
-            var scaners = WIAScanner.GetDevices();
-
-            return scaners.ToArray();
+            // WIA scanning not supported in .NET 6 - COM interop not available
+            throw new NotSupportedException("WIA scanning is not supported in .NET 6. Please use alternative scanning method.");
+            // var deviceManager = new DeviceManager();
+            // var scaners = WIAScanner.GetDevices();
+            // return scaners.ToArray();
         }
 
         public byte[] SelectPdfConvert(string html)

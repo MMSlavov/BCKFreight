@@ -28,6 +28,11 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            appUser
+                .Property(e => e.PreferredLanguage)
+                .HasMaxLength(10)
+                .HasDefaultValue("en");
         }
     }
 }

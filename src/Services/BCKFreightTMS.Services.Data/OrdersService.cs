@@ -16,6 +16,7 @@
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Invoices;
     using BCKFreightTMS.Web.ViewModels.Orders;
+    using BCKFreightTMS.Web.ViewModels.Shared;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -144,6 +145,22 @@
                                         .Select(tc => new KeyValuePair<string, string>(tc.Id.ToString(), tc.Name))
                                         .ToList()
                                         .Where(r => Enum.TryParse<TaxCountryNames>(r.Value, true, out res));
+
+            if (model.OrderTos == null)
+            {
+                model.OrderTos = new List<OrderToModel>
+                {
+                    new OrderToModel
+                    {
+                        OrderActions = new List<ActionCreateInputModel>
+                        {
+                            new ActionCreateInputModel { Address = new AddressInputModel() },
+                            new ActionCreateInputModel { Address = new AddressInputModel() },
+                        },
+                    },
+                };
+            }
+
             return model;
         }
 

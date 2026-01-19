@@ -144,6 +144,20 @@
             return true;
         }
 
+        public async Task<bool> UpdatePreferredLanguageAsync(string userId, string language)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+            if (user is null)
+            {
+                return false;
+            }
+
+            user.PreferredLanguage = language;
+            await this.users.SaveChangesAsync();
+
+            return true;
+        }
+
         private async Task<List<string>> GetUserRolesAsync(ApplicationUser user)
         {
             return new List<string>(await this.userManager.GetRolesAsync(user));

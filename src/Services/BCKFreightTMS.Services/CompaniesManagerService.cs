@@ -22,7 +22,10 @@
         public CompaniesManagerService()
         {
             this.companies = new List<CompanyInfo>();
-            var config = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
+            var config = Configuration.Default
+                .WithDefaultLoader()
+                .WithDefaultCookies()
+                .With(new AngleSharp.Io.DefaultHttpRequester("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"));
             this.context = BrowsingContext.New(config);
         }
 
@@ -66,6 +69,12 @@
         {
             var urlSearch = string.Format(BaseUrlSearch, searchStr);
             var document = await this.context.OpenAsync(urlSearch);
+            
+            if (document.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                throw new InvalidOperationException("Access forbidden - the website is blocking automated requests. Please try again later or contact support.");
+            }
+            
             if (document.StatusCode == System.Net.HttpStatusCode.NotFound ||
                 document.DocumentElement.OuterHtml.Contains("Няма намерени резултати"))
             {
@@ -74,7 +83,13 @@
 
             var company = new CompanyInputModel();
 
-            var companyPath = document.QuerySelectorAll("table > tbody > tr > td > a").FirstOrDefault().GetAttribute("href");
+            var companyLink = document.QuerySelectorAll("table > tbody > tr > td > a").FirstOrDefault();
+            if (companyLink == null)
+            {
+                throw new InvalidOperationException("Could not find company information in the search results. The page structure may have changed or the website may be blocking requests.");
+            }
+            
+            var companyPath = companyLink.GetAttribute("href");
             var url = string.Format(GlobalConstants.RegistryAgencyUrl, companyPath);
 
             document = await this.context.OpenAsync(url);

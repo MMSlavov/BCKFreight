@@ -53,11 +53,9 @@
                         <p>Sidebar content</p>
                     </div>
                 </aside>
-
-                <partial name="AdminLTE/_Footer" />
         </div>
-        <partial name="AdminLTE/_Scripts" />
-        @await Component.InvokeAsync("Notyf")
-        @await this.RenderSectionAsync("Scripts", required: false)
     </body>
+    <partial name="AdminLTE/_Scripts" />
+    @await Component.InvokeAsync("Notyf")
+    @await this.RenderSectionAsync("Scripts", required: false)
 </html>

@@ -26,6 +26,8 @@
 
         public byte[] ProfilePicture { get; set; }
 
+        public string PreferredLanguage { get; set; } = "en";
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 

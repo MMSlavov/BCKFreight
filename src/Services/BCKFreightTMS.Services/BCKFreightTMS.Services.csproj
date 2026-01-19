@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="C:\Users\mmsla\.nuget\packages\select.htmltopdf\20.2.0\contentFiles\any\any\Select.Html.dep" />
   </ItemGroup>
   <ItemGroup>
@@ -36,10 +42,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Tesseract" Version="4.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

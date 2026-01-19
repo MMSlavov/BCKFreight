@@ -19,5 +19,7 @@
         public Task<IdentityResult> AddUserAsync(AddUserInputModel input, ClaimsPrincipal adminUser);
 
         public Task<bool> DeleteAsync(string id);
+
+        public Task<bool> UpdatePreferredLanguageAsync(string userId, string language);
     }
 }

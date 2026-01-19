@@ -87,6 +87,7 @@
                 options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
                 options.SupportedCultures = cultures;
                 options.SupportedUICultures = cultures;
+                options.RequestCultureProviders.Insert(0, new BCKFreightTMS.Web.Infrastructure.UserPreferredCultureProvider());
             });
 
             // Notifications
@@ -127,7 +128,7 @@
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                // dbContext.Database.EnsureDeleted();
+                //dbContext.Database.EnsureDeleted();
                 dbContext.Database.Migrate();
                 new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }

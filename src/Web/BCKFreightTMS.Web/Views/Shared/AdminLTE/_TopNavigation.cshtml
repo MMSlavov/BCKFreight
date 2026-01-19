@@ -108,7 +108,9 @@
                 <a href="#" class="dropdown-item dropdown-footer">@(awaitingInvoices > 0 ? "See All Notifications" : "No notifications")</a>
             </div>
         </li>
-        @*@await Html.PartialAsync("_CulturePartial")*@
+        <li class="nav-item">
+            <partial name="_CulturePartial" />
+        </li>
         @*<li class="nav-item">
                 <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                     <i class="fas fa-th-large"></i>

@@ -36,6 +36,7 @@
                                         .OrderBy(a => a.Until)
                                         .To<ActionIndexViewModel>()
                                         .ToList();
+
             return this.View(model);
         }
 

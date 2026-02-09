@@ -90,6 +90,8 @@
 
         public DbSet<NoteInfo> NoteInfo { get; set; }
 
+        public DbSet<ApplicationTemplate> ApplicationTemplates { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

@@ -4,6 +4,7 @@ using BCKFreightTMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BCKFreightTMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205162412_AddApplicationTemplates")]
+    partial class AddApplicationTemplates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("AccountingTypes", (string)null);
+                    b.ToTable("AccountingTypes");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.ActionNotFinishedReason", b =>
@@ -94,7 +97,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ActionNotFinishedReasons", (string)null);
+                    b.ToTable("ActionNotFinishedReasons");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.ActionType", b =>
@@ -129,7 +132,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ActionTypes", (string)null);
+                    b.ToTable("ActionTypes");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Address", b =>
@@ -179,7 +182,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.ApplicationRole", b =>
@@ -281,7 +284,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ApplicationTemplates", (string)null);
+                    b.ToTable("ApplicationTemplates");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.ApplicationUser", b =>
@@ -432,7 +435,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("BankDetails", (string)null);
+                    b.ToTable("BankDetails");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.BankMovement", b =>
@@ -480,7 +483,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("BankMovements", (string)null);
+                    b.ToTable("BankMovements");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Cargo", b =>
@@ -556,7 +559,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Cargos", (string)null);
+                    b.ToTable("Cargos");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.CargoType", b =>
@@ -591,7 +594,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("CargoTypes", (string)null);
+                    b.ToTable("CargoTypes");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.CarrierOrder", b =>
@@ -632,7 +635,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("CarrierOrders", (string)null);
+                    b.ToTable("CarrierOrders");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Company", b =>
@@ -691,7 +694,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("TaxCurrencyId");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.CompanyAddress", b =>
@@ -734,7 +737,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("CompanyAddresses", (string)null);
+                    b.ToTable("CompanyAddresses");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.CompanyContact", b =>
@@ -777,7 +780,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("CompanyContacts", (string)null);
+                    b.ToTable("CompanyContacts");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Comunicators", b =>
@@ -828,7 +831,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Comunicators", (string)null);
+                    b.ToTable("Comunicators");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Currency", b =>
@@ -866,7 +869,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Currencies", (string)null);
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Documentation", b =>
@@ -934,7 +937,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("RecievedDocumentationId");
 
-                    b.ToTable("Documentations", (string)null);
+                    b.ToTable("Documentations");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.DriverOrder", b =>
@@ -963,7 +966,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("DriverOrders", (string)null);
+                    b.ToTable("DriverOrders");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceIn", b =>
@@ -1040,7 +1043,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("VATReasonId");
 
-                    b.ToTable("InvoiceIns", (string)null);
+                    b.ToTable("InvoiceIns");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceOut", b =>
@@ -1114,7 +1117,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("VATReasonId");
 
-                    b.ToTable("InvoiceOuts", (string)null);
+                    b.ToTable("InvoiceOuts");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.InvoiceStatus", b =>
@@ -1149,7 +1152,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("InvoiceStatuses", (string)null);
+                    b.ToTable("InvoiceStatuses");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.NoteInfo", b =>
@@ -1194,7 +1197,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("NoteInfo", (string)null);
+                    b.ToTable("NoteInfo");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Order", b =>
@@ -1248,7 +1251,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderAction", b =>
@@ -1319,7 +1322,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("OrderActions", (string)null);
+                    b.ToTable("OrderActions");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderFrom", b =>
@@ -1371,7 +1374,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("OrderFroms", (string)null);
+                    b.ToTable("OrderFroms");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderStatus", b =>
@@ -1406,7 +1409,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("OrderStatuses", (string)null);
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderTo", b =>
@@ -1511,7 +1514,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("OrderTos", (string)null);
+                    b.ToTable("OrderTos");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.OrderType", b =>
@@ -1546,7 +1549,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("OrderTypes", (string)null);
+                    b.ToTable("OrderTypes");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Person", b =>
@@ -1603,7 +1606,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("People", (string)null);
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.PersonRole", b =>
@@ -1638,7 +1641,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("PersonRoles", (string)null);
+                    b.ToTable("PersonRoles");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.TaxCountry", b =>
@@ -1673,7 +1676,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("TaxCountries", (string)null);
+                    b.ToTable("TaxCountries");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.VATReason", b =>
@@ -1708,7 +1711,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("VATReasons", (string)null);
+                    b.ToTable("VATReasons");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.Vehicle", b =>
@@ -1772,7 +1775,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.VehicleLoadingBody", b =>
@@ -1807,7 +1810,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("VehicleLoadingBodies", (string)null);
+                    b.ToTable("VehicleLoadingBodies");
                 });
 
             modelBuilder.Entity("BCKFreightTMS.Data.Models.VehicleType", b =>
@@ -1845,7 +1848,7 @@ namespace BCKFreightTMS.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("VehicleTypes", (string)null);
+                    b.ToTable("VehicleTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

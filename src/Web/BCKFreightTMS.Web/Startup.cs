@@ -16,6 +16,7 @@
     using BCKFreightTMS.Services.Data;
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Services.Messaging;
+    using BCKFreightTMS.Web.Infrastructure;
     using BCKFreightTMS.Web.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -46,7 +47,9 @@
                 options => options.UseLazyLoadingProxies().UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -122,6 +125,8 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IVehiclesService, VehiclesService>();
             services.AddTransient<IFinanceService, FinanceService>();
+            services.AddTransient<ITemplatePlaceholderService, TemplatePlaceholderService>();
+            services.AddTransient<IApplicationTemplateService, ApplicationTemplateService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

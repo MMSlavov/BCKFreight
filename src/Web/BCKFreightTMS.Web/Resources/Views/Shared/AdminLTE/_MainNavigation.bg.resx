@@ -129,6 +129,9 @@
   <data name="Active" xml:space="preserve">
     <value>В изпълнение</value>
   </data>
+  <data name="Application Templates" xml:space="preserve">
+    <value>Шаблони на заявки</value>
+  </data>
   <data name="AwaitingPayment" xml:space="preserve">
     <value>Заведени изх. ф-ри</value>
   </data>

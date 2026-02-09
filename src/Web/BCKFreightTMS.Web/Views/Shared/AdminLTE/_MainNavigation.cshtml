@@ -240,8 +240,8 @@
                     </li>
                     @if (this.User.IsInRole("SuperUser"))
                     {
-                        <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "users", "settings" }, "menu-open")">
-                            <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "users", "settings" }, "active")">
+                        <li class="nav-item has-treeview @Url.MakeActiveClass(new[] { "users", "settings", "templatesettings" }, "menu-open")">
+                            <a href="#" class="nav-link @Url.MakeActiveClass(new[] { "users", "settings", "templatesettings" }, "active")">
                                 <i class="nav-icon fas fa-cog"></i>
                                 <p>
                                     @localizer["Settings"]
@@ -257,6 +257,10 @@
                                     <a asp-area="" asp-controller="Settings" asp-action="Index" class="nav-link @Url.MakeActiveClass("settings", null, "active")">
                                         <i class="nav-icon fas fa-clipboard-check"></i>
                                         <p>@localizer["Configuration"]</p>
+                                    </a>
+                                    <a asp-area="" asp-controller="TemplateSettings" asp-action="Index" class="nav-link @Url.MakeActiveClass("templatesettings", null, "active")">
+                                        <i class="nav-icon fas fa-file-alt"></i>
+                                        <p>@localizer["Application Templates"]</p>
                                     </a>
                                 </li>
                             </ul>

@@ -1,0 +1,212 @@
+@model BCKFreightTMS.Web.ViewModels.Settings.ApplicationTemplateViewModel
+@{
+    var placeholders = ViewBag.Placeholders as Dictionary<string, string>;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <form asp-action="@(Model.Id == null ? "Create" : "Edit")" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CompanyId" />
+            <input type="hidden" asp-for="Version" />
+
+            <div class="row">
+                <!-- Left Column - Template Editor -->
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Template Content</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="TemplateName"></label>
+                                <input asp-for="TemplateName" class="form-control form-control-lg" placeholder="e.g., Standard Application, International Transport" />
+                                <span asp-validation-for="TemplateName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description"></label>
+                                <textarea asp-for="Description" class="form-control" rows="2" 
+                                          placeholder="Brief description of when to use this template..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label asp-for="HtmlTemplate" class="mb-0">HTML Template</label>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="insertPlaceholder('html')">
+                                        <i class="fas fa-plus"></i> Insert Placeholder
+                                    </button>
+                                </div>
+                                <textarea asp-for="HtmlTemplate" id="htmlEditor" class="form-control code-editor" rows="20" 
+                                          style="font-family: 'Courier New', monospace; font-size: 13px;"></textarea>
+                                <span asp-validation-for="HtmlTemplate" class="text-danger"></span>
+                                <small class="form-text text-muted">
+                                    Use placeholders like {{CompanyName}}, {{OrderNumber}}, etc. 
+                                    See the reference panel on the right.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label asp-for="CssStyles" class="mb-0">CSS Styles</label>
+                                </div>
+                                <textarea asp-for="CssStyles" id="cssEditor" class="form-control code-editor" rows="10"
+                                          style="font-family: 'Courier New', monospace; font-size: 13px;"></textarea>
+                                <small class="form-text text-muted">
+                                    Add custom CSS to style your template. No need for &lt;style&gt; tags.
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-on-success">
+                                    <input asp-for="IsDefault" type="checkbox" class="custom-control-input" id="isDefaultSwitch">
+                                    <label class="custom-control-label" for="isDefaultSwitch">
+                                        <strong>Set as Default Template</strong>
+                                        <br><small class="text-muted">This template will be used for all new applications</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Save Template
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Placeholder Reference -->
+                <div class="col-md-3">
+                    <div class="card card-info sticky-top" style="top: 20px;">
+                        <div class="card-header">
+                            <h3 class="card-title">Available Placeholders</h3>
+                        </div>
+                        <div class="card-body" style="max-height: 80vh; overflow-y: auto;">
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" id="placeholderSearch" class="form-control" placeholder="Search placeholders...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+
+                            @if (placeholders != null)
+                            {
+                                <div id="placeholderList">
+                                    <h6 class="text-primary">Basic Information</h6>
+                                    <div class="mb-3">
+                                        @foreach (var ph in placeholders.Where(p => p.Key.Contains("Company") || p.Key.Contains("Carrier") || p.Key.Contains("Order")))
+                                        {
+                                            <div class="placeholder-item mb-2" data-placeholder="@ph.Key">
+                                                <code class="placeholder-code" style="cursor: pointer; display: block; padding: 5px; background: #f4f4f4; border-radius: 3px;"
+                                                      onclick="copyPlaceholder('@ph.Key')" title="Click to copy">
+                                                    @ph.Key
+                                                </code>
+                                                <small class="text-muted">@ph.Value</small>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <h6 class="text-primary">Loops & Collections</h6>
+                                    <div class="mb-3">
+                                        @foreach (var ph in placeholders.Where(p => p.Key.Contains("#") || p.Key.Contains("/")))
+                                        {
+                                            <div class="placeholder-item mb-2" data-placeholder="@ph.Key">
+                                                <code class="placeholder-code" style="cursor: pointer; display: block; padding: 5px; background: #fff3cd; border-radius: 3px;"
+                                                      onclick="copyPlaceholder('@ph.Key')" title="Click to copy">
+                                                    @ph.Key
+                                                </code>
+                                                <small class="text-muted">@ph.Value</small>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="alert alert-warning">
+                                        <small>
+                                            <strong>Tip:</strong> Click any placeholder to copy it to clipboard.
+                                            Use loops like:<br>
+                                            <code>{{#OrderTos}}</code><br>
+                                            &nbsp;&nbsp;Content...<br>
+                                            <code>{{/OrderTos}}</code>
+                                        </small>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Copy placeholder to clipboard
+        function copyPlaceholder(placeholder) {
+            navigator.clipboard.writeText(placeholder).then(function() {
+                // Show toast notification
+                toastr.success('Copied: ' + placeholder, 'Clipboard');
+            }, function() {
+                // Fallback
+                alert('Copied: ' + placeholder);
+            });
+        }
+
+        // Insert placeholder at cursor position
+        function insertPlaceholder(editorId) {
+            var placeholder = prompt('Enter placeholder name (without {{}}):');
+            if (placeholder) {
+                var textarea = document.getElementById(editorId + 'Editor');
+                var cursorPos = textarea.selectionStart;
+                var textBefore = textarea.value.substring(0, cursorPos);
+                var textAfter = textarea.value.substring(cursorPos);
+                
+                textarea.value = textBefore + '{{' + placeholder + '}}' + textAfter;
+                textarea.focus();
+                textarea.selectionStart = cursorPos + placeholder.length + 4;
+                textarea.selectionEnd = cursorPos + placeholder.length + 4;
+            }
+        }
+
+        // Search placeholders
+        document.getElementById('placeholderSearch').addEventListener('input', function(e) {
+            var searchTerm = e.target.value.toLowerCase();
+            var items = document.querySelectorAll('.placeholder-item');
+            
+            items.forEach(function(item) {
+                var placeholder = item.getAttribute('data-placeholder').toLowerCase();
+                if (placeholder.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Add syntax highlighting (basic)
+        document.querySelectorAll('.code-editor').forEach(function(editor) {
+            editor.addEventListener('input', function() {
+                // Could add more sophisticated syntax highlighting here
+            });
+        });
+
+        // Toastr configuration
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "2000"
+        };
+    </script>
+}

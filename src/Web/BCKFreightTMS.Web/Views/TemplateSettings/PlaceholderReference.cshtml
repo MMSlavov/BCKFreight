@@ -1,0 +1,187 @@
+@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "Placeholder Reference";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .placeholder-code {
+            background: #f8f9fa;
+            padding: 10px;
+            border-left: 3px solid #007bff;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .placeholder-code:hover {
+            background: #e9ecef;
+        }
+        .loop-example {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <section class="content">
+        <div class="container">
+            <h1>Template Placeholder Reference</h1>
+            <p class="lead">Complete guide to using placeholders in your application templates</p>
+
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle"></i> How to Use Placeholders</h5>
+                <p>Placeholders are replaced with actual data when the template is rendered. Simply include them in your HTML template using double curly braces.</p>
+                <p><strong>Example:</strong> <code>{{CompanyName}}</code> will be replaced with the actual company name.</p>
+            </div>
+
+            <h2>Basic Placeholders</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Company (Order Creator) Information</h4>
+                    @foreach (var ph in Model.Where(p => p.Key.Contains("{{Company")))
+                    {
+                        <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                            <code>@ph.Key</code>
+                            <br><small class="text-muted">@ph.Value</small>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <h4>Carrier Information</h4>
+                    @foreach (var ph in Model.Where(p => p.Key.Contains("{{Carrier")))
+                    {
+                        <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                            <code>@ph.Key</code>
+                            <br><small class="text-muted">@ph.Value</small>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <h2 class="mt-4">Order Information</h2>
+            @foreach (var ph in Model.Where(p => p.Key.Contains("{{Order") || p.Key.Contains("{{Due") || p.Key.Contains("{{NoVAT")))
+            {
+                <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                    <code>@ph.Key</code>
+                    <br><small class="text-muted">@ph.Value</small>
+                </div>
+            }
+
+            <h2 class="mt-4">Loops and Repeating Sections</h2>
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-exclamation-triangle"></i> Important: Loops</h5>
+                <p>Use loops to repeat content for each item in a collection. Loops must have opening and closing tags.</p>
+            </div>
+
+            <h4>OrderTos Loop</h4>
+            <div class="placeholder-code loop-example">
+                <code>{{#OrderTos}}</code>
+                <br><small>Start of order destinations loop - everything between opening and closing tags will repeat for each destination</small>
+            </div>
+            <div class="placeholder-code loop-example">
+                <code>{{/OrderTos}}</code>
+                <br><small>End of order destinations loop</small>
+            </div>
+
+            <h5 class="mt-3">Inside OrderTos Loop:</h5>
+            @foreach (var ph in Model.Where(p => p.Key.Contains("{{Vehicle") || p.Key.Contains("{{Cargo") || p.Key.Contains("{{Price") || p.Key.Contains("{{Currency")))
+            {
+                <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                    <code>@ph.Key</code>
+                    <br><small class="text-muted">@ph.Value (Available inside OrderTos loop)</small>
+                </div>
+            }
+
+            <h4 class="mt-4">Actions Loop (Nested inside OrderTos)</h4>
+            <div class="placeholder-code loop-example">
+                <code>{{#Actions}}</code>
+                <br><small>Start of actions loop - must be inside OrderTos loop</small>
+            </div>
+            <div class="placeholder-code loop-example">
+                <code>{{/Actions}}</code>
+                <br><small>End of actions loop</small>
+            </div>
+
+            <h5 class="mt-3">Inside Actions Loop:</h5>
+            @foreach (var ph in Model.Where(p => p.Key.Contains("{{Action")))
+            {
+                <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                    <code>@ph.Key</code>
+                    <br><small class="text-muted">@ph.Value (Available inside Actions loop)</small>
+                </div>
+            }
+
+            <h4 class="mt-4">Documentation Placeholders</h4>
+            <p class="text-muted">These show checkmarks if the document is required:</p>
+            @foreach (var ph in Model.Where(p => p.Key.Contains("{{CMR") || p.Key.Contains("{{Bill") || p.Key.Contains("{{Delivery") || p.Key.Contains("{{Invoice")))
+            {
+                <div class="placeholder-code" onclick="copyToClipboard('@ph.Key')">
+                    <code>@ph.Key</code>
+                    <br><small class="text-muted">@ph.Value</small>
+                </div>
+            }
+
+            <h2 class="mt-4">Complete Example</h2>
+            <pre class="bg-light p-3 border"><code>&lt;div class="application"&gt;
+    &lt;h2&gt;Order #{{OrderNumber}} - {{OrderDate}}&lt;/h2&gt;
+    
+    &lt;p&gt;From: {{CompanyName}}&lt;/p&gt;
+    &lt;p&gt;To: {{CarrierName}}&lt;/p&gt;
+    
+    {{#OrderTos}}
+    &lt;div class="order-section"&gt;
+        &lt;h3&gt;Vehicle: {{VehicleRegNumber}}&lt;/h3&gt;
+        
+        &lt;h4&gt;Actions:&lt;/h4&gt;
+        &lt;table&gt;
+            {{#Actions}}
+            &lt;tr&gt;
+                &lt;td&gt;{{ActionType}}&lt;/td&gt;
+                &lt;td&gt;{{ActionAddress}}&lt;/td&gt;
+                &lt;td&gt;{{ActionDate}}&lt;/td&gt;
+            &lt;/tr&gt;
+            {{/Actions}}
+        &lt;/table&gt;
+        
+        &lt;p&gt;Cargo: {{CargoName}} - {{CargoWeight}}t&lt;/p&gt;
+        &lt;p&gt;Price: {{Price}} {{Currency}}&lt;/p&gt;
+    &lt;/div&gt;
+    {{/OrderTos}}
+    
+    &lt;p&gt;Payment Terms: {{DueDays}} days&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+            <div class="alert alert-success mt-4">
+                <h5><i class="fas fa-lightbulb"></i> Tips</h5>
+                <ul>
+                    <li>Click any placeholder code block to copy it to clipboard</li>
+                    <li>Placeholders are case-sensitive</li>
+                    <li>Always close your loops with the corresponding closing tag</li>
+                    <li>Nested loops (like Actions inside OrderTos) are supported</li>
+                    <li>Empty placeholders will be replaced with empty strings</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-secondary" onclick="window.close()">Close Window</button>
+        </div>
+
+        <script>
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(function() {
+                    alert('Copied to clipboard: ' + text);
+                });
+            }
+        </script>
+    </section>
+</body>
+</html>

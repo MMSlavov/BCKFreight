@@ -34,6 +34,8 @@
         private readonly IInvoicesService invoicesService;
         private readonly INotyfService notyfService;
         private readonly IStringLocalizer<OrdersController> localizer;
+        private readonly IApplicationTemplateService templateService;
+        private readonly ITemplatePlaceholderService placeholderService;
 
         public OrdersController(
             IDeletableEntityRepository<Order> orders,
@@ -47,7 +49,9 @@
             IContactsService contactsService,
             IInvoicesService invoicesService,
             INotyfService notyfService,
-            IStringLocalizer<OrdersController> localizer)
+            IStringLocalizer<OrdersController> localizer,
+            IApplicationTemplateService templateService,
+            ITemplatePlaceholderService placeholderService)
         {
             this.orders = orders;
             this.orderTos = orderTos;
@@ -61,6 +65,8 @@
             this.invoicesService = invoicesService;
             this.notyfService = notyfService;
             this.localizer = localizer;
+            this.templateService = templateService;
+            this.placeholderService = placeholderService;
         }
 
         public IActionResult Index()

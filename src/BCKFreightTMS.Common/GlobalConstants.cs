@@ -6,9 +6,7 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string RegistryAgencyUrlSearch = "https://papagal.bg/search_results/{0}?type=company";
-
-        public const string RegistryAgencyUrl = "https://papagal.bg{0}";
+        public const string RegistryAgencyUrlSearch = "https://api.companybook.bg";
 
         public const string SystemEmail = "mmslavov00@gmail.com";
 

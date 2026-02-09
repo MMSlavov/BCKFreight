@@ -111,6 +111,7 @@
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+            services.AddHttpClient();
             services.AddScoped<ICompaniesManagerService, CompaniesManagerService>();
             services.AddScoped<IPdfService, PdfService>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
@@ -127,6 +128,7 @@
             services.AddTransient<IFinanceService, FinanceService>();
             services.AddTransient<ITemplatePlaceholderService, TemplatePlaceholderService>();
             services.AddTransient<IApplicationTemplateService, ApplicationTemplateService>();
+            services.AddTransient<ICompaniesManagerService, CompaniesManagerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

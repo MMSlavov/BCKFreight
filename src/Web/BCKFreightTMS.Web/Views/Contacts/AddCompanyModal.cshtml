@@ -68,7 +68,7 @@
         $('#submit').on('click', function (evt) {
             evt.preventDefault();
             $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
-                $.each($('#company_input :input[name!=Mobile1][name!=__RequestVerificationToken]'), function () {
+                $.each($('#company_input :input[name!=__RequestVerificationToken]'), function () {
                     let index = $("#company_input :input").index(this);
                     let input = this.getAttribute('name');
                     if (input == null) {

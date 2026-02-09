@@ -20,13 +20,11 @@ namespace BCKFreightTMS.Web.Infrastructure
         {
             var identity = await base.GenerateClaimsAsync(user);
 
-            // Add CompanyId claim if user has a company
             if (!string.IsNullOrEmpty(user.CompanyId))
             {
                 identity.AddClaim(new Claim("CompanyId", user.CompanyId));
             }
 
-            // Add any other custom claims here
             if (!string.IsNullOrEmpty(user.FirstName))
             {
                 identity.AddClaim(new Claim("FirstName", user.FirstName));

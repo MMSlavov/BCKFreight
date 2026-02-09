@@ -13,18 +13,19 @@
     public class DashboardController : AdministrationController
     {
         private readonly IPdfService pdfService;
-        private CompaniesManagerService companiesMan;
+        private readonly ICompaniesManagerService companiesManagerService;
 
-        public DashboardController(BCKFreightTMS.Services.IPdfService pdfService)
+        public DashboardController(BCKFreightTMS.Services.IPdfService pdfService,
+            ICompaniesManagerService companiesManagerService)
         {
-            this.companiesMan = new CompaniesManagerService();
             this.pdfService = pdfService;
+            this.companiesManagerService = companiesManagerService;
         }
 
         public async Task<IActionResult> Index()
         {
-            await this.companiesMan.AddJsonCompaniesAsync(string.Format(GlobalConstants.JsonDataPath, "20200930.json"));
-            var companies = this.companiesMan.Companies;
+            await this.companiesManagerService.AddJsonCompaniesAsync(string.Format(GlobalConstants.JsonDataPath, "20200930.json"));
+            var companies = this.companiesManagerService.Companies;
             this.ViewData["companies"] = companies;
             return this.View();
         }

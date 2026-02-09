@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -29,7 +30,8 @@
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
-            var comMan = new CompaniesManagerService();
+            var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+            var comMan = new CompaniesManagerService(httpClientFactory);
             var data = comMan.GetCompanyAsync("200842897").GetAwaiter().GetResult();
             Console.WriteLine(data);
 
@@ -69,6 +71,7 @@
                 .Build();
 
             services.AddSingleton<IConfiguration>(configuration);
+            services.AddHttpClient();
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))

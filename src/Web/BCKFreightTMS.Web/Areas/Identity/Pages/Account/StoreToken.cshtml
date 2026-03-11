@@ -11,7 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>BCKFreight | Logging In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free-5.15.1-web/css/all.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/adminlte.css" asp-append-version="true">
     <style>
         body {
@@ -21,26 +20,16 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, gray, white);
+            background: linear-gradient(135deg, grey, white);
             font-family: 'Source Sans Pro', sans-serif;
         }
-        .loading-container {
-            text-align: center;
-            color: white;
-        }
-        .loading-container i {
-            font-size: 4rem;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-        .loading-container h3 {
-            margin: 0;
-            font-weight: 300;
-        }
-        .loading-container p {
-            margin: 0.5rem 0 0 0;
-            opacity: 0.8;
-            font-size: 0.9rem;
+        .modern-spinner {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 0, 0, 0.14);
+            border-top-color: #6b7280;
+            animation: spin 0.9s linear infinite;
         }
         @@keyframes spin {
             from { transform: rotate(0deg); }
@@ -49,11 +38,7 @@
     </style>
 </head>
 <body>
-    <div class="loading-container">
-        <i class="fas fa-spinner fa-spin"></i>
-        <h3>Logging you in...</h3>
-        <p>Please wait</p>
-    </div>
+    <div class="modern-spinner" aria-hidden="true"></div>
 
     <script src="~/plugins/jquery/jquery.js"></script>
     <script src="~/js/jwt-manager.js"></script>

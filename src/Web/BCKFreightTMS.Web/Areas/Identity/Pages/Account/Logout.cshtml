@@ -5,7 +5,22 @@
     this.Layout = null;
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
-</header>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"] - BCKFreight</title>
+</head>
+<body>
+    <form id="logoutForm" method="post" style="display: none;">
+        <button type="submit">Logout</button>
+    </form>
+
+    <script>
+        // Auto-submit the form immediately
+        document.getElementById('logoutForm').submit();
+    </script>
+
+    <p>Logging out...</p>
+</body>
+</html>

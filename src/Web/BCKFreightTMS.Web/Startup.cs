@@ -1,7 +1,9 @@
 ﻿namespace BCKFreightTMS.Web
 {
+    using System;
     using System.Globalization;
     using System.Reflection;
+    using System.Text;
 
     using AspNetCoreHero.ToastNotification;
     using AspNetCoreHero.ToastNotification.Extensions;
@@ -17,11 +19,15 @@
     using BCKFreightTMS.Services.Mapping;
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.Infrastructure;
+    using BCKFreightTMS.Web.Services;
     using BCKFreightTMS.Web.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.AspNetCore.Mvc.Razor;
@@ -31,6 +37,7 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
 
     public class Startup
     {
@@ -50,6 +57,31 @@
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
+
+            // JWT Authentication Configuration for API
+            var jwtSettings = this.configuration.GetSection("JwtSettings");
+            var secretKey = jwtSettings["SecretKey"];
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            services.AddAuthentication()
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -117,7 +149,8 @@
             services.AddScoped<IViewRenderService, ViewRenderService>();
 
             // Application services
-            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
+            services.AddTransient<BCKFreightTMS.Services.Messaging.IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
+            services.AddTransient<IJwtTokenService, JwtTokenService>();
             services.AddTransient<IContactsService, ContactsService>();
             services.AddTransient<ICargosService, CargosService>();
             services.AddTransient<IOrdersService, OrdersService>();

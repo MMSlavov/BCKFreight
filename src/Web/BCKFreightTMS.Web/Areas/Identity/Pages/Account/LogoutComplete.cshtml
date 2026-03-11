@@ -1,0 +1,95 @@
+﻿@page
+@model LogoutCompleteModel
+@{
+    ViewData["Title"] = "Logging out";
+    this.Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"] - BCKFreight</title>
+    <link rel="stylesheet" href="~/css/adminlte.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/plugins/fontawesome-free-5.15.1-web/css/all.css" asp-append-version="true">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, grey, white);
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .logout-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        .logout-container h3 {
+            color: #333;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .logout-container p {
+            color: #666;
+            margin: 0;
+        }
+        @@keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container" id="clearingMessage">
+        <i class="fas fa-spinner fa-spin spinner"></i>
+        <h3>Clearing session...</h3>
+        <p>Please wait</p>
+    </div>
+
+    <script src="~/plugins/jquery/jquery.js"></script>
+    <script src="~/js/jwt-manager.js"></script>
+    
+    <script>
+        (function() {
+            let tokenCleared = false;
+            
+            if (window.jwtManager) {
+                try {
+                    window.jwtManager.clearToken();
+                    console.log('✓ JWT token cleared successfully');
+                    tokenCleared = true;
+                } catch (error) {
+                    console.error('✗ Error clearing JWT token:', error);
+                }
+            } else {
+                console.warn('⚠ JWT Manager not available');
+            }
+            
+            try {
+                sessionStorage.clear();
+                console.log('✓ Session storage cleared');
+            } catch (error) {
+                console.error('✗ Error clearing session storage:', error);
+            }
+            
+            if (tokenCleared) {
+                const verifyToken = window.jwtManager.getToken();
+                if (verifyToken) {
+                    console.error('✗ Token still exists after clearing!');
+                } else {
+                    console.log('✓ Token verified as cleared');
+                }
+            }
+            
+            window.location.href = '/Identity/Account/Login';
+        })();
+    </script>
+</body>
+</html>

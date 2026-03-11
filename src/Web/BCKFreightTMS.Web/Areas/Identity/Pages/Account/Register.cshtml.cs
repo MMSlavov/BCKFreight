@@ -11,7 +11,9 @@
     using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data;
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services;
     using BCKFreightTMS.Services.Data;
+    using BCKFreightTMS.Web.Services;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -31,6 +33,7 @@
         private readonly IEmailSender emailSender;
         private readonly ApplicationDbContext dbContext;
         private readonly IFinanceService financeService;
+        private readonly IJwtTokenService jwtTokenService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -38,7 +41,8 @@
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             ApplicationDbContext dbContext,
-            IFinanceService financeService)
+            IFinanceService financeService,
+            IJwtTokenService jwtTokenService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -46,6 +50,7 @@
             this.emailSender = emailSender;
             this.dbContext = dbContext;
             this.financeService = financeService;
+            this.jwtTokenService = jwtTokenService;
         }
 
         [BindProperty]
@@ -179,6 +184,24 @@
                     await this.userManager.AddToRoleAsync(user, RoleNames.SuperUser.ToString());
                     await this.userManager.AddToRoleAsync(user, RoleNames.User.ToString());
 
+                    // Generate JWT token for new user
+                    try
+                    {
+                        var jwtToken = await this.jwtTokenService.GenerateTokenAsync(user);
+                        var expiration = this.jwtTokenService.GetTokenExpiration();
+                        
+                        this.TempData["JwtToken"] = jwtToken;
+                        this.TempData["JwtExpiration"] = expiration.ToString("o");
+                        this.TempData["UserId"] = user.Id;
+                        this.TempData["Username"] = user.UserName;
+
+                        this.logger.LogInformation("JWT token generated for new user {UserId}", user.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.logger.LogError(ex, "Error generating JWT token for new user {UserId}", user.Id);
+                    }
+
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = this.Url.Page(
@@ -198,8 +221,8 @@
                     }
                     else
                     {
-                        // await this._signInManager.SignInAsync(user, isPersistent: false);
-                        return this.LocalRedirect(returnUrl);
+                        this.TempData["ReturnUrl"] = returnUrl;
+                        return this.RedirectToPage("./StoreToken");
                     }
                 }
 

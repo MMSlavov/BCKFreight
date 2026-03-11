@@ -1,0 +1,128 @@
+﻿@page
+@model StoreTokenModel
+@{
+    this.Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BCKFreight | Logging In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/plugins/fontawesome-free-5.15.1-web/css/all.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/adminlte.css" asp-append-version="true">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, gray, white);
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .loading-container {
+            text-align: center;
+            color: white;
+        }
+        .loading-container i {
+            font-size: 4rem;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        .loading-container h3 {
+            margin: 0;
+            font-weight: 300;
+        }
+        .loading-container p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        @@keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <i class="fas fa-spinner fa-spin"></i>
+        <h3>Logging you in...</h3>
+        <p>Please wait</p>
+    </div>
+
+    <script src="~/plugins/jquery/jquery.js"></script>
+    <script src="~/js/jwt-manager.js"></script>
+    
+    <script>
+        (function() {
+            console.log('=== Token Storage Page ===');
+            
+            const token = '@Html.Raw(Model.JwtToken)';
+            const expiration = '@Model.JwtExpiration';
+            const userId = '@Model.UserId';
+            const username = '@Model.Username';
+            const returnUrl = '@Html.Raw(Model.ReturnUrl)';
+            
+            console.log('Token length:', token.length);
+            console.log('Expiration:', expiration);
+            console.log('User ID:', userId);
+            console.log('Username:', username);
+            console.log('Return URL:', returnUrl);
+            
+            // Wait for JWT manager to be available
+            let attempts = 0;
+            const maxAttempts = 50; // 5 seconds max
+            
+            const waitForJwtManager = setInterval(function() {
+                attempts++;
+                
+                if (window.jwtManager) {
+                    clearInterval(waitForJwtManager);
+                    storeTokenAndRedirect();
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(waitForJwtManager);
+                    console.error('✗ JWT Manager not available after 5 seconds');
+                    console.log('Redirecting anyway...');
+                    window.location.href = returnUrl;
+                }
+            }, 100);
+            
+            function storeTokenAndRedirect() {
+                try {
+                    console.log('Storing JWT token...');
+                    
+                    window.jwtManager.setToken(token, expiration, {
+                        userId: userId,
+                        username: username
+                    });
+                    
+                    console.log('✓ Token stored successfully');
+                    
+                    // Verify storage
+                    const storedToken = window.jwtManager.getToken();
+                    if (storedToken && storedToken === token) {
+                        console.log('✓ Token verified in localStorage');
+                    } else {
+                        console.warn('⚠ Token verification failed');
+                    }
+                    
+                    // Redirect after short delay
+                    setTimeout(function() {
+                        console.log('Redirecting to:', returnUrl);
+                        window.location.href = returnUrl;
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('✗ Error storing token:', error);
+                    window.location.href = returnUrl;
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -21,23 +21,24 @@
             this.logger = logger;
         }
 
-        public async void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            await this.OnPost();
+            // Sign out and redirect to LogoutComplete page
+            await this.signInManager.SignOutAsync();
+            this.logger.LogInformation("User logged out.");
+            
+            // Redirect to LogoutComplete page to clear JWT token
+            return this.RedirectToPage("./LogoutComplete");
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            // Sign out and redirect to LogoutComplete page
             await this.signInManager.SignOutAsync();
             this.logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return this.LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return this.RedirectToPage();
-            }
+            
+            // Redirect to LogoutComplete page to clear JWT token
+            return this.RedirectToPage("./LogoutComplete");
         }
     }
 }

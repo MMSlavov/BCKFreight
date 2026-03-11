@@ -6,6 +6,8 @@
     using System.Threading.Tasks;
 
     using BCKFreightTMS.Data.Models;
+    using BCKFreightTMS.Services;
+    using BCKFreightTMS.Web.Services;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -20,15 +22,18 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
+        private readonly IJwtTokenService jwtTokenService;
 
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IJwtTokenService jwtTokenService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
+            this.jwtTokenService = jwtTokenService;
         }
 
         [BindProperty]
@@ -91,7 +96,28 @@
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User logged in.");
-                    return this.LocalRedirect(returnUrl);
+                    
+                    // Generate JWT token for API access
+                    try
+                    {
+                        var jwtToken = await this.jwtTokenService.GenerateTokenAsync(user);
+                        var expiration = this.jwtTokenService.GetTokenExpiration();
+                        
+                        this.logger.LogInformation("JWT token generated for user {UserId}", user.Id);
+
+                        this.TempData["JwtToken"] = jwtToken;
+                        this.TempData["JwtExpiration"] = expiration.ToString("o");
+                        this.TempData["UserId"] = user.Id;
+                        this.TempData["Username"] = user.UserName;
+                        this.TempData["ReturnUrl"] = returnUrl;
+                        return this.RedirectToPage("./StoreToken");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        this.logger.LogError(ex, "Error generating JWT token for user {UserId}", user.Id);
+                        // Continue with normal redirect if JWT generation fails
+                        return this.LocalRedirect(returnUrl);
+                    }
                 }
 
                 if (result.RequiresTwoFactor)

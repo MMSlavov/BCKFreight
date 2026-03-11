@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Services.Messaging;
     using BCKFreightTMS.Web.ViewModels.Contacts;
     using Microsoft.AspNetCore.Http;
@@ -41,5 +42,7 @@
             string subject,
             string htmlContent,
             IEnumerable<EmailAttachment> attachments = null);
+
+        IEnumerable<SelectListItem> GetContacts(string companyId, PersonRoleName role = PersonRoleName.Contact);
     }
 }

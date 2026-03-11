@@ -8,6 +8,7 @@
 
     using AutoMapper;
     using BCKFreightTMS.Common;
+    using BCKFreightTMS.Common.Enums;
     using BCKFreightTMS.Data.Common.Repositories;
     using BCKFreightTMS.Data.Models;
     using BCKFreightTMS.Services.Messaging;
@@ -350,6 +351,15 @@
                 subject,
                 htmlContent,
                 attachments);
+        }
+
+        public IEnumerable<SelectListItem> GetContacts(string companyId, PersonRoleName role = PersonRoleName.Contact)
+        {
+            var contacts = this.peopleRepository.AllAsNoTracking()
+                         .Where(p => p.CompanyId == companyId && p.Role.Name == role.ToString())
+                         .Select(p => new SelectListItem { Text = p.FirstName + " " + p.LastName, Value = p.Id })
+                         .ToList();
+            return contacts;
         }
     }
 }

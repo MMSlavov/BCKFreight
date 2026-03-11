@@ -45,6 +45,8 @@
         private readonly IDeletableEntityRepository<TaxCountry> taxCountries;
         private readonly IMapper mapper;
         private readonly IEmailSender emailSender;
+        private readonly IContactsService contactsService;
+        private readonly IVehiclesService vehiclesService;
 
         public OrdersService(
             IDeletableEntityRepository<Company> companies,
@@ -69,7 +71,9 @@
             IDeletableEntityRepository<VATReason> vatReasons,
             IDeletableEntityRepository<TaxCountry> taxCountries,
             IMapper mapper,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IContactsService contactsService,
+            IVehiclesService vehiclesService)
         {
             this.companies = companies;
             this.orders = orders;
@@ -94,6 +98,8 @@
             this.taxCountries = taxCountries;
             this.mapper = mapper;
             this.emailSender = emailSender;
+            this.contactsService = contactsService;
+            this.vehiclesService = vehiclesService;
         }
 
         public IEnumerable<T> GetAll<T>(Expression<Func<Order, bool>> whereFilter)
@@ -189,11 +195,12 @@
             model.ActionTypeItems = this.actionTypes.AllAsNoTracking()
                                                     .Select(at => new KeyValuePair<string, string>(at.Id.ToString(), at.Name))
                                                     .ToList();
+
             foreach (var orderTo in model.OrderTos)
             {
-                orderTo.ContactItems = this.GetContacts(orderTo.CarrierOrderCompanyId);
-                orderTo.DriverItems = this.GetDrivers(orderTo.CarrierOrderCompanyId);
-                orderTo.VehicleItems = this.GetVehicles(orderTo.CarrierOrderCompanyId);
+                orderTo.ContactItems = this.contactsService.GetContacts(orderTo.CarrierOrderCompanyId);
+                orderTo.DriverItems = this.contactsService.GetContacts(orderTo.CarrierOrderCompanyId, PersonRoleName.Driver);
+                orderTo.VehicleItems = this.vehiclesService.GetVehicles(orderTo.CarrierOrderCompanyId);
             }
 
             return model;
@@ -301,59 +308,14 @@
             return model;
         }
 
-        public IEnumerable<SelectListItem> GetContacts(string companyId)
-        {
-            var contacts = this.people.AllAsNoTracking()
-                         .Where(p => p.CompanyId == companyId & p.Role.Name == PersonRoleNames.Contact.ToString())
-                         .Select(p => new SelectListItem { Text = p.FirstName + " " + p.LastName, Value = p.Id })
-                         .ToList();
-            return contacts;
-        }
-
-        public IEnumerable<SelectListItem> GetDrivers(string companyId)
-        {
-            var drivers = this.people.AllAsNoTracking()
-                         .Where(p => p.CompanyId == companyId & p.Role.Name == PersonRoleNames.Driver.ToString())
-                         .Select(p => new SelectListItem { Text = p.FirstName + " " + p.LastName, Value = p.Id })
-                         .ToList();
-            return drivers;
-        }
-
-        public IEnumerable<SelectListItem> GetVehicles(string companyId)
-        {
-            var vehicles = this.vehicles.AllAsNoTracking()
-                         .Where(v => v.CompanyId == companyId && v.Type.Name != VehicleTypeNames.Trailer.ToString())
-                         .Select(v => new SelectListItem
-                         {
-                             Text = v.Trailer == null ? (v.Type.Name == VehicleTypeNames.Solo.ToString() ? $"{v.RegNumber}(c)" : v.RegNumber) :
-                                                        $"{v.RegNumber} / {v.Trailer.RegNumber}",
-                             Value = v.Id,
-                         })
-                         .ToList();
-            return vehicles;
-        }
-
-        public IEnumerable<SelectListItem> GetTrailers(string companyId)
-        {
-            var vehicles = this.vehicles.AllAsNoTracking()
-                         .Where(v => v.CompanyId == companyId && v.Type.Name == VehicleTypeNames.Trailer.ToString())
-                         .Select(v => new SelectListItem
-                         {
-                             Text = v.RegNumber,
-                             Value = v.Id,
-                         })
-                         .ToList();
-            return vehicles;
-        }
-
         public IEnumerable<SelectListItem> GetCarriersByArea(string area)
         {
             var carriers = this.companies.All();
             if (!string.IsNullOrWhiteSpace(area))
             {
                 carriers = carriers.Where(c => c.OrderTos.Any(o =>
-                                                            o.Order.OrderTos.SelectMany(o => o.OrderActions).Any(oa =>
-                                                              oa.Address.Area == area)))
+                                                            o.Order.OrderTos.SelectMany(o => o.OrderActions)
+                                                            .Any(oa => oa.Address.Area == area)))
                                                 .OrderByDescending(c => c.OrderTos.Count());
             }
 

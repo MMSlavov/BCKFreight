@@ -62,7 +62,7 @@
         public IEnumerable<SelectListItem> GetDrivers(string companyId)
         {
             var drivers = this.people.AllAsNoTracking()
-                                     .Where(p => p.CompanyId == companyId && p.Role.Name == PersonRoleNames.Driver.ToString())
+                                     .Where(p => p.CompanyId == companyId && p.Role.Name == PersonRoleName.Driver.ToString())
                                      .Select(p => new SelectListItem { Text = p.FirstName + " " + p.LastName, Value = p.Id })
                                      .ToList();
             return drivers;
@@ -75,6 +75,21 @@
                                      .Select(t => new SelectListItem { Text = t.RegNumber, Value = t.Id })
                                      .ToList();
             return trailers;
+        }
+
+        public IEnumerable<SelectListItem> GetVehicles(string companyId)
+        {
+            var vehicles = this.vehicles.AllAsNoTracking()
+                         .Where(v => v.CompanyId == companyId && v.Type.Name != VehicleTypeNames.Trailer.ToString())
+                         .Select(v => new SelectListItem
+                         {
+                             Text = v.Trailer == null ? (v.Type.Name == VehicleTypeNames.Solo.ToString() ? $"{v.RegNumber}(c)" : v.RegNumber) :
+                                                        $"{v.RegNumber} / {v.Trailer.RegNumber}",
+                             Value = v.Id,
+                         })
+                         .ToList();
+
+            return vehicles;
         }
 
         public async Task<string> AddVehicleAsync(VehicleInputModel input)

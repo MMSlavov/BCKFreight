@@ -16,6 +16,8 @@
 
         public IEnumerable<SelectListItem> GetTrailers(string companyId);
 
+        public IEnumerable<SelectListItem> GetVehicles(string companyId);
+
         public Task<string> AddVehicleAsync(VehicleInputModel input);
 
         public Task<bool> DeleteAsync(string id);

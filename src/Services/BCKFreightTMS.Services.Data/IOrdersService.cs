@@ -31,14 +31,6 @@
 
         public CarrierOrderApplicationModel GenerateCarrierApplicationModel(string carrierOrderId);
 
-        public IEnumerable<SelectListItem> GetContacts(string companyId);
-
-        public IEnumerable<SelectListItem> GetDrivers(string companyId);
-
-        public IEnumerable<SelectListItem> GetVehicles(string companyId);
-
-        public IEnumerable<SelectListItem> GetTrailers(string companyId);
-
         public IEnumerable<SelectListItem> GetCarriersByArea(string area);
 
         public Task<string> AcceptAsync(OrderAcceptInputModel input, ClaimsPrincipal user);

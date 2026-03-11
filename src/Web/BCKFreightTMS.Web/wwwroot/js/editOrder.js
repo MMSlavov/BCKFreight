@@ -40,42 +40,57 @@
     }
 
     function GetData(id) {
-        $.getJSON("/Orders/GetContacts", { companyId: id }, function (d) {
-            let row = "";
-            $(tc).find("#contactTo").empty();
-            $.each(d, function (i, v) {
-                row += "<option value=" + v.value + ">" + v.text + "</option>";
+        // Use JWT API endpoints
+        window.apiClient.getOrderContacts(id)
+            .then(function(d) {
+                let row = "";
+                $(tc).find("#contactTo").empty();
+                $.each(d, function (i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $(tc).find("#contactTo").html(row);
+                let item = new Option("Select", null, true, true);
+                $(item).html("Select");
+                item.setAttribute("disabled", "disabled");
+                $(tc).find("#contactTo").append(item);
+            })
+            .catch(function(error) {
+                console.error('Error loading contacts:', error);
             });
-            $(tc).find("#contactTo").html(row);
-            let item = new Option("Select", null, true, true);
-            $(item).html("Select");
-            item.setAttribute("disabled", "disabled");
-            $(tc).find("#contactTo").append(item);
-        })
-        $.getJSON("/Orders/GetDrivers", { companyId: id }, function (d) {
-            let row = "";
-            $(tc).find("#driver").empty();
-            $.each(d, function (i, v) {
-                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            
+        window.apiClient.getOrderDrivers(id)
+            .then(function(d) {
+                let row = "";
+                $(tc).find("#driver").empty();
+                $.each(d, function (i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $(tc).find("#driver").html(row);
+                let item = new Option("Select", null, true, true);
+                $(item).html("Select");
+                item.setAttribute("disabled", "disabled");
+                $(tc).find("#driver").append(item);
+            })
+            .catch(function(error) {
+                console.error('Error loading drivers:', error);
             });
-            $(tc).find("#driver").html(row);
-            let item = new Option("Select", null, true, true);
-            $(tc).find(item).html("Select");
-            item.setAttribute("disabled", "disabled");
-            $(tc).find("#driver").append(item);
-        })
-        $.getJSON("/Orders/GetVehicles", { companyId: id }, function (d) {
-            let row = "";
-            $(tc).find("#vehicle").empty();
-            $.each(d, function (i, v) {
-                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            
+        window.apiClient.getOrderVehicles(id)
+            .then(function(d) {
+                let row = "";
+                $(tc).find("#vehicle").empty();
+                $.each(d, function (i, v) {
+                    row += "<option value=" + v.value + ">" + v.text + "</option>";
+                });
+                $(tc).find("#vehicle").html(row);
+                let item = new Option("Select", null, true, true);
+                $(item).html("Select");
+                item.setAttribute("disabled", "disabled");
+                $(tc).find("#vehicle").append(item);
+            })
+            .catch(function(error) {
+                console.error('Error loading vehicles:', error);
             });
-            $(tc).find("#vehicle").html(row);
-            let item = new Option("Select", null, true, true);
-            $(item).html("Select");
-            item.setAttribute("disabled", "disabled");
-            $(tc).find("#vehicle").append(item);
-        })
     }
 
     tc.querySelector("#aTabs")

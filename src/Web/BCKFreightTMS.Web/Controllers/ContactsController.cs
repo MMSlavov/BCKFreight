@@ -40,18 +40,19 @@
             return this.View(contacts);
         }
 
-        [HttpPost]
-        public IActionResult GetContacts()
-        {
-            try
-            {
-                return this.Ok(this.contactsService.ProcessDataTableRequest(this.Request));
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        // DEPRECATED: Use /api/contacts/datatable instead
+        // [HttpPost]
+        // public IActionResult GetContacts()
+        // {
+        //     try
+        //     {
+        //         return this.Ok(this.contactsService.ProcessDataTableRequest(this.Request));
+        //     }
+        //     catch (Exception)
+        //     {
+        //         throw;
+        //     }
+        // }
 
         public IActionResult AddCompany()
         {
@@ -77,33 +78,22 @@
             return this.View(model);
         }
 
-        public async Task<IActionResult> GetCompany(string searchStr = null)
-        {
-            try
-            {
-                var model = searchStr != null ? await this.companiesManager.GetCompanyAsync(searchStr) : null;
-                return this.Json(model);
-            }
-            catch (InvalidOperationException ex)
-            {
-                this.notyfService.Error(ex.Message);
-                return this.Json(new { });
-            }
-        }
-
-        // public async Task<IActionResult> GetCompanySN()
+        // DEPRECATED: Use /api/contacts/company instead
+        // public async Task<IActionResult> GetCompany(string searchStr = null)
         // {
-        //    try
-        //    {
-        //        var html = await this.companiesManager.SpeditorNetGetCompanyAsync("");
-        //        var model = new CompanySNModel { Html = html };
-        //        return this.View(model);
-        //    }
-        //    catch (InvalidOperationException)
-        //    {
-        //        return this.Problem();
-        //    }
+        //     try
+        //     {
+        //         var model = searchStr != null ? await this.companiesManager.GetCompanyAsync(searchStr) : null;
+        //
+        //         return this.Json(model);
+        //     }
+        //     catch (InvalidOperationException ex)
+        //     {
+        //         this.notyfService.Error(ex.Message);
+        //         return this.Json(new { });
+        //     }
         // }
+
         public IActionResult AddPerson()
         {
             var viewModel = this.contactsService.GetPersonInputModel();

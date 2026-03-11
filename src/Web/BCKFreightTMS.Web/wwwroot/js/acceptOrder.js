@@ -16,18 +16,38 @@ $(function () {
 })
 
 function refreshContact() {
-    $.getJSON("/Orders/GetContacts", { companyId: $("#CompanyFromId").val() }, function (d) {
-        let row = "";
+    const companyId = $("#CompanyFromId").val();
+    
+    if (!companyId) {
         $("#contactFrom").empty();
-        $.each(d, function (i, v) {
-            row += "<option value=" + v.value + ">" + v.text + "</option>";
+        return;
+    }
+    
+    window.apiClient.getOrderContacts(companyId)
+        .then(function(d) {
+            let row = "";
+            $("#contactFrom").empty();
+            $.each(d, function (i, v) {
+                row += "<option value=" + v.value + ">" + v.text + "</option>";
+            });
+            $("#contactFrom").html(row);
+            let item = new Option("Select", null, true, true);
+            $(item).html("Select");
+            item.setAttribute("disabled", "disabled");
+            $("#contactFrom").append(item);
+        })
+        .catch(function(error) {
+            console.error('Error loading contacts:', error);
+            $("#contactFrom").empty();
+            let item = new Option("Error loading contacts", null, true, true);
+            $(item).html("Error loading contacts");
+            item.setAttribute("disabled", "disabled");
+            $("#contactFrom").append(item);
+            
+            if (typeof notyf !== 'undefined') {
+                notyf.error('Error loading contacts');
+            }
         });
-        $("#contactFrom").html(row);
-        let item = new Option("Select", null, true, true);
-        $(item).html("Select");
-        item.setAttribute("disabled", "disabled");
-        $("#contactFrom").append(item);
-    })
 }
 
 function SetActions() {

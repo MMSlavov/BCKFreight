@@ -241,35 +241,40 @@
             return this.View(model);
         }
 
-        public JsonResult GetContacts(string companyId)
-        {
-            var contacts = this.ordersService.GetContacts(companyId);
-            return this.Json(contacts);
-        }
+        // DEPRECATED: Use /api/orders/contacts/{companyId} instead
+        // public JsonResult GetContacts(string companyId)
+        // {
+        //     var contacts = this.ordersService.GetContacts(companyId);
+        //     return this.Json(contacts);
+        // }
 
-        public JsonResult GetDrivers(string companyId)
-        {
-            var drivers = this.ordersService.GetDrivers(companyId);
-            return this.Json(drivers);
-        }
+        // DEPRECATED: Use /api/orders/drivers/{companyId} instead
+        // public JsonResult GetDrivers(string companyId)
+        // {
+        //     var drivers = this.ordersService.GetDrivers(companyId);
+        //     return this.Json(drivers);
+        // }
 
-        public JsonResult GetVehicles(string companyId)
-        {
-            var vehicles = this.ordersService.GetVehicles(companyId);
-            return this.Json(vehicles);
-        }
+        // DEPRECATED: Use /api/orders/vehicles/{companyId} instead
+        // public JsonResult GetVehicles(string companyId)
+        // {
+        //     var vehicles = this.ordersService.GetVehicles(companyId);
+        //     return this.Json(vehicles);
+        // }
 
-        public JsonResult GetTrailers(string companyId)
-        {
-            var vehicles = this.ordersService.GetTrailers(companyId);
-            return this.Json(vehicles);
-        }
+        // DEPRECATED: Use /api/orders/trailers/{companyId} instead
+        // public JsonResult GetTrailers(string companyId)
+        // {
+        //     var vehicles = this.ordersService.GetTrailers(companyId);
+        //     return this.Json(vehicles);
+        // }
 
-        public JsonResult GetCarriersByArea(string area)
-        {
-            var carriers = this.ordersService.GetCarriersByArea(area);
-            return this.Json(carriers);
-        }
+        // DEPRECATED: Use /api/orders/carriers/area/{area} instead
+        // public JsonResult GetCarriersByArea(string area)
+        // {
+        //     var carriers = this.ordersService.GetCarriersByArea(area);
+        //     return this.Json(carriers);
+        // }
 
         [HttpPost]
         public async Task<IActionResult> Accept(OrderAcceptInputModel input)

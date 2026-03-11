@@ -6,7 +6,8 @@
 
 <form class="form-group m-0 pl-2" id="search">
     <div class="form-row">
-        <input class="form-control col-6" type="search" name="searchStr" placeholder="@localizer["Search by Name or UIC"]" aria-label="Search">
+        <input class="form-control col-6" type="search" name="searchStr"
+            placeholder="@localizer["Search by Name or UIC"]" aria-label="Search">
         <div class="form-group pl-2">
             <button class="btn btn-primary" id="submit">
                 <i class="fas fa-search"></i>
@@ -63,21 +64,69 @@
     </div>
     <button type="submit" class="btn btn-primary">@localizer["Save"]</button>
 </form>
+
 <script>
     $(function () {
-        $('#submit').on('click', function (evt) {
+        $('#submit').on('click', async function (evt) {
             evt.preventDefault();
-            $.get('/Contacts/GetCompany', $('#search').serialize()).done(function (data) {
-                $.each($('#company_input :input[name!=__RequestVerificationToken]'), function () {
-                    let index = $("#company_input :input").index(this);
-                    let input = this.getAttribute('name');
-                    if (input == null) {
-                        return true;
+            
+            const searchStr = $('input[name="searchStr"]').val();
+            
+            if (!searchStr) {
+                if (typeof notyf !== 'undefined') {
+                    notyf.warning('@localizer["Please enter a search term"]');
+                }
+                return;
+            }
+
+            // Show loading indicator
+            const $btn = $(this);
+            const originalHtml = $btn.html();
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+            try {
+                // Use JWT API exclusively
+                console.log('Searching for company via JWT API');
+                const data = await window.apiClient.getCompany(searchStr);
+
+                // Populate form fields with the returned data
+                if (data && Object.keys(data).length > 0) {
+                    $.each($('#company_input :input[name!=__RequestVerificationToken]'), function () {
+                        const input = this.getAttribute('name');
+                        if (input == null) {
+                            return true;
+                        }
+                        
+                        // Find matching property in data (case-insensitive)
+                        const dataKey = Object.keys(data).find(k => k.toLowerCase() === input.toLowerCase());
+                        if (dataKey && data[dataKey]) {
+                            $(this).val(data[dataKey]);
+                        }
+                    });
+
+                    // Show success notification
+                    if (typeof notyf !== 'undefined') {
+                        notyf.success('@localizer["Company information loaded successfully"]');
                     }
-                    $('#company_input :input').eq(index).val(data[Object.keys(data)
-                        .find(k => k.toLowerCase() === input.toLowerCase())]);
-                });
-            });
+                } else {
+                    // No data found
+                    if (typeof notyf !== 'undefined') {
+                        notyf.warning('@localizer["No company found with that search term"]');
+                    }
+                }
+            } catch (error) {
+                console.error('Error searching for company:', error);
+                
+                // Show error notification
+                if (typeof notyf !== 'undefined') {
+                    notyf.error('@localizer["Error loading company information"]');
+                } else {
+                    alert('@localizer["Error loading company information"]: ' + error.message);
+                }
+            } finally {
+                // Restore button
+                $btn.prop('disabled', false).html(originalHtml);
+            }
         });
     });
 </script>

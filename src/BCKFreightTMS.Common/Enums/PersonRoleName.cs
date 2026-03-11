@@ -4,7 +4,7 @@
 
 namespace BCKFreightTMS.Common.Enums
 {
-    public enum PersonRoleNames
+    public enum PersonRoleName
     {
         Employee,
         Driver,

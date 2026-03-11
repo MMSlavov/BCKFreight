@@ -98,7 +98,7 @@
                 .UseInMemoryDatabase(databaseName: "SettingsTestDb").Options;
             var dbContext = new ApplicationDbContext(options);
             dbContext.Database.EnsureDeleted();
-            dbContext.PersonRoles.Add(new PersonRole { Name = PersonRoleNames.Employee.ToString() });
+            dbContext.PersonRoles.Add(new PersonRole { Name = PersonRoleName.Employee.ToString() });
             dbContext.CargoTypes.Add(new CargoType { Name = "Pallet" });
             dbContext.VehicleLoadingBodies.Add(new VehicleLoadingBody { Name = LoadingBodyNames.Tarpaulin.ToString() });
             dbContext.SaveChanges();

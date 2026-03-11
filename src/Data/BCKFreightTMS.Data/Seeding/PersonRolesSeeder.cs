@@ -16,9 +16,9 @@
                 return;
             }
 
-            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleNames.Employee.ToString() });
-            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleNames.Driver.ToString() });
-            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleNames.Contact.ToString() });
+            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleName.Employee.ToString() });
+            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleName.Driver.ToString() });
+            await dbContext.PersonRoles.AddAsync(new PersonRole { Name = PersonRoleName.Contact.ToString() });
 
             await dbContext.SaveChangesAsync();
         }

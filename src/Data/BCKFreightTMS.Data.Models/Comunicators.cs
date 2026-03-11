@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,7 +24,7 @@
         [Column(TypeName = "varchar(50)")]
         public string Email2 { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Details { get; set; }
 
         public virtual Company Company { get; set; }

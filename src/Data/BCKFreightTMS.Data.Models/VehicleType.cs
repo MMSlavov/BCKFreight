@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -18,7 +18,7 @@
         [MaxLength(80)]
         public string Name { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Details { get; set; }
 
         public virtual ICollection<Vehicle> Vehicles { get; set; }

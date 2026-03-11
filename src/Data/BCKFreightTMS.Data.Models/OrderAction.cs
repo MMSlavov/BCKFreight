@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -33,7 +33,7 @@
 
         public DateTime Until { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Details { get; set; }
 
         public bool IsFinished { get; set; }
@@ -43,7 +43,7 @@
 
         public bool NoNotes { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Notes { get; set; }
 
         public virtual ActionNotFinishedReason NotFinishedReason { get; set; }

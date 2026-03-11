@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -53,7 +53,7 @@
         [ForeignKey(nameof(DocumentationId))]
         public virtual Documentation Documentation { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string FailReason { get; set; }
 
         public string ContactId { get; set; }

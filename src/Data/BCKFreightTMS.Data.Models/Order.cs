@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -33,7 +33,7 @@
 
         public virtual OrderStatus Status { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string FailReason { get; set; }
 
         public virtual ICollection<CarrierOrder> CarrierOrders { get; set; }

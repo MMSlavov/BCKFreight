@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: bckfreight-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: BCKFreightTMS
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

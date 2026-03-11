@@ -49,29 +49,18 @@
             if (window.jwtManager) {
                 try {
                     window.jwtManager.clearToken();
-                    console.log('✓ JWT token cleared successfully');
                     tokenCleared = true;
                 } catch (error) {
-                    console.error('✗ Error clearing JWT token:', error);
+                    console.error('Error clearing JWT token:', error);
                 }
             } else {
-                console.warn('⚠ JWT Manager not available');
+                console.warn('JWT Manager not available');
             }
             
             try {
                 sessionStorage.clear();
-                console.log('✓ Session storage cleared');
             } catch (error) {
-                console.error('✗ Error clearing session storage:', error);
-            }
-            
-            if (tokenCleared) {
-                const verifyToken = window.jwtManager.getToken();
-                if (verifyToken) {
-                    console.error('✗ Token still exists after clearing!');
-                } else {
-                    console.log('✓ Token verified as cleared');
-                }
+                console.error('Error clearing session storage:', error);
             }
             
             window.location.href = '/Identity/Account/Login';

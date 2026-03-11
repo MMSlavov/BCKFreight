@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,7 +24,7 @@
 
         public bool WeighingNote { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Problem { get; set; }
 
         [ForeignKey(nameof(RecievedDocumentation))]

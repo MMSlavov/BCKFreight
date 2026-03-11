@@ -1,4 +1,4 @@
-﻿namespace BCKFreightTMS.Data.Models
+namespace BCKFreightTMS.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -28,7 +28,7 @@
 
         public virtual VehicleLoadingBody LoadingBody { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string VehicleRequirements { get; set; }
 
         [MaxLength(200)]
@@ -54,7 +54,7 @@
 
         public int Quantity { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
+        [Column(TypeName = "text")]
         public string Details { get; set; }
 
         public virtual OrderTo OrderTo { get; set; }
